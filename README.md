@@ -38,21 +38,21 @@
   - [Wireframes](#wireframes)
 
 - [Instrucciones de instalación y uso](#instrucciones-de-instalación-y-uso)
-
+    - [Documentación de la API](#documentación-de-la-api)
 - [Roadmap](#roadmap)
 
 ***
 
 <br>
 
-## Descripción del proyecto
+## Descripción del proyecto  📝
 
 GameShelf es una aplicación diseñada y enfocado en ayudar a los jugadores a  organizar títulos de su colección actual así como encontrar futuras adquisiciones. Haciendo especial hincapíe en el formato (físico, digital), el tipo de edición (standard, day one, deluxe, coleccionista, etc) y la región (USA, EU, JP, CN, etc).
 
 Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su colección y que busquen una herramienta sencilla y eficaz para organizarlas y encontrar nuevos elementos para complementarlas.
 
 
-### Características principales
+### Características principales 💡
 
 - Gestión detallada de versiones regionales de cada juego, permitiendo distinguir entre diferentes títulos según región (USA, EU, JP, CN, etc) y su plataforma (por ejemplo, Inazuma Eleven 3 para Nintendo DS en Japón vs. Nintendo 3DS en Occidente).
 
@@ -71,7 +71,7 @@ Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su
 - Soporte para múltiples plataformas y tipos de juegos, adaptándose a colecciones variadas.
 
 
-### Arquitectura y tecnologías
+### Arquitectura y tecnologías 🖥️
 
 Estas son las tecnologías que se utilizaran a lo largo del desarrollo de GameShelf:
 
@@ -113,13 +113,13 @@ Estas son las tecnologías que se utilizaran a lo largo del desarrollo de GameSh
     - [eBay](https://developer.ebay.com/api-docs/static/gs_ebay-rest-getting-started-landing.html) para las búsquedas de nuevos elementos para la colección y estadísticas/comparativas de precios. 
     - [Mercari](https://api.mercari-shops.com/docs/index.html) para las búsquedas de nuevos elementos para la colección y estadísticas/comparativas de precios.
 
-## Diseño lógico
+## Diseño lógico 💾
 
-### Diagrama de Casos de Uso
+### Diagrama de Casos de Uso 🧭
 
 WIP.
 
-### Diagrama Entidad/Relación
+### Diagrama Entidad/Relación 🗃️    
 
 A continuación se presenta el diseño inicial del modelo Entidad/Relación que servirá como base para la estructura de la base de datos en MySQL de GameShelf.
 
@@ -129,10 +129,10 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
     <img src="./img/gs-er.drawio.png">
 </div>
 
-### Diagrama de Clases
+### Diagrama de Clases 🧱 
 
 WIP.
-### Diagrama de Paquetes
+### Diagrama de Paquetes 📦
 
 Tras analizar la complejidad del proyecto GameShelf, se ha decidido utilizar una estructura basada en el patrón Modelo-Vista-Controlador (MVC), ya que permite organizar el código de forma clara y facilita su mantenimiento.
 
@@ -143,9 +143,9 @@ Sin embargo, para lograr una mayor flexibilidad y separar mejor la lógica del n
 </div>
 
 
-## Diseño visual
+## Diseño visual 
 
-### Paleta de colores
+### Paleta de colores 🎨 
 
 Esta ha sido la selección principal de colores que compondran la estética de la aplicación:
 
@@ -156,16 +156,43 @@ Esta ha sido la selección principal de colores que compondran la estética de l
 
 
 
-### Wireframes
+### Wireframes 📱
 
 WIP.
 
-## Instrucciones de instalación y uso
 
-WIP.
+***
 
-## Roadmap
+<br>
 
-WIP.
+
+## Instrucciones de instalación y uso ⚙️
+### Documentación de la API 📑
+
+#### Servicios REST
+Toda la documentación de estos endpoints de la API rest están disponibles en Swagger através de la siguiente URL: http://localhost:8080/swagger-ui/index.html.
+
+Para acceder a ella, simplemente compila y ejecuta el proyecto con el siguiente comando en la terminal:
+
+```bash
+mvn spring-boot:run
+```
+
+#### Servicios SOAP
+La documentación completa de los servicios SOAP puede consultarse a través de sus respectivos WSDLs, como por ejemplo puede ser: {http://impl.soap.service.gameshelf.es/}GameSoapService para los juegos. 
+
+Una vez hecho el comando anterior, se debe de ir a esta URL: http://localhost:8080/services
+
+
+
+```bash
+mvn spring-boot:run
+```
+> Se recomienda el uso de SoapUI para intereaccionar. 
+
+## Roadmap 🛤️
+
+- Implementacion de una lista de deseos
+- Implementación de búsqueda y pricing en Ebay
 
 </div>
