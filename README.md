@@ -1,1 +1,171 @@
-# gameshelf
+<div align="justify">
+
+# GameShelf
+
+<div align="right">
+  <strong>
+    Autor: 
+    <span style="color: #688d7a;">
+      <a href="https://github.com/nalleon" target="_blank" style="color: #688d7a; text-decoration: none;">Nabil L. A. @nalleon</a>
+    </span>
+  </strong>
+</div>
+
+<br>
+
+<div align="center">
+    <img src="./img/cover-logo.png">
+
+>    ___Organiza. Muestra. Encuentra.___
+
+</div>
+
+
+## Índice
+
+- [Descripción del proyecto](#descripción-del-proyecto)
+  - [Características principales](#características-principales)
+  - [Arquitectura y tecnologías](#arquitectura-y-tecnologías)
+
+- [Diseño lógico](#diseño-lógico)
+  - [Diagrama de Casos de Uso](#diagrama-de-casos-de-uso)
+  - [Diagrama Entidad/Relación](#diagrama-entidadrelación)
+  - [Diagrama de Clases](#diagrama-de-clases)
+  - [Diagrama de Paquetes](#diagrama-de-paquetes)
+
+- [Diseño visual](#diseño-visual)
+  - [Paleta de colores](#paleta-de-colores)
+  - [Wireframes](#wireframes)
+
+- [Instrucciones de instalación y uso](#instrucciones-de-instalación-y-uso)
+
+- [Roadmap](#roadmap)
+
+***
+
+<br>
+
+## Descripción del proyecto
+
+GameShelf es una aplicación diseñada y enfocado en ayudar a los jugadores a  organizar títulos de su colección actual así como encontrar futuras adquisiciones. Haciendo especial hincapíe en el formato (físico, digital), el tipo de edición (standard, day one, deluxe, coleccionista, etc) y la región (USA, EU, JP, CN, etc).
+
+Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su colección y que busquen una herramienta sencilla y eficaz para organizarlas y encontrar nuevos elementos para complementarlas.
+
+
+### Características principales
+
+- Gestión detallada de versiones regionales de cada juego, permitiendo distinguir entre diferentes títulos según región (USA, EU, JP, CN, etc) y su plataforma (por ejemplo, Inazuma Eleven 3 para Nintendo DS en Japón vs. Nintendo 3DS en Occidente).
+
+- Soporte para diferentes formatos de juegos: físico y digital.
+
+- Gestión detallada del tipo de edición: standard, day one, deluxe, coleccionista, entre otras.
+
+- Interfaz intuitiva y sencilla, pensada para jugadores que buscan una herramienta fácil de usar y eficaz.
+
+- Posibilidad de buscar y encontrar nuevas adquisiciones para complementar y ampliar tu colección.
+
+- Registro completo y actualizado de tu biblioteca personal de videojuegos.
+
+- Visualización clara y organizada de la colección, con filtros para facilitar el acceso rápido a cualquier título.
+
+- Soporte para múltiples plataformas y tipos de juegos, adaptándose a colecciones variadas.
+
+
+### Arquitectura y tecnologías
+
+Estas son las tecnologías que se utilizaran a lo largo del desarrollo de GameShelf:
+
+- **Documentación:**
+    - [Markdown](https://daringfireball.net/projects/markdown/) para la creación de documentos estructurados y legibles.
+    - [Swagger UI](https://swagger.io/tools/swagger-ui/) como interfaz gráfica para la documentación de la API rest.
+    - [SoapUI](https://www.soapui.org/) como interfaz gráfica para la documentación de los servicios SOAP.
+    - [DrawIO](https://app.diagrams.net/) para el diseño de los diagramas.
+    - [Miro](https://miro.com/diagramming/) para el diseño de la interfaz.
+
+- **Gestión de Dependencias:**
+    - [Maven](https://www.mysql.com/) para la gestión de dependencias y compilación del proyecto.
+
+- **Bases de Datos y ORM:**
+    - [MySQL](https://www.sqlite.org/index.html) como base de datos relacional.
+    - [Hibernate/JPA](https://hibernate.org/) como ORM para la gestión de entidades relacionales.
+
+- **Testing**
+    - [JUnit5](https://junit.org/junit5/) para los tests unitarios.
+    - [Mockito](https://site.mockito.org/) como biblioteca de mockeo para los tests.
+
+- **Frameworks:**
+    - [Spring Boot](https://spring.io/projects/spring-boot) como framework principal para el desarrollo de la aplicación del lado del server.
+    - [Spring Data JPA](https://spring.io/projects/spring-data-jpa) para la interacción con bases de datos relacionales.
+    - [React](https://es.react.dev/) para el cliente de administración web de la aplicación.
+    - [React Native](https://reactnative.dev/) para el cliente de aplicación móvil.
+
+- **Securización:**
+    - [Spring Security](https://spring.io/projects/spring-security): como framework para la gestión de autenticación y autorización.
+    - [JSON Web Tokens (JWT)](https://jwt.io/): para la creación y validación de tokens seguros para la autenticación de usuarios.
+    - [Spring Security Test](https://docs.spring.io/spring-security/reference/testing/overview.html): para facilitar la creación de pruebas relacionadas con la seguridad.
+
+
+- **Despliegue:**
+    - [Docker](https://www.docker.com/) para la creación de contenedores y despliegue del proyecto en diferentes entornos.
+
+- **APIs:**
+    - [RAWGApi](https://rawg.io/apidocs) para obtener los videojuegos. 
+    - [eBay](https://developer.ebay.com/api-docs/static/gs_ebay-rest-getting-started-landing.html) para las búsquedas de nuevos elementos para la colección y estadísticas/comparativas de precios. 
+    - [Mercari](https://api.mercari-shops.com/docs/index.html) para las búsquedas de nuevos elementos para la colección y estadísticas/comparativas de precios.
+
+## Diseño lógico
+
+### Diagrama de Casos de Uso
+
+WIP.
+
+### Diagrama Entidad/Relación
+
+A continuación se presenta el diseño inicial del modelo Entidad/Relación que servirá como base para la estructura de la base de datos en MySQL de GameShelf.
+
+Este esquema refleja cómo se organizan y relacionan los distintos elementos clave del sistema, tales como videojuegos, ediciones, plataformas y regiones, asegurando una estructura coherente, escalable y fácil de mantener
+
+<div align="center">
+    <img src="./img/gs-er.drawio.png">
+</div>
+
+### Diagrama de Clases
+
+WIP.
+### Diagrama de Paquetes
+
+Tras analizar la complejidad del proyecto GameShelf, se ha decidido utilizar una estructura basada en el patrón Modelo-Vista-Controlador (MVC), ya que permite organizar el código de forma clara y facilita su mantenimiento.
+
+Sin embargo, para lograr una mayor flexibilidad y separar mejor la lógica del negocio de la infraestructura, también se integran elementos de la arquitectura hexagonal. Esta combinación permite que la aplicación pueda trabajar con distintas tecnologías (como bases de datos relacionales o no relacionales) sin modificar el núcleo del sistema. Aislando así la lógica de negocio y haciendola independiente de cómo o dónde se almacenan los datos, lo que facilita futuras integraciones o cambios tecnológicos.
+
+<div align="center">
+    <img src="./img/gs-dpkg.png">
+</div>
+
+
+## Diseño visual
+
+### Paleta de colores
+
+Esta ha sido la selección principal de colores que compondran la estética de la aplicación:
+
+
+<div align="center">
+    <img src="./img/color-pallete.png">
+</div>
+
+
+
+### Wireframes
+
+WIP.
+
+## Instrucciones de instalación y uso
+
+WIP.
+
+## Roadmap
+
+WIP.
+
+</div>
