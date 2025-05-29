@@ -365,7 +365,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Formato_ID`      | Entero | FK    | Formato deseado del juego              |
 | `Plataforma_ID`   | Entero | FK    | Plataforma deseada del juego           |
 | `Edicion_ID`   | Entero | FK    | Edicion deseada del juego           |
-
 | `Prioridad`       | Entero |       | Nivel de prioridad (1-5, por ejemplo)  |
 | `Fecha_creación`  | Fecha  |       | Fecha en la que se añadió              |
 | `Anotación`       | Texto  |       | Nota personalizada del usuario         |
