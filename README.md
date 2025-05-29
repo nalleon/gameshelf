@@ -231,6 +231,22 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
+#### __Edición__
+
+| Campo   | Tipo   | Clave | Descripción            |
+| ------- | ------ | ----- | ---------------------- |
+| `ID`    | Entero | PK    | Identificador único    |
+| `Nombre`| Texto  |       | Nombre de la región    |
+| `Descripción`| Texto  |       | Breve descripción del tipo |
+
+***
+
+#### 🔗 Relaciones
+
+- Se utiliza en GameCollection y Lista de Deseados para indicar ediciones de los juegos.
+
+
+<br>
 
 #### __Colección__
 
@@ -261,6 +277,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Región_ID`     | Entero  | FK    | Región específica del juego en esa colección             |
 | `Formato_ID`    | Entero  | FK    | Formato (Físico/Digital) del juego en esa colección      |
 | `Plataforma_ID` | Entero  | FK    | Plataforma del juego en esa colección                    |
+| `Edicion_ID` | Entero  | FK    | Edicion del juego en esa colección                    |
 
 ***
 
@@ -347,6 +364,8 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Región_ID`       | Entero | FK    | Región deseada del juego               |
 | `Formato_ID`      | Entero | FK    | Formato deseado del juego              |
 | `Plataforma_ID`   | Entero | FK    | Plataforma deseada del juego           |
+| `Edicion_ID`   | Entero | FK    | Edicion deseada del juego           |
+
 | `Prioridad`       | Entero |       | Nivel de prioridad (1-5, por ejemplo)  |
 | `Fecha_creación`  | Fecha  |       | Fecha en la que se añadió              |
 | `Anotación`       | Texto  |       | Nota personalizada del usuario         |
