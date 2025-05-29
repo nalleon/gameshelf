@@ -123,11 +123,263 @@ WIP.
 
 A continuación se presenta el diseño inicial del modelo Entidad/Relación que servirá como base para la estructura de la base de datos en MySQL de GameShelf.
 
-Este esquema refleja cómo se organizan y relacionan los distintos elementos clave del sistema, tales como videojuegos, ediciones, plataformas y regiones, asegurando una estructura coherente, escalable y fácil de mantener
+
+Este esquema refleja cómo se organizan y relacionan los distintos elementos clave del sistema, tales como videojuegos, ediciones, plataformas y regiones, asegurando una estructura coherente, escalable y fácil de mantener:
 
 <div align="center">
     <img src="./img/gs-er.drawio.png">
 </div>
+
+### Tablas y Relaciones
+
+#### __Usuario__
+
+| Campo              | Tipo      | Clave | Descripción                          |
+| ------------------ | --------- | ----- | ------------------------------------ |
+| `ID`               | Entero    | PK    | Identificador único del usuario      |
+| `Nombre`           | Texto     |       | Nombre visible del usuario           |
+| `Correo`           | Texto     |       | Email del usuario                    |
+| `Fecha_creación`   | Fecha     |       | Fecha en la que se creó el usuario   |
+| `Verificado`       | Booleano  |       | Indica si el usuario está verificado |
+| `Token_verificación` | Texto   |       | Token para la verificación por email |
+| `Foto_perfil`      | Imagen    |       | Ruta o URL de la imagen              |
+| `Rol_ID`           | Entero    | FK    | Clave foránea al rol del usuario     |
+
+***
+
+#### 🔗 Relaciones
+
+- Un Usuario tiene un Rol.  
+- Un Usuario tiene muchas Reviews, Colecciones, Listas de Deseos y Favoritos.
+
+
+<br>
+
+
+
+#### __Rol__
+
+| Campo   | Tipo   | Clave | Descripción           |
+| ------- | ------ | ----- | --------------------- |
+| `ID`    | Entero | PK    | Identificador del rol |
+| `Nombre`| Texto  |       | Nombre del rol        |
+
+
+<br>
+
+
+
+#### __Juego__
+
+| Campo     | Tipo   | Clave | Descripción                      |
+| --------- | ------ | ----- | -------------------------------- |
+| `ID`      | Entero | PK    | Identificador único del juego    |
+| `Título`  | Texto  |       | Nombre del juego                 |
+| `Carátula`| Imagen |       | Imagen representativa del juego  |
+| `Slug`    | Texto  |       | Identificador URL amigable       |
+| `Fecha_lanzamiento`    | Texto  |       | Fecha de lanzamiento al mercado       |
+| `Nota_Metacritic`    | Float  |       | Puntuacion de metacritic del juego       |
+
+
+***
+
+#### 🔗 Relaciones
+
+- Un juego puede tener muchas Reviews.
+- Un juego aparece en múltiples Colecciones y Listas de Deseados.
+- Un juego puede tener múltiples Clasificaciones como Género, Publisher, Formato, Plataforma, etc.
+
+
+<br>
+
+
+
+#### __Clasificación (Abstracta)__
+
+| Campo  | Tipo   | Clave | Descripción                            |
+| ------ | ------ | ----- | -------------------------------------- |
+| `ID`   | Entero | PK    | Identificador del elemento de catálogo |
+| `Nombre`| Texto |       | Nombre visible del elemento            |
+
+***
+
+#### 🔗 Relaciones
+
+- De esta heredan: Género, Publisher, Desarrolladora, Formato, Plataforma.
+- Un Juego puede tener múltiples valores de estas categorías.
+- Se usa también en elementos de Colección y Lista de Deseados.
+
+
+<br>
+
+
+
+#### __Región__
+
+| Campo   | Tipo   | Clave | Descripción            |
+| ------- | ------ | ----- | ---------------------- |
+| `ID`    | Entero | PK    | Identificador único    |
+| `Nombre`| Texto  |       | Nombre de la región    |
+| `Siglas`| Texto  |       | Código abreviado (EU, JP, etc) |
+
+***
+
+#### 🔗 Relaciones
+
+- Se utiliza en GameCollection y Lista de Deseados para indicar versiones regionales de juegos.
+
+
+<br>
+
+
+#### __Colección__
+
+| Campo         | Tipo   | Clave | Descripción                         |
+| ------------- | ------ | ----- | ----------------------------------- |
+| `ID`          | Entero | PK    | Identificador de la colección       |
+| `Usuario_ID`  | Entero | FK    | Usuario propietario de la colección |
+
+***
+
+#### 🔗 Relaciones
+
+- Un usuario tiene muchas colecciones.
+- Una colección contiene múltiples juegos mediante `GameCollection`.
+
+
+<br>
+
+
+
+#### __GameCollection__
+
+| Campo           | Tipo    | Clave | Descripción                                              |
+|-----------------|---------|-------|----------------------------------------------------------|
+| `ID`            | Entero  | PK    | Identificador único del registro                         |
+| `Colección_ID`  | Entero  | FK    | Clave foránea a la colección                             |
+| `Juego_ID`      | Entero  | FK    | Clave foránea al juego                                   |
+| `Región_ID`     | Entero  | FK    | Región específica del juego en esa colección             |
+| `Formato_ID`    | Entero  | FK    | Formato (Físico/Digital) del juego en esa colección      |
+| `Plataforma_ID` | Entero  | FK    | Plataforma del juego en esa colección                    |
+
+***
+
+#### 🔗 Relaciones
+
+- Tabla intermedia N:M entre `Colección` y `Juego`.
+- Almacena detalles específicos del ejemplar del juego.
+
+
+<br>
+
+
+
+
+#### __Favorito__
+
+| Campo        | Tipo   | Clave | Descripción                    |
+| ------------ | ------ | ----- | ------------------------------ |
+| `ID`         | Entero | PK    | Identificador del favorito     |
+| `Usuario_ID` | Entero | FK    | Usuario que marcó el favorito  |
+| `Juego_ID`   | Entero | FK    | Juego marcado como favorito    |
+
+***
+
+#### 🔗 Relaciones
+
+- Tabla intermedia N:M entre `Usuario` y `Juego`.
+
+#### __Review__
+
+| Campo                 | Tipo de dato | Clave | Descripción                                       |
+| --------------------- | ------------ | ----- | ------------------------------------------------- |
+| `ID`                  | Entero       | PK    | Identificador único de la review                  |
+| `Contenido`           | Texto        |       | Texto escrito por el usuario                      |
+| `Fecha_creación`      | Fecha/Hora   |       | Fecha en la que se creó la review                 |
+| `Fecha_actualización` | Fecha/Hora   |       | Fecha de la última modificación de la review      |
+| `Usuario_ID`          | Entero       | FK    | Clave foránea al usuario que escribió la review   |
+| `Juego_ID`            | Entero       | FK    | Clave foránea al juego al que pertenece la review |
+
+***
+
+#### 🔗 Relaciones
+
+- Un Usuario puede crear varias Reviews, pero cada Review pertenece a un único Usuario (1:N).
+
+- Cada Review hace referencia a un único Juego, pero un Juego puede tener muchas Reviews (1:N).
+
+<br>
+
+
+
+#### __FotoReview__
+
+| Campo         | Tipo de dato | Clave | Descripción                                          |
+| ------------- | ------------ | ----- | ---------------------------------------------------- |
+| `ID`          | Entero       | PK    | Identificador único de la foto                       |
+| `Ruta_imagen` | Texto (URL)  |       | Enlace o ruta al archivo de imagen                   |
+| `Review_ID`   | Entero       | FK    | Clave foránea a la review a la que pertenece la foto |
+
+***
+
+#### 🔗 Relaciones
+
+- Una review puede tener muchas fotos, pero esas fotos pertenecen a esa Review concreta (1:N).
+
+<br>
+
+***
+
+### Añadidos complementarios
+
+<div align="center">
+    <img src="./img/gs-er-extrav2.png">
+</div>
+
+
+#### __Lista de Deseados__
+
+| Campo             | Tipo   | Clave | Descripción                            |
+| ----------------- | ------ | ----- | -------------------------------------- |
+| `ID`              | Entero | PK    | Identificador                          |
+| `Usuario_ID`      | Entero | FK    | Usuario dueño de esta entrada          |
+| `Juego_ID`        | Entero | FK    | Juego deseado                          |
+| `Región_ID`       | Entero | FK    | Región deseada del juego               |
+| `Formato_ID`      | Entero | FK    | Formato deseado del juego              |
+| `Plataforma_ID`   | Entero | FK    | Plataforma deseada del juego           |
+| `Prioridad`       | Entero |       | Nivel de prioridad (1-5, por ejemplo)  |
+| `Fecha_creación`  | Fecha  |       | Fecha en la que se añadió              |
+| `Anotación`       | Texto  |       | Nota personalizada del usuario         |
+
+***
+
+#### 🔗 Relaciones
+
+- N:M entre `Usuario` y `Juego`, con datos adicionales (formato, región, etc).
+
+
+<br>
+
+#### __NotaJuego__
+
+| Campo        | Tipo   | Clave | Descripción                                           |
+| ------------ | ------ | ----- | ----------------------------------------------------- |
+| `ID`         | Entero | PK    | Identificador único de la nota                        |
+| `Usuario_ID` | Entero | FK    | Usuario que asigna la nota                            |
+| `Juego_ID`   | Entero | FK    | Juego al que se le asigna la nota                     |
+| `Valor`      | Float  |       | Nota asignada |
+| `Fecha`      | Fecha  |       | Fecha en la que se creó o actualizó la nota           |
+
+***
+
+#### 🔗 Relaciones
+
+- Un usuario puede puntuar varios juegos, pero cada nota pertenece a un único usuario (1:N).
+- Un juego puede ser puntuado por varios usuarios (1:N).
+
+
+<br>
+
 
 ### Diagrama de Clases 🧱 
 
