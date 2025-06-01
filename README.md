@@ -334,7 +334,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | Campo         | Tipo de dato | Clave | Descripción                                          |
 | ------------- | ------------ | ----- | ---------------------------------------------------- |
 | `ID`          | Entero       | PK    | Identificador único de la foto                       |
-| `Ruta_imagen` | Texto (URL)  |       | Enlace o ruta al archivo de imagen                   |
+| `Ruta_imagen` | Texto   |       | Enlace o ruta al archivo de imagen                   |
 | `Review_ID`   | Entero       | FK    | Clave foránea a la review a la que pertenece la foto |
 
 ***
@@ -394,6 +394,51 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 - Un usuario puede puntuar varios juegos, pero cada nota pertenece a un único usuario (1:N).
 - Un juego puede ser puntuado por varios usuarios (1:N).
+
+<br>
+
+***
+
+<div align="center">
+    <img src="./img/gs-er-extrav3.png">
+</div>
+
+
+#### __GameStatus__
+
+| Campo         | Tipo   | Clave | Descripción                                   |
+| ------------- | ------ | ----- | --------------------------------------------- |
+| `ID`          | Entero | PK    | Identificador único del estado                |
+| `Nombre`      | Texto  | UNIQUE | Nombre del estado: Planeado, Completado, Pausado etc. |
+| `Descripción`      | Texto  | UNIQUE | Descripción breve de para que es el estado |
+
+
+***
+
+<br>
+
+#### __UserGameStatus__
+
+| Campo            | Tipo   | Clave | Descripción                                             |
+| ---------------- | ------ | ----- | ------------------------------------------------------- |
+| `ID`             | Entero | PK    | Identificador único                                     |
+| `Usuario_ID`     | Entero | FK    | Clave foránea al usuario                                |
+| `Juego_ID`       | Entero | FK    | Clave foránea al juego                                  |
+| `Estado_ID`      | Entero | FK    | Clave foránea a `EstadoJuego`                           |
+| `Fecha_agregado` | Fecha  |       | Fecha en la que el usuario añadió este juego a su lista |
+| `Notas`          | Texto  |       | (Opcional) Comentarios personales                       |
+
+***
+
+#### 🔗 Relaciones
+
+- Un usuario puede tener muchos juegos en diferentes estados.
+
+- Un juego puede estar en diferentes listas de distintos usuarios.
+
+- Cada entrada en la lista tiene un estado.
+
+
 
 
 <br>
