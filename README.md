@@ -117,7 +117,9 @@ Estas son las tecnologías que se utilizaran a lo largo del desarrollo de GameSh
 
 ### Diagrama de Casos de Uso 🧭
 
-WIP.
+<div align="center">
+    <img src="./img/gs-cu.png">
+</div>
 
 ### Diagrama Entidad/Relación 🗃️    
 
@@ -425,8 +427,9 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Usuario_ID`     | Entero | FK    | Clave foránea al usuario                                |
 | `Juego_ID`       | Entero | FK    | Clave foránea al juego                                  |
 | `Estado_ID`      | Entero | FK    | Clave foránea a `EstadoJuego`                           |
+| `Nota`      | Float  |       | Nota asignada |
+| `Anotación`          | Texto  |       | (Opcional) Comentario personal                       |
 | `Fecha_agregado` | Fecha  |       | Fecha en la que el usuario añadió este juego a su lista |
-| `Notas`          | Texto  |       | (Opcional) Comentarios personales                       |
 
 ***
 
