@@ -3,7 +3,6 @@ package es.gameshelf.domain;
 import java.util.Date;
 import java.util.Objects;
 
-//TODO: add in controller sort by priority
 public class WishListItem {
     /**
      * Properties

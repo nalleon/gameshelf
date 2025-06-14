@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author Nabil L. A. @nalleon
  */
-public class UserGameStatus {
+public class UserGameStatusItem {
 
     /**
      * Properties
@@ -23,30 +23,30 @@ public class UserGameStatus {
     /**
      * Default constructor of the class
      */
-    public UserGameStatus() {
+    public UserGameStatusItem() {
     }
 
     /**
      * Constructor of the class
-     * @param id of UserGameStatus
+     * @param id of UserGameStatusItem
      */
-    public UserGameStatus(int id) {
+    public UserGameStatusItem(int id) {
         this.id = id;
     }
 
     /**
      * Full constructor of the class
-     * @param id of UserGameStatus
-     * @param userRating of UserGameStatus
-     * @param startDate of UserGameStatus
-     * @param finishDate of UserGameStatus
-     * @param annotation of UserGameStatus
-     * @param user of UserGameStatus
-     * @param game of UserGameStatus
-     * @param status of UserGameStatus
+     * @param id of UserGameStatusItem
+     * @param userRating of UserGameStatusItem
+     * @param startDate of UserGameStatusItem
+     * @param finishDate of UserGameStatusItem
+     * @param annotation of UserGameStatusItem
+     * @param user of UserGameStatusItem
+     * @param game of UserGameStatusItem
+     * @param status of UserGameStatusItem
      */
-    public UserGameStatus(int id, float userRating, Date startDate, Date finishDate, String annotation,
-                          User user, Game game, Status status) {
+    public UserGameStatusItem(int id, float userRating, Date startDate, Date finishDate, String annotation,
+                              User user, Game game, Status status) {
         this.id = id;
         this.userRating = userRating;
         this.startDate = startDate;
@@ -127,7 +127,7 @@ public class UserGameStatus {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        UserGameStatus that = (UserGameStatus) o;
+        UserGameStatusItem that = (UserGameStatusItem) o;
         return id == that.id;
     }
 
@@ -138,7 +138,7 @@ public class UserGameStatus {
 
     @Override
     public String toString() {
-        return "UserGameStatus{" +
+        return "UserGameStatusItem{" +
                 "id=" + id +
                 ", userRating=" + userRating +
                 ", startDate=" + startDate +
