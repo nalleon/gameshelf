@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author Nabil L. A. @nalleon
  */
-public class GameCollection {
+public class GameCollectionItem {
     /**
      * Properties
      */
@@ -21,30 +21,30 @@ public class GameCollection {
     /**
      * Default constructor of the class
      */
-    public GameCollection() {
+    public GameCollectionItem() {
     }
 
     /**
      * Constructor of the class
-     * @param id of the GameCollection
+     * @param id of the GameCollectionItem
      */
-    public GameCollection(int id) {
+    public GameCollectionItem(int id) {
         this.id = id;
     }
 
     /**
      * Full constructor of the class
-     * @param id of the GameCollection
-     * @param game of the GameCollection
-     * @param collection of the GameCollection
-     * @param format of the GameCollection
-     * @param platform of the GameCollection
-     * @param edition of the GameCollection
-     * @param region of the GameCollection
-     * @param additionDate  of the GameCollection
+     * @param id of the GameCollectionItem
+     * @param game of the GameCollectionItem
+     * @param collection of the GameCollectionItem
+     * @param format of the GameCollectionItem
+     * @param platform of the GameCollectionItem
+     * @param edition of the GameCollectionItem
+     * @param region of the GameCollectionItem
+     * @param additionDate  of the GameCollectionItem
      */
-    public GameCollection(int id, Game game, Collection collection, Format format, Platform platform, Edition edition,
-                          Region region, Date additionDate) {
+    public GameCollectionItem(int id, Game game, Collection collection, Format format, Platform platform, Edition edition,
+                              Region region, Date additionDate) {
         this.id = id;
         this.game = game;
         this.collection = collection;
@@ -125,7 +125,7 @@ public class GameCollection {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        GameCollection that = (GameCollection) o;
+        GameCollectionItem that = (GameCollectionItem) o;
         return id == that.id;
     }
 
@@ -136,7 +136,7 @@ public class GameCollection {
 
     @Override
     public String toString() {
-        return "GameCollection{" +
+        return "GameCollectionItem{" +
                 "id=" + id +
                 ", game=" + game +
                 ", collection=" + collection +
