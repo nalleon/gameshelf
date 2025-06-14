@@ -3,7 +3,9 @@ package es.gameshelf.domain.interfaces.repository;
 import es.gameshelf.domain.*;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IGameRepository {
     Game save(Game game);
     List<Game> findAll();

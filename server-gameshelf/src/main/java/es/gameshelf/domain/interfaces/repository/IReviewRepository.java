@@ -5,7 +5,9 @@ import es.gameshelf.domain.Game;
 import es.gameshelf.domain.User;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IReviewRepository {
     Review save(Review review);
     List<Review> findAll();

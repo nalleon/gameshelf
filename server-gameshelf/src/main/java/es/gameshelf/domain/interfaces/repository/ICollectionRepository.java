@@ -5,7 +5,9 @@ import es.gameshelf.domain.Game;
 import es.gameshelf.domain.User;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface ICollectionRepository {
     Collection save(Collection collection);
     List<Collection> findAll();

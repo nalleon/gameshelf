@@ -3,7 +3,9 @@ package es.gameshelf.domain.interfaces.repository;
 import es.gameshelf.domain.Format;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IFormatRepository {
     Format save(Format format);
     List<Format> findAll();

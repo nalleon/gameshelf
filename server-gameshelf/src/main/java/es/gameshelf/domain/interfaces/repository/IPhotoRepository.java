@@ -4,7 +4,9 @@ import es.gameshelf.domain.PhotoReview;
 import es.gameshelf.domain.PhotoReview;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IPhotoRepository {
     PhotoReview save(PhotoReview photoReview);
     List<PhotoReview> findAll();

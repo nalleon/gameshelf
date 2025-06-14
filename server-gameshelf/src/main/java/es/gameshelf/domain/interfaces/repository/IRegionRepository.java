@@ -3,7 +3,9 @@ package es.gameshelf.domain.interfaces.repository;
 import es.gameshelf.domain.Region;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IRegionRepository {
     Region save(Region region);
     List<Region> findAll();

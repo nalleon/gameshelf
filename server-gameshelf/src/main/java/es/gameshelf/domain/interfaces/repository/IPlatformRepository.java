@@ -3,7 +3,9 @@ package es.gameshelf.domain.interfaces.repository;
 import es.gameshelf.domain.Platform;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IPlatformRepository {
     Platform save(Platform platform);
     List<Platform> findAll();

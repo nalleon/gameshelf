@@ -6,7 +6,9 @@ import es.gameshelf.domain.Genre;
 import es.gameshelf.domain.User;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IGameScoreRepository {
     GameScore save(GameScore gameScore);
     List<GameScore> findAll();

@@ -5,7 +5,9 @@ import es.gameshelf.domain.Game;
 import es.gameshelf.domain.User;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IFavoriteRepository {
     Favorite save(Favorite favorite);
     List<Favorite> findAll();

@@ -3,7 +3,9 @@ package es.gameshelf.domain.interfaces.repository;
 import es.gameshelf.domain.Edition;
 
 import java.util.List;
-
+/**
+ * @author Nabil L. A. @nalleon
+ */
 public interface IEditionRepository {
     Edition save(Edition edition);
     List<Edition> findAll();
