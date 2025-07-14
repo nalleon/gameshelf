@@ -30,6 +30,23 @@
 - [Diseño lógico](#diseño-lógico)
   - [Diagrama de Casos de Uso](#diagrama-de-casos-de-uso)
   - [Diagrama Entidad/Relación](#diagrama-entidadrelación)
+    - [Tablas y Relaciones](#tablas-y-relaciones)
+        1. [Usuario](#usuario)
+        2. [Rol](#rol)
+        3. [Juego](#juego)
+        4. [Clasificación](#clasificación)
+        5. [Región](#región)
+        6. [Edición](#edición)
+        7. [Colección](#colección)
+        8. [JuegoColección](#juegocolección)
+        9. [Favorito](#favorito)
+        10. [Reseña](#reseña)
+        11. [FotoReseña](#fotoreseña)
+        12. [Lista de Deseados](#lista-de-deseados)
+        13. [NotaJuego](#notajuego)
+        14. [Estado](#estado)
+        15. [UsuarioJuegoEstado](#usuariojuegoestado)
+
   - [Diagrama de Clases](#diagrama-de-clases)
   - [Diagrama de Paquetes](#diagrama-de-paquetes)
 
@@ -152,7 +169,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 #### 🔗 Relaciones
 
 - Un Usuario tiene un Rol.  
-- Un Usuario tiene muchas Reviews, Colecciones, Listas de Deseos y Favoritos.
+- Un Usuario tiene muchas Reseñas, Colecciones, Listas de Deseos y Favoritos.
 
 
 <br>
@@ -187,7 +204,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 #### 🔗 Relaciones
 
-- Un juego puede tener muchas Reviews.
+- Un juego puede tener muchas Reseñas.
 - Un juego aparece en múltiples Colecciones y Listas de Deseados.
 - Un juego puede tener múltiples Clasificaciones como Género, Publisher, Formato, Plataforma, etc.
 
@@ -196,7 +213,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 
 
-#### __Clasificación (Abstracta)__
+#### __Clasificación__
 
 | Campo  | Tipo   | Clave | Descripción                            |
 | ------ | ------ | ----- | -------------------------------------- |
@@ -228,7 +245,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 #### 🔗 Relaciones
 
-- Se utiliza en GameCollection y Lista de Deseados para indicar versiones regionales de juegos.
+- Se utiliza en JuegoColección y Lista de Deseados para indicar versiones regionales de juegos.
 
 
 <br>
@@ -245,7 +262,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 #### 🔗 Relaciones
 
-- Se utiliza en GameCollection y Lista de Deseados para indicar ediciones de los juegos.
+- Se utiliza en JuegoColección y Lista de Deseados para indicar ediciones de los juegos.
 
 
 <br>
@@ -262,14 +279,14 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 #### 🔗 Relaciones
 
 - Un usuario tiene muchas colecciones.
-- Una colección contiene múltiples juegos mediante `GameCollection`.
+- Una colección contiene múltiples juegos mediante `JuegoColección`.
 
 
 <br>
 
 
 
-#### __GameCollection__
+#### __JuegoColección__
 
 | Campo           | Tipo    | Clave | Descripción                                              |
 |-----------------|---------|-------|----------------------------------------------------------|
@@ -308,42 +325,42 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 - Tabla intermedia N:M entre `Usuario` y `Juego`.
 
-#### __Review__
+#### __Reseña__
 
 | Campo                 | Tipo de dato | Clave | Descripción                                       |
 | --------------------- | ------------ | ----- | ------------------------------------------------- |
-| `ID`                  | Entero       | PK    | Identificador único de la review                  |
+| `ID`                  | Entero       | PK    | Identificador único de la reseña                  |
 | `Contenido`           | Texto        |       | Texto escrito por el usuario                      |
-| `Fecha_creación`      | Fecha/Hora   |       | Fecha en la que se creó la review                 |
-| `Fecha_actualización` | Fecha/Hora   |       | Fecha de la última modificación de la review      |
-| `Usuario_ID`          | Entero       | FK    | Clave foránea al usuario que escribió la review   |
-| `Juego_ID`            | Entero       | FK    | Clave foránea al juego al que pertenece la review |
+| `Fecha_creación`      | Fecha/Hora   |       | Fecha en la que se creó la reseña                 |
+| `Fecha_actualización` | Fecha/Hora   |       | Fecha de la última modificación de la reseña      |
+| `Usuario_ID`          | Entero       | FK    | Clave foránea al usuario que escribió la reseña   |
+| `Juego_ID`            | Entero       | FK    | Clave foránea al juego al que pertenece la reseña |
 
 ***
 
 #### 🔗 Relaciones
 
-- Un Usuario puede crear varias Reviews, pero cada Review pertenece a un único Usuario (1:N).
+- Un Usuario puede crear varias Reseñas, pero cada Reseña pertenece a un único Usuario (1:N).
 
-- Cada Review hace referencia a un único Juego, pero un Juego puede tener muchas Reviews (1:N).
+- Cada Reseña hace referencia a un único Juego, pero un Juego puede tener muchas Reseñas (1:N).
 
 <br>
 
 
 
-#### __FotoReview__
+#### __FotoReseña__
 
 | Campo         | Tipo de dato | Clave | Descripción                                          |
 | ------------- | ------------ | ----- | ---------------------------------------------------- |
 | `ID`          | Entero       | PK    | Identificador único de la foto                       |
 | `Ruta_imagen` | Texto   |       | Enlace o ruta al archivo de imagen                   |
-| `Review_ID`   | Entero       | FK    | Clave foránea a la review a la que pertenece la foto |
+| `Reseña_ID`   | Entero       | FK    | Clave foránea a la reseña a la que pertenece la foto |
 
 ***
 
 #### 🔗 Relaciones
 
-- Una review puede tener muchas fotos, pero esas fotos pertenecen a esa Review concreta (1:N).
+- Una reseña puede tener muchas fotos, pero esas fotos pertenecen a esa Reseña concreta (1:N).
 
 <br>
 
@@ -406,7 +423,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 </div>
 
 
-#### __GameStatus__
+#### __Estado__
 
 | Campo         | Tipo   | Clave | Descripción                                   |
 | ------------- | ------ | ----- | --------------------------------------------- |
@@ -419,7 +436,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-#### __UserGameStatus__
+#### __UsuarioJuegoEstado__
 
 | Campo            | Tipo   | Clave | Descripción                                             |
 | ---------------- | ------ | ----- | ------------------------------------------------------- |
