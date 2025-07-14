@@ -21,6 +21,14 @@ public class Favorite {
 
     /**
      * Constructor of the class
+     * @param id of the favorite
+     */
+    public Favorite(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Constructor of the class
      * @param user of the favorite
      * @param game of the favorite
      * @implNote for creating a favorite

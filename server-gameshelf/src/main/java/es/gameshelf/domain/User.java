@@ -16,6 +16,7 @@ public class User {
     private String email;
     private String password;
     private String profilePicture;
+    private Role role;
     private int verified;
     private String verificationToken;
     private Date creationDate;
@@ -53,6 +54,16 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(int id, String username, String email, String password,
+                String profilePicture, Role role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.profilePicture = profilePicture;
+        this.role = role;
     }
 
     /**
@@ -122,6 +133,14 @@ public class User {
         this.creationDate = creationDate;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     /**
      * Equals and hashcode
      */
@@ -144,6 +163,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
+                ", role=" + role +
                 ", verified=" + verified +
                 ", verificationToken='" + verificationToken + '\'' +
                 ", creationDate=" + creationDate +

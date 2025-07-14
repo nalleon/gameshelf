@@ -12,6 +12,7 @@ public interface IPhotoRepository {
     List<PhotoReview> findAll();
     PhotoReview findById(Integer id);
     PhotoReview findByName(String name);
+
     boolean delete(Integer id);
     PhotoReview update(PhotoReview photoReview);
 }

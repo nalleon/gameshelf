@@ -11,10 +11,11 @@ import java.util.List;
 public interface IFavoriteRepository {
     Favorite save(Favorite favorite);
     List<Favorite> findAll();
-    Favorite findById(Integer id);
-    Favorite checkIfIExists(User user, Game game);
     List<Favorite> findAllByUser(User user);
     List<Favorite> findAllByGame(Game game);
+    Favorite findById(Integer id);
+    Game findMostFavoriteGame();
+    boolean checkIfIExists(User user, Game game);
     boolean delete(Integer id);
     Favorite update(Favorite favorite);
 }

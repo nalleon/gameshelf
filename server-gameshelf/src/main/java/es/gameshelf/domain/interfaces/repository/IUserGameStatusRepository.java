@@ -13,7 +13,9 @@ public interface IUserGameStatusRepository {
     List<UserGameStatusItem> findAll();
     List<UserGameStatusItem> findAllByGame(Game game);
     List<UserGameStatusItem> findAllByStatus(Status status);
-
+    List<UserGameStatusItem> findAllByUserAlphabeticalOrder(User user);
+    List<UserGameStatusItem> findAllByUserOldestOrder(User user);
+    List<UserGameStatusItem> findAllByUserLatestOrder(User user);
     UserGameStatusItem findById(Integer id);
 
     Map<Status, Integer> countAllGroupedByStatus();;

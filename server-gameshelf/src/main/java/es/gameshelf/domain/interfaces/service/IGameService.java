@@ -24,10 +24,6 @@ public interface IGameService {
     List<Game> findAllByGenre(Genre genre);
     List<Game> findAllByFormat(Format format);
 
-    List<Game> findAllByUserAlphabeticalOrder();
-    List<Game> findAllByUserOldestOrder();
-    List<Game> findAllByUserLatestOrder();
-
     boolean delete(Integer id);
     Game update(Integer id, String title, String releaseDate, String slug, String cover, int externalRating,
                 Set<Developer> developerSet, Set<Publisher> publisherSet, Set<Format> formatSet,

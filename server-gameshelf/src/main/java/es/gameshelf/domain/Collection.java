@@ -20,6 +20,14 @@ public class Collection {
 
     /**
      * Constructor of the class
+     * @param id of the collection
+     */
+    public Collection(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Constructor of the class
      * @param user of the collection
      * @implNote for creating a collection
      */

@@ -13,5 +13,5 @@ public interface IRegionService {
     Region findById(Integer id);
     Region findByName(String name);
     boolean delete(Integer id);
-    Region update(String name, String initials);
+    Region update(Integer id, String name, String initials);
 }

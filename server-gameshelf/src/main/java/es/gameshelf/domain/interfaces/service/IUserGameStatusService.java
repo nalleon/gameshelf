@@ -17,6 +17,9 @@ public interface IUserGameStatusService {
     List<UserGameStatusItem> findAll();
     List<UserGameStatusItem> findAllByGame(Game game);
     List<UserGameStatusItem> findAllByStatus(Status status);
+    List<UserGameStatusItem> findAllByUserAlphabeticalOrder(User user);
+    List<UserGameStatusItem> findAllByUserOldestOrder(User user);
+    List<UserGameStatusItem> findAllByUserLatestOrder(User user);
 
     UserGameStatusItem findById(Integer id);
 
@@ -27,6 +30,7 @@ public interface IUserGameStatusService {
     List<UserGameStatusItem> findAllByUserAndStatus(User user, Status status);
     Map<Status, Integer> countAllByUserGroupedByStatus(User user);
     int countAllByUserGroupedBySpecificStatus(User user, Status status);
+
 
     boolean delete(Integer id);
     UserGameStatusItem update(Integer id, float userRating, String annotation, User user, Game game, Status status);

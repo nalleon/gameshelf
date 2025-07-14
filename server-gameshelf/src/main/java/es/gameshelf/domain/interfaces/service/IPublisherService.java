@@ -13,5 +13,5 @@ public interface IPublisherService {
     Publisher findById(Integer id);
     Publisher findByName(String name);
     boolean delete(Integer id);
-    Publisher update(String name);
+    Publisher update(Integer id, String name);
 }

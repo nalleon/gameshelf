@@ -20,10 +20,6 @@ public interface IGameRepository {
     List<Game> findAllByGenre(Genre genre);
     List<Game> findAllByFormat(Format format);
 
-    List<Game> findAllByUserAlphabeticalOrder();
-    List<Game> findAllByUserOldestOrder();
-    List<Game> findAllByUserLatestOrder();
-
     boolean delete(Integer id);
     Game update(Game game);
 }
