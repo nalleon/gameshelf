@@ -28,7 +28,11 @@
 - [Diseño lógico](#diseño-lógico-)
     - [Diagrama de Casos de Uso](#diagrama-de-casos-de-uso-)
     - [Diagrama Entidad/Relación](#diagrama-entidadrelación-️)
-    - [Tablas y Relaciones](#tablas-y-relaciones)
+        <details>    
+            <summary>
+                Tablas y Relaciones
+            </summary>
+
         - [__Usuario__](#usuario)
         - [__Rol__](#rol)
         - [__Juego__](#juego)
@@ -44,6 +48,9 @@
         - [__NotaJuego__](#notajuego)
         - [__Estado__](#estado)
         - [__UsuarioJuegoEstado__](#usuariojuegoestado)
+
+        </details>
+
     - [Diagrama de Clases](#diagrama-de-clases-)
     - [Diagrama de Paquetes](#diagrama-de-paquetes-)
 - [Diseño visual](#diseño-visual)
