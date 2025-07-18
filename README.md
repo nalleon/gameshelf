@@ -203,7 +203,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | Un juego puede tener muchas Reseñas.                                                             |
 | Un juego aparece en múltiples Colecciones y Listas de Deseados.                                  |
 | Un juego puede tener múltiples Clasificaciones como Género, Publisher, Formato, Plataforma, etc. |
-|                                                                                                  |
 
 
 <br>
@@ -223,7 +222,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | De esta heredan: Género, Publisher, Desarrolladora, Formato, Plataforma. |
 | Un Juego puede tener múltiples valores de estas categorías.              |
 | Se usa también en elementos de Colección y Lista de Deseados.            |
-|                                                                          |
 
 
 <br>
@@ -379,8 +377,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | 🔗 Relaciones                                                                 |
 | ---------------------------------------------------------------------------- |
 | N:M entre `Usuario` y `Juego`, con datos adicionales (formato, región, etc). |
-|                                                                              |
-
 
 <br>
 
