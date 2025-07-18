@@ -173,6 +173,11 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | Un Usuario tiene un Rol.                                                    |
 | Un Usuario tiene muchas Reseñas, Colecciones, Listas de Deseos y Favoritos. |
 
+<br>
+
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
 
 <br>
 
@@ -186,6 +191,11 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
+
+<br>
 
 #### __Juego__
 
@@ -207,7 +217,11 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
 
+<br>
 
 #### __Clasificación__
 
@@ -226,7 +240,11 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
 
+<br>
 
 #### __Región__
 
@@ -241,6 +259,11 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | --------------------------------------------------------------------------------------------- |
 | Se utiliza en JuegoColección y Lista de Deseados para indicar versiones regionales de juegos. |
 
+<br>
+
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
 
 <br>
 
@@ -259,6 +282,12 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
+
+<br>
+
 #### __Colección__
 
 | Campo        | Tipo   | Clave | Descripción                         |
@@ -271,10 +300,13 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | Un usuario tiene una colección.                                    |
 | Una colección contiene múltiples juegos mediante `JuegoColección`. |
 
-
-
 <br>
 
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
+
+<br>
 
 
 #### __JuegoColección__
@@ -295,10 +327,13 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | Tabla de la entidad intermedia N:M entre `Colección` y `Juego`. |
 | Almacena detalles específicos del ejemplar del juego.           |
 
-
 <br>
 
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
 
+<br>
 
 
 #### __Favorito__
@@ -313,6 +348,12 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | 🔗 Relaciones                                               |
 | ---------------------------------------------------------- |
 | Tabla de entidad intermedia N:M entre `Usuario` y `Juego`. |
+
+<br>
+
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
 
 <br>
 
@@ -335,7 +376,11 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
 
+<br>
 
 #### __FotoReseña__
 
@@ -350,6 +395,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | Una reseña puede tener muchas fotos, pero esas fotos pertenecen a esa Reseña concreta (1:N). |
 
 
+<br>
 <br>
 
 ***
@@ -380,6 +426,12 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
+
+<br>
+
 #### __NotaJuego__
 
 | Campo        | Tipo   | Clave | Descripción                                 |
@@ -395,6 +447,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 |  Un juego puede ser puntuado por varios usuarios (1:N). |
 |  Un usuario puede puntuar varios juegos, pero esa nota concreta pertenece a un usuario y un juego en específico (1:N).|
 
+<br>
 <br>
 
 ***
@@ -412,6 +465,12 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Nombre`      | Texto  | UNIQUE | Nombre del estado: Planeado, Completado, Pausado etc. |
 | `Descripción` | Texto  | UNIQUE | Descripción breve de para que es el estado            |
 
+
+<br>
+
+<div align="center">
+⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+</div>
 
 <br>
 
