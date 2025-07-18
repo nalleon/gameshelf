@@ -176,7 +176,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -192,7 +192,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -218,7 +218,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -241,7 +241,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -262,7 +262,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -283,7 +283,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -303,7 +303,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -330,7 +330,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -352,7 +352,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -377,7 +377,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -427,7 +427,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
@@ -469,7 +469,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 <div align="center">
-⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆⋆
+༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
 </div>
 
 <br>
