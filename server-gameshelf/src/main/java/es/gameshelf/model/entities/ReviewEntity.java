@@ -1,4 +1,4 @@
-package es.gameshelf.domain;
+package es.gameshelf.model.entities;
 
 import java.util.Date;
 import java.util.Objects;
@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * @author Nabil L. A. @nalleon
  */
-public class Review {
+public class ReviewEntity {
     /**
      * Properties
      */
@@ -15,38 +15,38 @@ public class Review {
     private String content;
     private Date creationDate;
     private Date lastUpdateDate;
-    private User user;
-    private Game game;
-    private Set<PhotoReview> photoReviewSet;
+    private UserEntity userEntity;
+    private GameEntity gameEntity;
+    private Set<PhotoReviewEntity> photoReviewEntitySet;
 
     /**
      * Default constructor of the class
      */
-    public Review() {
+    public ReviewEntity() {
     }
 
     /**
      * Constructor of the class
      * @param id of the review
      */
-    public Review(int id) {
+    public ReviewEntity(int id) {
         this.id = id;
     }
 
     /**
      * Constructor of the class
-     * @param user of the review
+     * @param userEntity of the review
      */
-    public Review(User user) {
-        this.user = user;
+    public ReviewEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     /**
      * Constructor of the class
-     * @param game of the review
+     * @param gameEntity of the review
      */
-    public Review(Game game) {
-        this.game = game;
+    public ReviewEntity(GameEntity gameEntity) {
+        this.gameEntity = gameEntity;
     }
 
     /**
@@ -55,19 +55,19 @@ public class Review {
      * @param content of the review
      * @param creationDate of the review
      * @param lastUpdateDate of the review
-     * @param user of the review
-     * @param game of the review
-     * @param photoReviewSet of the review
+     * @param userEntity of the review
+     * @param gameEntity of the review
+     * @param photoReviewEntitySet of the review
      */
-    public Review(int id, String content, Date creationDate, Date lastUpdateDate, User user,
-                  Game game, Set<PhotoReview> photoReviewSet) {
+    public ReviewEntity(int id, String content, Date creationDate, Date lastUpdateDate, UserEntity userEntity,
+                        GameEntity gameEntity, Set<PhotoReviewEntity> photoReviewEntitySet) {
         this.id = id;
         this.content = content;
         this.creationDate = creationDate;
         this.lastUpdateDate = lastUpdateDate;
-        this.user = user;
-        this.game = game;
-        this.photoReviewSet = photoReviewSet;
+        this.userEntity = userEntity;
+        this.gameEntity = gameEntity;
+        this.photoReviewEntitySet = photoReviewEntitySet;
     }
 
     /**
@@ -105,28 +105,28 @@ public class Review {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
-    public Game getGame() {
-        return game;
+    public GameEntity getGame() {
+        return gameEntity;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGame(GameEntity gameEntity) {
+        this.gameEntity = gameEntity;
     }
 
-    public Set<PhotoReview> getPhotoReviewSet() {
-        return photoReviewSet;
+    public Set<PhotoReviewEntity> getPhotoReviewSet() {
+        return photoReviewEntitySet;
     }
 
-    public void setPhotoReviewSet(Set<PhotoReview> photoReviewSet) {
-        this.photoReviewSet = photoReviewSet;
+    public void setPhotoReviewSet(Set<PhotoReviewEntity> photoReviewEntitySet) {
+        this.photoReviewEntitySet = photoReviewEntitySet;
     }
 
     /**
@@ -135,8 +135,8 @@ public class Review {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Review review = (Review) o;
-        return id == review.id;
+        ReviewEntity reviewEntity = (ReviewEntity) o;
+        return id == reviewEntity.id;
     }
 
     @Override
@@ -151,9 +151,9 @@ public class Review {
                 ", content='" + content + '\'' +
                 ", creationDate=" + creationDate +
                 ", lastUpdateDate=" + lastUpdateDate +
-                ", user=" + user +
-                ", game=" + game +
-                ", photoReviewSet=" + photoReviewSet +
+                ", userEntity=" + userEntity +
+                ", gameEntity=" + gameEntity +
+                ", photoReviewEntitySet=" + photoReviewEntitySet +
                 '}';
     }
 }

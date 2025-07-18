@@ -79,7 +79,7 @@ public class Collection {
 
     @Override
     public String toString() {
-        return "Collection{" +
+        return "CollectionEntity{" +
                 "id=" + id +
                 ", user=" + user +
                 '}';

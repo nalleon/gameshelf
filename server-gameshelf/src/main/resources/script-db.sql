@@ -11,13 +11,13 @@ INSERT INTO `roles` (`name`) VALUES
 CREATE TABLE `users` (
     id INTEGER AUTO_INCREMENT NOT NULL,
     username VARCHAR(45) UNIQUE NOT NULL,
-    password CHAR(200) NOT NULL,
-    email CHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(200) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
     role_id INTEGER,
     verified TINYINT(1) DEFAULT 0,
     verification_token CHAR(255),
     creation_date BIGINT NOT NULL,
-    profile_picture CHAR(255) NULL,
+    profile_picture TEXT NULL,
     CONSTRAINT `pk_users` PRIMARY KEY (id),
     CONSTRAINT `fk_users_roles` FOREIGN KEY (role_id) REFERENCES roles(id)
 );
@@ -55,10 +55,10 @@ INSERT INTO `users` (
 
 CREATE TABLE `games` (
     id INTEGER AUTO_INCREMENT NOT NULL,
-    title CHAR(100) NOT NULL,
-    release_date CHAR(100) NULL,
+    title VARCHAR(100) NOT NULL,
+    release_date VARCHAR(20) NULL,
     slug CHAR(100) NOT NULL,
-    cover CHAR(255) NULL,
+    cover VARCHAR(255) NULL,
     external_rating INTEGER NULL,
     CONSTRAINT `pk_games` PRIMARY KEY (id),
     UNIQUE KEY `uq_games_title_slug` (title, slug)
@@ -90,12 +90,13 @@ CREATE TABLE `regions` (
 );
 
 
-CREATE TABLE `edition` (
+CREATE TABLE `editions` (
     id INTEGER AUTO_INCREMENT NOT NULL,
     name VARCHAR(100) UNIQUE NOT NULL,
     description VARCHAR(255) UNIQUE NOT NULL,
     CONSTRAINT `pk_editions` PRIMARY KEY (id),
-    UNIQUE KEY `uq_editions_name` (name)
+    UNIQUE KEY `uq_editions_name` (name),
+    UNIQUE KEY `uq_editions_description` (description)
 );
 
 
@@ -103,8 +104,9 @@ CREATE TABLE `status` (
     id INTEGER AUTO_INCREMENT NOT NULL,
     name VARCHAR(50) UNIQUE NOT NULL,
     description VARCHAR(255) UNIQUE NOT NULL,
-    CONSTRAINT `pk_regions` PRIMARY KEY (id),
-    UNIQUE KEY `uq_regions_name` (name)
+    CONSTRAINT `pk_status` PRIMARY KEY (id),
+    UNIQUE KEY `uq_status_name` (name),
+    UNIQUE KEY `uq_status_description` (description)
 );
 
 CREATE TABLE `publishers` (
@@ -158,13 +160,35 @@ CREATE TABLE `games_genres` (
     UNIQUE KEY `uq_games_genres` (game_id, genre_id)
 );
 
+CREATE TABLE `formats` (
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    CONSTRAINT `pk_formats` PRIMARY KEY (id),
+    UNIQUE KEY `uq_formats_name` (name)
+);
+
+
+INSERT INTO `formats` (`name`) VALUES
+    ('Physical'),
+    ('Digital');
+
+CREATE TABLE `games_formats` (
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    game_id INTEGER NOT NULL,
+    format_id INTEGER NOT NULL,
+    CONSTRAINT `pk_games_formats` PRIMARY KEY (id),
+    CONSTRAINT `fk_games_formats_game` FOREIGN KEY (game_id) REFERENCES games(id),
+    CONSTRAINT `fk_games_formats_format` FOREIGN KEY (format_id) REFERENCES formats(id),
+    UNIQUE KEY `uq_games_formats` (game_id, format_id)
+);
+
 CREATE TABLE reviews (
     id INT AUTO_INCREMENT NOT NULL,
     game_id INT NOT NULL,
     user_id INT NOT NULL,
     content TEXT NOT NULL,
     creation_date BIGINT NOT NULL,
-    last_update_date BIGINT,
+    last_update_date BIGINT NOT NULL,
     CONSTRAINT pk_reviews PRIMARY KEY (id),
     CONSTRAINT fk_reviews_game FOREIGN KEY (game_id) REFERENCES games(id),
     CONSTRAINT fk_reviews_user FOREIGN KEY (user_id) REFERENCES users(id)
@@ -174,8 +198,8 @@ CREATE TABLE photo_reviews (
     id INT AUTO_INCREMENT NOT NULL,
     review_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
-    additional_text TEXT,
-    type VARCHAR(50),
+    image TEXT  NOT NULL,
+    type VARCHAR(50) NOT NULL,
     CONSTRAINT pk_photo_reviews PRIMARY KEY (id),
     CONSTRAINT fk_photo_reviews_review FOREIGN KEY (review_id) REFERENCES reviews(id)
 );
@@ -191,12 +215,17 @@ CREATE TABLE `games_collections` (
     id INTEGER AUTO_INCREMENT NOT NULL,
     game_id INTEGER NOT NULL,
     collection_id INTEGER NOT NULL,
-    region_id INTEGER NOT NULL,
+    format_id INTEGER NOT NULL,
+    edition_id INTEGER NOT NULL,
     platform_id INTEGER NOT NULL,
+    region_id INTEGER NOT NULL,
+    addition_date BIGINT NOT NULL,
     CONSTRAINT `pk_games_collections` PRIMARY KEY (id),
     CONSTRAINT `fk_games_collections_games` FOREIGN KEY (game_id) REFERENCES games(id),
     CONSTRAINT `fk_games_collections_collections` FOREIGN KEY (collection_id) REFERENCES collections(id),
+    CONSTRAINT `fk_games_collections_formats` FOREIGN KEY (format_id) REFERENCES formats(id),
     CONSTRAINT `fk_games_collections_regions` FOREIGN KEY (region_id) REFERENCES regions(id),
+    CONSTRAINT `fk_games_collections_editions` FOREIGN KEY (edition_id) REFERENCES editions(id),
     CONSTRAINT `fk_games_collections_platforms` FOREIGN KEY (platform_id) REFERENCES platforms(id)
 );
 
@@ -208,4 +237,33 @@ CREATE TABLE `favorites` (
     CONSTRAINT `fk_favorites` FOREIGN KEY (game_id) REFERENCES games(id),
     CONSTRAINT `fk_favorites2` FOREIGN KEY (user_id) REFERENCES users(id),
     UNIQUE KEY `uq_favorites` (game_id, user_id)
+);
+
+
+CREATE TABLE `games_score` (
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    game_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    score DECIMAL(3, 2) NOT NULL,
+    last_update_date BIGINT NOT NULL,
+    CONSTRAINT `pk_games_score` PRIMARY KEY (id),
+    CONSTRAINT `fk_games_score` FOREIGN KEY (game_id) REFERENCES games(id),
+    CONSTRAINT `fk_games_score2` FOREIGN KEY (user_id) REFERENCES users(id),
+    UNIQUE KEY `uq_games_score` (game_id, user_id)
+);
+
+CREATE TABLE `users_games_status` (
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    game_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    status_id INTEGER NOT NULL,
+    score DECIMAL(3, 2) NOT NULL,
+    start_date BIGINT NOT NULL,
+    end_date BIGINT NOT NULL,
+    annotation VARCHAR(100),
+    CONSTRAINT `pk_users_games_status` PRIMARY KEY (id),
+    CONSTRAINT `fk_users_games_status` FOREIGN KEY (game_id) REFERENCES games(id),
+    CONSTRAINT `fk_users_games_status2` FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT `fk_users_games_status3` FOREIGN KEY (status_id) REFERENCES status(id),
+    UNIQUE KEY uq_users_games_status (game_id, user_id)
 );

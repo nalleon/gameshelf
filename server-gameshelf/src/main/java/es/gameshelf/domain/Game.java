@@ -164,7 +164,7 @@ public class Game {
 
     @Override
     public String toString() {
-        return "Game{" +
+        return "GameEntity{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +

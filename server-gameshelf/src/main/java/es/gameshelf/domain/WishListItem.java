@@ -156,7 +156,7 @@ public class WishListItem {
 
     @Override
     public String toString() {
-        return "WishListItem{" +
+        return "WishListItemEntity{" +
                 "id=" + id +
                 ", priority=" + priority +
                 ", additionDate=" + additionDate +

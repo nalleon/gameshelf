@@ -91,7 +91,7 @@ public class Favorite {
 
     @Override
     public String toString() {
-        return "Favorite{" +
+        return "FavoriteEntity{" +
                 "id=" + id +
                 ", user=" + user +
                 ", game=" + game +

@@ -1,0 +1,193 @@
+package es.gameshelf.model.entities;
+
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * @author Nabil L. A. @nalleon
+ */
+public class GameEntity {
+    /**
+     * Properties
+     */
+    private int id;
+    private String title;
+    private String releaseDate;
+    private String slug;
+    private String cover;
+    private int externalRating;
+    private Set<DeveloperEntity> developerEntitySet;
+    private Set<PublisherEntity> publisherEntitySet;
+    private Set<FormatEntity> formatEntitySet;
+    private Set<PlatformEntity> platformEntitySet;
+    private Set<GenreEntity> genreEntitySet;
+
+    /**
+     * Default constructor of the class
+     */
+    public GameEntity() {}
+
+    /**
+     * Constructor of the class
+     * @param id of the game
+     */
+    public GameEntity(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Constructor of the class
+     * @param title of the game
+     */
+    public GameEntity(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Full constructor of the class
+     * @param title of the game
+     * @param releaseDate of the game
+     * @param slug of the game
+     * @param cover of the game
+     * @param externalRating of the game
+     * @param developerEntitySet of the game
+     * @param publisherEntitySet of the game
+     * @param formatEntitySet of the game
+     * @param platformEntitySet of the game
+     * @param genreEntitySet of the game
+     */
+    public GameEntity(String title, String releaseDate, String slug, String cover, int externalRating,
+                      Set<DeveloperEntity> developerEntitySet, Set<PublisherEntity> publisherEntitySet, Set<FormatEntity> formatEntitySet,
+                      Set<PlatformEntity> platformEntitySet, Set<GenreEntity> genreEntitySet) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.slug = slug;
+        this.cover = cover;
+        this.externalRating = externalRating;
+        this.developerEntitySet = developerEntitySet;
+        this.publisherEntitySet = publisherEntitySet;
+        this.formatEntitySet = formatEntitySet;
+        this.platformEntitySet = platformEntitySet;
+        this.genreEntitySet = genreEntitySet;
+    }
+
+    /**
+     * Getters and setters
+     */
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public int getExternalRating() {
+        return externalRating;
+    }
+
+    public void setExternalRating(int externalRating) {
+        this.externalRating = externalRating;
+    }
+
+    public Set<DeveloperEntity> getDeveloperSet() {
+        return developerEntitySet;
+    }
+
+    public void setDeveloperSet(Set<DeveloperEntity> developerEntitySet) {
+        this.developerEntitySet = developerEntitySet;
+    }
+
+    public Set<PublisherEntity> getPublisherSet() {
+        return publisherEntitySet;
+    }
+
+    public void setPublisherSet(Set<PublisherEntity> publisherEntitySet) {
+        this.publisherEntitySet = publisherEntitySet;
+    }
+
+    public Set<FormatEntity> getFormatSet() {
+        return formatEntitySet;
+    }
+
+    public void setFormatSet(Set<FormatEntity> formatEntitySet) {
+        this.formatEntitySet = formatEntitySet;
+    }
+
+    public Set<PlatformEntity> getPlatformSet() {
+        return platformEntitySet;
+    }
+
+    public void setPlatformSet(Set<PlatformEntity> platformEntitySet) {
+        this.platformEntitySet = platformEntitySet;
+    }
+
+    public Set<GenreEntity> getGenreSet() {
+        return genreEntitySet;
+    }
+
+    public void setGenreSet(Set<GenreEntity> genreEntitySet) {
+        this.genreEntitySet = genreEntitySet;
+    }
+
+    @Override
+    public String toString() {
+        return "GameEntity{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", slug='" + slug + '\'' +
+                ", cover='" + cover + '\'' +
+                ", externalRating=" + externalRating +
+                ", developerEntitySet=" + developerEntitySet +
+                ", publisherEntitySet=" + publisherEntitySet +
+                ", formatEntitySet=" + formatEntitySet +
+                ", platformEntitySet=" + platformEntitySet +
+                ", genreEntitySet=" + genreEntitySet +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GameEntity gameEntity = (GameEntity) o;
+        return id == gameEntity.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+}

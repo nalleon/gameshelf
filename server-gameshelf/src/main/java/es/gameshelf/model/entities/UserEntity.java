@@ -1,4 +1,4 @@
-package es.gameshelf.domain;
+package es.gameshelf.model.entities;
 
 import java.util.Date;
 import java.util.Objects;
@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author Nabil L. A. @nalleon
  */
-public class User {
+public class UserEntity {
 
     /**
      * Properties
@@ -16,7 +16,7 @@ public class User {
     private String email;
     private String password;
     private String profilePicture;
-    private Role role;
+    private RoleEntity roleEntity;
     private int verified;
     private String verificationToken;
     private Date creationDate;
@@ -24,14 +24,14 @@ public class User {
     /**
      * Default constructor of the class
      */
-    public User() {
+    public UserEntity() {
     }
 
     /**
      * Constructor of the class
      * @param id of the user
      */
-    public User(int id) {
+    public UserEntity(int id) {
         this.id = id;
     }
 
@@ -39,7 +39,7 @@ public class User {
      * Constructor of the class
      * @param username of the user
      */
-    public User(String username) {
+    public UserEntity(String username) {
         this.username = username;
     }
 
@@ -50,20 +50,20 @@ public class User {
      * @param password of the user
      * @implNote for creating a user
      */
-    public User(String username, String email, String password) {
+    public UserEntity(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
-    public User(int id, String username, String email, String password,
-                String profilePicture, Role role) {
+    public UserEntity(int id, String username, String email, String password,
+                      String profilePicture, RoleEntity roleEntity) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.profilePicture = profilePicture;
-        this.role = role;
+        this.roleEntity = roleEntity;
     }
 
     /**
@@ -133,12 +133,12 @@ public class User {
         this.creationDate = creationDate;
     }
 
-    public Role getRole() {
-        return role;
+    public RoleEntity getRole() {
+        return roleEntity;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(RoleEntity roleEntity) {
+        this.roleEntity = roleEntity;
     }
 
     /**
@@ -147,8 +147,8 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
+        UserEntity userEntity = (UserEntity) o;
+        return id == userEntity.id;
     }
 
     @Override
@@ -163,7 +163,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
-                ", role=" + role +
+                ", roleEntity=" + roleEntity +
                 ", verified=" + verified +
                 ", verificationToken='" + verificationToken + '\'' +
                 ", creationDate=" + creationDate +

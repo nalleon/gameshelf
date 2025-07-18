@@ -1,4 +1,4 @@
-package es.gameshelf.domain;
+package es.gameshelf.model.entities;
 
 import java.util.Date;
 import java.util.Objects;
@@ -6,27 +6,27 @@ import java.util.Objects;
 /**
  * @author Nabil L. A. @nalleon
  */
-public class GameScore {
+public class GameScoreEntity {
     /**
      * Properties
      */
     private int id;
     private float score;
     private Date lastUpdate;
-    private User user;
-    private Game game;
+    private UserEntity userEntity;
+    private GameEntity gameEntity;
 
     /**
      * Default constructor of the class
      */
-    public GameScore() {
+    public GameScoreEntity() {
     }
 
     /**
      * Constructor of the class
      * @param id of GameScoreEntity
      */
-    public GameScore(int id) {
+    public GameScoreEntity(int id) {
         this.id = id;
     }
 
@@ -35,15 +35,15 @@ public class GameScore {
      * @param id of GameScoreEntity
      * @param score of GameScoreEntity
      * @param lastUpdate of GameScoreEntity
-     * @param user of GameScoreEntity
-     * @param game of GameScoreEntity
+     * @param userEntity of GameScoreEntity
+     * @param gameEntity of GameScoreEntity
      */
-    public GameScore(int id, float score, Date lastUpdate, User user, Game game) {
+    public GameScoreEntity(int id, float score, Date lastUpdate, UserEntity userEntity, GameEntity gameEntity) {
         this.id = id;
         this.score = score;
         this.lastUpdate = lastUpdate;
-        this.user = user;
-        this.game = game;
+        this.userEntity = userEntity;
+        this.gameEntity = gameEntity;
     }
 
     /**
@@ -73,27 +73,27 @@ public class GameScore {
         this.lastUpdate = lastUpdate;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
-    public Game getGame() {
-        return game;
+    public GameEntity getGame() {
+        return gameEntity;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGame(GameEntity gameEntity) {
+        this.gameEntity = gameEntity;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        GameScore gameScore = (GameScore) o;
-        return id == gameScore.id;
+        GameScoreEntity gameScoreEntity = (GameScoreEntity) o;
+        return id == gameScoreEntity.id;
     }
 
     @Override
@@ -107,8 +107,8 @@ public class GameScore {
                 "id=" + id +
                 ", score=" + score +
                 ", lastUpdate=" + lastUpdate +
-                ", user=" + user +
-                ", game=" + game +
+                ", userEntity=" + userEntity +
+                ", gameEntity=" + gameEntity +
                 '}';
     }
 }

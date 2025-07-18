@@ -26,7 +26,7 @@ public class GameCollectionItem {
 
     /**
      * Constructor of the class
-     * @param id of the GameCollectionItem
+     * @param id of the GameCollectionItemEntity
      */
     public GameCollectionItem(int id) {
         this.id = id;
@@ -34,14 +34,14 @@ public class GameCollectionItem {
 
     /**
      * Full constructor of the class
-     * @param id of the GameCollectionItem
-     * @param game of the GameCollectionItem
-     * @param collection of the GameCollectionItem
-     * @param format of the GameCollectionItem
-     * @param platform of the GameCollectionItem
-     * @param edition of the GameCollectionItem
-     * @param region of the GameCollectionItem
-     * @param additionDate  of the GameCollectionItem
+     * @param id of the GameCollectionItemEntity
+     * @param game of the GameCollectionItemEntity
+     * @param collection of the GameCollectionItemEntity
+     * @param format of the GameCollectionItemEntity
+     * @param platform of the GameCollectionItemEntity
+     * @param edition of the GameCollectionItemEntity
+     * @param region of the GameCollectionItemEntity
+     * @param additionDate  of the GameCollectionItemEntity
      */
     public GameCollectionItem(int id, Game game, Collection collection, Format format, Platform platform, Edition edition,
                               Region region, Date additionDate) {
@@ -136,7 +136,7 @@ public class GameCollectionItem {
 
     @Override
     public String toString() {
-        return "GameCollectionItem{" +
+        return "GameCollectionItemEntity{" +
                 "id=" + id +
                 ", game=" + game +
                 ", collection=" + collection +

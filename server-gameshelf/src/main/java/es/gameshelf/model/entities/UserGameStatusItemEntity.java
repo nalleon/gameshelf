@@ -1,4 +1,4 @@
-package es.gameshelf.domain;
+package es.gameshelf.model.entities;
 
 import java.util.Date;
 import java.util.Objects;
@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author Nabil L. A. @nalleon
  */
-public class UserGameStatusItem {
+public class UserGameStatusItemEntity {
 
     /**
      * Properties
@@ -16,21 +16,21 @@ public class UserGameStatusItem {
     private Date startDate;
     private Date endDate;
     private String annotation;
-    private User user;
-    private Game game;
-    private Status status;
+    private UserEntity userEntity;
+    private GameEntity gameEntity;
+    private StatusEntity statusEntity;
 
     /**
      * Default constructor of the class
      */
-    public UserGameStatusItem() {
+    public UserGameStatusItemEntity() {
     }
 
     /**
      * Constructor of the class
      * @param id of UserGameStatusItemEntity
      */
-    public UserGameStatusItem(int id) {
+    public UserGameStatusItemEntity(int id) {
         this.id = id;
     }
 
@@ -41,20 +41,20 @@ public class UserGameStatusItem {
      * @param startDate of UserGameStatusItemEntity
      * @param endDate of UserGameStatusItemEntity
      * @param annotation of UserGameStatusItemEntity
-     * @param user of UserGameStatusItemEntity
-     * @param game of UserGameStatusItemEntity
-     * @param status of UserGameStatusItemEntity
+     * @param userEntity of UserGameStatusItemEntity
+     * @param gameEntity of UserGameStatusItemEntity
+     * @param statusEntity of UserGameStatusItemEntity
      */
-    public UserGameStatusItem(int id, float userRating, Date startDate, Date endDate, String annotation,
-                              User user, Game game, Status status) {
+    public UserGameStatusItemEntity(int id, float userRating, Date startDate, Date endDate, String annotation,
+                                    UserEntity userEntity, GameEntity gameEntity, StatusEntity statusEntity) {
         this.id = id;
         this.userRating = userRating;
         this.startDate = startDate;
         this.endDate = endDate;
         this.annotation = annotation;
-        this.user = user;
-        this.game = game;
-        this.status = status;
+        this.userEntity = userEntity;
+        this.gameEntity = gameEntity;
+        this.statusEntity = statusEntity;
     }
 
     /**
@@ -100,34 +100,34 @@ public class UserGameStatusItem {
         this.annotation = annotation;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
-    public Game getGame() {
-        return game;
+    public GameEntity getGame() {
+        return gameEntity;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGame(GameEntity gameEntity) {
+        this.gameEntity = gameEntity;
     }
 
-    public Status getStatus() {
-        return status;
+    public StatusEntity getStatus() {
+        return statusEntity;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(StatusEntity statusEntity) {
+        this.statusEntity = statusEntity;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        UserGameStatusItem that = (UserGameStatusItem) o;
+        UserGameStatusItemEntity that = (UserGameStatusItemEntity) o;
         return id == that.id;
     }
 
@@ -144,9 +144,9 @@ public class UserGameStatusItem {
                 ", startDate=" + startDate +
                 ", finishDate=" + endDate +
                 ", annotation='" + annotation + '\'' +
-                ", user=" + user +
-                ", game=" + game +
-                ", status=" + status +
+                ", userEntity=" + userEntity +
+                ", gameEntity=" + gameEntity +
+                ", statusEntity=" + statusEntity +
                 '}';
     }
 }

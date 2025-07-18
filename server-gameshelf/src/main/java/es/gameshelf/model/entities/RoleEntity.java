@@ -1,10 +1,10 @@
-package es.gameshelf.domain;
+package es.gameshelf.model.entities;
 import java.util.Objects;
 
 /**
  * @author Nabil L. A. @nalleon
  */
-public class Role {
+public class RoleEntity {
     /**
      * Properties
      */
@@ -14,13 +14,13 @@ public class Role {
     /**
      * Default constructor of the class
      */
-    public Role() {}
+    public RoleEntity() {}
 
     /**
      * Constructor of the class
      * @param id of the role
      */
-    public Role(int id) {
+    public RoleEntity(int id) {
         this.id = id;
     }
 
@@ -28,7 +28,7 @@ public class Role {
      * Constructor of the class
      * @param name of the role
      */
-    public Role(String name) {
+    public RoleEntity(String name) {
         this.name = name;
     }
 
@@ -37,7 +37,7 @@ public class Role {
      * @param id of the role
      * @param name of the role
      */
-    public Role(int id, String name) {
+    public RoleEntity(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -67,7 +67,7 @@ public class Role {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Role that = (Role) o;
+        RoleEntity that = (RoleEntity) o;
         return Objects.equals(name, that.name);
     }
 

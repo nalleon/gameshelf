@@ -1,43 +1,51 @@
-package es.gameshelf.domain;
+package es.gameshelf.model.entities.abstracts;
+
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
 /**
  * @author Nabil L. A. @nalleon
  */
-public class Role {
+@MappedSuperclass
+public abstract class ClassificationEntity {
     /**
      * Properties
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false, unique = true)
     private String name;
 
     /**
      * Default constructor of the class
      */
-    public Role() {}
+    public ClassificationEntity() {}
 
     /**
      * Constructor of the class
-     * @param id of the role
+     * @param id of the classification
      */
-    public Role(int id) {
+    public ClassificationEntity(int id) {
         this.id = id;
     }
 
     /**
      * Constructor of the class
-     * @param name of the role
+     * @param name of the classification
      */
-    public Role(String name) {
+    public ClassificationEntity(String name) {
         this.name = name;
     }
 
     /**
      * Full constructor of the class
-     * @param id of the role
-     * @param name of the role
+     * @param id of the classification
+     * @param name of the classification
      */
-    public Role(int id, String name) {
+    public ClassificationEntity(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -67,7 +75,7 @@ public class Role {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Role that = (Role) o;
+        ClassificationEntity that = (ClassificationEntity) o;
         return Objects.equals(name, that.name);
     }
 
@@ -78,7 +86,7 @@ public class Role {
 
     @Override
     public String toString() {
-        return "RoleEntity{" +
+        return getClass().getSimpleName()+"{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
