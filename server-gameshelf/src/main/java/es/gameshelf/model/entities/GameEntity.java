@@ -2,15 +2,23 @@ package es.gameshelf.model.entities;
 
 import java.util.Objects;
 import java.util.Set;
+import jakarta.persistence.*;
 
 /**
  * @author Nabil L. A. @nalleon
  */
+@Entity
+@Table(name="games")
+@NamedQuery(name="GameEntity.findAll", query="SELECT r FROM GameEntity r")
 public class GameEntity {
     /**
      * Properties
      */
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(unique=true, nullable=false)
     private int id;
+    @Column(unique = true, nullable=false, length=100, name = "title")
     private String title;
     private String releaseDate;
     private String slug;

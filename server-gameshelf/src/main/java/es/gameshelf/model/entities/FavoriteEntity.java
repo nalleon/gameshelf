@@ -1,17 +1,31 @@
 package es.gameshelf.model.entities;
 
+import jakarta.persistence.*;
+
+import java.util.Objects;
 import java.util.Objects;
 
 /**
  * @author Nabil L. A. @nalleon
  */
+@Entity
+@Table(name="favorites")
+@NamedQuery(name="FavoriteEntity.findAll", query="SELECT r FROM FavoriteEntity r")
 public class FavoriteEntity {
 
     /**
      * Properties
      */
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(unique=true, nullable=false)
     private int id;
+    @ManyToOne()
+    @JoinColumn(nullable=false, name = "user_id")
     private UserEntity userEntity;
+
+    @ManyToOne()
+    @JoinColumn(nullable=false, name = "game_id")
     private GameEntity gameEntity;
 
     /**

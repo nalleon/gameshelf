@@ -1,9 +1,16 @@
 package es.gameshelf.model.entities;
 
 import es.gameshelf.domain.abstracts.Classification;
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
+
 /**
  * @author Nabil L. A. @nalleon
  */
+@Entity
+@Table(name="formats")
+@NamedQuery(name="FormatEntity.findAll", query="SELECT r FROM FormatEntity r")
 public class FormatEntity extends Classification {
     /**
      * Default constructor of the class

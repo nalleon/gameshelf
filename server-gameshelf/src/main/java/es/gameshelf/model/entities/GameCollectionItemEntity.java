@@ -1,22 +1,50 @@
 package es.gameshelf.model.entities;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 import java.util.Objects;
 
 /**
  * @author Nabil L. A. @nalleon
  */
+@Entity
+@Table(name = "games_collections")
+@NamedQuery(name="GameCollectionItemEntity.findAll", query="SELECT r FROM GameCollectionItemEntity r")
 public class GameCollectionItemEntity {
     /**
      * Properties
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private int id;
+    @ManyToOne()
+    @JoinColumn(nullable = false, name = "game_id")
     private GameEntity gameEntity;
+
+    @ManyToOne()
+    @JoinColumn(nullable = false, name = "collection_id")
     private CollectionEntity collectionEntity;
+
+    @ManyToOne()
+    @JoinColumn(name = "format_id")
     private FormatEntity formatEntity;
+
+    @ManyToOne()
+    @JoinColumn(name = "platform_id")
     private PlatformEntity platformEntity;
+
+    @ManyToOne()
+    @JoinColumn(name = "edition_id")
     private EditionEntity editionEntity;
+
+    @ManyToOne()
+    @JoinColumn(name = "region_id")
     private RegionEntity regionEntity;
+
+    @ManyToOne()
+    @JoinColumn(name = "addition_date")
     private Date additionDate;
     /**
      * Default constructor of the class
