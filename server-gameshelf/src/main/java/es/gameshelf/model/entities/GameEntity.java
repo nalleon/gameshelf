@@ -3,6 +3,8 @@ package es.gameshelf.model.entities;
 import java.util.Objects;
 import java.util.Set;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * @author Nabil L. A. @nalleon
@@ -18,13 +20,29 @@ public class GameEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(unique=true, nullable=false)
     private int id;
+
     @Column(unique = true, nullable=false, length=100, name = "title")
     private String title;
+
+    @Column(length=20, name = "release_date")
     private String releaseDate;
+
+    @Column(unique = true, nullable=false, length=100, name = "slug")
     private String slug;
+
+    @Column(length=255, name = "cover")
     private String cover;
+
+    @Column(name = "external_rating")
     private int externalRating;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @JoinTable(name = "games_developers",
+            joinColumns = { @JoinColumn(name = "game_id") },
+            inverseJoinColumns = { @JoinColumn(name = "developers_id")})
     private Set<DeveloperEntity> developerEntitySet;
+
     private Set<PublisherEntity> publisherEntitySet;
     private Set<FormatEntity> formatEntitySet;
     private Set<PlatformEntity> platformEntitySet;
