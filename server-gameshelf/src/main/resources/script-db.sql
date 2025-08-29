@@ -81,6 +81,23 @@ CREATE TABLE `games_platforms` (
     UNIQUE KEY `uq_games_platforms` (game_id, platform_id)
 );
 
+CREATE TABLE `tags` (
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    CONSTRAINT `pk_tags` PRIMARY KEY (id),
+    UNIQUE KEY `uq_tags_name` (name)
+);
+
+CREATE TABLE `games_tags` (
+    id INTEGER AUTO_INCREMENT NOT NULL,
+    game_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL,
+    CONSTRAINT `pk_games_tags` PRIMARY KEY (id),
+    CONSTRAINT `fk_games_tags_game` FOREIGN KEY (game_id) REFERENCES games(id),
+    CONSTRAINT `fk_games_tags_tag` FOREIGN KEY (tag_id) REFERENCES tags(id),
+    UNIQUE KEY `uq_games_tags` (game_id, tag_id)
+);
+
 CREATE TABLE `regions` (
     id INTEGER AUTO_INCREMENT NOT NULL,
     name VARCHAR(50) UNIQUE NOT NULL,

@@ -13,7 +13,6 @@ import java.util.Set;
 @NamedQuery(name="TagEntity.findAll", query="SELECT r FROM TagEntity r")
 public class TagEntity extends ClassificationEntity {
 
-
     @ManyToMany(mappedBy = "tagEntitySet", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     Set<GameEntity> games;
 
