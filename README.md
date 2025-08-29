@@ -175,9 +175,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -191,9 +188,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -217,9 +211,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -240,9 +231,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -261,9 +249,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -282,9 +267,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -302,9 +284,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -329,9 +308,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -351,9 +327,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -376,9 +349,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -426,9 +396,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -468,9 +435,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-<div align="center">
-༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶༶
-</div>
 
 <br>
 
@@ -569,7 +533,7 @@ mvn spring-boot:run
 ```
 > Se recomienda el uso de SoapUI para interaccionar. 
 
-## Roadmap 🛤️
+## Futuras implementaciones 🛤️
 
 - Implementacion de una lista de deseos
 - Implementación de búsqueda y pricing en Ebay
