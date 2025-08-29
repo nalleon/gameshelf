@@ -522,11 +522,22 @@ Esta ha sido la selección principal de colores que compondran la estética de l
     <img src="./img/color-pallete.png">
 </div>
 
+<br>
 
 
 ### Wireframes 📱
 
-WIP.
+
+En cuanto a las decisiones de diseño para la aplicación se ha tomado el siguiente enfoque para la página de administración:
+
+
+<div align="center">
+    <img src="./img/wf-admin.jpg">
+</div>
+
+
+> [Click aquí para verlo en más detalle](./img/wf-admin.pdf)
+
 
 
 ***
@@ -556,7 +567,7 @@ Una vez hecho el comando anterior, se debe de ir a esta URL: http://localhost:80
 ```bash
 mvn spring-boot:run
 ```
-> Se recomienda el uso de SoapUI para intereaccionar. 
+> Se recomienda el uso de SoapUI para interaccionar. 
 
 ## Roadmap 🛤️
 
