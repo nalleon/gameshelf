@@ -136,7 +136,7 @@ Estas son las tecnologías que se utilizaran a lo largo del desarrollo de GameSh
 
 ## Diseño lógico
 
-### Diagrama de Casos de Uso 🧭
+### Diagrama de Casos de Uso
 
 <div align="center">
     <img src="./img/gs-cu.png">
