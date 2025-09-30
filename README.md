@@ -168,7 +168,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Foto_perfil`        | Imagen   |       | Ruta o URL de la imagen              |
 | `Rol_ID`             | Entero   | FK    | Clave foránea al rol del usuario     |
 
-| 🔗 Relaciones                                                                |
+|  Relaciones                                                                |
 | --------------------------------------------------------------------------- |
 | Un Usuario tiene un Rol.                                                    |
 | Un Usuario tiene muchas Reseñas, Colecciones, Listas de Deseos y Favoritos. |
@@ -202,7 +202,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Fecha_lanzamiento` | Texto  |       | Fecha de lanzamiento al mercado    |
 | `Nota_Metacritic`   | Float  |       | Puntuacion de metacritic del juego |
 
-| 🔗 Relaciones                                                                                     |
+|  Relaciones                                                                                     |
 | ------------------------------------------------------------------------------------------------ |
 | Un juego puede tener muchas Reseñas.                                                             |
 | Un juego aparece en múltiples Colecciones y Listas de Deseados.                                  |
@@ -222,7 +222,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Nombre` | Texto  |       | Nombre visible del elemento            |
 
 
-| 🔗 Relaciones                                                             |
+|  Relaciones                                                             |
 | ------------------------------------------------------------------------ |
 | De esta heredan: Género, Publisher, Desarrolladora, Formato, Plataforma. |
 | Un Juego puede tener múltiples valores de estas categorías.              |
@@ -243,7 +243,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Siglas` | Texto  |       | Código abreviado (EU, JP, etc) |
 
 
-| 🔗 Relaciones                                                                                  |
+|  Relaciones                                                                                  |
 | --------------------------------------------------------------------------------------------- |
 | Se utiliza en JuegoColección y Lista de Deseados para indicar versiones regionales de juegos. |
 
@@ -261,7 +261,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Descripción` | Texto  |       | Breve descripción del tipo |
 
 
-| 🔗 Relaciones                                                                           |
+|  Relaciones                                                                           |
 | -------------------------------------------------------------------------------------- |
 | Se utiliza en JuegoColección y Lista de Deseados para indicar ediciones de los juegos. |
 
@@ -277,7 +277,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `ID`         | Entero | PK    | Identificador de la colección       |
 | `Usuario_ID` | Entero | FK    | Usuario propietario de la colección |
 
-| 🔗 Relaciones                                                       |
+|  Relaciones                                                       |
 | ------------------------------------------------------------------ |
 | Un usuario tiene una colección.                                    |
 | Una colección contiene múltiples juegos mediante `JuegoColección`. |
@@ -301,7 +301,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Edicion_ID`    | Entero | FK    | Edicion del juego en esa colección                  |
 
 
-| 🔗 Relaciones                                                    |
+|  Relaciones                                                    |
 | --------------------------------------------------------------- |
 | Tabla de la entidad intermedia N:M entre `Colección` y `Juego`. |
 | Almacena detalles específicos del ejemplar del juego.           |
@@ -321,7 +321,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Juego_ID`   | Entero | FK    | Juego marcado como favorito   |
 
 
-| 🔗 Relaciones                                               |
+|  Relaciones                                               |
 | ---------------------------------------------------------- |
 | Tabla de entidad intermedia N:M entre `Usuario` y `Juego`. |
 
@@ -342,7 +342,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Juego_ID`            | Entero       | FK    | Clave foránea al juego al que pertenece la reseña |
 
 
-| 🔗 Relaciones                                                                                  |
+|  Relaciones                                                                                  |
 | --------------------------------------------------------------------------------------------- |
 | Un Usuario puede crear varias Reseñas, pero cada Reseña pertenece a un único Usuario (1:N).   |
 | Cada Reseña hace referencia a un único Juego, pero un Juego puede tener muchas Reseñas (1:N). |
@@ -360,7 +360,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Ruta_imagen` | Texto        |       | Enlace o ruta al archivo de imagen                   |
 | `Reseña_ID`   | Entero       | FK    | Clave foránea a la reseña a la que pertenece la foto |
 
-| 🔗 Relaciones                                                                                 |
+|  Relaciones                                                                                 |
 | -------------------------------------------------------------------------------------------- |
 | Una reseña puede tener muchas fotos, pero esas fotos pertenecen a esa Reseña concreta (1:N). |
 
@@ -390,7 +390,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Fecha_creación` | Fecha  |       | Fecha en la que se añadió             |
 | `Anotación`      | Texto  |       | Nota personalizada del usuario        |
 
-| 🔗 Relaciones                                                                 |
+|  Relaciones                                                                 |
 | ---------------------------------------------------------------------------- |
 | N:M entre `Usuario` y `Juego`, con datos adicionales (formato, región, etc). |
 
@@ -409,7 +409,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Valor`      | Float  |       | Nota asignada                               |
 | `Fecha`      | Fecha  |       | Fecha en la que se creó o actualizó la nota |
 
-| 🔗 Relaciones                                                                                  |
+|  Relaciones                                                                                  |
 | --------------------------------------------------------------------------------------------- |
 |  Un juego puede ser puntuado por varios usuarios (1:N). |
 |  Un usuario puede puntuar varios juegos, pero esa nota concreta pertenece a un usuario y un juego en específico (1:N).|
@@ -451,7 +451,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 | `Fecha_agregado` | Fecha  |       | Fecha en la que el usuario añadió este juego a su lista |
 
 
-| 🔗 Relaciones                                                                                  |
+|  Relaciones                                                                                  |
 | --------------------------------------------------------------------------------------------- |
 |   Un usuario puede tener muchos juegos en diferentes estados. |
 |   Un juego puede estar en diferentes listas de distintos usuarios.|
@@ -461,7 +461,7 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 <br>
 
 
-### Diagrama de Clases 🧱 
+### Diagrama de Clases 
 
 WIP.
 ### Diagrama de Paquetes
