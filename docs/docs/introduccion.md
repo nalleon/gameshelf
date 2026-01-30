@@ -4,9 +4,21 @@ icon: lucide/info
 
 # Introducción
 
-GameShelf es una aplicación diseñada y enfocado en ayudar a los jugadores a  organizar títulos de su colección actual así como encontrar futuras adquisiciones. Haciendo especial hincapíe en el formato (físico, digital), el tipo de edición (standard, day one, deluxe, coleccionista, etc) y la región (USA, EU, JP, CN, etc).
+Este documento pretende presentar al equipo educativo nuestra propuesta de proyecto como alumnado de C.F.G.S. Desarrollo de Aplicaciones Web (DAW). 
 
-Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su colección y que busquen una herramienta sencilla y eficaz para organizarlas y encontrar nuevos elementos para complementarlas.
+En la actualidad, no solo el coleccionismo de videojuegos, si no el juego en sí, se ha convertido en una afición cada vez más popular entre jugadores de todas las edades. Sin embargo, los entusiastas de este hobby a menudo enfrentan limitaciones a la hora de organizar, compartir y descubrir nuevas entregas, especialmente aquellas que varían según región, plataforma o formato. Con el objetivo de responder a esta necesidad, surge nuestra aplicación: _**GameShelf**_. 
+
+Este proyecto busca: 
+
+- Permitir a los usuarios registrar, clasificar y consultar tanto su colección personal de videojuegos como llevar un registro de aquellos que ha jugado de forma detallada.
+
+- Integrar funcionalidades sociales como reseñas, y el descubrimiento de nuevos títulos que añadir a tu lista de pendientes de jugar o la de tu colección.
+
+- Ofrecer una base de datos que distinga ediciones según región, consola y formato, con especial atención a títulos retro y físicos.
+
+- Facilitar el descubrimiento de juegos o ciertas ediciones a través de las colecciones de otros usuarios, impulsando la pasión por el coleccionismo.
+
+Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su colección y/o lista de juegos, y que busquen una herramienta sencilla y eficaz para organizarlas y encontrar nuevos elementos para complementarlas.
 
 
 ## Características principales 
@@ -34,7 +46,7 @@ Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su
 Estas son las tecnologías que se utilizaran a lo largo del desarrollo de GameShelf:
 
 - **Documentación:**
-    - [MkDocs + Zensical](https://daringfireball.net/projects/markdown/) para la creación de la documentación
+    - [MkDocs + Zensical](https://daringfireball.net/projects/markdown/) para la creación de la documentación.
     - [DrawIO](https://app.diagrams.net/) para el diseño de los diagramas.
     - [Miro](https://miro.com/diagramming/) para el diseño de la interfaz.
 

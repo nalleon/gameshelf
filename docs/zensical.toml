@@ -8,16 +8,19 @@
 
 [project]
 
+repo_url = "https://github.com/nalleon/gameshelf"
+repo_name = "nalleon/gameshelf"
+
 # The site_name is shown in the page header and the browser window title
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_name
-site_name = "Documentación de Lumino"
+site_name = "Documentación de GameShelf"
 
 # The site_description is included in the HTML head and should contain a
 # meaningful description of the site content for use by search engines.
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_description
-site_description = "A new project generated from the default template project."
+site_description = "Documentación para la aplicación GameShelf"
 
 # The site_author attribute. This is used in the HTML head element.
 #
@@ -27,7 +30,7 @@ site_author = "Nabil León Álvarez y Pedro Martín Escuela"
 # The site_url is the canonical URL for your site. When building online
 # documentation you should set this.
 # Read more: https://zensical.org/docs/setup/basics/#site_url
-#site_url = "https://www.lumino.com/"
+#site_url = "https://www.gameshelf.com/"
 
 # The copyright notice appears in the page footer and can contain an HTML
 # fragment.
@@ -47,13 +50,13 @@ Copyright &copy; 2025 Pedro Martín Escuela & Nabil León Álvarez
 nav = [
     "index.md",
     "introduccion.md",
-    "requisitos.md",
+    "origen.md",
+    "objetivo-general.md",
+    "tecnologias.md",
     "disenio.md",
-    "implementacion.md",
-    "pruebas.md",
-    "despliegue.md",
+    "tareas.md",
+    "planificacionempresarial.md",
     "manualusr.md",
-    "mantenimiento.md",
     "conclusion.md"
 ]
 
@@ -270,11 +273,13 @@ features = [
 scheme = "default"
 toggle.icon = "lucide/sun"
 toggle.name = "Switch to dark mode"
+accent = "teal"
 
 [[project.theme.palette]]
 scheme = "slate"
 toggle.icon = "lucide/moon"
 toggle.name = "Switch to light mode"
+accent = "teal"
 
 # ----------------------------------------------------------------------------
 # In the "font" subsection you can configure the fonts used. By default, fonts
@@ -308,8 +313,7 @@ toggle.name = "Switch to light mode"
 # ----------------------------------------------------------------------------
 # The "extra" section contains miscellaneous settings.
 # ----------------------------------------------------------------------------
-#[[project.extra.social]]
-#icon = "fontawesome/brands/github"
-#link = "https://github.com/user/repo"
-
+[[project.extra.social]]
+icon = "fontawesome/brands/docker"
+link = "https://github.com/user/repo"
 

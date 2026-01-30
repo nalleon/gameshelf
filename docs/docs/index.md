@@ -15,8 +15,9 @@ icon: lucide/tower-control
 <figure markdown="span" class="img-light">
 
   ![Logo](assets/lumino-docs-light.png)
-  
+
   <figcaption>
     Organiza. Muestra. Encuentra.
   </figcaption>
+
 </figure>

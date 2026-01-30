@@ -1,3 +1,7 @@
+* {
+  text-align: justify;
+}
+
 .img-dark {
   display: none;
 } 
@@ -13,4 +17,3 @@
 [data-md-color-scheme="slate"] .img-dark {
   display: inline;
 }
-
