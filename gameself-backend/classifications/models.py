@@ -12,10 +12,9 @@ class Classification(models.Model):
 class Edition(Classification):
     pass
 
-
 class Region(Classification):
-    pass
-
+    acronym = models.CharField(max_length=2)
+    icon = models.ImageField(upload_to='regions', default='regions/default.png', null=True, blank=True)
 
 class Genre(Classification):
     pass

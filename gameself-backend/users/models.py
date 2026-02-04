@@ -8,7 +8,7 @@ class Profile(models.Model):
         USER = 'User'
         ADMIN = 'Admin'
 
-    avatar = models.ImageField(upload_to='avatars', default='avatars/noavatar.png', null=True, blank=True)
+    avatar = models.ImageField(upload_to='avatars', default='avatars/default.png', null=True, blank=True)
     bio = models.TextField(blank=True)
     verified = models.BooleanField(default=False)
     
