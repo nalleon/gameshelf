@@ -201,6 +201,8 @@ dump-data:
 @load-data: clean-data && show-users
     uv run manage.py loaddata fixtures/auth.json fixtures/games.json fixtures/platforms.json fixtures/categories.json fixtures/users.json fixtures/orders.json
 
-# Get pypas score
-@score:
-    pypas test | grep "RESULTADO FINAL" -A4
+
+[group('testing')]
+coverage: 
+    uv run pytest --rich --cov=./ --cov-report=xml --cov-report=html
+    echo "Coverage report generated: coverage.xml and html/index.html"
