@@ -6,7 +6,7 @@
   <strong>
     Autor: 
     <span style="color: #688d7a;">
-      <a href="https://github.com/nalleon" target="_blank" style="color: #688d7a; text-decoration: none;">Nabil L. A. @nalleon</a>
+      <a href="https://github.com/nalleon" target="_blank" style="color: #688d7a; text-decoration: none;">Nabil L. A. @nalleon & Pedro M. E. @PeterMartEsc</a>
     </span>
   </strong>
 </div>
@@ -18,8 +18,11 @@
 
 >    ___Organiza. Muestra. Encuentra.___
 
+**_La documentacíon esta siendo migrada Zensical._**
+
 </div>
 
+<br>
 
 ## Índice
 - [Descripción del proyecto](#descripción-del-proyecto--)
@@ -90,49 +93,6 @@ Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su
 - Visualización clara y organizada de la colección, con filtros para facilitar el acceso rápido a cualquier título.
 
 - Soporte para múltiples plataformas y tipos de juegos, adaptándose a colecciones variadas.
-
-
-### Arquitectura y tecnologías
-
-Estas son las tecnologías que se utilizaran a lo largo del desarrollo de GameShelf:
-
-- **Documentación:**
-    - [Markdown](https://daringfireball.net/projects/markdown/) para la creación de documentos estructurados y legibles.
-    - [Swagger UI](https://swagger.io/tools/swagger-ui/) como interfaz gráfica para la documentación de la API rest.
-    - [SoapUI](https://www.soapui.org/) como interfaz gráfica para la documentación de los servicios SOAP.
-    - [DrawIO](https://app.diagrams.net/) para el diseño de los diagramas.
-    - [Miro](https://miro.com/diagramming/) para el diseño de la interfaz.
-
-- **Gestión de Dependencias:**
-    - [Maven](https://www.mysql.com/) para la gestión de dependencias y compilación del proyecto.
-
-- **Bases de Datos y ORM:**
-    - [MySQL](https://www.sqlite.org/index.html) como base de datos relacional.
-    - [Hibernate/JPA](https://hibernate.org/) como ORM para la gestión de entidades relacionales.
-
-- **Testing**
-    - [JUnit5](https://junit.org/junit5/) para los tests unitarios.
-    - [Mockito](https://site.mockito.org/) como biblioteca de mockeo para los tests.
-
-- **Frameworks:**
-    - [Spring Boot](https://spring.io/projects/spring-boot) como framework principal para el desarrollo de la aplicación del lado del server.
-    - [Spring Data JPA](https://spring.io/projects/spring-data-jpa) para la interacción con bases de datos relacionales.
-    - [React](https://es.react.dev/) para el cliente de administración web de la aplicación.
-    - [React Native](https://reactnative.dev/) para el cliente de aplicación móvil.
-
-- **Securización:**
-    - [Spring Security](https://spring.io/projects/spring-security): como framework para la gestión de autenticación y autorización.
-    - [JSON Web Tokens (JWT)](https://jwt.io/): para la creación y validación de tokens seguros para la autenticación de usuarios.
-    - [Spring Security Test](https://docs.spring.io/spring-security/reference/testing/overview.html): para facilitar la creación de pruebas relacionadas con la seguridad.
-
-
-- **Despliegue:**
-    - [Docker](https://www.docker.com/) para la creación de contenedores y despliegue del proyecto en diferentes entornos.
-
-- **APIs:**
-    - [RAWGApi](https://rawg.io/apidocs) para obtener los videojuegos. 
-    - [eBay](https://developer.ebay.com/api-docs/static/gs_ebay-rest-getting-started-landing.html) para las búsquedas de nuevos elementos para la colección y estadísticas/comparativas de precios. 
-    - [Mercari](https://api.mercari-shops.com/docs/index.html) para las búsquedas de nuevos elementos para la colección y estadísticas/comparativas de precios.
 
 ## Diseño lógico
 
@@ -464,15 +424,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 ### Diagrama de Clases 
 
 WIP.
-### Diagrama de Paquetes
-
-Tras analizar la complejidad del proyecto GameShelf, se ha decidido utilizar una estructura basada en el patrón Modelo-Vista-Controlador (MVC), ya que permite organizar el código de forma clara y facilita su mantenimiento.
-
-Sin embargo, para lograr una mayor flexibilidad y separar mejor la lógica del negocio de la infraestructura, también se integran elementos de la arquitectura hexagonal. Esta combinación permite que la aplicación pueda trabajar con distintas tecnologías (como bases de datos relacionales o no relacionales) sin modificar el núcleo del sistema. Aislando así la lógica de negocio y haciendola independiente de cómo o dónde se almacenan los datos, lo que facilita futuras integraciones o cambios tecnológicos.
-
-<div align="center">
-    <img src="./img/gs-dpkg.png">
-</div>
 
 
 ## Diseño visual 
@@ -512,29 +463,5 @@ En cuanto a las decisiones de diseño para la aplicación se ha tomado el siguie
 ## Instrucciones de instalación y uso
 ### Documentación de la API 
 
-#### Servicios REST
-Toda la documentación de estos endpoints de la API rest están disponibles en Swagger através de la siguiente URL: http://localhost:8080/swagger-ui/index.html.
-
-Para acceder a ella, simplemente compila y ejecuta el proyecto con el siguiente comando en la terminal:
-
-```bash
-mvn spring-boot:run
-```
-
-#### Servicios SOAP
-La documentación completa de los servicios SOAP puede consultarse a través de sus respectivos WSDLs, como por ejemplo puede ser: {http://impl.soap.service.gameshelf.es/}GameSoapService para los juegos. 
-
-Una vez hecho el comando anterior, se debe de ir a esta URL: http://localhost:8080/services
-
-
-
-```bash
-mvn spring-boot:run
-```
-> Se recomienda el uso de SoapUI para interaccionar. 
-
-## Futuras implementaciones
-
-- Implementación de búsqueda y pricing en Ebay
 
 </div>

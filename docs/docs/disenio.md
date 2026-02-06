@@ -41,11 +41,13 @@ erDiagram
     CLASIFICACIÓN {
         int ID
         string Nombre
+        string Descripcion
     }
 
     REVIEW {
         int ID
         string Contenido
+        boolean Recomendado
         date Fecha_actualizacion
         date Fecha_creacion
     }
@@ -84,6 +86,8 @@ erDiagram
     REGIÓN {
         int ID
         string Nombre
+        string Descripcion
+        string Icono
         string Siglas
     }
 
@@ -108,13 +112,14 @@ erDiagram
     %% Coleccion
     USUARIO ||--o{ COLECCION : posee
     JUEGO ||--o{ COLECCION : forma_parte
-
+    EDICIÓN ||--o{ COLECCION : define
+    REGIÓN }o--o{ COLECCION : aplica
+    
     %% Biblioteca
     USUARIO ||--o{ BIBLIOTECA : gestiona
     JUEGO ||--o{ BIBLIOTECA : aparece_en
     ESTADO_BIBLIOTECA ||--o{ BIBLIOTECA : define
-    EDICIÓN ||--o{ BIBLIOTECA : define
-    REGIÓN }o--o{ BIBLIOTECA : aplica
+
 
     %% Lista de deseos
     USUARIO ||--o{ LISTA_DESEOS : crea
@@ -136,6 +141,17 @@ erDiagram
 ### Principios del diseño
 
 ### Paleta de colores
+
+<figure markdown="span" class="img-light">
+
+  ![Logo](assets/color-pallete.png)
+
+  <figcaption>
+    Organiza. Muestra. Encuentra.
+  </figcaption>
+
+</figure>
+
 
 ### Vistas
 #### Wireframe
