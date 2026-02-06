@@ -5,8 +5,8 @@ from django.db import models
 
 class Profile(models.Model):
     class Role(models.TextChoices):
-        USER = 'User'
-        ADMIN = 'Admin'
+        USER = 'U', 'User'
+        ADMIN = 'A', 'Admin'
 
     avatar = models.ImageField(upload_to='avatars', default='avatars/default.png', null=True, blank=True)
     bio = models.TextField(blank=True)

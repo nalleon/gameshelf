@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'classifications.apps.ClassificationsConfig',
     'colecctions.apps.ColecctionsConfig',
     'users.apps.UsersConfig',
+    'libraries.apps.LibrariesConfig',
 ]
 
 MIDDLEWARE = [

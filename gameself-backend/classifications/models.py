@@ -28,5 +28,5 @@ class Publisher(Classification):
     pass
 
 
-class Format(Classification):
+class Platform(Classification):
     pass
