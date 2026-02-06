@@ -55,15 +55,11 @@
         </details>
 
     - [Diagrama de Clases](#diagrama-de-clases-)
-    - [Diagrama de Paquetes](#diagrama-de-paquetes-)
 - [Diseño visual](#diseño-visual)
     - [Paleta de colores](#paleta-de-colores-)
     - [Wireframes](#wireframes-)
 - [Instrucciones de instalación y uso](#instrucciones-de-instalación-y-uso-️)
     - [Documentación de la API](#documentación-de-la-api-)
-        - [Servicios REST](#servicios-rest)
-        - [Servicios SOAP](#servicios-soap)
-- [Roadmap](#roadmap-️)
 
 ***
 
