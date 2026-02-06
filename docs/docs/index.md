@@ -2,7 +2,6 @@
 icon: lucide/tower-control
 ---
 
-
 # GameShelf
 
 ![Python](https://img.shields.io/badge/Python-%3E%3D3.13-blue?logo=python&logoColor=white)
@@ -11,10 +10,9 @@ icon: lucide/tower-control
 ![TypeScript](https://img.shields.io/badge/TypeScript-4.x-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?logo=tailwind-css&logoColor=white)
 
+<figure markdown="span">
 
-<figure markdown="span" class="img-light">
-
-  ![Logo](assets/cover-logo.png)
+![Logo](assets/cover-logo.png)
 
   <figcaption>
     Organiza. Muestra. Encuentra.

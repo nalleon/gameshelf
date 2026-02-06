@@ -114,7 +114,7 @@ erDiagram
     JUEGO ||--o{ COLECCION : forma_parte
     EDICIÓN ||--o{ COLECCION : define
     REGIÓN }o--o{ COLECCION : aplica
-    
+
     %% Biblioteca
     USUARIO ||--o{ BIBLIOTECA : gestiona
     JUEGO ||--o{ BIBLIOTECA : aparece_en
@@ -142,17 +142,36 @@ erDiagram
 
 ### Paleta de colores
 
-<figure markdown="span" class="img-light">
+<figure markdown="span">
 
-  ![Logo](assets/color-pallete.png)
+![Logo](assets/color-pallete.png)
 
   <figcaption>
-    Organiza. Muestra. Encuentra.
+        Paleta de colores escogida en [ColorMind](http://colormind.io/)
   </figcaption>
 
 </figure>
 
-
 ### Vistas
+
+#### Sketch
+
+En cuanto al skecth, hemos hecho un boceto a mano alzada, y ha quedado de la siguiente manera:
+
+![Sketch](assets/sketch.png)
+
 #### Wireframe
+
+El Wireframe de la aplicación lo hemos realizado con [Moqups](moqups.com/es).
+
+En esta etapa del diseño decidimos añadir una pantalla más que en el sketch para detallar la aplicación un poco más, así que obtenemos un total de 4 pantallas (register, login (autenticación), home y pantalla de detalles de un juego).
+
+![Wireframe-Login](assets/wf-1.png)
+
+![Wireframe-Register](assets/wf-2.png)
+
+![Wireframe-Principal](assets/wf-3.png)
+
+![Wireframe-Especifico](assets/wf-4.png)
+
 #### MockUp
