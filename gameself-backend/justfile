@@ -154,24 +154,39 @@ show-users password="1234":
 [group('data')]
 clean-data:
     #!/usr/bin/env bash
-    uv run manage.py shell -v0 -c '
+    uv run manage.py shell <<'PYTHON'
+    from django.contrib.auth.models import User
+    from games.models import Game, Review, FavoriteItem, Media
+    from colecctions.models import CollectionItem
+    from libraries.models import LibraryItem
+    from users.models import Profile, Token
+
     Game.objects.all().delete()
-    Platform.objects.all().delete()
-    Category.objects.all().delete()
+    Review.objects.all().delete()
+    FavoriteItem.objects.all().delete()
+    Media.objects.all().delete()
+    CollectionItem.objects.all().delete()
+    LibraryItem.objects.all().delete()
+    Profile.objects.all().delete()
+    Token.objects.all().delete()
     User.objects.exclude(is_superuser=True).delete()
-    ' 
-    sqlite3 db.sqlite3 '
-    delete from sqlite_sequence where
-    name='\''games_game'\'' or
-    name='\''games_game_platforms'\'' or
-    name='\''games_review'\'' or
-    name='\''orders_order'\'' or
-    name='\''categories_category'\'' or
-    name='\''orders_order_games'\'' or
-    name='\''platforms_platform'\'' or
-    name='\''users_token'\'';
-    update sqlite_sequence set seq=1 where name='\''auth_user'\'';
-    '
+    PYTHON
+
+        sqlite3 db.sqlite3 <<'SQL'
+    DELETE FROM sqlite_sequence WHERE
+    name="games_game" OR
+    name="games_review" OR
+    name="games_favoriteitem" OR
+    name="games_media" OR
+    name="colecctions_collectionitem" OR
+    name="colecctions_wishlistitem" OR
+    name="libraries_libraryitem" OR
+    name="users_profile" OR
+    name="users_token";
+
+    UPDATE sqlite_sequence SET seq=1 WHERE name="auth_user";
+    SQL
+
 
 # Generate fake data and populate database
 [group('data')]
@@ -183,23 +198,45 @@ gen-data: clean-data
     uv run manage.py gen_data
     echo "✔ Fake data generated and loaded into database."
 
-# Dump database data into fixtures
+
 [group('data')]
 [private]
 dump-data:
     #!/usr/bin/env bash
     uv run manage.py dumpdata auth.User > fixtures/auth.json
-    uv run manage.py dumpdata games > fixtures/games.json
-    uv run manage.py dumpdata platforms > fixtures/platforms.json
-    uv run manage.py dumpdata categories > fixtures/categories.json
     uv run manage.py dumpdata users > fixtures/users.json
-    uv run manage.py dumpdata orders > fixtures/orders.json
-    echo "✔ Data dumped into fixtures/*.json"
+
+    uv run manage.py dumpdata auth.User \
+        --indent 2 > fixtures/auth.json
+
+    uv run manage.py dumpdata users \
+        --indent 2 > fixtures/users.json
+
+    uv run manage.py dumpdata classifications \
+        --indent 2 > fixtures/classifications.json
+
+    uv run manage.py dumpdata games \
+        --indent 2 > fixtures/games.json
+
+    uv run manage.py dumpdata colecctions \
+        --indent 2 > fixtures/collections.json
+
+    uv run manage.py dumpdata libraries \
+        --indent 2 > fixtures/libraries.json
+
+    echo "Data dumped into fixtures/*.json"
+
 
 # Load fixtures into database
 [group('data')]
 @load-data: clean-data && show-users
-    uv run manage.py loaddata fixtures/auth.json fixtures/games.json fixtures/platforms.json fixtures/categories.json fixtures/users.json fixtures/orders.json
+    uv run manage.py loaddata fixtures/auth.json 
+    uv run manage.py loaddata fixtures/editions.json
+    uv run manage.py loaddata fixtures/regions.json
+    uv run manage.py loaddata fixtures/genres.json
+    uv run manage.py loaddata fixtures/developers.json
+    uv run manage.py loaddata fixtures/publishers.json
+    uv run manage.py loaddata fixtures/platforms.json
 
 
 [group('testing')]
