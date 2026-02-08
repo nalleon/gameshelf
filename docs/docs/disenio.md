@@ -14,118 +14,125 @@ icon: lucide/pencil-ruler
 
 ```mermaid
 erDiagram
+    EDICIÓN {}
+    GÉNERO {}
+    DESARROLLADORA {}
+    DISTRIBUIDORA {}
+    PLATAFORMA {}
+
+    REGIÓN {
+        CharField Siglas
+        ImageField Icono
+    }
+
+    CLASIFICACIÓN {
+        CharField Nombre
+        TextField Descripcion
+    }
+
+    JUEGO {
+        CharField Titulo
+        SlugField Slug
+        TextField Descripción
+        ImageField Caratula
+        DateField Fecha_lanzamiento
+    }
+
+
+    REVIEW {
+        TextField Contenido
+        BooleanField Recomendado
+        DateField Fecha_actualizacion
+        DateField Fecha_creacion
+    }
+
+    MEDIA {
+        ImageField Image
+    }
+
+    COLECCION {
+        ChardField Tipo
+        DateField Fecha_adquisicion
+    }
+
+    LISTA_DESEOS {
+        SmallPositiveIntegerField Prioridad
+        CharField Anotacion
+        DateField Fecha_creacion
+    }
+
+    BIBLIOTECA {
+        DecimalField Horas_jugadas
+        DateField Fecha_creacion
+        DateField Fecha_actualizacion
+    }
+
+    ESTADO {
+        ChardField Nombre
+    }
+
+
+    FAVORITO {}
 
     USUARIO {
         user Django
     }
 
     PERFIL {
-        string Avatar
-        string Biografia
-        boolean Verificado
+        ImageField Avatar
+        TextField Biografia
+        BooleanField Verificado
     }
 
     ROL {
-        int ID
-        string Nombre
-    }
-
-    JUEGO {
-        int ID
-        string Titulo
-        string Caratula
-        string Slug
-        date Fecha_lanzamiento
-    }
-
-    CLASIFICACIÓN {
-        int ID
-        string Nombre
-        string Descripcion
-    }
-
-    REVIEW {
-        int ID
-        string Contenido
-        boolean Recomendado
-        date Fecha_actualizacion
-        date Fecha_creacion
-    }
-
-    MEDIA_REVIEW {
-        int ID
-        string Tipo
-        string Url
-        int Orden
-    }
-
-    COLECCION {
-        int ID
-        string Tipo
-        date Fecha_adquisicion
-    }
-
-    ESTADO_BIBLIOTECA {
-        int ID
-        string Nombre
-    }
-
-    BIBLIOTECA {
-        int ID
-        float Horas_jugadas
-        date Fecha_creacion
-        date Fecha_actualizacion
-    }
-
-    EDICIÓN {
-        int ID
-        string Nombre
-        string Descipción
-    }
-
-    REGIÓN {
-        int ID
-        string Nombre
-        string Descripcion
-        string Icono
-        string Siglas
+        CharField Nombre
     }
 
 
-    LISTA_DESEOS {
-        int ID
-        int Prioridad
-        string Anotacion
-        date Fecha_creacion
-    }
+    %% Herencia
+    GÉNERO ||--|| CLASIFICACIÓN : "hereda de"
+    DESARROLLADORA ||--|| CLASIFICACIÓN : "hereda de"
+    DISTRIBUIDORA ||--|| CLASIFICACIÓN : "hereda de"
+    PLATAFORMA ||--|| CLASIFICACIÓN : "hereda de"
+    REGIÓN ||--|| CLASIFICACIÓN : "hereda de"
+    EDICIÓN ||--|| CLASIFICACIÓN : "hereda de"
 
     %% Relaciones base
+
     USUARIO ||--|| PERFIL : tiene
     PERFIL ||--|| ROL : tiene
-    JUEGO }o--|| CLASIFICACIÓN : tiene
+    JUEGO  }|--|{ GÉNERO : tiene
+    JUEGO  }|--|{ DESARROLLADORA : tiene
+    JUEGO  }|--|{ DISTRIBUIDORA : tiene
+    JUEGO  }|--|{ PLATAFORMA : tiene
+
+
+    %% Coleccion
+    USUARIO ||--o{ COLECCION : posee
+    JUEGO ||--o{ COLECCION : "forma parte"
+    EDICIÓN ||--o{ COLECCION : define
+    REGIÓN ||--o{ COLECCION : aplica
+
+    %% Lista de deseos
+    USUARIO ||--o{ LISTA_DESEOS : crea
+    JUEGO ||--o{ LISTA_DESEOS : contiene
+    EDICIÓN ||--o{ LISTA_DESEOS : opcional
+    REGIÓN ||--o{ LISTA_DESEOS : opcional
+
+    %% Biblioteca
+    USUARIO ||--o{ BIBLIOTECA : gestiona
+    JUEGO ||--o{ BIBLIOTECA : "aparece en"
+    ESTADO ||--o{ BIBLIOTECA : define
 
     %% Reviews
     USUARIO ||--o{ REVIEW : escribe
     REVIEW }o--|| JUEGO : sobre
-    REVIEW ||--o{ MEDIA_REVIEW : contiene
+    REVIEW ||--o{ MEDIA : contiene
 
-    %% Coleccion
-    USUARIO ||--o{ COLECCION : posee
-    JUEGO ||--o{ COLECCION : forma_parte
-    EDICIÓN ||--o{ COLECCION : define
-    REGIÓN }o--o{ COLECCION : aplica
+    %% Favorito
+    USUARIO ||--o{ FAVORITO : tiene
+    JUEGO   ||--o{ FAVORITO : aparece
 
-    %% Biblioteca
-    USUARIO ||--o{ BIBLIOTECA : gestiona
-    JUEGO ||--o{ BIBLIOTECA : aparece_en
-    ESTADO_BIBLIOTECA ||--o{ BIBLIOTECA : define
-
-
-    %% Lista de deseos
-    USUARIO ||--o{ LISTA_DESEOS : crea
-    JUEGO ||--o{ LISTA_DESEOS : desea
-    EDICIÓN }o--o{ LISTA_DESEOS : opcional
-    REGIÓN }o--o{ LISTA_DESEOS : opcional
 ```
 
 ### Diagrama de Clases

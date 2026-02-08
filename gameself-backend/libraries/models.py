@@ -14,13 +14,13 @@ class LibraryItem(models.Model):
 
     game = models.ForeignKey(
         'games.Game',
-        related_name='collections',
+        related_name='in_library',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
 
-    hours_played = models.DecimalField(decimal_places=1)
+    hours_played = models.DecimalField(decimal_places=1, max_digits=6, default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
