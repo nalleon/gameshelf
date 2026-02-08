@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import LibraryItem
+
+@admin.register(LibraryItem)
+class LibraryAdmin(admin.ModelAdmin):
+    pass
+
+
