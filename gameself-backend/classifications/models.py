@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Classification(models.Model):
-    name = models.TextField(unique=True)
+    name = models.CharField(unique=True)
     description = models.TextField(max_length=160)
 
     def __str__(self):
