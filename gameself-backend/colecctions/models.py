@@ -12,7 +12,6 @@ class Item(models.Model):
 
     game = models.ForeignKey(
         'games.Game',
-        related_name='collections',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -20,7 +19,6 @@ class Item(models.Model):
 
     region = models.ForeignKey(
         'classifications.Region',
-        related_name='regions',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -28,35 +26,59 @@ class Item(models.Model):
 
     edition = models.ForeignKey(
         'classifications.Edition',
-        related_name='editions',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='wishlist', on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
     )
 
-    def __str__(self):
-        return f'Item(id={self.pk}, created_at="{self.created_at}"'
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
 
 
 class CollectionItem(Item):
-    pass
+    game = models.ForeignKey(
+        'games.Game',
+        related_name='collection_items',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='collections',
+        on_delete=models.CASCADE,
+    )
+
 
 
 class WishListItem(Item):
-    DEFAULT_PRIORITY = 5
-
     priority = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)],
-        default=DEFAULT_PRIORITY,
+        default=5,
     )
-
+    
     annotation = models.CharField(max_length=100)
 
-    def __str__(self):
-        return f'WishListItem(id={self.pk})'
+    game = models.ForeignKey(
+        'games.Game',
+        related_name='wishlist_items',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='wishlist',
+        on_delete=models.CASCADE,
+    )
+

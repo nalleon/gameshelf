@@ -7,7 +7,9 @@ class Classification(models.Model):
 
     def __str__(self):
         return f'PK="{self.pk}", name="{self.name}", description="{self.description}"'
-
+    
+    class Meta:
+        abstract = True
 
 class Edition(Classification):
     pass

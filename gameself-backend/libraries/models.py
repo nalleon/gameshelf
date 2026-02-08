@@ -26,7 +26,7 @@ class LibraryItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='wishlist', on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL, related_name='library', on_delete=models.CASCADE
     )
 
     def __str__(self):
