@@ -15,6 +15,7 @@ class Edition(Classification):
     pass
 
 class Region(Classification):
+    description = None
     acronym = models.CharField(max_length=2)
     icon = models.ImageField(upload_to='regions', default='regions/default.png', null=True, blank=True)
 
