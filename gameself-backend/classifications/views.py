@@ -6,7 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Platform, Genre, Developer, Publisher, Edition, Region
 from .serializers import PlatformSerializer, GenreSerializer, DeveloperSerializer, PublisherSerializer, EditionSerializer, RegionSerializer
 
-from shared.decorators import require_http_methods
+from shared.decorators import require_http_methods, require_fields, require_json_body
+from users.decorators import auth_required
 
 @csrf_exempt
 @require_http_methods('GET')
@@ -29,18 +30,26 @@ def platform_detail(request, pk_platform: int):
 
 @csrf_exempt
 @require_http_methods('POST')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_platform(request):
+    
     return ''
 
 @csrf_exempt
 @require_http_methods('PUT')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_platform(request, pk_platform : int):
     return ''
 
 @csrf_exempt
 @require_http_methods('POST')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_platform(request, pk_platform : int):
     return ''
@@ -66,18 +75,25 @@ def genre_detail(request, pk_genre: int):
 
 @csrf_exempt
 @require_http_methods('POST')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_genre(request):
     return ''
 
 @csrf_exempt
 @require_http_methods('PUT')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_genre(request, pk_genre : int):
     return ''
 
 @csrf_exempt
 @require_http_methods('POST')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_genre(request, pk_genre : int):
     return ''
@@ -103,18 +119,25 @@ def developer_detail(request, pk_developer: int):
 
 @csrf_exempt
 @require_http_methods('POST')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_developer(request):
     return ''
 
 @csrf_exempt
 @require_http_methods('PUT')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_developer(request, pk_developer : int):
     return ''
 
 @csrf_exempt
 @require_http_methods('POST')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_developer(request, pk_developer : int):
     return ''
@@ -133,25 +156,32 @@ def publisher_detail(request, pk_publisher: int):
     try:
         publisher = get_object_or_404(PublisherSerializer, pk=pk_publisher)
     except Http404:
-        return JsonResponse({'error': 'Developer not found'}, status=404)
+        return JsonResponse({'error': 'Publisher not found'}, status=404)
 
     serializer = PublisherSerializer(publisher, request=request)
     return serializer.json_response()
 
 @csrf_exempt
 @require_http_methods('POST')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_publisher(request):
     return ''
 
 @csrf_exempt
 @require_http_methods('PUT')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_publisher(request, pk_publisher : int):
     return ''
 
 @csrf_exempt
 @require_http_methods('POST')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_publisher(request, pk_publisher : int):
     return ''
@@ -177,18 +207,25 @@ def edition_detail(request, pk_publisher: int):
 
 @csrf_exempt
 @require_http_methods('POST')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_edition(request):
     return ''
 
 @csrf_exempt
 @require_http_methods('PUT')
+@require_json_body
+@require_fields('name', 'description')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_edition(request, pk_edition: int):
     return ''
 
 @csrf_exempt
 @require_http_methods('POST')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_edition(request, pk_edition : int):
     return ''
@@ -214,18 +251,25 @@ def region_detail(request, pk_publisher: int):
 
 @csrf_exempt
 @require_http_methods('POST')
+@require_json_body
+@require_fields('name', 'description', 'acronym', 'icon')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_region(request):
     return ''
 
 @csrf_exempt
 @require_http_methods('PUT')
+@require_json_body
+@require_fields('name', 'description', 'acronym', 'icon')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_region(request, pk_region: int):
     return ''
 
 @csrf_exempt
 @require_http_methods('POST')
+@auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_region(request, pk_region : int):
     return ''
