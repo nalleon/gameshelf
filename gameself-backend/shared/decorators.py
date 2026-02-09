@@ -2,6 +2,7 @@ import json
 from http import HTTPStatus
 
 from django.http import JsonResponse
+from django.contrib.auth import authenticate
 
 
 def require_http_methods(*methods):
@@ -40,3 +41,18 @@ def require_fields(*fields):
         return wrapper
 
     return decorator
+
+
+def require_role(role):
+    def decorator(view_func):
+        def wrapper(request, *args, **kwargs):
+            user = request.user
+            
+            if user.profile.role != role:
+                return JsonResponse({'error': 'Invalid Credentials'}, status=401)
+        
+        return wrapper
+    
+    return decorator
+
+
