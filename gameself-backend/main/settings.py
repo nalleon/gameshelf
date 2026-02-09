@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'colecctions.apps.ColecctionsConfig',
     'users.apps.UsersConfig',
     'libraries.apps.LibrariesConfig',
+    'shared.apps.SharedConfig',
 ]
 
 MIDDLEWARE = [
