@@ -40,7 +40,7 @@ def add_platform(request):
     description = payload['description']
 
     platform = Platform.objects.create(name=name, description=description)
-    return JsonResponse({'id': platform.pk})
+    return JsonResponse({'id': platform.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('PUT')
@@ -49,8 +49,24 @@ def add_platform(request):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_platform(request, pk_platform : int):
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
 
-    return ''
+    try:
+        platform = get_object_or_404(Platform, pk=pk_platform)
+    except Http404:
+        return JsonResponse({'error': 'Platform not found'}, status=404)
+    
+    if name:
+        platform.name = name
+
+    if description:
+        platform.description = description
+
+    platform.save()
+    return JsonResponse({'id': platform.pk}, status=200)
+
 
 @csrf_exempt
 @require_http_methods('POST')
@@ -62,8 +78,9 @@ def delete_platform(request, pk_platform : int):
         platform = get_object_or_404(Platform, pk=pk_platform)
     except Http404:
         return JsonResponse({'error': 'Platform not found'}, status=404)
-
-    return ''
+    
+    platform.delete()
+    return JsonResponse(status=200)
 
 @csrf_exempt
 @require_http_methods('GET')
@@ -91,7 +108,12 @@ def genre_detail(request, pk_genre: int):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_genre(request):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    genre = Genre.objects.create(name=name, description=description)
+    return JsonResponse({'id': genre.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('PUT')
@@ -100,14 +122,36 @@ def add_genre(request):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_genre(request, pk_genre : int):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    try:
+        genre = get_object_or_404(Genre, pk=pk_genre)
+    except Http404:
+        return JsonResponse({'error': 'Genre not found'}, status=404)
+    
+    if name:
+        genre.name = name
+
+    if description:
+        genre.description = description
+
+    genre.save()
+    return JsonResponse({'id': genre.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_genre(request, pk_genre : int):
-    return ''
+    try:
+        genre = get_object_or_404(Genre, pk=pk_genre)
+    except Http404:
+        return JsonResponse({'error': 'Genre not found'}, status=404)
+    
+    genre.delete()
+    return JsonResponse(status=200)
 
 @csrf_exempt
 @require_http_methods('GET')
@@ -135,7 +179,12 @@ def developer_detail(request, pk_developer: int):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_developer(request):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    developer = Developer.objects.create(name=name, description=description)
+    return JsonResponse({'id': developer.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('PUT')
@@ -144,14 +193,36 @@ def add_developer(request):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_developer(request, pk_developer : int):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    try:
+        developer = get_object_or_404(Developer, pk=pk_developer)
+    except Http404:
+        return JsonResponse({'error': 'Developer not found'}, status=404)
+    
+    if name:
+        developer.name = name
+
+    if description:
+        developer.description = description
+
+    developer.save()
+    return JsonResponse({'id': developer.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_developer(request, pk_developer : int):
-    return ''
+    try:
+        developer = get_object_or_404(Developer, pk=pk_developer)
+    except Http404:
+        return JsonResponse({'error': 'Developer not found'}, status=404)
+    
+    developer.delete()
+    return JsonResponse(status=200)
 
 @csrf_exempt
 @require_http_methods('GET')
@@ -179,7 +250,12 @@ def publisher_detail(request, pk_publisher: int):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_publisher(request):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    publisher = Publisher.objects.create(name=name, description=description)
+    return JsonResponse({'id': publisher.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('PUT')
@@ -188,14 +264,36 @@ def add_publisher(request):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_publisher(request, pk_publisher : int):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    try:
+        publisher = get_object_or_404(Publisher, pk=pk_publisher)
+    except Http404:
+        return JsonResponse({'error': 'Publisher not found'}, status=404)
+    
+    if name:
+        publisher.name = name
+
+    if description:
+        publisher.description = description
+
+    publisher.save()
+    return JsonResponse({'id': publisher.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_publisher(request, pk_publisher : int):
-    return ''
+    try:
+        publisher = get_object_or_404(Publisher, pk=pk_publisher)
+    except Http404:
+        return JsonResponse({'error': 'Publisher not found'}, status=404)
+    
+    publisher.delete()
+    return JsonResponse(status=200)
 
 @csrf_exempt
 @require_http_methods('GET')
@@ -207,11 +305,11 @@ def edition_list(request):
 
 @csrf_exempt
 @require_http_methods('GET')
-def edition_detail(request, pk_publisher: int):
+def edition_detail(request, pk_edition: int):
     try:
-        edition = get_object_or_404(Edition, pk=pk_publisher)
+        edition = get_object_or_404(Edition, pk=pk_edition)
     except Http404:
-        return JsonResponse({'error': 'Developer not found'}, status=404)
+        return JsonResponse({'error': 'Edition not found'}, status=404)
 
     serializer = EditionSerializer(edition, request=request)
     return serializer.json_response()
@@ -223,7 +321,12 @@ def edition_detail(request, pk_publisher: int):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_edition(request):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    edition = Edition.objects.create(name=name, description=description)
+    return JsonResponse({'id': edition.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('PUT')
@@ -232,14 +335,36 @@ def add_edition(request):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_edition(request, pk_edition: int):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    try:
+        edition = get_object_or_404(Edition, pk=pk_edition)
+    except Http404:
+        return JsonResponse({'error': 'Edition not found'}, status=404)
+    
+    if name:
+        edition.name = name
+
+    if description:
+        edition.description = description
+
+    edition.save()
+    return JsonResponse({'id': edition.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_edition(request, pk_edition : int):
-    return ''
+    try:
+        edition = get_object_or_404(Edition, pk=pk_edition)
+    except Http404:
+        return JsonResponse({'error': 'Edition not found'}, status=404)
+    
+    edition.delete()
+    return JsonResponse(status=200)
 
 @csrf_exempt
 @require_http_methods('GET')
@@ -251,11 +376,11 @@ def region_list(request):
 
 @csrf_exempt
 @require_http_methods('GET')
-def region_detail(request, pk_publisher: int):
+def region_detail(request, pk_region: int):
     try:
-        region = get_object_or_404(Edition, pk=pk_publisher)
+        region = get_object_or_404(Region, pk=pk_region)
     except Http404:
-        return JsonResponse({'error': 'Developer not found'}, status=404)
+        return JsonResponse({'error': 'Region not found'}, status=404)
 
     serializer = RegionSerializer(region, request=request)
     return serializer.json_response()
@@ -267,7 +392,14 @@ def region_detail(request, pk_publisher: int):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_region(request):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+    acronym = payload['acronym']
+    icon = payload['icon']  #TODO: Question - No hay que manejar de alguna forma el icono aquí? Lógica del front?
+
+    region = Region.objects.create(name=name, description=description, acronym=acronym, icon=icon)
+    return JsonResponse({'id': region.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('PUT')
@@ -276,11 +408,41 @@ def add_region(request):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_region(request, pk_region: int):
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+    acronym = payload['acronym']
+    icon = payload['icon']  #TODO: Question - No hay que manejar de alguna forma el icono aquí? Lógica del front?
+
+    try:
+        region = get_object_or_404(Region, pk=pk_region)
+    except Http404:
+        return JsonResponse({'error': 'Region not found'}, status=404)
+    
+    if name:
+        region.name = name
+
+    if description:
+        region.description = description
+
+    if acronym:
+        region.acronym = acronym
+
+    if icon:
+        region.icon = icon
+
+    region.save()
+    return JsonResponse({'id': region.pk}, status=200)
 
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_region(request, pk_region : int):
-    return ''
+    try:
+        region = get_object_or_404(Region, pk=pk_region)
+    except Http404:
+        return JsonResponse({'error': 'Region not found'}, status=404)
+    
+    region.delete()
+    return JsonResponse(status=200)
