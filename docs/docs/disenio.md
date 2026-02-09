@@ -161,6 +161,12 @@ erDiagram
 
 ### Vistas
 
+#### Mapa de Navegación
+
+El mapa de navegación fue un diseño inicial sencillo para plantear las funciones de la aplicacion web.
+
+![Mapa-Navegacion](assets/mapa-nav.jpg)
+
 #### Sketch
 
 En cuanto al skecth, hemos hecho un boceto a mano alzada, y ha quedado de la siguiente manera:
@@ -181,4 +187,20 @@ En esta etapa del diseño decidimos añadir una pantalla más que en el sketch p
 
 ![Wireframe-Especifico](assets/wf-4.png)
 
-#### MockUp
+#### MockUp y Prototipo
+
+Para llevar a cabo tanto el mockup como el prototipo hemos utilizado [Penpot](https://penpot.app/).
+
+##### Mockup
+
+![Mockup-Login](assets/register.png)
+
+![Mockup-Register](assets/login.png)
+
+![Mockup-Principal](assets/home-web.png)
+
+![Mockup-Especifico](assets/game.png)
+
+##### Prototipo
+
+![Prototipo](assets/prototipo.png)

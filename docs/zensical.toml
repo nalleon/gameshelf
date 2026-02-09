@@ -50,14 +50,14 @@ Copyright &copy; 2025 Pedro Martín Escuela & Nabil León Álvarez
 nav = [
     "index.md",
     "introduccion.md",
-    "origen.md",
+    { "Origen" = "origen.md" },
     "objetivo-general.md",
     "tecnologias.md",
     "disenio.md",
     "tareas.md",
     "planificacionempresarial.md",
     "manualusr.md",
-    "conclusion.md"
+    "conclusion.md",
 ]
 
 # With the "extra_css" option you can add your own CSS styling to customize
@@ -316,4 +316,3 @@ accent = "teal"
 [[project.extra.social]]
 icon = "fontawesome/brands/docker"
 link = "https://github.com/user/repo"
-
