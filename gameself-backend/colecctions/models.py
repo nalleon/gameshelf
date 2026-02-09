@@ -17,20 +17,6 @@ class Item(models.Model):
         blank=True,
     )
 
-    region = models.ForeignKey(
-        'classifications.Region',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
-
-    edition = models.ForeignKey(
-        'classifications.Edition',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
-
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

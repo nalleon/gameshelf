@@ -17,12 +17,26 @@ class Game(models.Model):
     genres = models.ManyToManyField('classifications.Genre', related_name='games')
     developers = models.ManyToManyField('classifications.Developer', related_name='games')
     publishers = models.ManyToManyField('classifications.Publisher', related_name='games')
-
+    
+    edition = models.ForeignKey(
+        'classifications.Edition',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    
+    region = models.ForeignKey(
+        'classifications.Region',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    
     def __str__(self):
         return f'Game(id={self.pk}, title="{self.title}", slug="{self.slug}", released_at="{self.released_at}"'
 
     class Meta:
-        unique_together = ['title', 'released_at']
+        unique_together = ['title', 'released_at', 'edition', 'region']
 
 
 class Review(models.Model):
