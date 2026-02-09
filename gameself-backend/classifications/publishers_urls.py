@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = 'classifications'
+# app_name = 'publishers'
 
 urlpatterns = [
     path('', views.publisher_list, name='publisher-list'),
