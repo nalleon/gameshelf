@@ -35,8 +35,12 @@ def platform_detail(request, pk_platform: int):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def add_platform(request):
-    
-    return ''
+    payload = request.json
+    name = payload['name']
+    description = payload['description']
+
+    platform = Platform.objects.create(name=name, description=description)
+    return JsonResponse({'id': platform.pk})
 
 @csrf_exempt
 @require_http_methods('PUT')
@@ -45,6 +49,7 @@ def add_platform(request):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def edit_platform(request, pk_platform : int):
+
     return ''
 
 @csrf_exempt
@@ -52,6 +57,12 @@ def edit_platform(request, pk_platform : int):
 @auth_required
 #TODO: decorador para que el usuario tenga rol admin
 def delete_platform(request, pk_platform : int):
+
+    try:
+        platform = get_object_or_404(Platform, pk=pk_platform)
+    except Http404:
+        return JsonResponse({'error': 'Platform not found'}, status=404)
+
     return ''
 
 @csrf_exempt
