@@ -383,17 +383,16 @@ def region_detail(request, pk_region: int):
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
-@require_fields('name', 'description', 'acronym', 'icon')
+@require_fields('name', 'acronym', 'icon')
 @auth_required
 @require_role('Admin')
 def add_region(request):
     payload = request.json
     name = payload['name']
-    description = payload['description']
     acronym = payload['acronym']
     icon = payload['icon']  #TODO: Question - No hay que manejar de alguna forma el icono aquí? Lógica del front?
 
-    region = Region.objects.create(name=name, description=description, acronym=acronym, icon=icon)
+    region = Region.objects.create(name=name, acronym=acronym, icon=icon)
     return JsonResponse({'id': region.pk}, status=200)
 
 @csrf_exempt
@@ -404,7 +403,6 @@ def add_region(request):
 def edit_region(request, pk_region: int):
     payload = request.json
     name = payload['name']
-    description = payload['description']
     acronym = payload['acronym']
     icon = payload['icon']  #TODO: Question - No hay que manejar de alguna forma el icono aquí? Lógica del front?
 
@@ -415,9 +413,6 @@ def edit_region(request, pk_region: int):
     
     if name:
         region.name = name
-
-    if description:
-        region.description = description
 
     if acronym:
         region.acronym = acronym
