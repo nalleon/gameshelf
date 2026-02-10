@@ -1,7 +1,7 @@
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
+from django.contrib.auth import get_user_model
 
 from .models import Game, Review, Media, FavoriteItem
 from classifications.models import Platform, Genre, Developer, Publisher, Edition, Region
@@ -10,9 +10,11 @@ from .serializers import GameSerializer, ReviewSerializer, MediaSerializer, Favo
 from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
 from users.decorators import auth_required
 
+
+# Games Methods
 @csrf_exempt
 @require_http_methods('GET')
-def platform_list(request):
+def game_list(request):
     games = Game.objects.all()
     serializer = GameSerializer(games, request=request)
     return serializer.json_response()
@@ -20,7 +22,7 @@ def platform_list(request):
 
 @csrf_exempt
 @require_http_methods('GET')
-def platform_detail(request, pk_game: int):
+def game_detail(request, pk_game: int):
     try:
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
@@ -37,7 +39,7 @@ def platform_detail(request, pk_game: int):
                 'pk_publishers_list', 'pk_edition', 'pk_region')
 @auth_required
 @require_role('Admin')
-def add_platform(request):
+def add_game(request):
     payload = request.json
     title = payload['title']
     slug = payload['slug']
@@ -109,7 +111,7 @@ def add_platform(request):
 @require_json_body
 @auth_required
 @require_role('Admin')
-def edit_platform(request, pk_game : int):
+def edit_game(request, pk_game : int):
     payload = request.json
     title = payload['title']
     slug = payload['slug']
@@ -212,7 +214,7 @@ def edit_platform(request, pk_game : int):
 @require_http_methods('POST')
 @auth_required
 @require_role('Admin')
-def delete_platform(request, pk_game : int):
+def delete_game(request, pk_game : int):
 
     try:
         game = get_object_or_404(Game, pk=pk_game)
@@ -220,4 +222,110 @@ def delete_platform(request, pk_game : int):
         return JsonResponse({'error': 'Game not found'}, status=404)
     
     game.delete()
+    return JsonResponse(status=200)
+
+
+# Reviews Methods
+@csrf_exempt
+@require_http_methods('GET')
+def review_list(request):
+    reviews = Review.objects.all()
+    serializer = ReviewSerializer(reviews, request=request)
+    return serializer.json_response()
+
+
+@csrf_exempt
+@require_http_methods('GET')
+def review_detail(request, pk_review: int):
+    try:
+        review = get_object_or_404(Review, pk=pk_review)
+    except Http404:
+        return JsonResponse({'error': 'Review not found'}, status=404)
+
+    serializer = ReviewSerializer(review, request=request)
+    return serializer.json_response()
+
+@csrf_exempt
+@require_http_methods('POST')
+@require_json_body
+@require_fields('content', 'recommend', 'pk_game')
+@auth_required
+def add_review(request):
+    payload = request.json
+    content = payload['content']
+    recommend = payload['recommend']
+    pk_game = payload['pk_game']
+    
+    try:
+        game = get_object_or_404(Game, pk_game)
+    except Http404:
+        return JsonResponse({'error': 'Game associated not found'}, status=404)
+
+    user = request.user
+    
+    review = Review.objects.create(content=content, recommend=recommend, game=game, user=user)
+    return JsonResponse({'id': review.pk}, status=200)
+
+@csrf_exempt
+@require_http_methods('PUT')
+@require_json_body
+@auth_required
+def edit_review(request, pk_review : int):
+    payload = request.json
+    content = payload['content']
+    recommend = payload['recommend']
+    pk_game = payload['pk_game']
+    pk_author = payload['pk_author']
+
+    try:
+        review = get_object_or_404(Review, pk=pk_review)
+    except Http404:
+        return JsonResponse({'error': 'Review not found'}, status=404)
+    
+    if request.user != review.author:
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
+    if content:
+        review.content = content
+
+    if recommend:
+        review.recommend = recommend
+
+    if pk_game:
+        try:
+            game = get_object_or_404(Game, pk_game)
+        except Http404:
+            return JsonResponse({'error': 'Game to associate not found'}, status=404)
+
+        review.game=game
+    
+    if request.user.role == 'Admin' and pk_author:
+        User = get_user_model()
+        try:
+            author = get_object_or_404(User, pk_author)
+        except Http404:
+            return JsonResponse({'error': 'Author to associate not found'}, status=404)
+
+        review.author=author
+
+    review.save()
+    return JsonResponse({'id': review.pk}, status=200)
+
+
+@csrf_exempt
+@require_http_methods('POST')
+@auth_required
+def delete_review(request, pk_review : int):
+
+    if request.user != review.author:
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
+    try:
+        review = get_object_or_404(Review, pk=pk_review)
+    except Http404:
+        return JsonResponse({'error': 'Review not found'}, status=404)
+    
+    review.delete()
     return JsonResponse(status=200)
