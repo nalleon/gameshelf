@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from classifications.models import Classification, Developer, Region, Publisher, Edition, Genre, Platform
+from colecctions.models import Item, CollectionItem, WishListItem
 
 User = get_user_model()
 
@@ -26,7 +27,11 @@ def test_required_apps_are_installed():
     assert len(custom_apps) >= len(REQUIRED_APPS), (
         'El número de aplicaciones propias definidas en el proyecto no es correcto.'
     )
-    
+
+
+# ========================================================================================================================================================== #
+#                                                         Classifications Models                                                                             #
+# ========================================================================================================================================================== # 
 
 # ==============================================================================
 # Classification Model
@@ -171,3 +176,26 @@ def test_platform_model_is_correctly_configured():
     assert f.get_internal_type() == 'TextField', 'Platform.description no tiene el tipo esperado'
     assert not f.blank, 'Platform.description no debe admitir valores en blanco'
     assert f.max_length == 160, 'Platform.description no tiene el valor esperado en max_length'
+
+
+# ========================================================================================================================================================== #
+#                                                         Colecctions Models                                                                                 #
+# ========================================================================================================================================================== # 
+
+# ==============================================================================
+# Item Model
+# ==============================================================================
+
+@pytest.mark.score(2)
+@pytest.mark.django_db
+def test_item_model_is_correctly_configured():
+    
+    # type
+    assert (f := Item._meta.get_field('type')), 'Item.type no se ha definido'
+    assert f.get_internal_type() == 'PositiveSmallIntegerField', (
+        'Item.type no tiene el tipo esperado'
+    )
+    assert set(dict(f.choices).keys()) == set(['P', 'D']), (
+        'Item.type no tiene las opciones esperadas'
+    )
+    assert not f.blank, 'Item.type no debe admitir valores en blanco'
