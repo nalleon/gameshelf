@@ -107,9 +107,6 @@ def add_platform(request):
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
-@require_fields('title', 'slug', 'description', 'cover', 'released_at', 
-                'pk_platforms_list', 'pk_genres_list', 'pk_developers_list', 
-                'pk_publishers_list', 'pk_edition', 'pk_region')
 @auth_required
 @require_role('Admin')
 def edit_platform(request, pk_game : int):

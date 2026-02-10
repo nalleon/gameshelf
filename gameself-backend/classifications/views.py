@@ -45,7 +45,6 @@ def add_platform(request):
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
-@require_fields('name', 'description')
 @auth_required
 @require_role('Admin')
 def edit_platform(request, pk_platform : int):
@@ -118,7 +117,6 @@ def add_genre(request):
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
-@require_fields('name', 'description')
 @auth_required
 @require_role('Admin')
 def edit_genre(request, pk_genre : int):
@@ -189,7 +187,6 @@ def add_developer(request):
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
-@require_fields('name', 'description')
 @auth_required
 @require_role('Admin')
 def edit_developer(request, pk_developer : int):
@@ -260,7 +257,6 @@ def add_publisher(request):
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
-@require_fields('name', 'description')
 @auth_required
 @require_role('Admin')
 def edit_publisher(request, pk_publisher : int):
@@ -331,7 +327,6 @@ def add_edition(request):
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
-@require_fields('name', 'description')
 @auth_required
 @require_role('Admin')
 def edit_edition(request, pk_edition: int):
@@ -404,7 +399,6 @@ def add_region(request):
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
-@require_fields('name', 'description', 'acronym', 'icon')
 @auth_required
 @require_role('Admin')
 def edit_region(request, pk_region: int):
