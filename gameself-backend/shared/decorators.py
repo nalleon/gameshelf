@@ -49,7 +49,7 @@ def require_role(role):
             user = request.user
             
             if user.profile.role != role:
-                return JsonResponse({'error': 'Invalid Credentials'}, status=401)
+                return JsonResponse({'error': 'Forbbiden Access'}, status=403)
         
         return wrapper
     
