@@ -192,10 +192,131 @@ def test_item_model_is_correctly_configured():
     
     # type
     assert (f := Item._meta.get_field('type')), 'Item.type no se ha definido'
-    assert f.get_internal_type() == 'PositiveSmallIntegerField', (
+    assert f.get_internal_type() == 'CharField', (
         'Item.type no tiene el tipo esperado'
     )
     assert set(dict(f.choices).keys()) == set(['P', 'D']), (
         'Item.type no tiene las opciones esperadas'
     )
     assert not f.blank, 'Item.type no debe admitir valores en blanco'
+    assert f.default == 'D', 'Item.type no tiene el valor por defecto esperado'
+
+
+    # game
+    assert (f := Item._meta.get_field('game')), 'Item.game no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'Item.game no tiene el tipo esperado'
+    assert f.remote_field.on_delete.__name__ == 'SET_NULL', (
+        'Item.game no tiene el método de borrado esperado'
+    )
+    assert f.blank, 'Item.game debe admitir valores en blanco'
+
+
+    # author
+    assert (f := Item._meta.get_field('author')), 'Item.author no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'Item.author no tiene el tipo esperado'
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'Item.author no tiene el método de borrado esperado'
+    )
+    assert not f.blank, 'Item.author no debe admitir valores en blanco'
+
+
+    # created_at
+    assert (f := Item._meta.get_field('created_at')), 'Item.created_at no se ha definido'
+    assert f.get_internal_type() == 'DateTimeField', 'Item.created_at no tiene el tipo esperado'
+    assert f.auto_now_add, 'Item.created_at no tiene auto_now_add activado'
+    assert not f.auto_now, 'Item.created_at tiene auto_now activado pero no debería'
+
+
+# ==============================================================================
+# CollectionItem Model
+# ==============================================================================
+
+@pytest.mark.score(2)
+@pytest.mark.django_db
+def test_collection_item_model_is_correctly_configured():
+
+    # game
+    assert (f := CollectionItem._meta.get_field('game')), 'CollectionItem.game no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'CollectionItem.game no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'game', (
+        'CollectionItem.game no referencia al modelo esperado'
+    )
+    assert f.remote_field.on_delete.__name__ == 'SET_NULL', (
+        'CollectionItem.game no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'collection_items', 'CollectionItem.game no tiene el related_name esperado'
+    assert f.blank, 'CollectionItem.game debe admitir valores en blanco'
+
+
+    # author
+    assert (f := CollectionItem._meta.get_field('author')), 'CollectionItem.author no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'CollectionItem.author no tiene el tipo esperado'
+    assert f.related_model == User, 'CollectionItem.author no referencia al modelo esperado'
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'CollectionItem.author no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'collection', (
+        'CollectionItem.author no tiene el related_name esperado'
+    )
+    assert not f.blank, 'CollectionItem.author no debe admitir valores en blanco'
+
+
+# ==============================================================================
+# WhishlistItem Model
+# ==============================================================================
+
+@pytest.mark.score(2)
+@pytest.mark.django_db
+def test_wishlist_item_model_is_correctly_configured():
+
+    # priority
+    assert (f := WishListItem._meta.get_field('priority')), 'WishListItem.priority no se ha definido'
+    assert f.get_internal_type() == 'PositiveSmallIntegerField', 'WishListItem.priority no tiene el tipo esperado'
+    assert not f.blank, 'WishListItem.priority no debe admitir valores en blanco'
+    validators = {v.__class__.__name__: v for v in f.validators}
+    assert 'MinValueValidator' in validators, (
+        'WishListItem.priority no tiene un validador para el valor mínimo'
+    )
+    assert validators['MinValueValidator'].limit_value == 1, (
+        'WishListItem.priority no tiene el valor mínimo esperado'
+    )
+    assert 'MaxValueValidator' in validators, (
+        'WishListItem.priority no tiene un validador para el valor máximo'
+    )
+    assert validators['MaxValueValidator'].limit_value == 10, (
+        'WishListItem.priority no tiene el valor máximo esperado'
+    )
+    assert f.default == 5 , 'WishListItem.priority no tiene el valor por defecto esperado'
+
+
+    # annotation
+    assert (f := WishListItem._meta.get_field('annotation')), 'WishListItem.annotation no se ha definido'
+    assert f.get_internal_type() == 'CharField', 'WishListItem.annotation no tiene el tipo esperado'
+    assert not f.blank, 'WishListItem.annotation no debe admitir valores en blanco'
+    assert f.max_length == 100, 'WishListItem.annotation no tiene el valor esperado en max_length'
+
+
+    # game
+    assert (f := WishListItem._meta.get_field('game')), 'WishListItem.game no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'WishListItem.game no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'game', (
+        'WishListItem.game no referencia al modelo esperado'
+    )
+    assert f.remote_field.on_delete.__name__ == 'SET_NULL', (
+        'WishListItem.game no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'wishlist_items', 'WishListItem.game no tiene el related_name esperado'
+    assert f.blank, 'WishListItem.game debe admitir valores en blanco'
+
+
+    # author
+    assert (f := CollectionItem._meta.get_field('author')), 'CollectionItem.author no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'CollectionItem.author no tiene el tipo esperado'
+    assert f.related_model == User, 'CollectionItem.author no referencia al modelo esperado'
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'CollectionItem.author no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'wishlist', (
+        'CollectionItem.author no tiene el related_name esperado'
+    )
+    assert not f.blank, 'CollectionItem.author no debe admitir valores en blanco'
