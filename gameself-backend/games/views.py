@@ -372,70 +372,60 @@ def add_media(request):
     media = Media.objects.create(image=image, review=review)
     return JsonResponse({'id': media.pk}, status=200)
 
-# @csrf_exempt
-# @require_http_methods('PUT')
-# @require_json_body
-# @auth_required
-# @require_role('Admin')
-# def edit_media(request, pk_media : int):
-#     payload = request.json
-#     image = payload['image']
-#     pk_review = payload['pk_review']
+@csrf_exempt
+@require_http_methods('PUT')
+@require_json_body
+@auth_required
+@require_role('Admin')
+def edit_media(request, pk_media : int):
+    payload = request.json
+    image = payload['image']
+    pk_review = payload['pk_review']
 
-#     if 
-
-#     try:
-#         media = get_object_or_404(Media, pk=pk_media)
-#     except Http404:
-#         return JsonResponse({'error': 'Media not found'}, status=404)
+    try:
+        media = get_object_or_404(Media, pk=pk_media)
+    except Http404:
+        return JsonResponse({'error': 'Media not found'}, status=404)
     
-#     if request.user != media.author:
-#         if  request.user.role != 'Admin':
-#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+    if request.user != media.review.author:
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
 
-#     if content:
-#         media.content = content
-
-#     if recommend:
-#         media.recommend = recommend
-
-#     if pk_game:
-#         try:
-#             game = get_object_or_404(Game, pk_game)
-#         except Http404:
-#             return JsonResponse({'error': 'Game to associate not found'}, status=404)
-
-#         media.game=game
+    if image:
+        media.image = image
     
-#     if request.user.role == 'Admin' and pk_author:
-#         User = get_user_model()
-#         try:
-#             author = get_object_or_404(User, pk_author)
-#         except Http404:
-#             return JsonResponse({'error': 'Author to associate not found'}, status=404)
+    if pk_review:
 
-#         media.author=author
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
 
-#     media.save()
-#     return JsonResponse({'id': media.pk}, status=200)
+        try:
+            review = get_object_or_404(Review, pk_review)
+        except Http404:
+            return JsonResponse({'error': 'Review to associate not found'}, status=404)
+
+        media.review=review
+
+    media.save()
+    return JsonResponse({'id': media.pk}, status=200)
 
 
-# @csrf_exempt
-# @require_http_methods('POST')
-# @auth_required
-# def delete_media(request, pk_media : int):
+@csrf_exempt
+@require_http_methods('POST')
+@auth_required
+def delete_media(request, pk_media : int):
 
-#     if request.user != media.author:
-#         if  request.user.role != 'Admin':
-#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+    try:
+        media = get_object_or_404(Media, pk=pk_media)
+    except Http404:
+        return JsonResponse({'error': 'Media not found'}, status=404)
 
-#     try:
-#         media = get_object_or_404(Media, pk=pk_media)
-#     except Http404:
-#         return JsonResponse({'error': 'Media not found'}, status=404)
-    
-#     media.delete()
-#     return JsonResponse(status=200)
+    if request.user != media.review.author:
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
+    media.delete()
+    return JsonResponse(status=200)
 
 
 # FavoriteItem Methods
