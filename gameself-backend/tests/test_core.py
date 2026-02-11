@@ -41,6 +41,7 @@ def test_required_apps_are_installed():
 @pytest.mark.score(2)
 @pytest.mark.django_db
 def test_classification_model_is_correctly_configured():
+    
     # name
     assert (f := Classification._meta.get_field('name')), 'Classification.name no se ha definido'
     assert f.get_internal_type() == 'CharField', 'Classification.name no tiene el tipo esperado'
@@ -327,6 +328,99 @@ def test_wishlist_item_model_is_correctly_configured():
 #                                                               Games Models                                                                                 #
 # ========================================================================================================================================================== # 
 
+
+# ==============================================================================
+# Game Model
+# ==============================================================================
+
+@pytest.mark.score(2)
+@pytest.mark.django_db
+def test_game_model_is_correctly_configured():
+
+    # title
+    assert (f := Game._meta.get_field('title')), 'Game.title no se ha definido'
+    assert f.get_internal_type() == 'CharField', 'Game.title no tiene el tipo esperado'
+    assert not f.blank, 'Game.name no debe admitir valores en blanco'
+
+    # slug
+    assert (f := Game._meta.get_field('slug')), 'Game.slug no se ha definido'
+    assert f.get_internal_type() == 'SlugField', 'Game.slug no tiene el tipo esperado'
+    assert f.unique, 'Game.slug no se ha definido como único'
+    assert not f.blank, 'Game.slug no debe admitir valores en blanco'
+
+    # released_at
+    assert (f := Game._meta.get_field('released_at')), 'Game.released_at no se ha definido'
+    assert f.get_internal_type() == 'DateField', 'Game.released_at no tiene el tipo esperado'
+    assert not f.auto_now_add, 'Game.released_at tiene auto_now_add activado pero no debería'
+    assert not f.auto_now, 'Game.released_at tiene auto_now activado pero no debería'
+
+    # platforms
+    assert (f := Game._meta.get_field('platforms')), 'Game.platforms no se ha definido'
+    assert f.get_internal_type() == 'ManyToManyField', 'Game.platforms no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'platform', (
+        'Game.platforms no referencia al modelo esperado'
+    )
+    assert f.remote_field.related_name == 'games', (
+        'Game.platforms no tiene el related_name esperado'
+    )
+    assert not f.blank, 'Game.platforms no debe admitir valores en blanco'
+
+    # genres
+    assert (f := Game._meta.get_field('genres')), 'Game.genres no se ha definido'
+    assert f.get_internal_type() == 'ManyToManyField', 'Game.genres no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'genre', (
+        'Game.genres no referencia al modelo esperado'
+    )
+    assert f.remote_field.related_name == 'games', (
+        'Game.genres no tiene el related_name esperado'
+    )
+    assert not f.blank, 'Game.genres no debe admitir valores en blanco'
+
+    # developers
+    assert (f := Game._meta.get_field('developers')), 'Game.developers no se ha definido'
+    assert f.get_internal_type() == 'ManyToManyField', 'Game.developers no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'developer', (
+        'Game.developers no referencia al modelo esperado'
+    )
+    assert f.remote_field.related_name == 'games', (
+        'Game.developers no tiene el related_name esperado'
+    )
+    assert not f.blank, 'Game.developers no debe admitir valores en blanco'
+
+    # publishers
+    assert (f := Game._meta.get_field('publishers')), 'Game.publishers no se ha definido'
+    assert f.get_internal_type() == 'ManyToManyField', 'Game.publishers no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'publisher', (
+        'Game.publishers no referencia al modelo esperado'
+    )
+    assert f.remote_field.related_name == 'games', (
+        'Game.publishers no tiene el related_name esperado'
+    )
+    assert not f.blank, 'Game.publishers no debe admitir valores en blanco'
+
+    # edition
+    assert (f := Game._meta.get_field('edition')), 'Game.edition no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'Game.edition no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'edition', (
+        'Game.edition no referencia al modelo esperado'
+    )
+    assert f.remote_field.on_delete.__name__ == 'SET_NULL', (
+        'Game.edition no tiene el método de borrado esperado'
+    )
+    assert f.blank, 'Game.edition debe admitir valores en blanco'
+
+    # region
+    assert (f := Game._meta.get_field('region')), 'Game.region no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'Game.region no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'region', (
+        'Game.region no referencia al modelo esperado'
+    )
+    assert f.remote_field.on_delete.__name__ == 'SET_NULL', (
+        'Game.region no tiene el método de borrado esperado'
+    )
+    assert f.blank, 'Game.region debe admitir valores en blanco'
+
+
 # ==============================================================================
 # Review Model
 # ==============================================================================
@@ -382,8 +476,8 @@ def test_review_model_is_correctly_configured():
     # updated_at
     assert (f := Review._meta.get_field('updated_at')), 'Review.updated_at no se ha definido'
     assert f.get_internal_type() == 'DateTimeField', 'Review.updated_at no tiene el tipo esperado'
-    assert not f.auto_now_add, 'Review.updated_at tiene auto_now_add activado'
-    assert f.auto_now, 'Review.updated_at no tiene auto_now activado pero no debería'
+    assert not f.auto_now_add, 'Review.updated_at tiene auto_now_add activado pero no debería'
+    assert f.auto_now, 'Review.updated_at no tiene auto_now activado'
 
 
 # ==============================================================================
