@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from classifications.models import Classification, Developer, Region, Publisher, Edition, Genre, Platform
 from colecctions.models import Item, CollectionItem, WishListItem
 from games.models import Game, Review, Media, FavoriteItem 
+from libraries.models import LibraryItem
 
 User = get_user_model()
 
@@ -328,7 +329,6 @@ def test_wishlist_item_model_is_correctly_configured():
 #                                                               Games Models                                                                                 #
 # ========================================================================================================================================================== # 
 
-
 # ==============================================================================
 # Game Model
 # ==============================================================================
@@ -547,3 +547,73 @@ def test_favorite_item_model_is_correctly_configured():
         'FavoriteItem.user no tiene el related_name esperado'
     )
     assert not f.blank, 'FavoriteItem.user no debe admitir valores en blanco'
+
+
+# ========================================================================================================================================================== #
+#                                                               Libraries Models                                                                             #
+# ========================================================================================================================================================== #
+
+# ==============================================================================
+# LibraryItem Model
+# ==============================================================================
+
+@pytest.mark.score(2)
+@pytest.mark.django_db
+def test_library_item_model_is_correctly_configured():
+
+    # status
+    assert (f := LibraryItem._meta.get_field('status')), 'LibraryItem.status no se ha definido'
+    assert f.get_internal_type() == 'CharField', (
+        'LibraryItem.status no tiene el tipo esperado'
+    )
+    assert set(dict(f.choices).keys()) == set(['Completed', 'Physical', 'Paused', 'Dropped', 'Planning']), (
+        'LibraryItem.status no tiene las opciones esperadas'
+    )
+    assert not f.blank, 'LibraryItem.status no debe admitir valores en blanco'
+    assert f.default == 'Planning', 'LibraryItem.status no tiene el valor por defecto esperado'
+
+    # game
+    assert (f := LibraryItem._meta.get_field('game')), 'LibraryItem.game no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'LibraryItem.game no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'game', (
+        'LibraryItem.game no referencia al modelo esperado'
+    )
+    assert f.remote_field.on_delete.__name__ == 'SET_NULL', (
+        'LibraryItem.game no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'in_library', 'LibraryItem.game no tiene el related_name esperado'
+    assert f.blank, 'LibraryItem.game debe admitir valores en blanco'
+
+    # hours_played
+    assert (f := LibraryItem._meta.get_field('hours_played')), 'LibraryItem.hours_played no se ha definido'
+    assert f.get_internal_type() == 'DecimalField', (
+        'LibraryItem.hours_played no tiene el tipo esperado'
+    )
+    assert f.decimal_places == 1, 'LibraryItem.hours_played no tiene el decimal_places esperado'
+    assert f.max_digits == 6, 'LibraryItem.hours_played no tiene el max_digits esperado'
+    assert not f.blank, 'LibraryItem.hours_played no debe admitir valores en blanco'
+    assert f.default == 0, 'LibraryItem.status no tiene el valor por defecto esperado'
+
+    # created_at
+    assert (f := LibraryItem._meta.get_field('created_at')), 'LibraryItem.created_at no se ha definido'
+    assert f.get_internal_type() == 'DateTimeField', 'LibraryItem.created_at no tiene el tipo esperado'
+    assert f.auto_now_add, 'LibraryItem.created_at no tiene auto_now_add activado'
+    assert not f.auto_now, 'LibraryItem.created_at tiene auto_now activado pero no debería'
+
+    # updated_at
+    assert (f := LibraryItem._meta.get_field('updated_at')), 'LibraryItem.updated_at no se ha definido'
+    assert f.get_internal_type() == 'DateTimeField', 'LibraryItem.updated_at no tiene el tipo esperado'
+    assert not f.auto_now_add, 'LibraryItem.updated_at tiene auto_now_add activado pero no debería'
+    assert f.auto_now, 'LibraryItem.updated_at no tiene auto_now activado'
+
+    # author
+    assert (f := LibraryItem._meta.get_field('author')), 'LibraryItem.author no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'LibraryItem.author no tiene el tipo esperado'
+    assert f.related_model == User, 'LibraryItem.author no referencia al modelo esperado'
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'LibraryItem.author no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'library', (
+        'LibraryItem.author no tiene el related_name esperado'
+    )
+    assert not f.blank, 'LibraryItem.author no debe admitir valores en blanco'
