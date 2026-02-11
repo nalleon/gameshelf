@@ -453,7 +453,6 @@ def favorite_item_detail(request, pk_favorite_item: int):
 @require_json_body
 @require_fields('pk_game')
 @auth_required
-@require_role('Admin')
 def add_favorite_item(request):
     payload = request.json
     pk_game = payload['pk_game']
@@ -504,7 +503,7 @@ def edit_favorite_item(request, pk_favorite_item : int):
         except Http404:
             return JsonResponse({'error': 'User to asociate not found'}, status=404)
 
-        favorite_item.game=game
+        favorite_item.user=user
 
     favorite_item.save()
     return JsonResponse({'id': favorite_item.pk}, status=200)
