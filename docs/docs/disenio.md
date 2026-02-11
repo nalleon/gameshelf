@@ -4,11 +4,15 @@ icon: lucide/pencil-ruler
 
 # Diseño
 
-## Arquitectura del sistema
+## :lucide-pyramid: Arquitectura del sistema
 
-## Definición de la estructura del proyecto y base de datos
+> Definición de la arquitectura del sistema
+
+## :lucide-chart-network: Definición de la estructura del proyecto y base de datos
 
 ### Diagrama de Casos de Uso
+
+> Diagrama Casos de Uso
 
 ### Diagrama de Entidad/Relación
 
@@ -137,13 +141,71 @@ erDiagram
 
 ### Diagrama de Clases
 
-## API
+> Diagrama de Clases
+
+## :lucide-braces: API
 
 ### Endpoints
 
+- `/api/admin/`: url para la vista de administración que viene por defecto en Django
+
+- `/api/schema/`
+
+- `/api/docs/`: url para comprobar todos los endpoints de la API mediante la librería de Swagger
+
+- `/api/auth/`
+
+
+- `/api/users/`
+
+- `/api/games/`
+
+- `/api/platforms/`
+    - `/api/platforms/`: listado de todas las plataformas
+    - `/api/platforms/add/`: añadir una plataforma nueva
+    - `/api/platforms/<int:pk_platform>/edit/`: edita una plataforma existente
+    - `/api/platforms/<int:pk_platform>/delete/`: borra una plataforma existente
+
+- `/api/genres/`
+    - `/api/genres/`: listado de todos los géneros de videojuegos
+    - `/api/genres/add/`: añadir un género de videojuego
+    - `/api/genres/<int:pk_genre>/edit/`: edita un género existente
+    - `/api/genres/<int:pk_genre>/delete/`: borra un género existente
+
+- `/api/developers/`
+    - `/api/developers/`
+    - `/api/developers/`: listado de todos los desarrolladores de videojuegos
+    - `/api/developers/add/`: añadir un desarrolladores de videojuegos
+    - `/api/developers/<int:pk_developer>/edit/`: edita un desarrollador existente
+    - `/api/developers/<int:pk_developer>/delete/`: borra un desarrollador existente
+
+- `/api/publishers/`
+    - `/api/publishers/`
+    - `/api/publishers/`: listado de todos los publishers de videojuegos
+    - `/api/publishers/add/`: añadir un publishers de videojuegos
+    - `/api/publishers/<int:pk_publisher>/edit/`: edita un publishers existente
+    - `/api/publishers/<int:pk_publisher>/delete/`: borra un publishers existente
+
+- `/api/editions/`
+    - `/api/editions/`
+    - `/api/editions/`: listado de todas las ediciones de videojuegos
+    - `/api/editions/add/`: añadir una edición de videojuego
+    - `/api/editions/<int:pk_edition>/edit/`: edita una edición existente
+    - `/api/editions/<int:pk_edition>/delete/`: borra una edición existente
+
+- `/api/regions/`
+    - `/api/regions/`
+    - `/api/regions/`: listado de todas las regiones de videojuegos
+    - `/api/regions/add/`: añadir una region de videojuego
+    - `/api/regions/<int:pk_region>/edit/`: edita una region existente
+    - `/api/regions/<int:pk_region>/delete/`: borra una region existente
+
+- `/api/collections/`
+- `/api/wishlists/`
+
 ---
 
-## Diseño de interfaz
+## :lucide-paintbrush: Diseño de interfaz
 
 ### Principios del diseño
 

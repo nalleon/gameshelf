@@ -1,5 +1,5 @@
 ---
-icon: lucide/tower-control
+icon: lucide/square-library
 ---
 
 # GameShelf
