@@ -40,7 +40,7 @@ class CollectionItem(Item):
 
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name='collections',
+        related_name='collection',
         on_delete=models.CASCADE,
     )
 

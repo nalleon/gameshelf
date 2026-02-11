@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 
 from classifications.models import Classification, Developer, Region, Publisher, Edition, Genre, Platform
 from colecctions.models import Item, CollectionItem, WishListItem
+from games.models import Game, Review, Media, FavoriteItem 
 
 User = get_user_model()
 
@@ -310,13 +311,145 @@ def test_wishlist_item_model_is_correctly_configured():
 
 
     # author
-    assert (f := CollectionItem._meta.get_field('author')), 'CollectionItem.author no se ha definido'
-    assert f.get_internal_type() == 'ForeignKey', 'CollectionItem.author no tiene el tipo esperado'
-    assert f.related_model == User, 'CollectionItem.author no referencia al modelo esperado'
+    assert (f := WishListItem._meta.get_field('author')), 'WishListItem.author no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'WishListItem.author no tiene el tipo esperado'
+    assert f.related_model == User, 'WishListItem.author no referencia al modelo esperado'
     assert f.remote_field.on_delete.__name__ == 'CASCADE', (
-        'CollectionItem.author no tiene el método de borrado esperado'
+        'CollectWishListItemionItem.author no tiene el método de borrado esperado'
     )
     assert f.remote_field.related_name == 'wishlist', (
-        'CollectionItem.author no tiene el related_name esperado'
+        'WishListItem.author no tiene el related_name esperado'
     )
-    assert not f.blank, 'CollectionItem.author no debe admitir valores en blanco'
+    assert not f.blank, 'WishListItem.author no debe admitir valores en blanco'
+
+
+# ========================================================================================================================================================== #
+#                                                               Games Models                                                                                 #
+# ========================================================================================================================================================== # 
+
+# ==============================================================================
+# Review Model
+# ==============================================================================
+
+@pytest.mark.score(2)
+@pytest.mark.django_db
+def test_review_model_is_correctly_configured():
+
+    # content
+    assert (f := Review._meta.get_field('content')), 'Review.content no se ha definido'
+    assert f.get_internal_type() == 'TextField', 'Review.content no tiene el tipo esperado'
+    assert not f.blank, 'Review.content no debe admitir valores en blanco'
+
+
+    # recommend
+    assert (f := Review._meta.get_field('recommend')), 'Review.recommend no se ha definido'
+    assert f.get_internal_type() == 'BooleanField', 'Review.recommend no tiene el tipo esperado'
+    assert not f.blank, 'Review.recommend no debe admitir valores en blanco'
+
+
+    # game
+    assert (f := Review._meta.get_field('game')), 'Review.game no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'Review.game no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'game', (
+        'Review.game no referencia al modelo esperado'
+    )
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'Review.game no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'reviews', 'Review.game no tiene el related_name esperado'
+    assert not f.blank, 'Review.game no debe admitir valores en blanco'
+
+
+    # author
+    assert (f := Review._meta.get_field('author')), 'Review.author no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'Review.author no tiene el tipo esperado'
+    assert f.related_model == User, 'Review.author no referencia al modelo esperado'
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'Review.author no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'reviews', (
+        'Review.author no tiene el related_name esperado'
+    )
+    assert not f.blank, 'Review.author no debe admitir valores en blanco'
+
+    # created_at
+    assert (f := Review._meta.get_field('created_at')), 'Review.created_at no se ha definido'
+    assert f.get_internal_type() == 'DateTimeField', 'Review.created_at no tiene el tipo esperado'
+    assert f.auto_now_add, 'Review.created_at no tiene auto_now_add activado'
+    assert not f.auto_now, 'Review.created_at tiene auto_now activado pero no debería'
+
+
+    # updated_at
+    assert (f := Review._meta.get_field('updated_at')), 'Review.updated_at no se ha definido'
+    assert f.get_internal_type() == 'DateTimeField', 'Review.updated_at no tiene el tipo esperado'
+    assert not f.auto_now_add, 'Review.updated_at tiene auto_now_add activado'
+    assert f.auto_now, 'Review.updated_at no tiene auto_now activado pero no debería'
+
+
+# ==============================================================================
+# Media Model
+# ==============================================================================
+
+@pytest.mark.score(2)
+@pytest.mark.django_db
+def test_media_model_is_correctly_configured():
+
+    # image
+    assert (f := Media._meta.get_field('image')), 'Media.image no se ha definido'
+    assert f.get_internal_type() in ['FileField', 'ImageField'], (
+        'Media.image no tiene el tipo esperado'
+    )
+    assert f.upload_to == 'reviews/', 'Media.image no tiene la ruta de subida esperada'
+    assert f.blank, 'Media.image debe admitir valores en blanco'
+    assert f.default == 'reviews/default.png', (
+        'Media.image no tiene el valor por defecto esperado'
+    )
+
+
+    # review
+    assert (f := Media._meta.get_field('review')), 'Media.review no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'Media.review no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'review', (
+        'Media.review no referencia al modelo esperado'
+    )
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'Media.review no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'medias', (
+        'Media.review no tiene el related_name esperado'
+    )
+    assert not f.blank, 'Media.review no debe admitir valores en blanco'
+
+
+# ==============================================================================
+# FavoriteItem Model
+# ==============================================================================
+
+@pytest.mark.score(2)
+@pytest.mark.django_db
+def test_favorite_item_model_is_correctly_configured():
+
+    # game
+    assert (f := FavoriteItem._meta.get_field('game')), 'FavoriteItem.game no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'FavoriteItem.game no tiene el tipo esperado'
+    assert f.related_model._meta.model_name == 'game', (
+        'FavoriteItem.game no referencia al modelo esperado'
+    )
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'FavoriteItem.game no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'favorites', 'FavoriteItem.game no tiene el related_name esperado'
+    assert not f.blank, 'FavoriteItem.game no debe admitir valores en blanco'
+
+
+    # user
+    assert (f := FavoriteItem._meta.get_field('user')), 'FavoriteItem.user no se ha definido'
+    assert f.get_internal_type() == 'ForeignKey', 'FavoriteItem.user no tiene el tipo esperado'
+    assert f.related_model == User, 'FavoriteItem.user no referencia al modelo esperado'
+    assert f.remote_field.on_delete.__name__ == 'CASCADE', (
+        'FavoriteItem.user no tiene el método de borrado esperado'
+    )
+    assert f.remote_field.related_name == 'favorites', (
+        'FavoriteItem.user no tiene el related_name esperado'
+    )
+    assert not f.blank, 'FavoriteItem.user no debe admitir valores en blanco'
