@@ -159,6 +159,29 @@ erDiagram
 - `/api/users/`
 
 - `/api/games/`
+    - `/api/games/`: listado de todos los videojuegos
+    - `/api/games/add/`: añadir uno videojuego nuevo
+    - `/api/games/<int:pk_game>/edit/`: edita un videojuego existente
+    - `/api/games/<int:pk_game>/delete/`: borra un videojuego existente
+
+- `/api/reviews/`
+    - `/api/reviews/`: listado de todas las reviews
+    - `/api/reviews/add/`: añadir una review nueva
+    - `/api/reviews/<int:pk_review>/edit/`: edita una review existente
+    - `/api/reviews/<int:pk_review>/delete/`: borra una review existente
+
+- `/api/medias/`
+    - `/api/medias/`: listado de todas las medias
+    - `/api/medias/add/`: añadir una media nueva
+    - `/api/medias/<int:pk_media>/edit/`: edita una media existente
+    - `/api/medias/<int:pk_media>/delete/`: borra una media existente
+
+- `/api/favorites/`
+    - `/api/favorites/`: listado de todos los favoritos
+    - `/api/favorites/add/`: añadir un favorito nuevo
+    - `/api/favorites/self-add/`: añadir un favorito a la lista del propio usuario
+    - `/api/favorites/<int:pk_favorite>/edit/`: edita un favorito existente
+    - `/api/favorites/<int:pk_favorite>/delete/`: borra un favorito existente
 
 - `/api/platforms/`
     - `/api/platforms/`: listado de todas las plataformas
@@ -200,9 +223,28 @@ erDiagram
     - `/api/regions/<int:pk_region>/edit/`: edita una region existente
     - `/api/regions/<int:pk_region>/delete/`: borra una region existente
 
-- `/api/collections/`
-- `/api/wishlists/`
+- `/api/libraries/`
+    - `/api/libraries/`
+    - `/api/libraries/`: listado de todos los item de bibliotecas
+    - `/api/libraries/add/`: añadir un item de bibliotecas
+    - `/api/libraries/<int:pk_library_item>/edit/`: edita un item de bibliotecas
+    - `/api/libraries/<int:pk_library_item>/delete/`: borra un item de bibliotecas
 
+- `/api/collections/`
+    - `/api/collections/`
+    - `/api/collections/`: listado de todos los items de colección
+    - `/api/collections/add/`: añadir un item de colección
+    - `/api/collections/self-add/`: añadir un item a la colección del propio usuario
+    - `/api/collections/<int:pk_collection_item>/edit/`: editar un item de colección
+    - `/api/collections/<int:pk_collection_item>/delete/`: borra un item de colección
+
+- `/api/wishlists/`
+    - `/api/wishlists/`
+    - `/api/wishlists/`: listado de todos los items de wishlists
+    - `/api/wishlists/add/`: añadir un item de wishlist
+    - `/api/wishlists/self-add/`: añadir un item a la wishlist del propio usuario
+    - `/api/wishlists/<int:pk_wishlist_item>/edit/`: editar un item de wishlist
+    - `/api/wishlists/<int:pk_wishlist_item>/delete/`: borra un item de wishlist
 ---
 
 ## :lucide-paintbrush: Diseño de interfaz
