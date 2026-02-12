@@ -30,13 +30,20 @@ urlpatterns = [
     path('api/auth/', auth, name='auth'),
     
     # path('api/users/', include('users.urls')),
-    # path('api/games/', include('games.urls')),
+    path('api/games/', include('games.games_urls')),
+    path('api/reviews/', include('games.reviews_urls')),
+    path('api/medias/', include('games.medias_urls')),
+    path('api/favorite/', include('games.favorite_items_urls')),
+
     path('api/platforms/', include('classifications.platforms_urls')),
     path('api/genres/', include('classifications.genres_urls')),
     path('api/developers/', include('classifications.developers_urls')),
     path('api/publishers/', include('classifications.publishers_urls')),
     path('api/regions/', include('classifications.regions_urls')),
     path('api/editions/', include('classifications.editions_urls')),
-    # path('api/collections/', include('collections.urls')),
-    # path('api/wishlist/', include('platforms.urls')),
+    
+    path('api/libraries/', include('libraries.urls')),
+
+    path('api/collections/', include('colecctions.collections_urls')),
+    path('api/wishlist/', include('colecctions.wishlists_urls')),
 ]
