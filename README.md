@@ -167,7 +167,6 @@ Este esquema refleja cómo se organizan y relacionan los distintos elementos cla
 
 <br>
 
-
 <br>
 
 #### __Clasificación__
