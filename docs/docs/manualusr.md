@@ -28,3 +28,4 @@ En caso de incidencias o errores comunes, se recomienda seguir estos pasos:
 4. Reiniciar el servicio o volver a ejecutar los comandos de puesta en marcha.
 5. Consultar la documentación o contactar con el administrador si el problema persiste.
 
+
