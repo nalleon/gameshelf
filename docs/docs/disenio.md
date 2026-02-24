@@ -137,6 +137,9 @@ erDiagram
 
 ### Diagrama de Clases
 
+```mermaid
+
+```
 ## API
 
 ### Endpoints
