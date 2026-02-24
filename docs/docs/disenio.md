@@ -6,92 +6,210 @@ icon: lucide/pencil-ruler
 
 ## :lucide-pyramid: Arquitectura del sistema
 
-> Definición de la arquitectura del sistema
+
+!!! success "Visión general"
+    GameShelf está diseñado como una aplicación web basada en **VUE** y **Django**, siguiendo una arquitectura clara, modular y escalable.
+
+<div class="grid cards" markdown>
+
+-    :lucide-globe: **Capa de presentación**  
+
+     ---
+
+     Interfaz web accesible desde el navegador, construida con VUE y TailwindCSS.
+
+-    :lucide-cpu: **Capa de aplicación**  
+
+     ---
+
+     Lógica de negocio implementada mediante vistas, formularios y servicios de Django.
+
+-    :lucide-database: **Capa de datos**  
+
+     ---
+
+     Persistencia de información mediante Django ORM y base de datos relacional.
+
+-    :lucide-server: **Servicios auxiliares**  
+
+     ---
+
+     Procesamiento en segundo plano y envío de correos mediante Redis y Django-RQ.
+
+</div>
+
+### Esquema general de la arquitectura
+
+```mermaid
+flowchart LR
+    Browser["Usuario<br/>(Navegador)"]
+    Vue["Cliente de la aplicación - VUE"]
+    Django["Servidor de la aplicación - Django"]
+    DB["Base de datos"]
+    Redis["Redis + RQ"]
+    Email["Servicio de correo"]
+
+    Browser --> Vue
+    Vue --> Django
+    Django --> DB
+    Django --> Redis
+    Redis --> Email
+```
+
 
 ## :lucide-chart-network: Definición de la estructura del proyecto y base de datos
 
+!!! info "División de los diagramas"
+    Para facilitar la lectura y comprensión de la estructura, se optó por dividir tanto el diagrama E/R como el de clases en tres módulos principales para poder ver las relaciones principales sin saturar la visualización. 
+    
+    Estos módulos son los siguientes:
+
+     * `Usuarios y perfiles` – Gestión de usuarios, perfiles, roles y favoritos.
+     * `Juegos y clasificación` – Juegos, géneros, desarrolladoras, distribuidoras, plataformas, regiones y ediciones.
+     * `Colección, lista de deseos y reviews` – Colecciones del usuario, listas de deseos, biblioteca y reseñas.
+---
+
+!!! warning "Consecuencias de la división"
+    Esto solo afecta a la visualización de la documentación, **NO** influye en el diseño final de la aplicación.
+
+
 ### Diagrama de Casos de Uso
 
-> Diagrama Casos de Uso
+```mermaid
+flowchart TB
+    %% Actor
+    Usuario([Usuario **SIN** privilegios])
+
+    %% Casos de uso
+    Registrarse(["Registrarse"])
+    IniciarSesion(["Iniciar sesión"])
+    ActualizarPerfil(["Actualizar perfil"])
+    VerPerfil(["Ver perfil"])
+    VerJuego(["Ver juego"])
+    MarcarFavorito(["Marcar favorito"])
+    AniadirBiblioteca(["Añadir a biblioteca"])
+    AniadirColeccion(["Añadir a colección"])
+    AniadirResenia(["Añadir una reseña"])
+    AniadirListaDeseos(["Añadir a lista de deseados"])
+
+    %% Conexiones
+    Usuario --> Registrarse
+    Usuario --> IniciarSesion
+
+    Usuario --> VerPerfil
+    VerPerfil --> ActualizarPerfil
+    Usuario --> VerJuego
+    VerJuego --> AniadirBiblioteca
+    VerJuego --> AniadirColeccion
+    VerJuego --> AniadirResenia
+    VerJuego --> AniadirListaDeseos
+    VerJuego --> MarcarFavorito
+```
+
+---
+
+<div class="grid cards" markdown>
+
+- :lucide-user: Registrarse
+    - Actor: Usuario SIN privilegios
+    - Descripción: Permite crear una cuenta en el sistema
+    - Dependencias: Ninguna
+
+- :lucide-user: Iniciar sesión
+    - Actor: Usuario SIN privilegios
+    - Descripción: Acceder a la cuenta creada
+    - Dependencias: Ninguna
+
+- :lucide-user: Ver perfil
+    - Actor: Usuario SIN privilegios
+    - Descripción: Consultar información de su perfil
+    - Dependencias: Ninguna
+
+- :lucide-user: Actualizar perfil
+    - Actor: Usuario SIN privilegios
+    - Descripción: Modificar sus datos personales
+    - Dependencias: Depende de Ver perfil
+
+- :lucide-gamepad: Ver juego
+    - Actor: Usuario SIN privilegios
+    - Descripción: Consultar la información de un juego
+    - Dependencias: Ninguna
+
+- :lucide-star: Marcar favorito
+    - Actor: Usuario SIN privilegios
+    - Descripción: Añadir un juego a favoritos
+    - Dependencias: Depende de Ver juego
+
+- :lucide-archive: Añadir a biblioteca
+    - Actor: Usuario SIN privilegios
+    - Descripción: Registrar que ha jugado/jugará el juego y sus horas jugadas
+    - Dependencias: Depende de Ver juego
+
+- :lucide-archive: Añadir a colección
+    - Actor: Usuario SIN privilegios
+    - Descripción: Incluir un juego dentro de su colección
+    - Dependencias: Depende de Ver juego
+
+- :lucide-edit: Añadir una reseña
+    - Actor: Usuario SIN privilegios
+    - Descripción: Escribir una reseña sobre un juego
+    - Dependencias: Depende de Ver juego
+
+- :lucide-heart: Añadir a lista de deseos
+    - Actor: Usuario SIN privilegios
+    - Descripción: Añadir el juego a su lista de deseados
+    - Dependencias: Depende de Ver juego
+</div>
+
 
 ### Diagrama de Entidad/Relación
 
+#### :lucide-users: Usuarios y Perfiles
+---
+
+<div align="center">
+
 ```mermaid
 erDiagram
-    EDICIÓN {}
+    USUARIO {
+    }
+
+    PERFIL {
+    }
+
+    ROL {
+    }
+
+    FAVORITO {}
+
+    %% Relaciones
+    USUARIO ||--|| PERFIL : tiene
+    PERFIL ||--|| ROL : tiene
+    USUARIO ||--o{ FAVORITO : tiene
+```
+
+</div>
+
+<br>
+
+#### :lucide-gamepad: Juegos y Clasificación
+
+---
+
+```mermaid
+erDiagram
+    JUEGO {
+    }
+
     GÉNERO {}
     DESARROLLADORA {}
     DISTRIBUIDORA {}
     PLATAFORMA {}
-
     REGIÓN {
-        CharField Siglas
-        ImageField Icono
     }
-
+    EDICIÓN {}
     CLASIFICACIÓN {
-        CharField Nombre
-        TextField Descripcion
     }
-
-    JUEGO {
-        CharField Titulo
-        SlugField Slug
-        TextField Descripción
-        ImageField Caratula
-        DateField Fecha_lanzamiento
-    }
-
-
-    REVIEW {
-        TextField Contenido
-        BooleanField Recomendado
-        DateField Fecha_actualizacion
-        DateField Fecha_creacion
-    }
-
-    MEDIA {
-        ImageField Image
-    }
-
-    COLECCION {
-        ChardField Tipo
-        DateField Fecha_adquisicion
-    }
-
-    LISTA_DESEOS {
-        SmallPositiveIntegerField Prioridad
-        CharField Anotacion
-        DateField Fecha_creacion
-    }
-
-    BIBLIOTECA {
-        DecimalField Horas_jugadas
-        DateField Fecha_creacion
-        DateField Fecha_actualizacion
-    }
-
-    ESTADO {
-        ChardField Nombre
-    }
-
-
-    FAVORITO {}
-
-    USUARIO {
-        user Django
-    }
-
-    PERFIL {
-        ImageField Avatar
-        TextField Biografia
-        BooleanField Verificado
-    }
-
-    ROL {
-        CharField Nombre
-    }
-
 
     %% Herencia
     GÉNERO ||--|| CLASIFICACIÓN : "hereda de"
@@ -101,47 +219,200 @@ erDiagram
     REGIÓN ||--|| CLASIFICACIÓN : "hereda de"
     EDICIÓN ||--|| CLASIFICACIÓN : "hereda de"
 
-    %% Relaciones base
+    %% Relaciones
+    JUEGO }|--|{ GÉNERO : tiene
+    JUEGO }|--|{ DESARROLLADORA : tiene
+    JUEGO }|--|{ DISTRIBUIDORA : tiene
+    JUEGO }|--|{ PLATAFORMA : tiene
+    JUEGO ||--o{ EDICIÓN : tiene
+    JUEGO ||--o{ REGIÓN : tiene
+```
 
-    USUARIO ||--|| PERFIL : tiene
-    PERFIL ||--|| ROL : tiene
-    JUEGO  }|--|{ GÉNERO : tiene
-    JUEGO  }|--|{ DESARROLLADORA : tiene
-    JUEGO  }|--|{ DISTRIBUIDORA : tiene
-    JUEGO  }|--|{ PLATAFORMA : tiene
+<br>
+
+#### :lucide-archive: Colección, Lista de Deseos y Reviews
+---
 
 
-    %% Coleccion
+```mermaid
+erDiagram
+    USUARIO {
+    }
+
+    COLECCION {
+    }
+
+    LISTA_DESEOS {
+    }
+
+    BIBLIOTECA {
+    }
+
+    ESTADO {
+    }
+
+    REVIEW {
+    }
+
+    MEDIA {
+    }
+
+    JUEGO {
+    }
+
+    %% Relaciones
     USUARIO ||--o{ COLECCION : posee
     JUEGO ||--o{ COLECCION : "forma parte"
-    EDICIÓN ||--o{ COLECCION : define
-    REGIÓN ||--o{ COLECCION : aplica
-
-    %% Lista de deseos
     USUARIO ||--o{ LISTA_DESEOS : crea
     JUEGO ||--o{ LISTA_DESEOS : contiene
-    EDICIÓN ||--o{ LISTA_DESEOS : opcional
-    REGIÓN ||--o{ LISTA_DESEOS : opcional
-
-    %% Biblioteca
     USUARIO ||--o{ BIBLIOTECA : gestiona
     JUEGO ||--o{ BIBLIOTECA : "aparece en"
     ESTADO ||--o{ BIBLIOTECA : define
-
-    %% Reviews
     USUARIO ||--o{ REVIEW : escribe
     REVIEW }o--|| JUEGO : sobre
     REVIEW ||--o{ MEDIA : contiene
 
-    %% Favorito
-    USUARIO ||--o{ FAVORITO : tiene
-    JUEGO   ||--o{ FAVORITO : aparece
-
 ```
+
+
+<br>
 
 ### Diagrama de Clases
 
-> Diagrama de Clases
+#### :lucide-users: Usuarios y Perfiles
+
+```mermaid
+classDiagram
+    %% Módulo Usuarios y Perfiles
+    class USUARIO {
+        user: Django
+    }
+
+    class PERFIL {
+        Avatar: ImageField
+        Biografia: TextField
+        Verificado: BooleanField
+    }
+
+    class ROL {
+        Nombre: CharField
+    }
+
+    class FAVORITO
+
+    %% Relaciones
+    USUARIO "1" -- "1" PERFIL : tiene
+    PERFIL "1" -- "1" ROL : tiene
+    USUARIO "1" -- "*" FAVORITO : tiene
+```
+
+<br>
+
+#### :lucide-gamepad: Juegos y Clasificación
+
+---
+```mermaid
+classDiagram
+    %% Módulo Juegos y Clasificación
+    class JUEGO {
+        Titulo: CharField
+        Slug: SlugField
+        Descripcion: TextField
+        Caratula: ImageField
+        Fecha_lanzamiento: DateField
+    }
+
+    class GÉNERO
+    class DESARROLLADORA
+    class DISTRIBUIDORA
+    class PLATAFORMA
+    class REGIÓN {
+        Siglas: CharField
+        Icono: ImageField
+    }
+    class EDICIÓN
+    class CLASIFICACIÓN {
+        Nombre: CharField
+        Descripcion: TextField
+    }
+
+    %% Herencia
+    GÉNERO --|> CLASIFICACIÓN
+    DESARROLLADORA --|> CLASIFICACIÓN
+    DISTRIBUIDORA --|> CLASIFICACIÓN
+    PLATAFORMA --|> CLASIFICACIÓN
+    REGIÓN --|> CLASIFICACIÓN
+    EDICIÓN --|> CLASIFICACIÓN
+
+    %% Relaciones
+    JUEGO "*" -- "*" GÉNERO : tiene
+    JUEGO "*" -- "*" DESARROLLADORA : tiene
+    JUEGO "*" -- "*" DISTRIBUIDORA : tiene
+    JUEGO "*" -- "*" PLATAFORMA : tiene
+    JUEGO "1" -- "*" EDICIÓN : tiene
+    JUEGO "*" -- "*" REGIÓN : tiene
+```
+
+<br>
+
+#### :lucide-archive: Colección, Lista de Deseos y Reviews
+---
+
+```mermaid
+classDiagram
+    %% Módulo Colecciones y Reviews
+    class COLECCION {
+        Tipo: CharField
+        Fecha_adquisicion: DateField
+    }
+
+    class LISTA_DESEOS {
+        Prioridad: SmallPositiveIntegerField
+        Anotacion: CharField
+        Fecha_creacion: DateField
+    }
+
+    class BIBLIOTECA {
+        Horas_jugadas: DecimalField
+        Fecha_creacion: DateField
+        Fecha_actualizacion: DateField
+    }
+
+    class ESTADO {
+        Nombre: CharField
+    }
+
+    class REVIEW {
+        Contenido: TextField
+        Recomendado: BooleanField
+        Fecha_actualizacion: DateField
+        Fecha_creacion: DateField
+    }
+
+    class MEDIA {
+        Image: ImageField
+    }
+
+    class JUEGO {
+        Titulo: CharField
+    }
+
+    class USUARIO {
+        user: Django
+    }
+
+    %% Relaciones
+    USUARIO "1" -- "*" COLECCION : posee
+    JUEGO "1" -- "*" COLECCION : forma_parte
+    USUARIO "1" -- "*" LISTA_DESEOS : crea
+    JUEGO "1" -- "*" LISTA_DESEOS : contiene
+    USUARIO "1" -- "*" BIBLIOTECA : gestiona
+    JUEGO "1" -- "*" BIBLIOTECA : aparece_en
+    ESTADO "1" -- "*" BIBLIOTECA : define
+    USUARIO "1" -- "*" REVIEW : escribe
+    REVIEW "1" -- "1" JUEGO : sobre
+    REVIEW "1" -- "*" MEDIA : contiene
+```
 
 ## :lucide-braces: API
 
@@ -245,6 +516,9 @@ erDiagram
     - `/api/wishlists/self-add/`: añadir un item a la wishlist del propio usuario
     - `/api/wishlists/<int:pk_wishlist_item>/edit/`: editar un item de wishlist
     - `/api/wishlists/<int:pk_wishlist_item>/delete/`: borra un item de wishlist
+
+!!! info "Interacción con la API"
+    Se puede interactuar con la API utilizando el Swagger. Para hacerlo, acceda a este [enlace]().
 ---
 
 ## :lucide-paintbrush: Diseño de interfaz
