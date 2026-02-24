@@ -2,9 +2,19 @@
 icon: lucide/info
 ---
 
-# Introducción
+## Descripción
 
 Este documento pretende presentar al equipo educativo nuestra propuesta de proyecto como alumnado de C.F.G.S. Desarrollo de Aplicaciones Web (DAW).
+
+<figure markdown="span">
+
+![Proyecto Final](assets/proyecto-final.jpg)
+
+  <figcaption>
+    Image Credits: campuscamarafp.com
+  </figcaption>
+
+</figure>
 
 En la actualidad, no solo el coleccionismo de videojuegos, si no el juego en sí, se ha convertido en una afición cada vez más popular entre jugadores de todas las edades. Sin embargo, los entusiastas de este hobby a menudo enfrentan limitaciones a la hora de organizar, compartir y descubrir nuevas entregas, especialmente aquellas que varían según región, plataforma o formato. Con el objetivo de responder a esta necesidad, surge nuestra aplicación: _**GameShelf**_.
 
@@ -19,6 +29,14 @@ Este proyecto busca:
 - Facilitar el descubrimiento de juegos o ciertas ediciones a través de las colecciones de otros usuarios, impulsando la pasión por el coleccionismo.
 
 Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su colección y/o lista de juegos, y que busquen una herramienta sencilla y eficaz para organizarlas y encontrar nuevos elementos para complementarlas.
+
+![Coleccion Videojuegos](assets/coleccion-videojuegos.webp)
+
+  <figcaption>
+    Image Credits: Fran Pineda neox.atresmedia.com | World Record Guinness 
+  </figcaption>
+
+</figure>
 
 ## Características principales
 

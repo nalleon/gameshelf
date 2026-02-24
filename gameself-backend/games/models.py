@@ -64,7 +64,7 @@ class Review(models.Model):
 
 class Media(models.Model):
     image = models.ImageField(
-        upload_to='reviews', default='reviews/default.png', null=True, blank=True
+        upload_to='reviews/', default='reviews/default.png', null=True, blank=True
     )
     review = models.ForeignKey('games.Review', related_name='medias', on_delete=models.CASCADE)
 

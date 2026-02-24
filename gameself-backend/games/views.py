@@ -10,6 +10,7 @@ from .serializers import GameSerializer, ReviewSerializer, MediaSerializer, Favo
 from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
 from users.decorators import auth_required
 
+User = get_user_model()
 
 # Games Methods
 @csrf_exempt
@@ -245,6 +246,7 @@ def review_detail(request, pk_review: int):
     serializer = ReviewSerializer(review, request=request)
     return serializer.json_response()
 
+# Public Method 
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -266,6 +268,7 @@ def add_review(request):
     review = Review.objects.create(content=content, recommend=recommend, game=game, user=user)
     return JsonResponse({'id': review.pk}, status=200)
 
+# Public method
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
@@ -304,7 +307,6 @@ def edit_review(request, pk_review : int):
         if request.user.role != 'Admin':
             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
 
-        User = get_user_model()
         try:
             author = get_object_or_404(User, pk_author)
         except Http404:
@@ -321,14 +323,14 @@ def edit_review(request, pk_review : int):
 @auth_required
 def delete_review(request, pk_review : int):
 
-    if request.user != review.author:
-        if  request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
     try:
         review = get_object_or_404(Review, pk=pk_review)
     except Http404:
         return JsonResponse({'error': 'Review not found'}, status=404)
+
+    if request.user != review.author:
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
     
     review.delete()
     return JsonResponse(status=200)
@@ -369,73 +371,67 @@ def add_media(request):
     except Http404:
         return JsonResponse({'error': 'Review associated not found'}, status=404)
     
+    if request.user != review.author:
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+    
     media = Media.objects.create(image=image, review=review)
     return JsonResponse({'id': media.pk}, status=200)
 
-# @csrf_exempt
-# @require_http_methods('PUT')
-# @require_json_body
-# @auth_required
-# @require_role('Admin')
-# def edit_media(request, pk_media : int):
-#     payload = request.json
-#     image = payload['image']
-#     pk_review = payload['pk_review']
+@csrf_exempt
+@require_http_methods('PUT')
+@require_json_body
+@auth_required
+@require_role('Admin')
+def edit_media(request, pk_media : int):
+    payload = request.json
+    image = payload['image']
+    pk_review = payload['pk_review']
 
-#     if 
-
-#     try:
-#         media = get_object_or_404(Media, pk=pk_media)
-#     except Http404:
-#         return JsonResponse({'error': 'Media not found'}, status=404)
+    try:
+        media = get_object_or_404(Media, pk=pk_media)
+    except Http404:
+        return JsonResponse({'error': 'Media not found'}, status=404)
     
-#     if request.user != media.author:
-#         if  request.user.role != 'Admin':
-#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+    if request.user != media.review.author:
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
 
-#     if content:
-#         media.content = content
-
-#     if recommend:
-#         media.recommend = recommend
-
-#     if pk_game:
-#         try:
-#             game = get_object_or_404(Game, pk_game)
-#         except Http404:
-#             return JsonResponse({'error': 'Game to associate not found'}, status=404)
-
-#         media.game=game
+    if image:
+        media.image = image
     
-#     if request.user.role == 'Admin' and pk_author:
-#         User = get_user_model()
-#         try:
-#             author = get_object_or_404(User, pk_author)
-#         except Http404:
-#             return JsonResponse({'error': 'Author to associate not found'}, status=404)
+    if pk_review:
 
-#         media.author=author
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
 
-#     media.save()
-#     return JsonResponse({'id': media.pk}, status=200)
+        try:
+            review = get_object_or_404(Review, pk_review)
+        except Http404:
+            return JsonResponse({'error': 'Review to associate not found'}, status=404)
+
+        media.review=review
+
+    media.save()
+    return JsonResponse({'id': media.pk}, status=200)
 
 
-# @csrf_exempt
-# @require_http_methods('POST')
-# @auth_required
-# def delete_media(request, pk_media : int):
+@csrf_exempt
+@require_http_methods('POST')
+@auth_required
+def delete_media(request, pk_media : int):
 
-#     if request.user != media.author:
-#         if  request.user.role != 'Admin':
-#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+    try:
+        media = get_object_or_404(Media, pk=pk_media)
+    except Http404:
+        return JsonResponse({'error': 'Media not found'}, status=404)
 
-#     try:
-#         media = get_object_or_404(Media, pk=pk_media)
-#     except Http404:
-#         return JsonResponse({'error': 'Media not found'}, status=404)
-    
-#     media.delete()
-#     return JsonResponse(status=200)
+    if request.user != media.review.author:
+        if  request.user.role != 'Admin':
+            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
+    media.delete()
+    return JsonResponse(status=200)
 
 
 # FavoriteItem Methods
@@ -458,13 +454,13 @@ def favorite_item_detail(request, pk_favorite_item: int):
     serializer = FavoriteItemSerializer(favorite_item, request=request)
     return serializer.json_response()
 
+# Public Method
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
 @require_fields('pk_game')
 @auth_required
-@require_role('Admin')
-def add_favorite_item(request):
+def add_self_favorite_item(request):
     payload = request.json
     pk_game = payload['pk_game']
 
@@ -479,9 +475,34 @@ def add_favorite_item(request):
     return JsonResponse({'id': favorite_item.pk}, status=200)
 
 @csrf_exempt
+@require_http_methods('POST')
+@require_json_body
+@require_fields('pk_game', 'pk_user')
+@auth_required
+def add_favorite_item(request):
+    payload = request.json
+    pk_game = payload['pk_game']
+    pk_user = payload['pk_user']
+
+    try:
+        game = get_object_or_404(Game, pk=pk_game)
+    except Http404:
+        return JsonResponse({'error': 'Game asociated not found'}, status=404)
+
+    try:
+        user = get_object_or_404(User, pk=pk_user)
+    except Http404:
+        return JsonResponse({'error': 'User asociated not found'}, status=404)
+
+    favorite_item = FavoriteItem.objects.create(game=game, user=user)
+    return JsonResponse({'id': favorite_item.pk}, status=200)
+
+# Private Method because normal users wants only to add or delete from favorites
+@csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
+@require_role('Admin')
 def edit_favorite_item(request, pk_favorite_item : int):
     payload = request.json
     pk_game = payload['pk_game']
@@ -491,30 +512,21 @@ def edit_favorite_item(request, pk_favorite_item : int):
         favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite_item)
     except Http404:
         return JsonResponse({'error': 'FavoriteItem not found'}, status=404)
-    
-    if request.user != favorite_item.user:
-        if  request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
     
     if pk_game:
         try:
             game = get_object_or_404(Game, pk=pk_game)
         except Http404:
             return JsonResponse({'error': 'Game to asociate not found'}, status=404)
-
         favorite_item.game=game
 
     if pk_user:
-        if  request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-        
-        User = get_user_model()
         try:
             user = get_object_or_404(User, pk=pk_user)
         except Http404:
             return JsonResponse({'error': 'User to asociate not found'}, status=404)
-
-        favorite_item.game=game
+        favorite_item.user=user
 
     favorite_item.save()
     return JsonResponse({'id': favorite_item.pk}, status=200)
