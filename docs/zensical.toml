@@ -52,7 +52,7 @@ nav = [
     "introduccion.md",
     { "Origen" = "origen.md" },
     "objetivo-general.md",
-    "tecnologias.md",
+    { "Tecnologías" = "tecnologias.md"},
     "disenio.md",
     "tareas.md",
     "planificacionempresarial.md",
