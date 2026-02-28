@@ -10,8 +10,10 @@ Este documento pretende presentar al equipo educativo nuestra propuesta de proye
 
 ![Proyecto Final](assets/proyecto-final.jpg)
 
-  <figcaption>
+  <figcaption class="caption-center">
+
     Image Credits: campuscamarafp.com
+
   </figcaption>
 
 </figure>
@@ -32,8 +34,10 @@ Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su
 
 ![Coleccion Videojuegos](assets/coleccion-videojuegos.webp)
 
-  <figcaption>
-    Image Credits: Fran Pineda neox.atresmedia.com | World Record Guinness 
+  <figcaption class="caption-center">
+
+    Image Credits: Fran Pineda neox.atresmedia.com | World Record Guinness
+
   </figcaption>
 
 </figure>

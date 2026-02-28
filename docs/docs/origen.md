@@ -10,8 +10,10 @@ Nuestra idea del proyecto es crear una aplicación destinada al coleccionismo de
 
 ![Gamers](assets/social-gamers.jpg)
 
-  <figcaption>
+  <figcaption class="caption-center">
+
     Image Credits: Freepik
+
   </figcaption>
 
 </figure>
@@ -24,8 +26,10 @@ Tras investigar, identificamos la necesidad de que no existe una distinción com
 
 ![Platforms](assets/games-platforms.jpg)
 
-  <figcaption>
+  <figcaption class="caption-center">
+
     Image Credits: Dean Shimabukuro, Product Marketing Manager, Xbox Services Marketing
+
   </figcaption>
 
 </figure>
@@ -36,8 +40,10 @@ Una de las principales alternativas actuales es [Backloggd](https://backloggd.co
 
 ![Platforms](assets/backloggd.webp)
 
-  <figcaption>
+  <figcaption class="caption-center">
+
     Image Credits: Backloggd
+
   </figcaption>
 
 </figure>

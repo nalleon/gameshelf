@@ -14,8 +14,10 @@ icon: lucide/square-library
 
 ![Logo](assets/cover-logo.png)
 
-  <figcaption>
+  <figcaption class="caption-center">
+
     Organiza. Muestra. Encuentra.
+
   </figcaption>
 
 </figure>

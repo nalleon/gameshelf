@@ -531,9 +531,9 @@ classDiagram
 
 ![Logo](assets/color-pallete.png)
 
-  <figcaption>
-        Paleta de colores escogida en [ColorMind](http://colormind.io/)
-  </figcaption>
+<figcaption class="caption-center">
+Paleta de colores escogida en <a href="http://colormind.io/">ColorMind</a>
+</figcaption>.
 
 </figure>
 

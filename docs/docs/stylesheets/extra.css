@@ -17,3 +17,7 @@
 [data-md-color-scheme="slate"] .img-dark {
   display: inline;
 }
+ 
+.caption-center {
+  text-align: center;
+}
