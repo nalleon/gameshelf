@@ -155,10 +155,49 @@ flowchart TB
     - Descripción: Escribir una reseña sobre un juego
     - Dependencias: Depende de Ver juego
 
+- :lucide-edit: Editar una reseña
+    - Actor: Usuario SIN privilegios
+    - Descripción: Escribir una reseña sobre un juego
+    - Dependencias: Depende de Añadir reseñar (_que sea del **propio usuario**_)
+
+
 - :lucide-heart: Añadir a lista de deseos
     - Actor: Usuario SIN privilegios
     - Descripción: Añadir el juego a su lista de deseados
     - Dependencias: Depende de Ver juego
+
+- :lucide-heart: Editar lista de deseos
+    - Actor: Usuario SIN privilegios
+    - Descripción: Añadir el juego a su lista de deseados
+    - Dependencias: Depende de Añadir a lista de deseos (_que sea del **propio usuario**_)
+    
+</div>
+
+---
+
+
+<div class="grid cards" markdown>
+
+- :lucide-gamepad: Crear juego
+    - Actor: Usuario CON privilegios
+    - Descripción: Crear un juego
+    - Dependencias: Ninguna
+
+
+- :lucide-gamepad: Editar juego
+    - Actor: Usuario CON privilegios
+    - Descripción: Editar un juego
+    - Dependencias: Ninguna
+
+
+- :lucide-gamepad: Editar juego
+    - Actor: Usuario CON privilegios
+    - Descripción: Editar un juego
+    - Dependencias: Ninguna
+
+
+
+
 </div>
 
 
@@ -531,9 +570,15 @@ classDiagram
 
 ![Logo](assets/color-pallete.png)
 
+<<<<<<< HEAD
 <figcaption class="caption-center">
 Paleta de colores escogida en <a href="http://colormind.io/">ColorMind</a>
 </figcaption>.
+=======
+  <figcaption>
+    Paleta de colores creada utilizando <a href="http://colormind.io/">ColorMind</a>.
+  </figcaption>
+>>>>>>> gs#2
 
 </figure>
 
