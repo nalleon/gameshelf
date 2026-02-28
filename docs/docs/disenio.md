@@ -570,15 +570,9 @@ classDiagram
 
 ![Logo](assets/color-pallete.png)
 
-<<<<<<< HEAD
 <figcaption class="caption-center">
 Paleta de colores escogida en <a href="http://colormind.io/">ColorMind</a>
 </figcaption>.
-=======
-  <figcaption>
-    Paleta de colores creada utilizando <a href="http://colormind.io/">ColorMind</a>.
-  </figcaption>
->>>>>>> gs#2
 
 </figure>
 

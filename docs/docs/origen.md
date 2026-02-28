@@ -10,13 +10,19 @@ Nuestra idea del proyecto es crear una aplicación destinada al coleccionismo de
 
 ![Gamers](assets/social-gamers.jpg)
 
-  <figcaption class="caption-center">
-
-    Image Credits: Freepik
-
-  </figcaption>
-
 </figure>
+
+
+<details class="info">
+  <summary>Créditos de la imagen</summary>
+
+  <ul>
+    <li>Freepik</li>
+  </ul>
+
+</details>
+
+---
 
 La idea nos surgió tras ya que es un ámbito en el que ambos integrantes del equipo compartimos este hobby. Lo vimos adecuado como proyecto, ya que nos daba la libertad de abarcar un tema que realmente nos apasiona. Además, creemos que trabajar en algo relacionado con nuestra afición nos permite aportar creatividad, dedicación y un mayor nivel de detalle.
 
@@ -26,13 +32,22 @@ Tras investigar, identificamos la necesidad de que no existe una distinción com
 
 ![Platforms](assets/games-platforms.jpg)
 
-  <figcaption class="caption-center">
-
-    Image Credits: Dean Shimabukuro, Product Marketing Manager, Xbox Services Marketing
-
-  </figcaption>
-
 </figure>
+
+
+<details class="info">
+  <summary>Créditos de la imagen</summary>
+
+  <ul>
+    <li> Dean Shimabukuro</li>
+    <li> Product Marketing Manager</li>
+    <li> Xbox Services Marketing</li>
+
+  </ul>
+
+</details>
+
+---
 
 Una de las principales alternativas actuales es [Backloggd](https://backloggd.com/), una plataforma que, si bien permite registrar juegos y compartir opiniones, no contempla aspectos esenciales para el coleccionismo, como la diferenciación por regiones, ediciones físicas específicas o formato. Además, carece de una versión móvil nativa, lo que limita su accesibilidad y usabilidad en comparación con nuestra propuesta, que nace con un enfoque multiplataforma y especializado en los matices que realmente valoran los coleccionistas.
 
@@ -40,10 +55,13 @@ Una de las principales alternativas actuales es [Backloggd](https://backloggd.co
 
 ![Platforms](assets/backloggd.webp)
 
-  <figcaption class="caption-center">
-
-    Image Credits: Backloggd
-
-  </figcaption>
-
 </figure>
+
+<details class="info">
+  <summary>Créditos de la imagen</summary>
+
+  <ul>
+    <li> Backloggd </li>
+  </ul>
+
+</details>

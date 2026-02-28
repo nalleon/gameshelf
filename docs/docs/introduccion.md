@@ -4,21 +4,24 @@ icon: lucide/info
 
 ## Descripción
 
-Este documento pretende presentar al equipo educativo nuestra propuesta de proyecto como alumnado de C.F.G.S. Desarrollo de Aplicaciones Web (DAW).
+En la actualidad, no solo el coleccionismo de videojuegos, si no el juego en sí, se ha convertido en una afición cada vez más popular entre jugadores de todas las edades. Sin embargo, los entusiastas de este hobby a menudo enfrentan limitaciones a la hora de organizar, compartir y descubrir nuevas entregas, especialmente aquellas que varían según región, plataforma o formato. Con el objetivo de responder a esta necesidad, surge nuestra aplicación: _**GameShelf**_.
 
 <figure markdown="span">
 
 ![Proyecto Final](assets/proyecto-final.jpg)
 
-  <figcaption class="caption-center">
-
-    Image Credits: campuscamarafp.com
-
-  </figcaption>
-
 </figure>
 
-En la actualidad, no solo el coleccionismo de videojuegos, si no el juego en sí, se ha convertido en una afición cada vez más popular entre jugadores de todas las edades. Sin embargo, los entusiastas de este hobby a menudo enfrentan limitaciones a la hora de organizar, compartir y descubrir nuevas entregas, especialmente aquellas que varían según región, plataforma o formato. Con el objetivo de responder a esta necesidad, surge nuestra aplicación: _**GameShelf**_.
+<details class="info">
+  <summary>Créditos de la imagen</summary>
+
+  <ul>
+    <li>campuscamarafp.com</li>
+  </ul>
+
+</details>
+
+---
 
 Este proyecto busca:
 
@@ -31,16 +34,6 @@ Este proyecto busca:
 - Facilitar el descubrimiento de juegos o ciertas ediciones a través de las colecciones de otros usuarios, impulsando la pasión por el coleccionismo.
 
 Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su colección y/o lista de juegos, y que busquen una herramienta sencilla y eficaz para organizarlas y encontrar nuevos elementos para complementarlas.
-
-![Coleccion Videojuegos](assets/coleccion-videojuegos.webp)
-
-  <figcaption class="caption-center">
-
-    Image Credits: Fran Pineda neox.atresmedia.com | World Record Guinness
-
-  </figcaption>
-
-</figure>
 
 ## Características principales
 
@@ -59,3 +52,21 @@ Esta aplicación esta dirigida a todo jugador que quiera tener un registro de su
 - Visualización clara y organizada de la colección, con filtros para facilitar el acceso rápido a cualquier título.
 
 - Soporte para múltiples plataformas y tipos de juegos, adaptándose a colecciones variadas.
+
+
+<figure markdown="span">
+
+![Coleccion Videojuegos](assets/coleccion-videojuegos.webp)
+
+</figure>
+
+
+
+<details class="info">
+  <summary>Créditos de la imagen</summary>
+
+  <ul>
+    <li>Fran Pineda neox.atresmedia.com | World Record Guinness </li>
+  </ul>
+
+</details>
