@@ -38,7 +38,7 @@ def library_item_detail(request, pk_library_item: int):
 @require_json_body
 @require_fields('status', 'pk_game', 'hours_played', 'created_at', 'updated_at', 'pk_author')
 @auth_required
-@require_role('Admin')
+# @require_role('Admin')
 def add_library_item(request):
     payload = request.json
     status = payload['status']
@@ -65,8 +65,9 @@ def add_library_item(request):
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
+@require_fields('status', 'pk_game', 'hours_played', 'created_at', 'updated_at', 'pk_author')
 @auth_required
-@require_role('Admin')
+# @require_role('Admin')
 def edit_library_item(request, pk_library_item : int):
     payload = request.json
     status = payload['status']
@@ -85,7 +86,6 @@ def edit_library_item(request, pk_library_item : int):
         library_item.status = status
         
     if pk_game:
-
         try:
             game = get_object_or_404(Game, pk=pk_game)
         except Http404:
@@ -120,7 +120,6 @@ def edit_library_item(request, pk_library_item : int):
 @auth_required
 @require_role('Admin')
 def delete_library_item(request, pk_library_item : int):
-
     try:
         library_item = get_object_or_404(LibraryItem, pk=pk_library_item)
     except Http404:

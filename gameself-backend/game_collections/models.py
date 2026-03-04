@@ -52,7 +52,7 @@ class WishListItem(Item):
         default=5,
     )
     
-    annotation = models.CharField(max_length=100)
+    annotation = models.CharField(max_length=100, null=True, blank=True)
 
     game = models.ForeignKey(
         'games.Game',

@@ -12,7 +12,10 @@ from users.decorators import auth_required
 
 User = get_user_model()
 
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+
 # Games Methods
+
 @csrf_exempt
 @require_http_methods('GET')
 def game_list(request):
@@ -21,6 +24,11 @@ def game_list(request):
     return serializer.json_response()
 
 
+@extend_schema(
+    responses={200: GameSerializer.get_schema(), 404: None},
+    description='Get details of a specific game',
+    operation_id='get_game_detail',
+)
 @csrf_exempt
 @require_http_methods('GET')
 def game_detail(request, pk_game: int):

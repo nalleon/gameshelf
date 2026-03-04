@@ -1,4 +1,5 @@
 from shared.serializers import BaseSerializer
+from rest_framework import serializers
 
 
 class UserSerializer(BaseSerializer):
@@ -11,6 +12,17 @@ class UserSerializer(BaseSerializer):
             'email': instance.email,
         }
 
+    @classmethod
+    def get_schema(cls):
+        return {
+            'id': serializers.IntegerField(),
+            'username': serializers.CharField(),
+            'first_name': serializers.CharField(),
+            'last_name': serializers.CharField(),
+            'email': serializers.EmailField(),
+        }
+
+
 class ProfileSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
@@ -20,4 +32,15 @@ class ProfileSerializer(BaseSerializer):
             'bio': instance.bio,
             'verified': instance.verified,
             'role': instance.get_role_display(),
+        }
+
+    @classmethod
+    def get_schema(cls):
+        return {
+            'id': serializers.IntegerField(),
+            'user': UserSerializer.get_schema(),
+            'avatar': serializers.URLField(),
+            'bio': serializers.CharField(),
+            'verified': serializers.BooleanField(),
+            'role': serializers.CharField(),
         }

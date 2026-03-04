@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 
+
 from .models import Profile
 from games.models import Game, FavoriteItem
 from .serializers import ProfileSerializer, ProfileSerializer
