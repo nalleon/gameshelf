@@ -1,5 +1,6 @@
-from shared.serializers import BaseSerializer
 from rest_framework import serializers
+
+from shared.serializers import BaseSerializer
 
 
 class UserSerializer(BaseSerializer):
@@ -12,8 +13,8 @@ class UserSerializer(BaseSerializer):
             'email': instance.email,
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'username': serializers.CharField(),
@@ -34,11 +35,11 @@ class ProfileSerializer(BaseSerializer):
             'role': instance.get_role_display(),
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
-            'user': UserSerializer.get_schema(),
+            'user': UserSerializer.get_fields_dict(),
             'avatar': serializers.URLField(),
             'bio': serializers.CharField(),
             'verified': serializers.BooleanField(),

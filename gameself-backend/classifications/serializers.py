@@ -1,5 +1,7 @@
-from shared.serializers import BaseSerializer
 from rest_framework import serializers
+
+from shared.serializers import BaseSerializer
+
 
 class PlatformSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
@@ -9,8 +11,8 @@ class PlatformSerializer(BaseSerializer):
             'description': instance.description,
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
@@ -26,8 +28,8 @@ class GenreSerializer(BaseSerializer):
             'description': instance.description,
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
@@ -43,8 +45,8 @@ class DeveloperSerializer(BaseSerializer):
             'description': instance.description,
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
@@ -60,8 +62,8 @@ class PublisherSerializer(BaseSerializer):
             'description': instance.description,
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
@@ -77,8 +79,8 @@ class EditionSerializer(BaseSerializer):
             'description': instance.description,
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
@@ -96,8 +98,8 @@ class RegionSerializer(BaseSerializer):
             'icon': self.build_url(instance.icon.url),
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),

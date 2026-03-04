@@ -1,7 +1,8 @@
-from shared.serializers import BaseSerializer
-from games.serializers import GameSerializer
-from users.serializers import UserSerializer
 from rest_framework import serializers
+
+from games.serializers import GameSerializer
+from shared.serializers import BaseSerializer
+from users.serializers import UserSerializer
 
 
 class LibraryItemSerializer(BaseSerializer):
@@ -17,15 +18,15 @@ class LibraryItemSerializer(BaseSerializer):
             'author': UserSerializer(instance.user, request=self.request).serialize(),
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'status': serializers.CharField(),
-            'edition': GameSerializer.get_schema(),
+            'edition': GameSerializer.get_fields_dict(),
             'description': serializers.CharField(),
             'hours_played': serializers.FloatField(),
             'created_at': serializers.DateTimeField(),
             'updated_at': serializers.DateTimeField(),
-            'author': UserSerializer.get_schema(),
+            'author': UserSerializer.get_fields_dict(),
         }

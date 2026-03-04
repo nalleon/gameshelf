@@ -5,7 +5,7 @@ class UniqueFaker(Faker):
     """A Faker that always returns unique values.
     https://github.com/FactoryBoy/factory_boy/pull/820#issuecomment-1004802669"""
 
-    @classmethod
+    @staticmethod
     def _get_faker(cls, locale=None):
         return super()._get_faker(locale=locale).unique
 

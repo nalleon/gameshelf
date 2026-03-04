@@ -1,7 +1,8 @@
-from shared.serializers import BaseSerializer
-from games.serializers import GameSerializer
-from users.serializers import UserSerializer
 from rest_framework import serializers
+
+from games.serializers import GameSerializer
+from shared.serializers import BaseSerializer
+from users.serializers import UserSerializer
 
 
 class ItemSerializer(BaseSerializer):
@@ -14,13 +15,13 @@ class ItemSerializer(BaseSerializer):
             'created_at': instance.released_at.isoformat(),
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'type': serializers.CharField(),
-            'game': GameSerializer.get_schema(),
-            'author': UserSerializer.get_schema(),
+            'game': GameSerializer.get_fields_dict(),
+            'author': UserSerializer.get_fields_dict(),
             'created_at': serializers.DateTimeField(),
         }
 
@@ -33,12 +34,12 @@ class CollectionItemSerializer(BaseSerializer):
             'author': UserSerializer(instance.author, request=self.request).serialize(),
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
-            'game': GameSerializer.get_schema(),
-            'author': UserSerializer.get_schema(),
+            'game': GameSerializer.get_fields_dict(),
+            'author': UserSerializer.get_fields_dict(),
         }
 
 
@@ -52,12 +53,12 @@ class WishlistItemSerializer(BaseSerializer):
             'author': UserSerializer(instance.author, request=self.request).serialize(),
         }
 
-    @classmethod
-    def get_schema(cls):
+    @staticmethod
+    def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
             'priority': serializers.IntegerField(),
             'annotation': serializers.CharField(allow_null=True),
-            'game': GameSerializer.get_schema(),
-            'author': UserSerializer.get_schema(),
+            'game': GameSerializer.get_fields_dict(),
+            'author': UserSerializer.get_fields_dict(),
         }
