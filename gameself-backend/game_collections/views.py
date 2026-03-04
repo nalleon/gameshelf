@@ -1,20 +1,21 @@
+from django.contrib.auth import get_user_model
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import get_user_model
 
-
-from .models import Item, CollectionItem, WishListItem 
 from games.models import Game
-from .serializers import ItemSerializer, CollectionItemSerializer, WishlistItemSerializer
-from games.serializers import GameSerializer
-
-from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
+from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
 from users.decorators import auth_required
+
+from .models import CollectionItem, WishListItem
+from .serializers import CollectionItemSerializer, WishlistItemSerializer
 
 User = get_user_model()
 
 # CollectionItem Methods
+
+
+# This method is public to get all items from a collection
 @csrf_exempt
 @require_http_methods('GET')
 def collection_item_list(request):
@@ -23,6 +24,7 @@ def collection_item_list(request):
     return serializer.json_response()
 
 
+# This method is public to get an item form a collection
 @csrf_exempt
 @require_http_methods('GET')
 def collection_item_detail(request, pk_collection_item: int):
@@ -33,6 +35,7 @@ def collection_item_detail(request, pk_collection_item: int):
 
     serializer = CollectionItemSerializer(collection_item, request=request)
     return serializer.json_response()
+
 
 # This method is public to add to its own collection
 @csrf_exempt
@@ -48,11 +51,12 @@ def add_self_collection_item(request):
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
         return JsonResponse({'error': 'Game not found'}, status=404)
-    
+
     author = request.user
 
     collection_item = CollectionItem.objects.create(game=game, author=author)
     return JsonResponse({'id': collection_item.pk}, status=200)
+
 
 # This method is for admins, to add for other users
 @csrf_exempt
@@ -70,7 +74,7 @@ def add_collection_item(request):
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
         return JsonResponse({'error': 'Game not found'}, status=404)
-    
+
     try:
         author = get_object_or_404(User, pk=pk_author)
     except Http404:
@@ -79,13 +83,14 @@ def add_collection_item(request):
     collection_item = CollectionItem.objects.create(game=game, author=author)
     return JsonResponse({'id': collection_item.pk}, status=200)
 
+
 # This method is for admin only, a user only wants to add or delete from collection
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
 @require_role('Admin')
-def edit_collection_item(request, pk_collection_item : int):
+def edit_collection_item(request, pk_collection_item: int):
     payload = request.json
     pk_game = payload['pk_game']
     pk_author = payload['pk_author']
@@ -94,7 +99,7 @@ def edit_collection_item(request, pk_collection_item : int):
         collection_item = get_object_or_404(CollectionItem, pk=pk_collection_item)
     except Http404:
         return JsonResponse({'error': 'CollectionItem not found'}, status=404)
-    
+
     if pk_game:
         try:
             game = get_object_or_404(Game, pk=pk_game)
@@ -113,16 +118,17 @@ def edit_collection_item(request, pk_collection_item : int):
     return JsonResponse({'id': collection_item.pk}, status=200)
 
 
+# This method is public to delete an item of a collection
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
-def delete_collection_item(request, pk_collection_item : int):
+def delete_collection_item(request, pk_collection_item: int):
 
     try:
         collection_item = get_object_or_404(CollectionItem, pk=pk_collection_item)
     except Http404:
         return JsonResponse({'error': 'CollectionItem not found'}, status=404)
-    
+
     if collection_item.author != request.user:
         if request.user.role != 'Admin':
             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
@@ -139,6 +145,8 @@ def wishlist_item_list(request):
     serializer = WishlistItemSerializer(wishlist_items, request=request)
     return serializer.json_response()
 
+
+# This method is public to see an wishlist item
 @csrf_exempt
 @require_http_methods('GET')
 def wishlist_item_detail(request, pk_wishlist_item: int):
@@ -167,10 +175,12 @@ def add_self_wishlist_item(request):
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
         return JsonResponse({'error': 'Game not found'}, status=404)
-    
+
     author = request.user
 
-    wishlist_item = WishListItem.objects.create(priority=priority, annotation=annotation, game=game, author=author)
+    wishlist_item = WishListItem.objects.create(
+        priority=priority, annotation=annotation, game=game, author=author
+    )
     return JsonResponse({'id': wishlist_item.pk}, status=200)
 
 
@@ -192,14 +202,17 @@ def add_wishlist_item(request):
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
         return JsonResponse({'error': 'Game not found'}, status=404)
-    
+
     try:
         author = get_object_or_404(User, pk=pk_author)
     except Http404:
         return JsonResponse({'error': 'User not found'}, status=404)
 
-    wishlist_item = WishListItem.objects.create(priority=priority, annotation=annotation, game=game, author=author)
+    wishlist_item = WishListItem.objects.create(
+        priority=priority, annotation=annotation, game=game, author=author
+    )
     return JsonResponse({'id': wishlist_item.pk}, status=200)
+
 
 # This method is for admin only, a user only wants to add or delete from wishlist
 @csrf_exempt
@@ -207,7 +220,7 @@ def add_wishlist_item(request):
 @require_json_body
 @auth_required
 @require_role('Admin')
-def edit_wishlist_item(request, pk_wishlist_item : int):
+def edit_wishlist_item(request, pk_wishlist_item: int):
     payload = request.json
     pk_game = payload['pk_game']
     priority = payload['priority']
@@ -218,7 +231,7 @@ def edit_wishlist_item(request, pk_wishlist_item : int):
         wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
     except Http404:
         return JsonResponse({'error': 'CollectionItem not found'}, status=404)
-    
+
     if pk_game:
         try:
             game = get_object_or_404(Game, pk=pk_game)
@@ -232,27 +245,27 @@ def edit_wishlist_item(request, pk_wishlist_item : int):
         except Http404:
             return JsonResponse({'error': 'User not found'}, status=404)
         wishlist_item.author = author
-    
+
     if priority:
-        wishlist_item.priority=priority
+        wishlist_item.priority = priority
 
     if annotation:
-        wishlist_item.annotation=annotation
+        wishlist_item.annotation = annotation
 
     wishlist_item.save()
     return JsonResponse({'id': wishlist_item.pk}, status=200)
 
 
+# This method is public to delete a wishlist collection
 @csrf_exempt
-@require_http_methods('POST')
+@require_http_methods('DELETE')
 @auth_required
-def delete_wishlist_item(request, pk_wishlist_item : int):
-
+def delete_wishlist_item(request, pk_wishlist_item: int):
     try:
         wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
     except Http404:
         return JsonResponse({'error': 'WishListItem not found'}, status=404)
-    
+
     if wishlist_item.author != request.user:
         if request.user.role != 'Admin':
             return JsonResponse({'error': 'Forbbiden Access'}, status=403)

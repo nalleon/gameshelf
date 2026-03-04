@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # CUSTOM
     'games.apps.GamesConfig',
     'classifications.apps.ClassificationsConfig',
-    'colecctions.apps.ColecctionsConfig',
+    'game_collections.apps.CollectionsConfig',
     'users.apps.UsersConfig',
     'libraries.apps.LibrariesConfig',
     'shared.apps.SharedConfig',
@@ -137,9 +137,7 @@ REST_AUTH = {
     'USE_JWT': True,
     'JWT_SERIALIZER': 'shared.serializers.CustomTokenObtainPairSerializer',
     'JWT_TOKEN_CLAIMS_SERIALIZER': 'shared.serializers.CustomTokenObtainPairSerializer',
-    
     'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserSerializer',
-    
     'JWT_AUTH_HTTPONLY': False,
     'JWT_AUTH_RETURN_EXPIRATION': True,
 }

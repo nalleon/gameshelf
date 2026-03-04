@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-# app_name = 'wishlists'
+# app_name = 'game_collections'
 
 urlpatterns = [
     path('', views.wishlist_item_list, name='wishlist_item-list'),

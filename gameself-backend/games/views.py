@@ -536,7 +536,6 @@ def edit_favorite_item(request, pk_favorite_item : int):
 @require_http_methods('POST')
 @auth_required
 def delete_favorite_item(request, pk_favorite_item : int):
-
     try:
         favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite_item)
     except Http404:

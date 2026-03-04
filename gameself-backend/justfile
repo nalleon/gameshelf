@@ -157,7 +157,7 @@ clean-data:
     uv run manage.py shell <<'PYTHON'
     from django.contrib.auth.models import User
     from games.models import Game, Review, FavoriteItem, Media
-    from colecctions.models import CollectionItem
+    from game_collections.models import CollectionItem
     from libraries.models import LibraryItem
     from users.models import Profile, Token
 
@@ -178,8 +178,8 @@ clean-data:
     name="games_review" OR
     name="games_favoriteitem" OR
     name="games_media" OR
-    name="colecctions_collectionitem" OR
-    name="colecctions_wishlistitem" OR
+    name="collections_collectionitem" OR
+    name="collections_wishlistitem" OR
     name="libraries_libraryitem" OR
     name="users_profile" OR
     name="users_token";
@@ -218,7 +218,7 @@ dump-data:
     uv run manage.py dumpdata games \
         --indent 2 > fixtures/games.json
 
-    uv run manage.py dumpdata colecctions \
+    uv run manage.py dumpdata collections \
         --indent 2 > fixtures/collections.json
 
     uv run manage.py dumpdata libraries \

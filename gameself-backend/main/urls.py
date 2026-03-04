@@ -15,35 +15,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-
-
 from django.contrib import admin
-from django.urls import include, path, re_path
+from django.urls import include, path
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from users.views import auth
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView    
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/auth/', auth, name='auth'),
-    
     # path('api/users/', include('users.urls')),
     path('api/games/', include('games.games_urls')),
     path('api/reviews/', include('games.reviews_urls')),
     path('api/medias/', include('games.medias_urls')),
     path('api/favorite/', include('games.favorite_items_urls')),
-
     path('api/platforms/', include('classifications.platforms_urls')),
     path('api/genres/', include('classifications.genres_urls')),
     path('api/developers/', include('classifications.developers_urls')),
     path('api/publishers/', include('classifications.publishers_urls')),
     path('api/regions/', include('classifications.regions_urls')),
     path('api/editions/', include('classifications.editions_urls')),
-    
     path('api/libraries/', include('libraries.urls')),
-
-    path('api/collections/', include('colecctions.collections_urls')),
-    path('api/wishlist/', include('colecctions.wishlists_urls')),
+    path('api/collections/', include('game_collections.collections_urls')),
+    path('api/wishlist/', include('game_collections.wishlists_urls')),
 ]

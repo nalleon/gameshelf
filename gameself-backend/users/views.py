@@ -15,7 +15,6 @@ from games.serializers import GameSerializer, ReviewSerializer, FavoriteItemSeri
 from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
 from users.decorators import auth_required
 
-Profile = get_user_model()
 
 @csrf_exempt
 def auth(request):
@@ -40,6 +39,21 @@ def auth(request):
             return JsonResponse({'error': 'Token not found'}, status=404)
 
     return JsonResponse({'error': 'Invalid credentials'}, status=401)
+
+
+@csrf_exempt
+def user_login():
+    return
+
+
+@csrf_exempt
+def user_register():
+    return
+
+
+@csrf_exempt
+def user_logout():
+    return
 
 
 # Profile Methods
