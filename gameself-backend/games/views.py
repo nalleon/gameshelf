@@ -12,7 +12,8 @@ from .serializers import FavoriteItemSerializer, GameSerializer, MediaSerializer
 
 User = get_user_model()
 
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_framework.decorators import api_view
 
 # Games Methods
 
@@ -26,10 +27,11 @@ def game_list(request):
 
 
 @extend_schema(
-    responses={200: GameSerializer.get_fields_dict(), 404: None},
+    responses={200: GameSerializer, 404: None},
     description='Get details of a specific game',
     operation_id='get_game_detail',
 )
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def game_detail(request, pk_game: int):
