@@ -8,6 +8,7 @@ class PlatformSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'slug': instance.slug,
             'description': instance.description,
         }
 
@@ -16,6 +17,7 @@ class PlatformSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
+            'slug': serializers.SlugField(),
             'description': serializers.CharField(),
         }
 
@@ -25,6 +27,7 @@ class GenreSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'slug': instance.slug,
             'description': instance.description,
         }
 
@@ -33,6 +36,7 @@ class GenreSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
+            'slug': serializers.SlugField(),
             'description': serializers.CharField(),
         }
 
@@ -42,6 +46,7 @@ class DeveloperSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'slug': instance.slug,
             'description': instance.description,
         }
 
@@ -50,6 +55,7 @@ class DeveloperSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
+            'slug': serializers.SlugField(),
             'description': serializers.CharField(),
         }
 
@@ -59,6 +65,7 @@ class PublisherSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'slug': instance.slug,
             'description': instance.description,
         }
 
@@ -67,6 +74,7 @@ class PublisherSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
+            'slug': serializers.SlugField(),
             'description': serializers.CharField(),
         }
 
@@ -76,6 +84,7 @@ class EditionSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'slug': instance.slug,
             'description': instance.description,
         }
 
@@ -84,6 +93,7 @@ class EditionSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
+            'slug': serializers.SlugField(),
             'description': serializers.CharField(),
         }
 
@@ -93,6 +103,7 @@ class RegionSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'slug': instance.slug,
             'description': instance.description,
             'acronym': instance.acronym,
             'icon': self.build_url(instance.icon.url),
@@ -103,6 +114,7 @@ class RegionSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
+            'slug': serializers.SlugField(),
             'description': serializers.CharField(),
             'acronym': serializers.CharField(),
             'icon': serializers.URLField(),

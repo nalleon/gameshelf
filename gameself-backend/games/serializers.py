@@ -20,7 +20,7 @@ class GameSerializer(BaseSerializer):
             'slug': instance.slug,
             'description': instance.description,
             'cover': self.build_url(instance.cover.url),
-            'released_at': instance.released_at.isoformat(),  # TODO: isoformat hace falta?
+            'released_at': instance.released_at.isoformat(),
             'platforms': PlatformSerializer(
                 instance.platforms.all(), request=self.request
             ).serialize(),
@@ -40,7 +40,7 @@ class GameSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'title': serializers.CharField(),
-            'slug': serializers.CharField(),
+            'slug': serializers.SlugField(),
             'description': serializers.CharField(),
             'cover': serializers.URLField(),
             'released_at': serializers.DateTimeField(),
@@ -61,7 +61,7 @@ class ReviewSerializer(BaseSerializer):
             'recommend': instance.recommend,
             'game': GameSerializer(instance.game, request=self.request).serialize(),
             'author': UserSerializer(instance.user, request=self.request).serialize(),
-            'created_at': instance.released_at.isoformat(),  
+            'created_at': instance.released_at.isoformat(),
             'updated_at': instance.released_at.isoformat(),
         }
 
@@ -110,3 +110,38 @@ class FavoriteItemSerializer(BaseSerializer):
             'game': GameSerializer.get_fields_dict(),
             'user': UserSerializer.get_fields_dict(),
         }
+
+
+# Serializers for documentation via Swagger
+class GameSchemaSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    slug = serializers.CharField()
+    description = serializers.CharField()
+    cover = serializers.URLField()
+    released_at = serializers.DateTimeField()
+    pk_platforms_list = serializers.ListField(child=serializers.IntegerField())
+    pk_genres_list = serializers.ListField(child=serializers.IntegerField())
+    pk_developers_list = serializers.ListField(child=serializers.IntegerField())
+    pk_publishers_list = serializers.ListField(child=serializers.IntegerField())
+    pk_edition = serializers.IntegerField()
+    pk_region = serializers.IntegerField()
+
+class ReviewSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    content = serializers.CharField()
+    recommend = serializers.BooleanField()
+    game =  id = serializers.IntegerField()
+    author = serializers.DictField() 
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
+    
+
+class MediaSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    image = serializers.URLField()
+    review = ReviewSchemaSerializer()
+    
+class FavoriteSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    game = GameSchemaSerializer()
+    user = serializers.DictField() 
