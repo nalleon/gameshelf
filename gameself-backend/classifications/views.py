@@ -5,7 +5,7 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework.decorators import api_view
 
 from .models import Platform, Genre, Developer, Publisher, Edition, Region
-from .serializers import PlatformSerializer, GenreSerializer, DeveloperSerializer, PublisherSerializer, EditionSerializer, RegionSerializer, ClassificationSchemaSerializer, PlatformSchemaSerializer, RegionSchemaSerializer
+from .serializers import PlatformSerializer, GenreSerializer, DeveloperSerializer, PublisherSerializer, EditionSerializer, RegionSerializer, ClassificationSchemaSerializer, PlatformSchemaSerializer, RegionSchemaSerializer, GenreSchemaSerializer
 
 from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
 from users.decorators import auth_required
@@ -55,6 +55,7 @@ def platform_detail(request, pk_platform: int):
     responses={200: PlatformSchemaSerializer, 404: None},
     description='Create a new platform',
     operation_id='add_platform',
+    methods=['POST'],
     parameters=[
         OpenApiParameter(
             name='pk_platform',
@@ -85,6 +86,7 @@ def add_platform(request):
     responses={200: PlatformSchemaSerializer, 404: None},
     description='Update an existing platform',
     operation_id='update_platform',
+    methods=['PUT'],
     parameters=[
         OpenApiParameter(
             name='pk_platform',
@@ -126,6 +128,7 @@ def edit_platform(request, pk_platform : int):
     responses={200: PlatformSchemaSerializer, 404: None},
     description='Delete an existing platform',
     operation_id='delete_platform',
+    methods=['DELETE'],
     parameters=[
         OpenApiParameter(
             name='pk_platform',
@@ -151,6 +154,14 @@ def delete_platform(request, pk_platform : int):
     platform.delete()
     return JsonResponse(status=200)
 
+# Genre methods
+
+@extend_schema(
+    responses={200: GenreSchemaSerializer, 404: None},
+    description='Get all genres',
+    operation_id='get_genres',
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def genre_list(request):
@@ -158,7 +169,21 @@ def genre_list(request):
     serializer = GenreSerializer(genres, request=request)
     return serializer.json_response()
 
-
+@extend_schema(
+    responses={200: GenreSchemaSerializer, 404: None},
+    description='Get details of a specific genre',
+    operation_id='get_genre_detail',
+    parameters=[
+        OpenApiParameter(
+            name='pk_genre',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the genre to view',
+            required=True,
+        ),
+    ],
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def genre_detail(request, pk_genre: int):
@@ -170,6 +195,23 @@ def genre_detail(request, pk_genre: int):
     serializer = GenreSerializer(genre, request=request)
     return serializer.json_response()
 
+
+@extend_schema(
+    responses={200: GenreSchemaSerializer, 404: None},
+    description='Create a new genre',
+    operation_id='add_genre',
+    methods=['POST'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_genre',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the genre to add',
+            required=True,
+        ),
+    ],
+)
+@api_view(['POST'])
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -180,10 +222,28 @@ def add_genre(request):
     payload = request.json
     name = payload['name']
     description = payload['description']
-
-    genre = Genre.objects.create(name=name, description=description)
+    acronym = payload['acronym']
+    
+    genre = Genre.objects.create(name=name, description=description, acronym=acronym)
     return JsonResponse({'id': genre.pk}, status=200)
 
+
+@extend_schema(
+    responses={200: GenreSchemaSerializer, 404: None},
+    description='Update an existing genre',
+    operation_id='update_genre',
+    methods=['PUT'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_genre',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the genre to update',
+            required=True,
+        ),
+    ],
+)
+@api_view(['PUT'])
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
@@ -204,12 +264,33 @@ def edit_genre(request, pk_genre : int):
 
     if description:
         genre.description = description
+        
+    if description:
+        genre.description = description
+
 
     genre.save()
     return JsonResponse({'id': genre.pk}, status=200)
 
+
+@extend_schema(
+    responses={200: GenreSchemaSerializer, 404: None},
+    description='Delete an existing genre',
+    operation_id='delete_genre',
+    methods=['DELETE'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_genre',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the genre to delete',
+            required=True,
+        ),
+    ],
+)
+@api_view(['DELETE'])
 @csrf_exempt
-@require_http_methods('POST')
+@require_http_methods('DELETE')
 @auth_required
 @require_role('Admin')
 def delete_genre(request, pk_genre : int):
