@@ -21,11 +21,10 @@ from .serializers import (
     ReviewSchemaSerializer
 )
 
+
 User = get_user_model()
 
 # Games Methods
-
-
 @extend_schema(
     responses={200: GameSchemaSerializer, 404: None},
     description='Get all games',

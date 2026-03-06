@@ -1,14 +1,21 @@
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
+from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
+from rest_framework.decorators import api_view
 
 from .models import Platform, Genre, Developer, Publisher, Edition, Region
-from .serializers import PlatformSerializer, GenreSerializer, DeveloperSerializer, PublisherSerializer, EditionSerializer, RegionSerializer
+from .serializers import PlatformSerializer, GenreSerializer, DeveloperSerializer, PublisherSerializer, EditionSerializer, RegionSerializer, ClassificationSchemaSerializer, PlatformSchemaSerializer, RegionSchemaSerializer
 
 from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
 from users.decorators import auth_required
 
+@extend_schema(
+    responses={200: PlatformSchemaSerializer, 404: None},
+    description='Get all platforms',
+    operation_id='get_platforms',
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def platform_list(request):
@@ -17,6 +24,21 @@ def platform_list(request):
     return serializer.json_response()
 
 
+@extend_schema(
+    responses={200: PlatformSchemaSerializer, 404: None},
+    description='Get details of a specific platform',
+    operation_id='get_platform_detail',
+    parameters=[
+        OpenApiParameter(
+            name='pk_platform',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the platform to view',
+            required=True,
+        ),
+    ],
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def platform_detail(request, pk_platform: int):
@@ -28,6 +50,22 @@ def platform_detail(request, pk_platform: int):
     serializer = PlatformSerializer(platform, request=request)
     return serializer.json_response()
 
+
+@extend_schema(
+    responses={200: PlatformSchemaSerializer, 404: None},
+    description='Create a new platform',
+    operation_id='add_platform',
+    parameters=[
+        OpenApiParameter(
+            name='pk_platform',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the platform to add',
+            required=True,
+        ),
+    ],
+)
+@api_view(['POST'])
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -42,6 +80,22 @@ def add_platform(request):
     platform = Platform.objects.create(name=name, description=description)
     return JsonResponse({'id': platform.pk}, status=200)
 
+
+@extend_schema(
+    responses={200: PlatformSchemaSerializer, 404: None},
+    description='Update an existing platform',
+    operation_id='update_platform',
+    parameters=[
+        OpenApiParameter(
+            name='pk_platform',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the platform to update',
+            required=True,
+        ),
+    ],
+)
+@api_view(['PUT'])
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
@@ -67,8 +121,24 @@ def edit_platform(request, pk_platform : int):
     return JsonResponse({'id': platform.pk}, status=200)
 
 
+
+@extend_schema(
+    responses={200: PlatformSchemaSerializer, 404: None},
+    description='Delete an existing platform',
+    operation_id='delete_platform',
+    parameters=[
+        OpenApiParameter(
+            name='pk_platform',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the platform to delete',
+            required=True,
+        ),
+    ],
+)
+@api_view(['DELETE'])
 @csrf_exempt
-@require_http_methods('POST')
+@require_http_methods('DELETE')
 @auth_required
 @require_role('Admin')
 def delete_platform(request, pk_platform : int):

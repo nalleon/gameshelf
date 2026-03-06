@@ -9,6 +9,7 @@ class PlatformSerializer(BaseSerializer):
             'id': instance.pk,
             'name': instance.name,
             'slug': instance.slug,
+            'aliases': [a.slug for a in instance.slug_aliases.all()],
             'description': instance.description,
         }
 
@@ -18,6 +19,7 @@ class PlatformSerializer(BaseSerializer):
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
             'slug': serializers.SlugField(),
+            'aliases': serializers.ListField(child=serializers.SlugField()),
             'description': serializers.CharField(),
         }
 
@@ -119,3 +121,25 @@ class RegionSerializer(BaseSerializer):
             'acronym': serializers.CharField(),
             'icon': serializers.URLField(),
         }
+
+
+class ClassificationSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+
+
+class RegionSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+    acronym = serializers.CharField()
+    icon = serializers.URLField()
+
+
+class PlatformSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+    aliases = serializers.ListField(child=serializers.SlugField(), required=False)
+    description = serializers.CharField()

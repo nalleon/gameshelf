@@ -115,7 +115,7 @@ class FavoriteItemSerializer(BaseSerializer):
 # Serializers for documentation via Swagger
 class GameSchemaSerializer(serializers.Serializer):
     title = serializers.CharField()
-    slug = serializers.CharField()
+    slug = serializers.SlugField()
     description = serializers.CharField()
     cover = serializers.URLField()
     released_at = serializers.DateTimeField()
@@ -126,22 +126,24 @@ class GameSchemaSerializer(serializers.Serializer):
     pk_edition = serializers.IntegerField()
     pk_region = serializers.IntegerField()
 
+
 class ReviewSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     content = serializers.CharField()
     recommend = serializers.BooleanField()
-    game =  id = serializers.IntegerField()
-    author = serializers.DictField() 
+    game = id = serializers.IntegerField()
+    author = serializers.DictField()
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField()
-    
+
 
 class MediaSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     image = serializers.URLField()
     review = ReviewSchemaSerializer()
-    
+
+
 class FavoriteSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     game = GameSchemaSerializer()
-    user = serializers.DictField() 
+    user = serializers.DictField()
