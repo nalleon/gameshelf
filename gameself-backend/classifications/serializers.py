@@ -9,6 +9,7 @@ class PlatformSerializer(BaseSerializer):
             'id': instance.pk,
             'name': instance.name,
             'slug': instance.slug,
+            'aliases': [a.slug for a in instance.slug_aliases.all()],
             'description': instance.description,
         }
 
@@ -18,6 +19,7 @@ class PlatformSerializer(BaseSerializer):
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
             'slug': serializers.SlugField(),
+            'aliases': serializers.ListField(child=serializers.SlugField()),
             'description': serializers.CharField(),
         }
 
@@ -28,6 +30,7 @@ class GenreSerializer(BaseSerializer):
             'id': instance.pk,
             'name': instance.name,
             'slug': instance.slug,
+            'acronym': instance.acronym,
             'description': instance.description,
         }
 
@@ -37,6 +40,7 @@ class GenreSerializer(BaseSerializer):
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
             'slug': serializers.SlugField(),
+            'acronym': serializers.CharField(),
             'description': serializers.CharField(),
         }
 
@@ -119,3 +123,58 @@ class RegionSerializer(BaseSerializer):
             'acronym': serializers.CharField(),
             'icon': serializers.URLField(),
         }
+
+
+# Schemas to view the items in Swagger
+class ClassificationSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+    description = serializers.CharField()
+
+
+class GenreSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+    acronym = serializers.CharField()
+    description = serializers.CharField()
+
+
+class RegionSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+    acronym = serializers.CharField()
+    icon = serializers.URLField()
+    description = serializers.CharField()
+
+
+class PlatformSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+    aliases = serializers.ListField(child=serializers.SlugField(), required=False)
+    description = serializers.CharField()
+
+# Schemas to create the items in Swagger
+class SaveClassificationSchemaSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    description = serializers.CharField()
+
+class SaveGenreSchemaSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    acronym = serializers.CharField()
+    description = serializers.CharField()
+
+
+class SaveRegionSchemaSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    acronym = serializers.CharField()
+    icon = serializers.URLField()
+    description = serializers.CharField()
+
+class SavePlatformSchemaSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    aliases = serializers.ListField(child=serializers.SlugField(), required=False)
+    description = serializers.CharField()

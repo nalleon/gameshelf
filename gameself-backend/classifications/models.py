@@ -13,8 +13,10 @@ class Classification(models.Model):
         abstract = True
         
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
+        new_slug = slugify(self.name)
+        if self.slug != new_slug:
+            self.slug = new_slug
+            
         super().save(*args, **kwargs)
 
 class Edition(Classification):
@@ -25,8 +27,24 @@ class Region(Classification):
     acronym = models.CharField(max_length=2)
     icon = models.ImageField(upload_to='regions/', default='regions/default.png', null=True, blank=True)
 
+
+
 class Genre(Classification):
-    pass
+    acronym = models.CharField(max_length=10, null=True, blank=True)
+
+    def generate_acronym(self):
+        words = self.name.split()
+        return ''.join(word[0].upper() for word in words if word)
+
+    def save(self, *args, **kwargs):
+        new_slug = slugify(self.name)
+        if self.slug != new_slug:
+            self.slug = new_slug
+         
+        if not self.acronym:
+            self.acronym = self.generate_acronym()
+
+        super().save(*args, **kwargs)
 
 
 class Developer(Classification):

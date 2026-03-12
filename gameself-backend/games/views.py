@@ -15,17 +15,16 @@ from .serializers import (
     FavoriteSchemaSerializer,
     GameSchemaSerializer,
     GameSerializer,
-    MediaSerializer,
     MediaSchemaSerializer,
+    MediaSerializer,
+    ReviewSchemaSerializer,
     ReviewSerializer,
-    ReviewSchemaSerializer
 )
 
 User = get_user_model()
 
+
 # Games Methods
-
-
 @extend_schema(
     responses={200: GameSchemaSerializer, 404: None},
     description='Get all games',
@@ -77,15 +76,6 @@ def game_detail(request, pk_game: int):
     description='Create a new game',
     operation_id='add_game',
     methods=['POST'],
-    parameters=[
-        OpenApiParameter(
-            name='intelligent',
-            type=bool,
-            description='Whether to use intelligent game creation',
-            required=False,
-            location=OpenApiParameter.QUERY,
-        ),
-    ],
 )
 @api_view(['POST'])
 @csrf_exempt
@@ -192,6 +182,7 @@ def add_game(request):
     },
     description='Update an existing game',
     operation_id='update_game',
+    methods=['PUT'],
     parameters=[
         OpenApiParameter(
             name='pk_game',
@@ -356,11 +347,12 @@ def review_list(request):
     serializer = ReviewSerializer(reviews, request=request)
     return serializer.json_response()
 
+
 @extend_schema(
     responses={200: ReviewSchemaSerializer, 404: None},
     description='Get all reviews',
     operation_id='get_review_detail',
-     parameters=[
+    parameters=[
         OpenApiParameter(
             name='pk_review',
             type=OpenApiTypes.INT,
@@ -383,7 +375,6 @@ def review_detail(request, pk_review: int):
     return serializer.json_response()
 
 
-
 # Public Method
 @extend_schema(
     request=ReviewSchemaSerializer,
@@ -394,6 +385,7 @@ def review_detail(request, pk_review: int):
     },
     description='Create a new review',
     operation_id='add_review',
+    methods=['POST'],
 )
 @api_view(['POST'])
 @csrf_exempt
@@ -429,6 +421,7 @@ def add_review(request):
     },
     description='Update an existing review',
     operation_id='update_review',
+    methods=['PUT'],
     parameters=[
         OpenApiParameter(
             name='pk_review',
@@ -488,6 +481,7 @@ def edit_review(request, pk_review: int):
     review.save()
     return JsonResponse({'id': review.pk}, status=200)
 
+
 # Public method
 @extend_schema(
     request=ReviewSchemaSerializer,
@@ -499,6 +493,7 @@ def edit_review(request, pk_review: int):
     },
     description='Delete an existing review',
     operation_id='update_review',
+    methods=['PUT'],
     parameters=[
         OpenApiParameter(
             name='pk_review',
@@ -546,6 +541,7 @@ def media_list(request):
     serializer = MediaSerializer(medias, request=request)
     return serializer.json_response()
 
+
 @extend_schema(
     responses={200: MediaSchemaSerializer, 404: None},
     description='Get details of a specific media',
@@ -572,14 +568,13 @@ def media_detail(request, pk_media: int):
     serializer = MediaSerializer(media, request=request)
     return serializer.json_response()
 
+
 @extend_schema(
     request=MediaSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None
-    },
+    responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 400: None},
     description='Create a media',
     operation_id='add_media',
+    methods=['POST'],
 )
 @api_view(['POST'])
 @csrf_exempt
@@ -604,6 +599,7 @@ def add_media(request):
     media = Media.objects.create(image=image, review=review)
     return JsonResponse({'id': media.pk}, status=200)
 
+
 @extend_schema(
     request=MediaSchemaSerializer,
     responses={
@@ -614,6 +610,7 @@ def add_media(request):
     },
     description='Update an existing media',
     operation_id='update_media',
+    methods=['PUT'],
     parameters=[
         OpenApiParameter(
             name='pk_media',
@@ -661,6 +658,7 @@ def edit_media(request, pk_media: int):
     media.save()
     return JsonResponse({'id': media.pk}, status=200)
 
+
 @extend_schema(
     request=MediaSchemaSerializer,
     responses={
@@ -703,17 +701,8 @@ def delete_media(request, pk_media: int):
 # FavoriteItem Methods
 @extend_schema(
     responses={200: FavoriteSchemaSerializer, 404: None},
-    description='Get details of a specific favoriteitem',
-    operation_id='get_favorite_detail',
-    parameters=[
-        OpenApiParameter(
-            name='pk_media',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the favoriteitem to view',
-            required=True,
-        ),
-    ],
+    description='Get all favoriteitem',
+    operation_id='get_favorites',
 )
 @api_view(['GET'])
 @csrf_exempt
@@ -726,11 +715,11 @@ def favorite_item_list(request):
 
 @extend_schema(
     responses={200: FavoriteSchemaSerializer, 404: None},
-    description='Get details of a specific media',
+    description='Get details of a specific favorite',
     operation_id='get_favorite_detail',
     parameters=[
         OpenApiParameter(
-            name='pk_media',
+            name='pk_favorite',
             type=OpenApiTypes.INT,
             location=OpenApiParameter.PATH,
             description='ID of the media to view',
@@ -760,7 +749,8 @@ def favorite_item_detail(request, pk_favorite_item: int):
         404: None,
     },
     description='Add a new favorite',
-    operation_id='add_self_favorite'
+    operation_id='add_self_favorite',
+    methods=['POST'],
 )
 @api_view(['POST'])
 @csrf_exempt
@@ -782,6 +772,7 @@ def add_self_favorite_item(request):
     favorite_item = FavoriteItem.objects.create(game=game, user=user)
     return JsonResponse({'id': favorite_item.pk}, status=200)
 
+
 @extend_schema(
     request=FavoriteSchemaSerializer,
     responses={
@@ -790,7 +781,8 @@ def add_self_favorite_item(request):
         404: None,
     },
     description='Add a new favorite',
-    operation_id='add_favorite'
+    operation_id='add_favorite',
+    methods=['POST'],
 )
 @api_view(['POST'])
 @csrf_exempt
@@ -828,6 +820,7 @@ def add_favorite_item(request):
     },
     description='Update an existing favorite',
     operation_id='update_favorite',
+    methods=['PUT'],
     parameters=[
         OpenApiParameter(
             name='pk_favorite',
@@ -870,6 +863,7 @@ def edit_favorite_item(request, pk_favorite_item: int):
 
     favorite_item.save()
     return JsonResponse({'id': favorite_item.pk}, status=200)
+
 
 @extend_schema(
     request=FavoriteSchemaSerializer,
