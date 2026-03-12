@@ -174,8 +174,6 @@ class SaveRegionSchemaSerializer(serializers.Serializer):
     icon = serializers.URLField()
     description = serializers.CharField()
 
-
-
 class SavePlatformSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()
     aliases = serializers.ListField(child=serializers.SlugField(), required=False)

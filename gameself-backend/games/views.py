@@ -701,17 +701,8 @@ def delete_media(request, pk_media: int):
 # FavoriteItem Methods
 @extend_schema(
     responses={200: FavoriteSchemaSerializer, 404: None},
-    description='Get details of a specific favoriteitem',
-    operation_id='get_favorite_detail',
-    parameters=[
-        OpenApiParameter(
-            name='pk_media',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the favoriteitem to view',
-            required=True,
-        ),
-    ],
+    description='Get all favoriteitem',
+    operation_id='get_favorites',
 )
 @api_view(['GET'])
 @csrf_exempt
@@ -724,11 +715,11 @@ def favorite_item_list(request):
 
 @extend_schema(
     responses={200: FavoriteSchemaSerializer, 404: None},
-    description='Get details of a specific media',
+    description='Get details of a specific favorite',
     operation_id='get_favorite_detail',
     parameters=[
         OpenApiParameter(
-            name='pk_media',
+            name='pk_favorite',
             type=OpenApiTypes.INT,
             location=OpenApiParameter.PATH,
             description='ID of the media to view',

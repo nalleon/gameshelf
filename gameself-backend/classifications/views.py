@@ -5,7 +5,7 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework.decorators import api_view
 
 from .models import Platform, Genre, Developer, Publisher, Edition, Region
-from .serializers import PlatformSerializer, GenreSerializer, DeveloperSerializer, PublisherSerializer, EditionSerializer, RegionSerializer, ClassificationSchemaSerializer, PlatformSchemaSerializer, RegionSchemaSerializer, GenreSchemaSerializer
+from .serializers import PlatformSerializer, GenreSerializer, DeveloperSerializer, PublisherSerializer, EditionSerializer, RegionSerializer, ClassificationSchemaSerializer, PlatformSchemaSerializer, RegionSchemaSerializer, GenreSchemaSerializer, SaveGenreSchemaSerializer, SaveClassificationSchemaSerializer, SavePlatformSchemaSerializer, SaveRegionSchemaSerializer
 
 from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
 from users.decorators import auth_required
@@ -52,19 +52,11 @@ def platform_detail(request, pk_platform: int):
 
 
 @extend_schema(
-    responses={200: PlatformSchemaSerializer, 404: None},
+    request=SavePlatformSchemaSerializer,
+responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
     description='Create a new platform',
     operation_id='add_platform',
     methods=['POST'],
-    parameters=[
-        OpenApiParameter(
-            name='pk_platform',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the platform to add',
-            required=True,
-        ),
-    ],
 )
 @api_view(['POST'])
 @csrf_exempt
@@ -83,7 +75,8 @@ def add_platform(request):
 
 
 @extend_schema(
-    responses={200: PlatformSchemaSerializer, 404: None},
+    request=SavePlatformSchemaSerializer,
+responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
     description='Update an existing platform',
     operation_id='update_platform',
     methods=['PUT'],
@@ -125,7 +118,7 @@ def edit_platform(request, pk_platform : int):
 
 
 @extend_schema(
-    responses={200: PlatformSchemaSerializer, 404: None},
+    responses={200: None, 404: None},
     description='Delete an existing platform',
     operation_id='delete_platform',
     methods=['DELETE'],
@@ -197,19 +190,11 @@ def genre_detail(request, pk_genre: int):
 
 
 @extend_schema(
-    responses={200: GenreSchemaSerializer, 404: None},
+    request=SaveGenreSchemaSerializer,
+responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
     description='Create a new genre',
     operation_id='add_genre',
     methods=['POST'],
-    parameters=[
-        OpenApiParameter(
-            name='pk_genre',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the genre to add',
-            required=True,
-        ),
-    ],
 )
 @api_view(['POST'])
 @csrf_exempt
@@ -229,7 +214,8 @@ def add_genre(request):
 
 
 @extend_schema(
-    responses={200: GenreSchemaSerializer, 404: None},
+    request=SaveGenreSchemaSerializer,
+    responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
     description='Update an existing genre',
     operation_id='update_genre',
     methods=['PUT'],
@@ -274,7 +260,7 @@ def edit_genre(request, pk_genre : int):
 
 
 @extend_schema(
-    responses={200: GenreSchemaSerializer, 404: None},
+    responses={200: None, 404: None},
     description='Delete an existing genre',
     operation_id='delete_genre',
     methods=['DELETE'],
@@ -302,6 +288,12 @@ def delete_genre(request, pk_genre : int):
     genre.delete()
     return JsonResponse(status=200)
 
+@extend_schema(
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Get all developers',
+    operation_id='get_developers',
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def developer_list(request):
@@ -310,6 +302,21 @@ def developer_list(request):
     return serializer.json_response()
 
 
+@extend_schema(
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Get details of a specific developer',
+    operation_id='get_developer_detail',
+    parameters=[
+        OpenApiParameter(
+            name='pk_developer',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the developer to view',
+            required=True,
+        ),
+    ],
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def developer_detail(request, pk_developer: int):
@@ -321,6 +328,15 @@ def developer_detail(request, pk_developer: int):
     serializer = DeveloperSerializer(developer, request=request)
     return serializer.json_response()
 
+
+@extend_schema(
+    request=ClassificationSchemaSerializer,
+    responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
+    description='Create a new developer',
+    operation_id='add_developer',
+    methods=['POST'],
+)
+@api_view(['POST'])
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -335,6 +351,23 @@ def add_developer(request):
     developer = Developer.objects.create(name=name, description=description)
     return JsonResponse({'id': developer.pk}, status=200)
 
+@extend_schema(
+    request=ClassificationSchemaSerializer,
+responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
+    description='Update an existing developer',
+    operation_id='update_developer',
+    methods=['PUT'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_developer',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the developer to update',
+            required=True,
+        ),
+    ],
+)
+@api_view(['PUT'])
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
@@ -359,8 +392,25 @@ def edit_developer(request, pk_developer : int):
     developer.save()
     return JsonResponse({'id': developer.pk}, status=200)
 
+@extend_schema(
+    request=ClassificationSchemaSerializer,
+    responses={200: None, 404: None},
+    description='Delete an existing developer',
+    operation_id='delete_developer',
+    methods=['DELETE'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_developer',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the developer to delete',
+            required=True,
+        ),
+    ],
+)
+@api_view(['DELETE'])
 @csrf_exempt
-@require_http_methods('POST')
+@require_http_methods('DELETE')
 @auth_required
 @require_role('Admin')
 def delete_developer(request, pk_developer : int):
@@ -372,6 +422,12 @@ def delete_developer(request, pk_developer : int):
     developer.delete()
     return JsonResponse(status=200)
 
+@extend_schema(
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Get all publishers',
+    operation_id='get_publishers',
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def publisher_list(request):
@@ -380,6 +436,21 @@ def publisher_list(request):
     return serializer.json_response()
 
 
+@extend_schema(
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Get details of a specific publisher',
+    operation_id='get_publisher_detail',
+    parameters=[
+        OpenApiParameter(
+            name='pk_publisher',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the publisher to view',
+            required=True,
+        ),
+    ],
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def publisher_detail(request, pk_publisher: int):
@@ -391,6 +462,14 @@ def publisher_detail(request, pk_publisher: int):
     serializer = PublisherSerializer(publisher, request=request)
     return serializer.json_response()
 
+@extend_schema(
+    request=ClassificationSchemaSerializer,
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Create a new publisher',
+    operation_id='add_publisher',
+    methods=['POST'],
+)
+@api_view(['POST'])
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -405,6 +484,22 @@ def add_publisher(request):
     publisher = Publisher.objects.create(name=name, description=description)
     return JsonResponse({'id': publisher.pk}, status=200)
 
+@extend_schema(
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Update an existing publisher',
+    operation_id='update_publisher',
+    methods=['PUT'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_publisher',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the publisher to update',
+            required=True,
+        ),
+    ],
+)
+@api_view(['PUT'])
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
@@ -429,8 +524,24 @@ def edit_publisher(request, pk_publisher : int):
     publisher.save()
     return JsonResponse({'id': publisher.pk}, status=200)
 
+@extend_schema(
+    responses={200: None, 404: None},
+    description='Delete an existing publisher',
+    operation_id='delete_publisher',
+    methods=['DELETE'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_publisher',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the publisher to delete',
+            required=True,
+        ),
+    ],
+)
+@api_view(['DELETE'])
 @csrf_exempt
-@require_http_methods('POST')
+@require_http_methods('DELETE')
 @auth_required
 @require_role('Admin')
 def delete_publisher(request, pk_publisher : int):
@@ -442,6 +553,12 @@ def delete_publisher(request, pk_publisher : int):
     publisher.delete()
     return JsonResponse(status=200)
 
+@extend_schema(
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Get all editions',
+    operation_id='get_editions',
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def edition_list(request):
@@ -449,7 +566,21 @@ def edition_list(request):
     serializer = EditionSerializer(editions, request=request)
     return serializer.json_response()
 
-
+@extend_schema(
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Get details of a specific edition',
+    operation_id='get_edition_detail',
+    parameters=[
+        OpenApiParameter(
+            name='pk_edition',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the edition to view',
+            required=True,
+        ),
+    ],
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def edition_detail(request, pk_edition: int):
@@ -461,6 +592,15 @@ def edition_detail(request, pk_edition: int):
     serializer = EditionSerializer(edition, request=request)
     return serializer.json_response()
 
+
+@extend_schema(
+    request=ClassificationSchemaSerializer,
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Create a new edition',
+    operation_id='add_edition',
+    methods=['POST'],
+)
+@api_view(['POST'])
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -475,6 +615,24 @@ def add_edition(request):
     edition = Edition.objects.create(name=name, description=description)
     return JsonResponse({'id': edition.pk}, status=200)
 
+
+@extend_schema(
+    request=ClassificationSchemaSerializer,
+    responses={200: ClassificationSchemaSerializer, 404: None},
+    description='Update an existing edition',
+    operation_id='update_edition',
+    methods=['PUT'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_edition',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the edition to update',
+            required=True,
+        ),
+    ],
+)
+@api_view(['PUT'])
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
@@ -499,8 +657,24 @@ def edit_edition(request, pk_edition: int):
     edition.save()
     return JsonResponse({'id': edition.pk}, status=200)
 
+@extend_schema(
+    responses={200: None, 404: None},
+    description='Delete an existing edition',
+    operation_id='delete_edition',
+    methods=['DELETE'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_edition',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the edition to delete',
+            required=True,
+        ),
+    ],
+)
+@api_view(['DELETE'])
 @csrf_exempt
-@require_http_methods('POST')
+@require_http_methods('DELETE')
 @auth_required
 @require_role('Admin')
 def delete_edition(request, pk_edition : int):
@@ -512,6 +686,14 @@ def delete_edition(request, pk_edition : int):
     edition.delete()
     return JsonResponse(status=200)
 
+# Region
+
+@extend_schema(
+    responses={200: RegionSchemaSerializer, 404: None},
+    description='Get all regions',
+    operation_id='get_regions',
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def region_list(request):
@@ -519,7 +701,21 @@ def region_list(request):
     serializer = RegionSerializer(regions, request=request)
     return serializer.json_response()
 
-
+@extend_schema(
+    responses={200: RegionSchemaSerializer, 404: None},
+    description='Get details of a specific region',
+    operation_id='get_region_detail',
+    parameters=[
+        OpenApiParameter(
+            name='pk_region',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the region to view',
+            required=True,
+        ),
+    ],
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def region_detail(request, pk_region: int):
@@ -531,6 +727,14 @@ def region_detail(request, pk_region: int):
     serializer = RegionSerializer(region, request=request)
     return serializer.json_response()
 
+@extend_schema(
+    request=SaveRegionSchemaSerializer,
+    responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
+    description='Create a new region',
+    operation_id='add_region',
+    methods=['POST']
+)
+@api_view(['POST'])
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -546,6 +750,23 @@ def add_region(request):
     region = Region.objects.create(name=name, acronym=acronym, icon=icon)
     return JsonResponse({'id': region.pk}, status=200)
 
+@extend_schema(
+    request=SaveRegionSchemaSerializer,
+    responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
+    description='Update an existing region',
+    operation_id='update_region',
+    methods=['PUT'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_region',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the region to update',
+            required=True,
+        ),
+    ],
+)
+@api_view(['PUT'])
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
@@ -574,6 +795,22 @@ def edit_region(request, pk_region: int):
     region.save()
     return JsonResponse({'id': region.pk}, status=200)
 
+@extend_schema(
+    responses={200: None, 404: None},
+    description='Delete an existing region',
+    operation_id='delete_region',
+    methods=['DELETE'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_region',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the region to delete',
+            required=True,
+        ),
+    ],
+)
+@api_view(['DELETE'])
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
