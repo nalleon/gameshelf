@@ -2,7 +2,7 @@
   "recommendations": [
     "Vue.volar",
     "vitest.explorer",
-    "browserstackcom.nightwatch",
+    "ms-playwright.playwright",
     "esbenp.prettier-vscode"
   ]
 }
