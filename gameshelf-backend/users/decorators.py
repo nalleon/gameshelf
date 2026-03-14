@@ -1,24 +1,25 @@
-import re
-
 from django.http import JsonResponse
-
-from .models import Token
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.exceptions import InvalidToken, AuthenticationFailed
 
 def auth_required(func):
-    BEARER_TOKEN_REGEX = (
-        r'Bearer (?P<token>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'
-    )
 
     def wrapper(request, *args, **kwargs):
-        bearer_token = request.headers.get('Authorization', '')
-        if not (m := re.fullmatch(BEARER_TOKEN_REGEX, bearer_token)):
-            return JsonResponse({'error': 'Invalid authentication token'}, status=400)
+        auth_header = request.headers.get("Authorization")
+        if not auth_header:
+            return JsonResponse({"error": "Authorization header missing"}, status=401)
+
         try:
-            token = Token.objects.get(key=m['token'])
-        except Token.DoesNotExist:
-            return JsonResponse({'error': 'Unregistered authentication token'}, status=401)
-        request.user = token.user
+            jwt_auth = JWTAuthentication()
+            user_auth_tuple = jwt_auth.authenticate(request)
+            if user_auth_tuple is None:
+                raise AuthenticationFailed("Invalid authentication token")
+            user, validated_token = user_auth_tuple
+
+        except (InvalidToken, AuthenticationFailed):
+            return JsonResponse({"error": "Invalid authentication token"}, status=401)
+
+        request.user = user
         return func(request, *args, **kwargs)
 
     return wrapper

@@ -10,23 +10,27 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework.decorators import api_view
 
 
-from .models import Profile, Token
+from .models import Profile
 from games.models import Game, FavoriteItem
 from .serializers import ProfileSerializer, LoginSchemaSerializer, RegisterSchemaSerializer
 from games.serializers import GameSerializer, ReviewSerializer, FavoriteItemSerializer
 
 from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
 from users.decorators import auth_required
-
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
 @extend_schema(
     request=RegisterSchemaSerializer,
     responses={
-        200: {'type': 'object', 'properties': {'token': {'type': 'string'}}},
+        201: {
+            'type': 'object',
+            'properties': {
+                'token': {'type': 'string'}
+            }
+        },
         400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
-        404: None
     },
     description='Register a new user',
     operation_id='register',
@@ -38,8 +42,9 @@ User = get_user_model()
 @require_json_body
 @require_fields('username', 'password')
 def user_register(request):
+
     payload = request.json
-    
+
     username = payload['username']
     password = payload['password']
 
@@ -62,16 +67,23 @@ def user_register(request):
     )
 
     Profile.objects.create(user=user)
-
-    token = Token.objects.create(user=user)
+    refresh = RefreshToken.for_user(user)
 
     return JsonResponse({
-        'token': str(token.key)
+        "token": str(refresh.access_token)
     }, status=201)
     
 @extend_schema(
     request=LoginSchemaSerializer,
-    responses={200: {'type': 'object', 'properties': {'token': {'type': 'string'}}}, 404: None},
+    responses={
+        200: {
+            'type': 'object',
+            'properties': {
+                'token': {'type': 'string'}
+            }
+        },
+        401: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+    },
     description='Login with a user',
     operation_id='login',
     methods=['POST']
@@ -82,12 +94,14 @@ def user_register(request):
 @require_json_body
 @require_fields('login', 'password')
 def user_login(request):
+
     payload = request.json
 
     login = payload['login']
     password = payload['password']
 
     user = None
+
     if "@" in login:
         user = User.objects.filter(email=login).first()
         if user:
@@ -98,25 +112,12 @@ def user_login(request):
     if not user:
         return JsonResponse({'error': 'Invalid credentials'}, status=401)
 
-    token, _ = Token.objects.get_or_create(user=user)
+    refresh = RefreshToken.for_user(user)
 
     return JsonResponse({
-        'token': str(token.key)
-    })
+        "token": str(refresh.access_token)
+    }, status=201)
     
-@extend_schema(
-    responses={200: {'type': 'object', 'properties': {'token': {'type': 'string'}}}, 404: None},
-    description='Logout',
-    operation_id='logout',
-    methods=['POST']
-)
-@api_view(['POST'])
-@csrf_exempt
-@require_http_methods('POST')
-@auth_required
-def user_logout(request):
-    request.user.token.regenerate()
-    return JsonResponse({'message': 'Logged out'})
 
 # Profile Methods
 @csrf_exempt
