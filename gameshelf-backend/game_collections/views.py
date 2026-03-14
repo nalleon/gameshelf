@@ -8,6 +8,8 @@ from shared.decorators import require_fields, require_http_methods, require_json
 from users.decorators import auth_required
 
 from .models import CollectionItem, WishListItem
+from users.models import Profile
+
 from .serializers import CollectionItemSerializer, WishlistItemSerializer
 
 User = get_user_model()
@@ -64,7 +66,7 @@ def add_self_collection_item(request):
 @require_json_body
 @require_fields('pk_game', 'pk_author')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_collection_item(request):
     payload = request.json
     pk_game = payload['pk_game']
@@ -89,7 +91,7 @@ def add_collection_item(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_collection_item(request, pk_collection_item: int):
     payload = request.json
     pk_game = payload['pk_game']
@@ -190,7 +192,7 @@ def add_self_wishlist_item(request):
 @require_json_body
 @require_fields('pk_game', 'pk_author', 'priority', 'annotation')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_wishlist_item(request):
     payload = request.json
     pk_game = payload['pk_game']
@@ -219,7 +221,7 @@ def add_wishlist_item(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_wishlist_item(request, pk_wishlist_item: int):
     payload = request.json
     pk_game = payload['pk_game']

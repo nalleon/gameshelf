@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
 from users.decorators import auth_required
+from users.models import Profile
 
 from .models import FavoriteItem, Game, Media, Review
 from .serializers import (
@@ -95,7 +96,7 @@ def game_detail(request, pk_game: int):
     'pk_region',
 )
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_game(request):
     payload = request.json
     title = payload['title']
@@ -198,7 +199,7 @@ def add_game(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_game(request, pk_game: int):
     payload = request.json
     title = payload['title']
@@ -319,7 +320,7 @@ def edit_game(request, pk_game: int):
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def delete_game(request, pk_game: int):
 
     try:
@@ -626,7 +627,7 @@ def add_media(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_media(request, pk_media: int):
     payload = request.json
     image = payload['image']
@@ -836,7 +837,7 @@ def add_favorite_item(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_favorite_item(request, pk_favorite_item: int):
     payload = request.json
     pk_game = payload['pk_game']

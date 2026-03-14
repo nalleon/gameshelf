@@ -42,17 +42,18 @@ def require_fields(*fields):
 
     return decorator
 
-
-def require_role(role):
+def require_role(expected_role):
     def decorator(view_func):
         def wrapper(request, *args, **kwargs):
-            user = request.user
-            
-            if user.profile.role != role:
-                return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-        
-        return wrapper
-    
-    return decorator
+            # Verificar que el usuario tenga perfil
+            profile = getattr(request.user, "profile", None)
+            if profile is None:
+                return JsonResponse({'error': 'User profile not found'}, status=403)
 
+            if profile.role != expected_role:
+                return JsonResponse({'error': 'Forbidden Access'}, status=403)
+
+            return view_func(request, *args, **kwargs)
+        return wrapper
+    return decorator
 

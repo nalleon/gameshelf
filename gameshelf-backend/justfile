@@ -39,12 +39,14 @@ create-su username="admin" password="admin" email="admin@example.com":
     #!/usr/bin/env bash
     uv run manage.py shell -v0 -c '
     from django.contrib.auth.models import User
+    from users.models import Profile
     user, _ = User.objects.get_or_create(username="{{ username }}")
     user.email = "{{ email }}"
     user.set_password("{{ password }}") 
     user.is_superuser = True
     user.is_staff = True
     user.save()
+    Profile.objects.get_or_create(user=user, defaults={"role": Profile.Role.ADMIN})
     ' 
     echo "✔ Created superuser → {{ username }}:{{ password }}"
 

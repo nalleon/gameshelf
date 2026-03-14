@@ -6,6 +6,8 @@ from django.contrib.auth import get_user_model
 
 from .models import LibraryItem
 from games.models import Game
+from users.models import Profile
+
 from .serializers import LibraryItemSerializer
 
 from shared.decorators import require_http_methods, require_fields, require_json_body, require_role
@@ -38,7 +40,7 @@ def library_item_detail(request, pk_library_item: int):
 @require_json_body
 @require_fields('status', 'pk_game', 'hours_played', 'created_at', 'updated_at', 'pk_author')
 @auth_required
-# @require_role('Admin')
+# @require_role(Profile.Role.ADMIN)
 def add_library_item(request):
     payload = request.json
     status = payload['status']
@@ -67,7 +69,7 @@ def add_library_item(request):
 @require_json_body
 @require_fields('status', 'pk_game', 'hours_played', 'created_at', 'updated_at', 'pk_author')
 @auth_required
-# @require_role('Admin')
+# @require_role(Profile.Role.ADMIN)
 def edit_library_item(request, pk_library_item : int):
     payload = request.json
     status = payload['status']
@@ -118,7 +120,7 @@ def edit_library_item(request, pk_library_item : int):
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def delete_library_item(request, pk_library_item : int):
     try:
         library_item = get_object_or_404(LibraryItem, pk=pk_library_item)

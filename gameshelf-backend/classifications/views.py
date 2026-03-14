@@ -6,8 +6,12 @@ from rest_framework.decorators import api_view
 
 from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
 from users.decorators import auth_required
+from users.models import Profile
 
 from .models import Developer, Edition, Genre, Platform, Publisher, Region
+
+from users.models import Profile
+
 from .serializers import (
     ClassificationSchemaSerializer,
     DeveloperSerializer,
@@ -79,7 +83,7 @@ def platform_detail(request, pk_platform: int):
 @require_json_body
 @require_fields('name', 'description')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_platform(request):
     payload = request.json
     name = payload['name']
@@ -110,7 +114,7 @@ def add_platform(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_platform(request, pk_platform: int):
     payload = request.json
     name = payload['name']
@@ -150,7 +154,7 @@ def edit_platform(request, pk_platform: int):
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def delete_platform(request, pk_platform: int):
 
     try:
@@ -219,7 +223,7 @@ def genre_detail(request, pk_genre: int):
 @require_json_body
 @require_fields('name', 'description')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_genre(request):
     payload = request.json
     name = payload['name']
@@ -251,7 +255,7 @@ def add_genre(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_genre(request, pk_genre: int):
     payload = request.json
     name = payload['name']
@@ -294,7 +298,7 @@ def edit_genre(request, pk_genre: int):
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def delete_genre(request, pk_genre: int):
     try:
         genre = get_object_or_404(Genre, pk=pk_genre)
@@ -359,7 +363,7 @@ def developer_detail(request, pk_developer: int):
 @require_json_body
 @require_fields('name', 'description')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_developer(request):
     payload = request.json
     name = payload['name']
@@ -390,7 +394,7 @@ def add_developer(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_developer(request, pk_developer: int):
     payload = request.json
     name = payload['name']
@@ -431,7 +435,7 @@ def edit_developer(request, pk_developer: int):
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def delete_developer(request, pk_developer: int):
     try:
         developer = get_object_or_404(Developer, pk=pk_developer)
@@ -496,7 +500,7 @@ def publisher_detail(request, pk_publisher: int):
 @require_json_body
 @require_fields('name', 'description')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_publisher(request):
     payload = request.json
     name = payload['name']
@@ -526,7 +530,7 @@ def add_publisher(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_publisher(request, pk_publisher: int):
     payload = request.json
     name = payload['name']
@@ -566,7 +570,7 @@ def edit_publisher(request, pk_publisher: int):
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def delete_publisher(request, pk_publisher: int):
     try:
         publisher = get_object_or_404(Publisher, pk=pk_publisher)
@@ -631,7 +635,7 @@ def edition_detail(request, pk_edition: int):
 @require_json_body
 @require_fields('name', 'description')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_edition(request):
     payload = request.json
     name = payload['name']
@@ -662,7 +666,7 @@ def add_edition(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_edition(request, pk_edition: int):
     payload = request.json
     name = payload['name']
@@ -702,7 +706,7 @@ def edit_edition(request, pk_edition: int):
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def delete_edition(request, pk_edition: int):
     try:
         edition = get_object_or_404(Edition, pk=pk_edition)
@@ -770,7 +774,7 @@ def region_detail(request, pk_region: int):
 @require_json_body
 @require_fields('name', 'acronym', 'icon')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def add_region(request):
     payload = request.json
     name = payload['name']
@@ -804,7 +808,7 @@ def add_region(request):
 @require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def edit_region(request, pk_region: int):
     payload = request.json
     name = payload['name']
@@ -850,7 +854,7 @@ def edit_region(request, pk_region: int):
 @csrf_exempt
 @require_http_methods('POST')
 @auth_required
-@require_role('Admin')
+@require_role(Profile.Role.ADMIN)
 def delete_region(request, pk_region: int):
     try:
         region = get_object_or_404(Region, pk=pk_region)

@@ -144,7 +144,7 @@ def profile_detail(request, pk_profile: int):
 # @require_json_body
 # @require_fields('name', 'description')
 # @auth_required
-# @require_role('Admin')
+# @require_role(Profile.Role.ADMIN)
 # def add_profile(request):
 #     payload = request.json
 #     name = payload['name']
@@ -157,7 +157,7 @@ def profile_detail(request, pk_profile: int):
 # @require_http_methods('PUT')
 # @require_json_body
 # @auth_required
-# @require_role('Admin')
+# @require_role(Profile.Role.ADMIN)
 # def edit_profile(request, pk_profile : int):
 #     payload = request.json
 #     name = payload['name']
@@ -181,7 +181,7 @@ def profile_detail(request, pk_profile: int):
 # @csrf_exempt
 # @require_http_methods('POST')
 # @auth_required
-# @require_role('Admin')
+# @require_role(Profile.Role.ADMIN)
 # def delete_profile(request, pk_profile : int):
 
 #     try:
