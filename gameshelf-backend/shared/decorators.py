@@ -45,7 +45,6 @@ def require_fields(*fields):
 def require_role(expected_role):
     def decorator(view_func):
         def wrapper(request, *args, **kwargs):
-            # Verificar que el usuario tenga perfil
             profile = getattr(request.user, "profile", None)
             if profile is None:
                 return JsonResponse({'error': 'User profile not found'}, status=403)
