@@ -1,0 +1,18 @@
+[
+  {
+    "model": "classifications.edition",
+    "pk": 1,
+    "fields": {
+      "name": "Standard",
+      "description": "Edición estándar del juego"
+    }
+  },
+  {
+    "model": "classifications.edition",
+    "pk": 2,
+    "fields": {
+      "name": "Collector",
+      "description": "Edición de coleccionista con contenido extra"
+    }
+  }
+]

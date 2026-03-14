@@ -1,0 +1,18 @@
+[
+  {
+    "model": "classifications.genre",
+    "pk": 1,
+    "fields": {
+      "name": "RPG",
+      "description": "Juegos de rol"
+    }
+  },
+  {
+    "model": "classifications.genre",
+    "pk": 2,
+    "fields": {
+      "name": "Acción",
+      "description": "Juegos de acción"
+    }
+  }
+]
