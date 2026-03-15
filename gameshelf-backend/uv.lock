@@ -195,6 +195,18 @@ wheels = [
 ]
 
 [[package]]
+name = "django-soft-delete"
+version = "1.0.23"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/aa/98/c7c52a85b070b1703774df817b6460a7714655302a2d503f6447544f1a29/django_soft_delete-1.0.23.tar.gz", hash = "sha256:814659f0d19d4f2afc58b31ff73f88f0af66715ccef3b4fcd8f6b3a011d59b2a", size = 22458, upload-time = "2026-02-21T17:48:41.345Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/91/9e/77375a163c340fff03d037eac7d970ce006626e6c3aea87b5d159f052f8b/django_soft_delete-1.0.23-py3-none-any.whl", hash = "sha256:dd2133d4925d58308680f389daa2e150abf7b81a4f0abbbf2161a9db3b9f1e74", size = 19308, upload-time = "2026-02-21T17:48:39.974Z" },
+]
+
+[[package]]
 name = "djangorestframework"
 version = "3.16.1"
 source = { registry = "https://pypi.org/simple" }
@@ -278,6 +290,7 @@ dependencies = [
     { name = "django" },
     { name = "django-colorfield" },
     { name = "django-rest-swagger" },
+    { name = "django-soft-delete" },
     { name = "djangorestframework-simplejwt" },
     { name = "drf-spectacular" },
     { name = "pillow" },
@@ -301,6 +314,7 @@ requires-dist = [
     { name = "django", specifier = ">=6.0" },
     { name = "django-colorfield", specifier = ">=0.14.0" },
     { name = "django-rest-swagger", specifier = ">=2.2.0" },
+    { name = "django-soft-delete", specifier = ">=1.0.23" },
     { name = "djangorestframework-simplejwt", specifier = ">=5.5.1" },
     { name = "drf-spectacular", specifier = ">=0.29.0" },
     { name = "pillow", specifier = ">=12.0.0" },

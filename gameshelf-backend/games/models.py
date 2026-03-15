@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
+from shared.models import SoftDeleteModel
 
 
-class Game(models.Model):
+class Game(SoftDeleteModel):
     title = models.CharField()
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True, null=True)
@@ -39,7 +40,7 @@ class Game(models.Model):
         unique_together = ['title', 'released_at', 'edition', 'region']
 
 
-class Review(models.Model):
+class Review(SoftDeleteModel):
     content = models.TextField()
 
     recommend = models.BooleanField()
@@ -62,7 +63,7 @@ class Review(models.Model):
         )
 
 
-class Media(models.Model):
+class Media(SoftDeleteModel):
     image = models.ImageField(
         upload_to='reviews/', default='reviews/default.png', null=True, blank=True
     )
@@ -72,7 +73,7 @@ class Media(models.Model):
         return f'Media(id={self.pk}, image="{self.content}", review="{self.review}")'
 
 
-class FavoriteItem(models.Model):
+class FavoriteItem(SoftDeleteModel):
     game = models.ForeignKey('games.Game', related_name='favorites', on_delete=models.CASCADE)
 
     user = models.ForeignKey(

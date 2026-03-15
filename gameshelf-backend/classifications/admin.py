@@ -1,32 +1,32 @@
 from django.contrib import admin
-
+from shared.admin import SoftDeleteAdmin
 from .models import Edition, Region, Genre, Developer, Publisher, Platform
 
 
 @admin.register(Edition)
-class EditionAdmin(admin.ModelAdmin):
+class EditionAdmin(SoftDeleteAdmin):
     pass
 
 @admin.register(Region)
-class RegionAdmin(admin.ModelAdmin):
+class RegionAdmin(SoftDeleteAdmin):
     pass
 
 
 @admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
+class GenreAdmin(SoftDeleteAdmin):
     pass
 
 
 @admin.register(Developer)
-class DeveloperAdmin(admin.ModelAdmin):
+class DeveloperAdmin(SoftDeleteAdmin):
     pass
 
 
 @admin.register(Publisher)
-class PublisherAdmin(admin.ModelAdmin):
+class PublisherAdmin(SoftDeleteAdmin):
     pass
 
 
 @admin.register(Platform)
-class PlatformAdmin(admin.ModelAdmin):
+class PlatformAdmin(SoftDeleteAdmin):
     pass

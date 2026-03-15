@@ -1,22 +1,33 @@
 from django.db import models
 from django.utils.text import slugify
+from shared.models import SoftDeleteModel
+from django.db.models import Q
 
-class Classification(models.Model):
-    name = models.CharField(unique=True)
-    slug = models.SlugField(unique=True)
+class Classification(SoftDeleteModel):
+    name = models.CharField()
+    slug = models.SlugField()
     description = models.TextField(max_length=160)
 
     def __str__(self):
-        return f'PK="{self.pk}", name="{self.name}", slug="{self.clean_fieldsslug}" description="{self.description}"'
+        return f'PK="{self.pk}", name="{self.name}", slug="{self.slug}" description="{self.description}"'
     
     class Meta:
         abstract = True
+        constraints = [
+            models.UniqueConstraint(
+                fields=['slug'],
+                condition=Q(deleted_at__isnull=True),
+                name='%(app_label)s_%(class)s_unique_active_slug',
+            ),
+            models.UniqueConstraint(
+                fields=['name'],
+                condition=Q(deleted_at__isnull=True),
+                name='%(app_label)s_%(class)s_unique_active_name',
+            ),
+        ]
         
     def save(self, *args, **kwargs):
-        new_slug = slugify(self.name)
-        if self.slug != new_slug:
-            self.slug = new_slug
-            
+        self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
 class Edition(Classification):
@@ -58,7 +69,7 @@ class Publisher(Classification):
 class Platform(Classification):
     pass
 
-class PlatformSlugAlias(models.Model):
+class PlatformSlugAlias(SoftDeleteModel):
     platform = models.ForeignKey(
         Platform,
         on_delete=models.CASCADE,

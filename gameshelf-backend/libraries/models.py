@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.db import models
+from shared.models import SoftDeleteModel
 
-
-class LibraryItem(models.Model):
+class LibraryItem(SoftDeleteModel):
     class Status(models.TextChoices):
         COMPLETED = 'Completed'
         PLAYING = 'Physical'

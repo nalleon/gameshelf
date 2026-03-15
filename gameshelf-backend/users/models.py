@@ -1,9 +1,8 @@
-import uuid
-
 from django.conf import settings
 from django.db import models
+from shared.models import SoftDeleteModel
 
-class Profile(models.Model):
+class Profile(SoftDeleteModel):
     class Role(models.TextChoices):
         USER = 'U', 'User'
         ADMIN = 'A', 'Admin'

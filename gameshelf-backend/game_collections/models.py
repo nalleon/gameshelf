@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from shared.models import SoftDeleteModel
 
 
-class Item(models.Model):
+class Item(SoftDeleteModel):
     class Type(models.TextChoices):
         PHYSICAL = 'P', 'Physical'
         DIGITAL = 'D', 'Digital'
