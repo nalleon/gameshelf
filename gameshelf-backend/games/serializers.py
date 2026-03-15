@@ -115,6 +115,7 @@ class FavoriteItemSerializer(BaseSerializer):
 # Serializers for documentation via Swagger
 
 class GameSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     title = serializers.CharField()
     slug = serializers.SlugField()
     description = serializers.CharField()
@@ -129,6 +130,7 @@ class GameSchemaSerializer(serializers.Serializer):
 
 
 class ReviewSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     content = serializers.CharField()
     recommend = serializers.BooleanField()
     game = id = serializers.IntegerField()
@@ -138,10 +140,44 @@ class ReviewSchemaSerializer(serializers.Serializer):
 
 
 class MediaSchemaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     image = serializers.URLField()
     review = ReviewSchemaSerializer()
 
 
 class FavoriteSchemaSerializer(serializers.Serializer):
-    game = GameSchemaSerializer()
+    id = serializers.IntegerField()
+    game = id = serializers.IntegerField()
+    user = serializers.DictField()
+
+
+# Schemas to save class objects in Swagger
+class SaveGameSchemaSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    description = serializers.CharField()
+    cover = serializers.URLField()
+    released_at = serializers.DateTimeField()
+    pk_platforms_list = serializers.ListField(child=serializers.IntegerField())
+    pk_genres_list = serializers.ListField(child=serializers.IntegerField())
+    pk_developers_list = serializers.ListField(child=serializers.IntegerField())
+    pk_publishers_list = serializers.ListField(child=serializers.IntegerField())
+    pk_edition = serializers.IntegerField()
+    pk_region = serializers.IntegerField()
+
+
+class SaveReviewSchemaSerializer(serializers.Serializer):
+    content = serializers.CharField()
+    recommend = serializers.BooleanField()
+    game = id = serializers.IntegerField()
+    author = serializers.DictField()
+    updated_at = serializers.DateTimeField()
+
+
+class SaveMediaSchemaSerializer(serializers.Serializer):
+    image = serializers.URLField()
+    review = ReviewSchemaSerializer()
+
+
+class SaveFavoriteSchemaSerializer(serializers.Serializer):
+    game = id = serializers.IntegerField()
     user = serializers.DictField()

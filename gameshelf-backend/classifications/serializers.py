@@ -156,8 +156,8 @@ class PlatformSchemaSerializer(serializers.Serializer):
     slug = serializers.SlugField()
     aliases = serializers.ListField(child=serializers.SlugField(), required=False)
     description = serializers.CharField()
-
-# Schemas to create the items in Swagger
+    
+# Schemas to save class objects in Swagger
 class SaveClassificationSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()
     description = serializers.CharField()

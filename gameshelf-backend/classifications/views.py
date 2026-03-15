@@ -26,6 +26,7 @@ from .serializers import (
     SaveGenreSchemaSerializer,
     SavePlatformSchemaSerializer,
     SaveRegionSchemaSerializer,
+    SaveClassificationSchemaSerializer
 )
 
 
@@ -488,8 +489,12 @@ def publisher_detail(request, pk_publisher: int):
 
 
 @extend_schema(
-    request=ClassificationSchemaSerializer,
-    responses={200: ClassificationSchemaSerializer, 404: None},
+    request=SaveClassificationSchemaSerializer,
+    responses={
+        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+        400: None,
+        404: None,
+    },
     description='Create a new publisher',
     operation_id='add_publisher',
     methods=['POST'],
@@ -511,7 +516,12 @@ def add_publisher(request):
 
 
 @extend_schema(
-    responses={200: ClassificationSchemaSerializer, 404: None},
+    request=SaveClassificationSchemaSerializer,
+    responses={
+        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+        400: None,
+        404: None,
+    },
     description='Update an existing publisher',
     operation_id='update_publisher',
     methods=['PUT'],
@@ -623,8 +633,12 @@ def edition_detail(request, pk_edition: int):
 
 
 @extend_schema(
-    request=ClassificationSchemaSerializer,
-    responses={200: ClassificationSchemaSerializer, 404: None},
+    request=SaveClassificationSchemaSerializer,
+    responses={
+        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+        400: None,
+        404: None,
+    },
     description='Create a new edition',
     operation_id='add_edition',
     methods=['POST'],
@@ -646,8 +660,12 @@ def add_edition(request):
 
 
 @extend_schema(
-    request=ClassificationSchemaSerializer,
-    responses={200: ClassificationSchemaSerializer, 404: None},
+    request=SaveClassificationSchemaSerializer,
+    responses={
+        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+        400: None,
+        404: None,
+    },
     description='Update an existing edition',
     operation_id='update_edition',
     methods=['PUT'],

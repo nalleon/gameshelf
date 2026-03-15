@@ -20,6 +20,7 @@ from .serializers import (
     MediaSerializer,
     ReviewSchemaSerializer,
     ReviewSerializer,
+    SaveFavoriteSchemaSerializer,SaveGameSchemaSerializer, SaveMediaSchemaSerializer, SaveReviewSchemaSerializer
 )
 
 User = get_user_model()
@@ -68,7 +69,7 @@ def game_detail(request, pk_game: int):
 
 
 @extend_schema(
-    request=GameSchemaSerializer,
+    request=SaveGameSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
         400: None,
@@ -175,7 +176,7 @@ def add_game(request):
 
 
 @extend_schema(
-    request=GameSchemaSerializer,
+    request=SaveGameSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
         400: None,
@@ -378,7 +379,7 @@ def review_detail(request, pk_review: int):
 
 # Public Method
 @extend_schema(
-    request=ReviewSchemaSerializer,
+    request=SaveReviewSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
         400: None,
@@ -413,7 +414,7 @@ def add_review(request):
 
 # Public method
 @extend_schema(
-    request=ReviewSchemaSerializer,
+    request=SaveReviewSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
         400: None,
@@ -571,7 +572,7 @@ def media_detail(request, pk_media: int):
 
 
 @extend_schema(
-    request=MediaSchemaSerializer,
+    request=SaveMediaSchemaSerializer,
     responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 400: None},
     description='Create a media',
     operation_id='add_media',
@@ -602,7 +603,7 @@ def add_media(request):
 
 
 @extend_schema(
-    request=MediaSchemaSerializer,
+    request=SaveMediaSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
         400: None,
@@ -743,7 +744,7 @@ def favorite_item_detail(request, pk_favorite_item: int):
 
 # Public Method
 @extend_schema(
-    request=FavoriteSchemaSerializer,
+    request=SaveFavoriteSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
         400: None,
@@ -775,7 +776,7 @@ def add_self_favorite_item(request):
 
 
 @extend_schema(
-    request=FavoriteSchemaSerializer,
+    request=SaveFavoriteSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
         400: None,
@@ -812,7 +813,7 @@ def add_favorite_item(request):
 
 # Private Method because normal users wants only to add or delete from favorites
 @extend_schema(
-    request=FavoriteSchemaSerializer,
+    request=SaveFavoriteSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
         400: None,
