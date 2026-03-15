@@ -69,13 +69,25 @@ class Publisher(Classification):
 class Platform(Classification):
     pass
 
+
 class PlatformSlugAlias(SoftDeleteModel):
+
     platform = models.ForeignKey(
-        Platform,
+        'Platform',
         on_delete=models.CASCADE,
-        related_name='slug_aliases'
+        related_name='slug_aliases',
     )
-    slug = models.SlugField(unique=True)
+
+    slug = models.SlugField()
 
     def __str__(self):
-        return self.slug
+        return f'PK="{self.pk}", slug="{self.slug}", platform="{self.platform.name} - {self.platform.pk}"'
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['slug'],
+                condition=Q(deleted_at__isnull=True),
+                name='%(app_label)s_%(class)s_unique_active_slug',
+            )
+        ]
