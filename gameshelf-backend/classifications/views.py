@@ -10,8 +10,6 @@ from users.models import Profile
 
 from .models import Developer, Edition, Genre, Platform, Publisher, Region
 
-from users.models import Profile
-
 from .serializers import (
     ClassificationSchemaSerializer,
     DeveloperSerializer,

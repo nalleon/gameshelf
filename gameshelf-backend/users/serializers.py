@@ -57,3 +57,6 @@ class RegisterSchemaSerializer(serializers.Serializer):
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
     email = serializers.EmailField(required=False)
+    
+class ShowUsernameSchemaSerializer(serializers.Serializer):
+    username = serializers.CharField()

@@ -9,7 +9,10 @@ class PlatformSerializer(BaseSerializer):
             'id': instance.pk,
             'name': instance.name,
             'slug': instance.slug,
-            'aliases': [a.slug for a in instance.slug_aliases.all()],
+            'aliases': PlatformSlugAliasSerializer(
+                instance.slug_aliases.filter(deleted_at__isnull=True),
+                request=self.request
+            ).serialize(),
             'description': instance.description,
         }
 
@@ -19,9 +22,24 @@ class PlatformSerializer(BaseSerializer):
             'id': serializers.IntegerField(),
             'name': serializers.CharField(),
             'slug': serializers.SlugField(),
-            'aliases': serializers.ListField(child=serializers.SlugField()),
+            'aliases': PlatformSlugAliasSerializer.get_fields_dict(),
             'description': serializers.CharField(),
         }
+        
+class PlatformSlugAliasSerializer(BaseSerializer):
+    def serialize_instance(self, instance) -> dict:
+        return {
+            'id': instance.pk,
+            'slug': instance.slug,
+        }
+
+    @staticmethod
+    def get_fields_dict():
+        return {
+            'id': serializers.IntegerField(),
+            'slug': serializers.SlugField(),
+        }
+    
 
 
 class GenreSerializer(BaseSerializer):
@@ -157,6 +175,8 @@ class PlatformSchemaSerializer(serializers.Serializer):
     aliases = serializers.ListField(child=serializers.SlugField(), required=False)
     description = serializers.CharField()
     
+
+
 # Schemas to save class objects in Swagger
 class SaveClassificationSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()
@@ -178,3 +198,4 @@ class SavePlatformSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()
     aliases = serializers.ListField(child=serializers.SlugField(), required=False)
     description = serializers.CharField()
+    

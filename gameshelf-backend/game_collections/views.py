@@ -2,62 +2,177 @@ from django.contrib.auth import get_user_model
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_framework.decorators import api_view
 
 from games.models import Game
 from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
 from users.decorators import auth_required
-
-from .models import CollectionItem, WishListItem
 from users.models import Profile
 
-from .serializers import CollectionItemSerializer, WishlistItemSerializer
+from .models import Collection, CollectionItem, WishListItem
+from .serializers import (
+    CollectionItemSchemaSerializer,
+    CollectionItemSerializer,
+    CollectionSerializer,
+    SaveListSchemaSerializer,
+    WishlistItemSerializer,
+    CollectionSchemaSerializer,
+    WishlistSchemaSerializer,
+    SaveCollectionItemSchemaSerializer
+)
 
 User = get_user_model()
 
-# CollectionItem Methods
+
+@extend_schema(
+    request=SaveListSchemaSerializer,
+    responses={
+        201: CollectionSerializer,
+        400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+    },
+    description='Create a new collection for the authenticated user',
+    operation_id='create_collection',
+)
+@api_view(['POST'])
+@csrf_exempt
+@require_json_body
+@require_fields('name')
+@auth_required
+def create_collection(request):
+    payload = request.json
+
+    name = payload['name']
+
+    collection = Collection.objects.create(
+        user=request.user,
+        name=name,
+    )
+
+    serializer = CollectionSerializer(collection, request=request)
+
+    return JsonResponse(serializer.serialize(), status=201)
 
 
 # This method is public to get all items from a collection
+@extend_schema(
+    responses={200: CollectionSchemaSerializer, 404: None},
+    description='Get all collections',
+    operation_id='get_collections',
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
-def collection_item_list(request):
-    collection_items = CollectionItem.objects.all()
-    serializer = CollectionItemSerializer(collection_items, request=request)
+def collection_list(request):
+    collections = Collection.objects.all()
+    serializer = CollectionSerializer(collections, request=request)
     return serializer.json_response()
 
 
-# This method is public to get an item form a collection
+# This method is public to get all items from a collection
+@extend_schema(
+    responses=CollectionSchemaSerializer,
+    description='Get all items from a collection',
+    parameters=[
+        OpenApiParameter(
+            name='pk_collection',
+            description='ID of the collection',
+            required=True,
+            type=int,
+            location=OpenApiParameter.PATH,
+        ),
+    ],
+)
+@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
-def collection_item_detail(request, pk_collection_item: int):
-    try:
-        collection_item = get_object_or_404(CollectionItem, pk=pk_collection_item)
-    except Http404:
-        return JsonResponse({'error': 'CollectionItem not found'}, status=404)
+def collection_item_list(request, pk_collection):
+    collection = get_object_or_404(Collection, pk=pk_collection)
+    serializer = CollectionSerializer(collection, request=request)
+    return JsonResponse(serializer.serialize(), safe=False)
+
+
+# This method is public to get an item form a collection
+@extend_schema(
+    responses=CollectionItemSchemaSerializer,
+    description='Get an item from a collection',
+    parameters=[
+        OpenApiParameter(
+            name='pk_collection',
+            description='ID of the collection',
+            required=True,
+            type=int,
+            location=OpenApiParameter.PATH,
+        ),
+        OpenApiParameter(
+            name='pk_collection_item',
+            description='ID of the collection item',
+            required=True,
+            type=int,
+            location=OpenApiParameter.PATH,
+        ),
+    ],
+)
+@api_view(['GET'])
+@csrf_exempt
+@require_http_methods('GET')
+def collection_item_detail(request, pk_collection: int, pk_collection_item: int):
+    
+    collection = get_object_or_404(Collection, pk=pk_collection)
+
+    collection_item = get_object_or_404(
+        CollectionItem,
+        pk=pk_collection_item,
+        collection=collection
+    )
 
     serializer = CollectionItemSerializer(collection_item, request=request)
     return serializer.json_response()
 
 
 # This method is public to add to its own collection
+@extend_schema(
+    request=SaveCollectionItemSchemaSerializer,
+    responses={
+        201: CollectionItemSchemaSerializer,
+        400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        403: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+    },
+    description='Add a game to your own collection',
+    parameters=[
+        OpenApiParameter(
+            name='pk_collection',
+            description='ID of the collection',
+            required=True,
+            type=int,
+            location=OpenApiParameter.PATH,
+        ),
+    ],
+)
+@api_view(['POST'])
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
-@require_fields('pk_game')
+@require_fields('game_id')
 @auth_required
-def add_self_collection_item(request):
+def add_self_collection_item(request, pk_collection):
     payload = request.json
-    pk_game = payload['pk_game']
+    pk_game = payload['game_id']
 
-    try:
-        game = get_object_or_404(Game, pk=pk_game)
-    except Http404:
-        return JsonResponse({'error': 'Game not found'}, status=404)
+    collection = get_object_or_404(Collection, pk=pk_collection)
 
-    author = request.user
+    if collection.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
 
-    collection_item = CollectionItem.objects.create(game=game, author=author)
-    return JsonResponse({'id': collection_item.pk}, status=200)
+    game = get_object_or_404(Game, pk=pk_game)
+
+    collection_item = CollectionItem.objects.create(
+        game=game,
+        collection=collection
+    )
+
+    return JsonResponse({'id': collection_item.pk}, status=201)
 
 
 # This method is for admins, to add for other users

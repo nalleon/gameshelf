@@ -11,26 +11,30 @@ class Item(SoftDeleteModel):
 
     type = models.CharField(max_length=1, choices=Type, default=Type.DIGITAL)
 
-    game = models.ForeignKey(
-        'games.Game',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
-
-    author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-    )
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True
+        ordering = ['-created_at']
 
+class Collection(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='collections',
+        on_delete=models.CASCADE,
+    )
 
+    name = models.CharField(max_length=100, default='My Collection')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
 
 class CollectionItem(Item): 
+    collection = models.ForeignKey(
+        Collection,
+        related_name='items',
+        on_delete=models.CASCADE,
+    )
+    
     game = models.ForeignKey(
         'games.Game',
         related_name='collection_items',
@@ -39,13 +43,16 @@ class CollectionItem(Item):
         blank=True,
     )
 
-    author = models.ForeignKey(
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name='collection',
+        related_name='wishlists',
         on_delete=models.CASCADE,
     )
 
-
+    name = models.CharField(max_length=100, default='My Wishlist')
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class WishListItem(Item):
     priority = models.PositiveSmallIntegerField(
@@ -62,10 +69,10 @@ class WishListItem(Item):
         null=True,
         blank=True,
     )
-
-    author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        related_name='wishlist',
+    
+    wishlist = models.ForeignKey(
+        Wishlist,
+        related_name='items',
         on_delete=models.CASCADE,
     )
 

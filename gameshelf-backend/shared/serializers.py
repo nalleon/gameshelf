@@ -3,6 +3,7 @@ from abc import ABC
 from typing import Iterable
 
 from django.http import HttpRequest, JsonResponse
+from rest_framework import serializers
 
 
 class BaseSerializer(ABC):
@@ -38,3 +39,15 @@ class BaseSerializer(ABC):
 
     def json_response(self) -> JsonResponse:
         return JsonResponse(self.serialize(), safe=False)
+    
+class ShowUsernameSerializer(BaseSerializer):
+    def serialize_instance(self, instance) -> dict:
+        return {
+            'username': instance.username,
+        }
+
+    @staticmethod
+    def get_fields_dict():
+        return {
+            'username': serializers.CharField(),
+        }
