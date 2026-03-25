@@ -1,17 +1,16 @@
 <template>
-    <header class="sticky top-0 z-50 backdrop-blur border-b">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header class="sticky top-0 z-50 backdrop-blur border-b bg-gsoscuro">
+        <div class="px-6 py-4 flex items-center text-gsblanco justify-between">
             <!-- IZQUIERDA -->
-            <p class="font-semibold">
-                <router-link to="/">Pedro Martín Escuela</router-link>
-            </p>
+            <div class="border">
+                <router-link to="/">
+                    <img class="w-15" src="../assets/cover-logo-cut.png" alt="Logo">
+                </router-link>
+            </div>
             <!-- DERECHA (ESCRITORIO) -->
-            <nav class="hidden sm:flex gap-6 text-sm">
-                <span class="hover:text-white">
-                    <router-link to="/">Home</router-link>
-                </span>
-                <span class="hover:text-white">
-                    <router-link to="/gamelist">Game List</router-link>
+            <nav class="hidden sm:flex gap-6 items-center text-sm">
+                <span>
+                    <input class="border rounded-md px-2 py-1" type="text" placeholder="Search...">
                 </span>
                 <span class="hover:text-white">
                     <router-link to="/profile">Profile</router-link>
