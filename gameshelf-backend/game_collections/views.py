@@ -10,7 +10,7 @@ from shared.decorators import require_fields, require_http_methods, require_json
 from users.decorators import auth_required
 from users.models import Profile
 
-from .models import Collection, CollectionItem, WishListItem
+from .models import Collection, CollectionItem, WishListItem, Wishlist
 from .serializers import (
     CollectionItemSchemaSerializer,
     CollectionItemSerializer,
@@ -339,139 +339,239 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
 
 
 #############################
-# WishlistItem methods
+# Wishlist methods
 #############################
+
+# Wrapper para la wishlist del usuario
+@extend_schema(
+    responses={200: CollectionSchemaSerializer},
+    description='Get the authenticated user wishlist',
+    operation_id='get_wishlist',
+)
+@extend_schema(
+    request=SaveListSchemaSerializer,
+    responses={
+        201: CollectionSerializer,
+        400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+    },
+    description='Create the wishlist for the authenticated user (only one allowed)',
+    operation_id='create_wishlist',
+)
+@api_view(['GET', 'POST'])
+@require_http_methods('GET', 'POST')
+@auth_required
+def wishlist_wrapper(request):
+    match request.method:
+        case 'GET':
+            return wishlist_detail(request)
+        case 'POST':
+            return create_wishlist(request)
+
+
 @csrf_exempt
-@require_http_methods('GET')
-def wishlist_item_list(request):
-    wishlist_items = WishListItem.objects.all()
-    serializer = WishlistItemSerializer(wishlist_items, request=request)
-    return serializer.json_response()
+@auth_required
+def wishlist_detail(request):
+    # Solo hay una wishlist por usuario
+    wishlist, _ = Wishlist.objects.get_or_create(user=request.user)
+    serializer = CollectionSerializer(wishlist, request=request)
+    return JsonResponse(serializer.serialize())
 
 
-# This method is public to see an wishlist item
 @csrf_exempt
-@require_http_methods('GET')
-def wishlist_item_detail(request, pk_wishlist_item: int):
-    try:
-        wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
-    except Http404:
-        return JsonResponse({'error': 'WishListItem not found'}, status=404)
+@require_json_body
+@require_fields('name', 'is_private')
+@auth_required
+def create_wishlist(request):
+    if Wishlist.objects.filter(user=request.user).exists():
+        return JsonResponse({'error': 'User already has a wishlist'}, status=400)
 
+    payload = request.json
+    wishlist = Wishlist.objects.create(
+        user=request.user,
+        name=payload['name'],
+        is_private=payload['is_private']
+    )
+    serializer = CollectionSerializer(wishlist, request=request)
+    return JsonResponse(serializer.serialize(), status=201)
+
+
+# Wrapper para items de la wishlist
+@extend_schema(
+    responses=CollectionSchemaSerializer,
+    description='Get all items from the wishlist',
+)
+@extend_schema(
+    request=SaveCollectionItemSchemaSerializer,
+    responses={
+        201: CollectionItemSchemaSerializer,
+        400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        403: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+    },
+    description='Add a game to the wishlist',
+)
+@extend_schema(
+    methods=['PATCH'],
+    request={
+        'type': 'object',
+        'properties': {
+            'name': {'type': 'string'},
+            'is_private': {'type': 'boolean'}
+        },
+        'required': [],
+    },
+    responses=CollectionSerializer,
+    description='Edit the name and/or is_private of the wishlist',
+)
+@api_view(['GET', 'POST', 'PATCH'])
+@csrf_exempt
+@require_http_methods('GET', 'POST', 'PATCH')
+@auth_required
+def wishlist_items_wrapper(request, pk_wishlist: int):
+    wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
+
+    if wishlist.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    match request.method:
+        case 'GET':
+            return ''
+        case 'POST':
+            return add_self_wishlist_item(request, wishlist)
+        case 'PATCH':
+            return edit_wishlist(request, wishlist)
+
+
+@csrf_exempt
+@require_json_body
+@require_fields('game_id', 'priority', 'annotation')
+@auth_required
+def add_self_wishlist_item(request, wishlist: Wishlist):
+    payload = request.json
+    pk_game = payload['game_id']
+    priority = payload['priority']
+    annotation = payload['annotation']
+
+    game = get_object_or_404(Game, pk=pk_game)
+
+    wishlist_item = WishListItem.objects.create(
+        wishlist=wishlist,
+        game=game,
+        priority=priority,
+        annotation=annotation
+    )
     serializer = WishlistItemSerializer(wishlist_item, request=request)
-    return serializer.json_response()
+    return JsonResponse(serializer.serialize(), status=201)
 
 
-# This method is public to add to its own wishlist
-@csrf_exempt
-@require_http_methods('POST')
-@require_json_body
-@require_fields('pk_game', 'priority', 'annotation')
-@auth_required
-def add_self_wishlist_item(request):
-    payload = request.json
-    pk_game = payload['pk_game']
-    priority = payload['priority']
-    annotation = payload['annotation']
-
-    try:
-        game = get_object_or_404(Game, pk=pk_game)
-    except Http404:
-        return JsonResponse({'error': 'Game not found'}, status=404)
-
-    author = request.user
-
-    wishlist_item = WishListItem.objects.create(
-        priority=priority, annotation=annotation, game=game, author=author
-    )
-    return JsonResponse({'id': wishlist_item.pk}, status=200)
-
-
-# This method is for admins, to add for other users
-@csrf_exempt
-@require_http_methods('POST')
-@require_json_body
-@require_fields('pk_game', 'pk_author', 'priority', 'annotation')
-@auth_required
-@require_role(Profile.Role.ADMIN)
-def add_wishlist_item(request):
-    payload = request.json
-    pk_game = payload['pk_game']
-    priority = payload['priority']
-    annotation = payload['annotation']
-    pk_author = payload['pk_author']
-
-    try:
-        game = get_object_or_404(Game, pk=pk_game)
-    except Http404:
-        return JsonResponse({'error': 'Game not found'}, status=404)
-
-    try:
-        author = get_object_or_404(User, pk=pk_author)
-    except Http404:
-        return JsonResponse({'error': 'User not found'}, status=404)
-
-    wishlist_item = WishListItem.objects.create(
-        priority=priority, annotation=annotation, game=game, author=author
-    )
-    return JsonResponse({'id': wishlist_item.pk}, status=200)
-
-
-# This method is for admin only, a user only wants to add or delete from wishlist
-@csrf_exempt
-@require_http_methods('PUT')
 @require_json_body
 @auth_required
-@require_role(Profile.Role.ADMIN)
-def edit_wishlist_item(request, pk_wishlist_item: int):
+def edit_wishlist(request, wishlist: Wishlist):
     payload = request.json
-    pk_game = payload['pk_game']
-    priority = payload['priority']
-    annotation = payload['annotation']
-    pk_author = payload['pk_author']
+    updated = False
 
-    try:
-        wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
-    except Http404:
-        return JsonResponse({'error': 'CollectionItem not found'}, status=404)
+    if 'name' in payload:
+        wishlist.name = payload['name']
+        updated = True
+    if 'is_private' in payload:
+        wishlist.is_private = payload['is_private']
+        updated = True
 
-    if pk_game:
-        try:
-            game = get_object_or_404(Game, pk=pk_game)
-        except Http404:
-            return JsonResponse({'error': 'Game not found'}, status=404)
-        wishlist_item.game = game
+    if updated:
+        wishlist.save()
 
-    if pk_author:
-        try:
-            author = get_object_or_404(User, pk=pk_author)
-        except Http404:
-            return JsonResponse({'error': 'User not found'}, status=404)
-        wishlist_item.author = author
-
-    if priority:
-        wishlist_item.priority = priority
-
-    if annotation:
-        wishlist_item.annotation = annotation
-
-    wishlist_item.save()
-    return JsonResponse({'id': wishlist_item.pk}, status=200)
+    serializer = CollectionSerializer(wishlist, request=request)
+    return JsonResponse(serializer.serialize())
 
 
-# This method is public to delete a wishlist collection
+# Wrapper para item individual de la wishlist
+@extend_schema(
+    methods=['GET'],
+    responses=WishlistItemSerializer,
+    description='Get a wishlist item',
+)
+@extend_schema(
+    methods=['DELETE'],
+    request=None,
+    responses={
+        204: None,
+        403: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+    },
+    description='Delete a wishlist item',
+)
+@extend_schema(
+    methods=['PATCH'],
+    request={
+        'type': 'object',
+        'properties': {
+            'priority': {'type': 'integer'},
+            'annotation': {'type': 'string'},
+            'is_private': {'type': 'boolean'},
+        },
+        'required': [],
+    },
+    responses=WishlistItemSerializer,
+    description='Edit a wishlist item (priority, annotation, is_private)',
+)
+@api_view(['GET', 'DELETE', 'PATCH'])
+@csrf_exempt
+@require_http_methods('GET', 'DELETE', 'PATCH')
+@auth_required
+def wishlist_item_detail_wrapper(request, pk_wishlist_item: int):
+    match request.method:
+        case 'GET':
+            return wishlist_item_detail(request, pk_wishlist_item)
+        case 'DELETE':
+            return delete_wishlist_item(request, pk_wishlist_item)
+        case 'PATCH':
+            return edit_wishlist_item(request, pk_wishlist_item)
+
+
+@csrf_exempt
+@require_http_methods('GET')
+@auth_required
+def wishlist_item_detail(request, pk_wishlist_item: int):
+    wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
+    if wishlist_item.wishlist.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    serializer = WishlistItemSerializer(wishlist_item, request=request)
+    return JsonResponse(serializer.serialize())
+
+
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
 def delete_wishlist_item(request, pk_wishlist_item: int):
-    try:
-        wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
-    except Http404:
-        return JsonResponse({'error': 'WishListItem not found'}, status=404)
-
-    if wishlist_item.author != request.user:
-        if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
+    wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
+    if wishlist_item.wishlist.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
     wishlist_item.delete()
-    return JsonResponse(status=200)
+    return JsonResponse(status=204)
+
+
+@csrf_exempt
+@require_json_body
+@auth_required
+def edit_wishlist_item(request, pk_wishlist_item: int):
+    wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
+    if wishlist_item.wishlist.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    payload = request.json
+    updated = False
+    if 'priority' in payload:
+        wishlist_item.priority = payload['priority']
+        updated = True
+    if 'annotation' in payload:
+        wishlist_item.annotation = payload['annotation']
+        updated = True
+    if 'is_private' in payload:
+        wishlist_item.is_private = payload['is_private']
+        updated = True
+
+    if updated:
+        wishlist_item.save()
+
+    serializer = WishlistItemSerializer(wishlist_item, request=request)
+    return JsonResponse(serializer.serialize())

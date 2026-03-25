@@ -127,6 +127,7 @@ class WishlistSchemaSerializer(serializers.Serializer):
 # Schemas to save class objects in Swagger
 class SaveListSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()
+    is_private = serializers.BooleanField()
 
 
 class SaveCollectionItemSchemaSerializer(serializers.Serializer):
