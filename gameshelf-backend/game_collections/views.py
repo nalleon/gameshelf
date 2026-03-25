@@ -14,17 +14,26 @@ from .models import Collection, CollectionItem, WishListItem
 from .serializers import (
     CollectionItemSchemaSerializer,
     CollectionItemSerializer,
+    CollectionSchemaSerializer,
     CollectionSerializer,
+    SaveCollectionItemSchemaSerializer,
     SaveListSchemaSerializer,
     WishlistItemSerializer,
-    CollectionSchemaSerializer,
-    WishlistSchemaSerializer,
-    SaveCollectionItemSchemaSerializer
 )
 
 User = get_user_model()
 
+#############################
+# Collection methods
+#############################
 
+
+# Method for making the API restful
+@extend_schema(
+    responses={200: CollectionSchemaSerializer, 404: None},
+    description='Get all collections',
+    operation_id='get_collections',
+)
 @extend_schema(
     request=SaveListSchemaSerializer,
     responses={
@@ -34,14 +43,31 @@ User = get_user_model()
     description='Create a new collection for the authenticated user',
     operation_id='create_collection',
 )
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
+@require_http_methods('GET', 'POST')
+def collection_wrapper(request):
+    match request.method:
+        case 'GET':
+            return collection_list(request)
+        case 'POST':
+            return create_collection(request)
+
+
+# This method is public to get all existing collections
+@csrf_exempt
+def collection_list(request):
+    collections = Collection.objects.all()
+    serializer = CollectionSerializer(collections, request=request)
+    return serializer.json_response()
+
+
+# This method is public to create a new collection collection
 @csrf_exempt
 @require_json_body
 @require_fields('name')
 @auth_required
 def create_collection(request):
     payload = request.json
-
     name = payload['name']
 
     collection = Collection.objects.create(
@@ -50,29 +76,32 @@ def create_collection(request):
     )
 
     serializer = CollectionSerializer(collection, request=request)
-
     return JsonResponse(serializer.serialize(), status=201)
 
 
-# This method is public to get all items from a collection
-@extend_schema(
-    responses={200: CollectionSchemaSerializer, 404: None},
-    description='Get all collections',
-    operation_id='get_collections',
-)
-@api_view(['GET'])
-@csrf_exempt
-@require_http_methods('GET')
-def collection_list(request):
-    collections = Collection.objects.all()
-    serializer = CollectionSerializer(collections, request=request)
-    return serializer.json_response()
-
-
-# This method is public to get all items from a collection
+# Method for making the API restful
 @extend_schema(
     responses=CollectionSchemaSerializer,
     description='Get all items from a collection',
+)
+@extend_schema(
+    request=SaveCollectionItemSchemaSerializer,
+    responses={
+        201: CollectionItemSchemaSerializer,
+        400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        403: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+    },
+    description='Add a game to your own collection',
+)
+@extend_schema(
+    request=None,
+    responses={
+        204: None,
+        403: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+    },
+    description='Delete a game from your collection',
     parameters=[
         OpenApiParameter(
             name='pk_collection',
@@ -80,10 +109,37 @@ def collection_list(request):
             required=True,
             type=int,
             location=OpenApiParameter.PATH,
-        ),
+        )
     ],
 )
-@api_view(['GET'])
+@extend_schema(
+    methods=['PATCH'],
+    request={
+        'type': 'object',
+        'properties': {
+            'name': {'type': 'string'},
+            'is_private': {'type': 'boolean'}
+        },
+        'required': [],
+    },
+    responses=CollectionSerializer,
+    description='Edit the name and/or is_private of a collection',
+)
+@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
+@csrf_exempt
+@require_http_methods('GET', 'POST', 'DELETE', 'PATCH')
+def collection_items_wrapper(request, pk_collection):
+    match request.method:
+        case 'GET':
+            return collection_item_list(request, pk_collection)
+        case 'POST':
+            return add_self_collection_item(request, pk_collection)
+        case 'DELETE':
+            return delete_collection(request, pk_collection)
+        case 'PATCH':
+            return edit_collection(request, pk_collection)
+
+# This method is public to get all items from a collection
 @csrf_exempt
 @require_http_methods('GET')
 def collection_item_list(request, pk_collection):
@@ -92,8 +148,68 @@ def collection_item_list(request, pk_collection):
     return JsonResponse(serializer.serialize(), safe=False)
 
 
-# This method is public to get an item form a collection
+# This method is public to add to its own collection
+@csrf_exempt
+@require_json_body
+@require_fields('game_id')
+@auth_required
+def add_self_collection_item(request, pk_collection):
+    payload = request.json
+    pk_game = payload['game_id']
+
+    collection = get_object_or_404(Collection, pk=pk_collection)
+
+    if collection.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    game = get_object_or_404(Game, pk=pk_game)
+
+    collection_item = CollectionItem.objects.create(game=game, collection=collection)
+
+    return JsonResponse({'id': collection_item.pk}, status=201)
+
+
+# This method is public to delete a collection
+@csrf_exempt
+@require_http_methods('DELETE')
+@auth_required
+def delete_collection(request, pk_collection: int):
+    try:
+        collection = get_object_or_404(Collection, pk=pk_collection)
+    except Http404:
+        return JsonResponse({'error': 'Collection not found'}, status=404)
+
+    if collection.user != request.user:
+        return JsonResponse({'error': 'Forbidden access'}, status=403)
+
+    collection.delete()
+    return JsonResponse(status=204)
+
+@require_json_body
+@require_fields('name', 'is_private')
+@auth_required
+def edit_collection(request, pk_collection: int):
+    collection = get_object_or_404(Collection, pk=pk_collection)
+
+    if collection.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    payload = request.json
+    name = payload['name']
+    is_private = payload['is_private']
+
+    collection.name = name
+    collection.is_private = is_private
+   
+    collection.save()
+
+    serializer = CollectionSerializer(collection, request=request)
+    return JsonResponse(serializer.serialize())
+
+
+# Method for making the API restful
 @extend_schema(
+    methods=['GET'],
     responses=CollectionItemSchemaSerializer,
     description='Get an item from a collection',
     parameters=[
@@ -113,33 +229,15 @@ def collection_item_list(request, pk_collection):
         ),
     ],
 )
-@api_view(['GET'])
-@csrf_exempt
-@require_http_methods('GET')
-def collection_item_detail(request, pk_collection: int, pk_collection_item: int):
-    
-    collection = get_object_or_404(Collection, pk=pk_collection)
-
-    collection_item = get_object_or_404(
-        CollectionItem,
-        pk=pk_collection_item,
-        collection=collection
-    )
-
-    serializer = CollectionItemSerializer(collection_item, request=request)
-    return serializer.json_response()
-
-
-# This method is public to add to its own collection
 @extend_schema(
-    request=SaveCollectionItemSchemaSerializer,
+    methods=['DELETE'],
+    request=None,
     responses={
-        201: CollectionItemSchemaSerializer,
-        400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
+        204: None,
         403: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
         404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
     },
-    description='Add a game to your own collection',
+    description='Delete a game from your collection',
     parameters=[
         OpenApiParameter(
             name='pk_collection',
@@ -148,113 +246,101 @@ def collection_item_detail(request, pk_collection: int, pk_collection_item: int)
             type=int,
             location=OpenApiParameter.PATH,
         ),
+        OpenApiParameter(
+            name='pk_collection_item',
+            description='ID of the collection item',
+            required=True,
+            type=int,
+            location=OpenApiParameter.PATH,
+        ),
     ],
 )
-@api_view(['POST'])
+@extend_schema(
+    methods=['PATCH'],
+    request={
+        'type': 'object',
+        'properties': {
+            'is_private': {'type': 'boolean'}
+        },
+        'required': [],
+    },
+    responses=CollectionItemSchemaSerializer,
+    description='Edit the is_private field of a collection item',
+)
+@api_view(['GET', 'DELETE', 'PATCH'])
 @csrf_exempt
-@require_http_methods('POST')
-@require_json_body
-@require_fields('game_id')
-@auth_required
-def add_self_collection_item(request, pk_collection):
-    payload = request.json
-    pk_game = payload['game_id']
+@require_http_methods('GET', 'DELETE', 'PATCH')
+def collection_item_detail_wrapper(request, pk_collection: int, pk_collection_item: int):
+    match request.method:
+        case 'GET':
+            return collection_item_detail(request, pk_collection, pk_collection_item)
+        case 'DELETE':
+            return delete_collection_item(request, pk_collection, pk_collection_item)
+        case 'PATCH':
+            return edit_collection_item(request, pk_collection, pk_collection_item)
+
+
+# This method is public to get an item form a collection
+@csrf_exempt
+def collection_item_detail(request, pk_collection: int, pk_collection_item: int):
 
     collection = get_object_or_404(Collection, pk=pk_collection)
 
-    if collection.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
-
-    game = get_object_or_404(Game, pk=pk_game)
-
-    collection_item = CollectionItem.objects.create(
-        game=game,
-        collection=collection
+    collection_item = get_object_or_404(
+        CollectionItem, pk=pk_collection_item, collection=collection
     )
 
-    return JsonResponse({'id': collection_item.pk}, status=201)
-
-
-# This method is for admins, to add for other users
-@csrf_exempt
-@require_http_methods('POST')
-@require_json_body
-@require_fields('pk_game', 'pk_author')
-@auth_required
-@require_role(Profile.Role.ADMIN)
-def add_collection_item(request):
-    payload = request.json
-    pk_game = payload['pk_game']
-    pk_author = payload['pk_author']
-
-    try:
-        game = get_object_or_404(Game, pk=pk_game)
-    except Http404:
-        return JsonResponse({'error': 'Game not found'}, status=404)
-
-    try:
-        author = get_object_or_404(User, pk=pk_author)
-    except Http404:
-        return JsonResponse({'error': 'User not found'}, status=404)
-
-    collection_item = CollectionItem.objects.create(game=game, author=author)
-    return JsonResponse({'id': collection_item.pk}, status=200)
-
-
-# This method is for admin only, a user only wants to add or delete from collection
-@csrf_exempt
-@require_http_methods('PUT')
-@require_json_body
-@auth_required
-@require_role(Profile.Role.ADMIN)
-def edit_collection_item(request, pk_collection_item: int):
-    payload = request.json
-    pk_game = payload['pk_game']
-    pk_author = payload['pk_author']
-
-    try:
-        collection_item = get_object_or_404(CollectionItem, pk=pk_collection_item)
-    except Http404:
-        return JsonResponse({'error': 'CollectionItem not found'}, status=404)
-
-    if pk_game:
-        try:
-            game = get_object_or_404(Game, pk=pk_game)
-        except Http404:
-            return JsonResponse({'error': 'Game not found'}, status=404)
-        collection_item.game = game
-
-    if pk_author:
-        try:
-            author = get_object_or_404(User, pk=pk_author)
-        except Http404:
-            return JsonResponse({'error': 'User not found'}, status=404)
-        collection_item.author = author
-
-    collection_item.save()
-    return JsonResponse({'id': collection_item.pk}, status=200)
+    serializer = CollectionItemSerializer(collection_item, request=request)
+    return serializer.json_response()
 
 
 # This method is public to delete an item of a collection
 @csrf_exempt
-@require_http_methods('POST')
+@require_http_methods('DELETE')
 @auth_required
-def delete_collection_item(request, pk_collection_item: int):
-
+def delete_collection_item(request, pk_collection: int, pk_collection_item: int):
     try:
-        collection_item = get_object_or_404(CollectionItem, pk=pk_collection_item)
+        collection_item = get_object_or_404(
+            CollectionItem, pk=pk_collection_item, collection_id=pk_collection
+        )
     except Http404:
         return JsonResponse({'error': 'CollectionItem not found'}, status=404)
 
-    if collection_item.author != request.user:
-        if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+    if collection_item.collection.user != request.user:
+        return JsonResponse({'error': 'Forbidden access'}, status=403)
 
     collection_item.delete()
-    return JsonResponse(status=200)
+    return JsonResponse(status=204)
+
+@require_json_body
+@require_fields('is_private')
+@auth_required
+def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
+    collection_item = get_object_or_404(
+        CollectionItem,
+        pk=pk_collection_item,
+        collection_id=pk_collection
+    )
+
+    collection = collection_item.collection
+
+    if collection.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    payload = request.json
+    is_private = payload['is_private']
+    
+    if is_private != collection_item.is_private:
+        collection_item.is_private = is_private
+        collection_item.save()
+
+    serializer = CollectionItemSerializer(collection_item, request=request)
+    return serializer.json_response()
 
 
-# WishlistItem Methods
+#############################
+# WishlistItem methods
+#############################
 @csrf_exempt
 @require_http_methods('GET')
 def wishlist_item_list(request):

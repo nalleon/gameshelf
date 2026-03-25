@@ -102,7 +102,7 @@ class CollectionSchemaSerializer(serializers.Serializer):
     user = ShowUsernameSchemaSerializer()
     items = CollectionItemSchemaSerializer(many=True)
 
-
+ 
 # =========================
 # Wishlist Items Schema
 # =========================

@@ -6,12 +6,7 @@ from . import views
 # app_name = 'game_collections'
 
 urlpatterns = [
-    path('', views.collection_list, name='collection_item-list'),
-    path('add/', views.create_collection, name='add-collection'),
-    # path('self-add/', views.add_self_collection_item, name='add-self-collection_item'),
-    path('<int:pk_collection>/', views.collection_item_list, name='collection-detail'),
-    path('<int:pk_collection>/add/', views.add_self_collection_item, name='add-collection_item'),
-    path('<int:pk_collection>/<int:pk_collection_item>/', views.collection_item_detail, name='collection_item-detail'),
-    path('<int:pk_collection>/<int:pk_collection_item>/delete/', views.delete_collection_item, name='delete-collection_item'),
-    path('<int:pk_collection>/<int:pk_collection_item>/edit/', views.edit_collection_item, name='edit-collection_item'),
+    path('', views.collection_wrapper, name='collection-listall-add'),
+    path('<int:pk_collection>/', views.collection_items_wrapper, name='collection-add-'),
+    path('<int:pk_collection>/items/<int:pk_collection_item>/', views.collection_item_detail_wrapper, name='collection_item-detail'),
 ]

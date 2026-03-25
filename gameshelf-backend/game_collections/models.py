@@ -11,13 +11,15 @@ class Item(SoftDeleteModel):
 
     type = models.CharField(max_length=1, choices=Type, default=Type.DIGITAL)
 
+    is_private = models.BooleanField(default=False)
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True
         ordering = ['-created_at']
 
-class Collection(models.Model):
+class Collection(SoftDeleteModel):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name='collections',
@@ -25,10 +27,15 @@ class Collection(models.Model):
     )
 
     name = models.CharField(max_length=100, default='My Collection')
+    
+    is_private = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     
 
-class CollectionItem(Item): 
+class CollectionItem(Item):     
+    is_private = models.BooleanField(default=False)
+
     collection = models.ForeignKey(
         Collection,
         related_name='items',
@@ -44,14 +51,17 @@ class CollectionItem(Item):
     )
 
 
-class Wishlist(models.Model):
-    user = models.ForeignKey(
+class Wishlist(SoftDeleteModel):
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        related_name='wishlists',
+        related_name='wishlist',
         on_delete=models.CASCADE,
     )
-
+    
     name = models.CharField(max_length=100, default='My Wishlist')
+    
+    is_private = models.BooleanField(default=False)
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
 class WishListItem(Item):
@@ -61,6 +71,8 @@ class WishListItem(Item):
     )
     
     annotation = models.CharField(max_length=100, null=True, blank=True)
+    
+    is_private = models.BooleanField(default=False)
 
     game = models.ForeignKey(
         'games.Game',
