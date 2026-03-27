@@ -1,6 +1,6 @@
 <template>
     <Navbar />
-    <div class="contenedor pt-20">
+    <div class="pt-20">
         <div class="bg-gsoscuro p-10 rounded-lg text-gsblanco mx-auto max-w-md">
             <!-- LOGIN -->
             <form class="text-center">
@@ -9,7 +9,9 @@
                 <br>
                 <input class="border rounded-md px-3 py-2 mb-8" type="password" placeholder="Contraseña">
                 <br>
-                <p><router-link to="/register">Register</router-link></p>
+                <p>
+                    <router-link to="/register">Register</router-link>
+                </p>
                 <br>
                 <button class="bg-gsmenta rounded-md text-gsblanco py-2 px-4 ">Entrar</button>
             </form>
@@ -24,11 +26,5 @@ import Navbar from '@/components/Navbar.vue';
 </script>
 
 <style scoped>
-    .contenedor {
-        height: 90vh; /* ocupa toda la pantalla */
-        background-image: url("../assets/background.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
+    
 </style>
