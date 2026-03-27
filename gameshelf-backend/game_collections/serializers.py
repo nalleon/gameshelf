@@ -84,18 +84,18 @@ class WishlistSerializer(BaseSerializer):
 # Schemas to view class objects in Swagger
 
 
-# =========================
+###################################
 # Collection Items Schema
-# =========================
+###################################
 class CollectionItemSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     game = GameSchemaSerializer()
     collection_id = serializers.IntegerField()
 
 
-# =========================
+###################################
 # Collection Schema
-# =========================
+###################################
 class CollectionSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
@@ -103,9 +103,9 @@ class CollectionSchemaSerializer(serializers.Serializer):
     items = CollectionItemSchemaSerializer(many=True)
 
  
-# =========================
+###################################
 # Wishlist Items Schema
-# =========================
+###################################
 class WishlistItemSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     priority = serializers.IntegerField()
@@ -114,29 +114,35 @@ class WishlistItemSchemaSerializer(serializers.Serializer):
     wishlist_id = serializers.IntegerField()
 
 
-# =========================
+###################################
 # Wishlist Schema
-# =========================
+###################################
 class WishlistSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     user = ShowUsernameSchemaSerializer()
     items = WishlistItemSchemaSerializer(many=True)
 
-
+###################################
 # Schemas to save class objects in Swagger
+###################################
+
 class SaveListSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()
-    is_private = serializers.BooleanField()
-
+    is_private = serializers.BooleanField(default=False)
 
 class SaveCollectionItemSchemaSerializer(serializers.Serializer):
     game_id = serializers.IntegerField()
-    collection_id = serializers.IntegerField()
+    is_private = serializers.BooleanField(default=False)
 
-
-class SaveWishlistItemSchemaSerializer(serializers.Serializer):
+class CreateWishlistItemSchemaSerializer(serializers.Serializer):
     game_id = serializers.IntegerField()
-    wishlist_id = serializers.IntegerField()
     priority = serializers.IntegerField(required=False)
     annotation = serializers.CharField(required=False, allow_null=True)
+    is_private = serializers.BooleanField(default=False)
+
+
+class UpdateWishlistItemSchemaSerializer(serializers.Serializer):
+    priority = serializers.IntegerField(required=False)
+    annotation = serializers.CharField(required=False, allow_null=True)
+    is_private = serializers.BooleanField(default=False)
