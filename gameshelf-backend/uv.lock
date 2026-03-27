@@ -283,7 +283,7 @@ wheels = [
 ]
 
 [[package]]
-name = "gameside"
+name = "gameshelf"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
