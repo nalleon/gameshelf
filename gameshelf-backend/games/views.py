@@ -27,48 +27,14 @@ User = get_user_model()
 
 
 # Games Methods
+
 @extend_schema(
-    responses={200: GameSchemaSerializer, 404: None},
+    methods=['GET'],
+    responses={200: GameSchemaSerializer},
     description='Get all games',
-    operation_id='get_games',
 )
-@api_view(['GET'])
-@csrf_exempt
-@require_http_methods('GET')
-def game_list(request):
-    games = Game.objects.all()
-    serializer = GameSerializer(games, request=request)
-    return serializer.json_response()
-
-
 @extend_schema(
-    responses={200: GameSchemaSerializer, 404: None},
-    description='Get details of a specific game',
-    operation_id='get_game_detail',
-    parameters=[
-        OpenApiParameter(
-            name='pk_game',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the game to view',
-            required=True,
-        ),
-    ],
-)
-@api_view(['GET'])
-@csrf_exempt
-@require_http_methods('GET')
-def game_detail(request, pk_game: int):
-    try:
-        game = get_object_or_404(Game, pk=pk_game)
-    except Http404:
-        return JsonResponse({'error': 'Game not found'}, status=404)
-
-    serializer = GameSerializer(game, request=request)
-    return serializer.json_response()
-
-
-@extend_schema(
+    methods=['POST'],
     request=SaveGameSchemaSerializer,
     responses={
         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
@@ -76,10 +42,25 @@ def game_detail(request, pk_game: int):
         404: None,
     },
     description='Create a new game',
-    operation_id='add_game',
-    methods=['POST'],
 )
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
+@csrf_exempt
+@require_http_methods('GET', 'POST')
+def game_wrapper(request):
+    match request.method:
+        case 'GET':
+            return game_list(request)
+        case 'POST':
+            return add_game(request)
+        
+        
+@csrf_exempt
+@require_http_methods('GET')
+def game_list(request):
+    games = Game.objects.all()
+    serializer = GameSerializer(games, request=request)
+    return serializer.json_response()
+
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -175,27 +156,61 @@ def add_game(request):
     return JsonResponse({'id': game.pk}, status=200)
 
 
+###########
+
 @extend_schema(
-    request=SaveGameSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        404: None,
-    },
-    description='Update an existing game',
-    operation_id='update_game',
-    methods=['PUT'],
+    methods=['GET'],
+    responses={200: GameSchemaSerializer, 404: None},
+    description='Get details of a specific game',
     parameters=[
         OpenApiParameter(
             name='pk_game',
             type=OpenApiTypes.INT,
             location=OpenApiParameter.PATH,
-            description='ID of the game to update',
             required=True,
         ),
     ],
 )
-@api_view(['PUT'])
+@extend_schema(
+    methods=['PUT'],
+    request=SaveGameSchemaSerializer,
+    responses={
+        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+        404: None,
+    },
+    description='Update an existing game',
+)
+@extend_schema(
+    methods=['DELETE'],
+    responses={200: None, 404: None},
+    description='Delete an existing game',
+)
+@api_view(['GET', 'PUT', 'DELETE'])
+@csrf_exempt
+@require_http_methods('GET', 'PUT', 'DELETE')
+def game_detail_wrapper(request, pk_game: int):
+    match request.method:
+        case 'GET':
+            return game_detail(request, pk_game)
+        case 'PUT':
+            return edit_game(request, pk_game)
+        case 'DELETE':
+            return delete_game(request, pk_game)
+        
+
+@csrf_exempt
+@require_http_methods('GET')
+def game_detail(request, pk_game: int):
+    try:
+        game = get_object_or_404(Game, pk=pk_game)
+    except Http404:
+        return JsonResponse({'error': 'Game not found'}, status=404)
+
+    serializer = GameSerializer(game, request=request)
+    return serializer.json_response()
+
+
+
 @csrf_exempt
 @require_http_methods('PUT')
 @require_json_body
@@ -300,24 +315,6 @@ def edit_game(request, pk_game: int):
     return JsonResponse({'id': game.pk}, status=200)
 
 
-@extend_schema(
-    responses={
-        200: None,
-        404: None,
-    },
-    description='Delete an existing game',
-    operation_id='delete_game',
-    parameters=[
-        OpenApiParameter(
-            name='pk_game',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the game to delete',
-            required=True,
-        ),
-    ],
-)
-@api_view(['DELETE'])
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required

@@ -36,7 +36,7 @@ User = get_user_model()
 @extend_schema(
     responses={200: CollectionSchemaSerializer, 404: None},
     description='Get all collections',
-    operation_id='get_collections',
+    operation_id='get_all_collections',
 )
 @extend_schema(
     request=SaveListSchemaSerializer,
@@ -96,6 +96,7 @@ def create_collection(request):
             location=OpenApiParameter.PATH,
         )
     ],
+        operation_id='get_collection',
 )
 @extend_schema(
     request=SaveCollectionItemSchemaSerializer,
@@ -106,6 +107,8 @@ def create_collection(request):
         404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
     },
     description='Add a game to your own collection',
+    operation_id='add_collection',
+
 )
 @extend_schema(
     request=None,
@@ -124,6 +127,8 @@ def create_collection(request):
             location=OpenApiParameter.PATH,
         )
     ],
+    operation_id='delete_collection',
+
 )
 @extend_schema(
     methods=['PATCH'],
@@ -137,6 +142,8 @@ def create_collection(request):
     },
     responses=CollectionSerializer,
     description='Edit the name and/or is_private of a collection',
+    operation_id='edit_collection',
+
 )
 @api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 @csrf_exempt
@@ -241,6 +248,8 @@ def edit_collection(request, pk_collection: int):
             location=OpenApiParameter.PATH,
         ),
     ],
+    operation_id='get_collection_items',
+
 )
 @extend_schema(
     methods=['DELETE'],
@@ -267,6 +276,7 @@ def edit_collection(request, pk_collection: int):
             location=OpenApiParameter.PATH,
         ),
     ],
+    operation_id='delete_collection_item',
 )
 @extend_schema(
     methods=['PATCH'],
@@ -279,6 +289,8 @@ def edit_collection(request, pk_collection: int):
     },
     responses=CollectionItemSchemaSerializer,
     description='Edit the is_private field of a collection item',
+    operation_id='update_collection_item',
+
 )
 @api_view(['GET', 'DELETE', 'PATCH'])
 @csrf_exempt
@@ -359,7 +371,7 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
 @extend_schema(
     responses={200: WishlistSchemaSerializer},
     description='Get the authenticated user wishlist',
-    operation_id='get_wishlist',
+    operation_id='get_own_wishlist',
 )
 @api_view(['GET'])
 @require_http_methods('GET')
@@ -391,6 +403,7 @@ def own_wishlist_detail(request):
             location=OpenApiParameter.PATH,
         )
     ],
+    operation_id='get_wishlist',
 )
 @extend_schema(
     request=CreateWishlistItemSchemaSerializer,
@@ -401,6 +414,8 @@ def own_wishlist_detail(request):
         404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
     },
     description='Add a game to the wishlist',
+    operation_id='add_wishlist_item',
+
 )
 @extend_schema(
     methods=['PATCH'],
@@ -414,6 +429,8 @@ def own_wishlist_detail(request):
     },
     responses=CollectionSerializer,
     description='Edit the name and/or is_private of the wishlist',
+    operation_id='edit_wishlist',
+
 )
 @api_view(['GET', 'POST', 'PATCH'])
 @csrf_exempt
@@ -491,6 +508,8 @@ def edit_wishlist(request, pk_wishlist : int):
     methods=['GET'],
     responses=WishlistItemSchemaSerializer,
     description='Get a wishlist item',
+    operation_id='get_wishlist_item',
+
 )
 @extend_schema(
     methods=['DELETE'],
@@ -501,6 +520,7 @@ def edit_wishlist(request, pk_wishlist : int):
         404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
     },
     description='Delete a wishlist item',
+    operation_id='delete_wishlist_item',
 )
 @extend_schema(
     methods=['PATCH'],
@@ -515,6 +535,7 @@ def edit_wishlist(request, pk_wishlist : int):
     },
     responses=WishlistItemSchemaSerializer,
     description='Edit a wishlist item (priority, annotation, is_private)',
+    operation_id='update_wishlist_item',
 )
 @api_view(['GET', 'DELETE', 'PATCH'])
 @csrf_exempt
