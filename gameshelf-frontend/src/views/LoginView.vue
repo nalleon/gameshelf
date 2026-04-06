@@ -5,9 +5,11 @@
             <!-- LOGIN -->
             <form class="text-center" @submit.prevent="submitLogin">
                 <h2 class="text-3xl font-bold mb-10">Login</h2>
-                <input class="border rounded-md px-3 py-2 mb-8" v-model="username" placeholder="Nombre de Usuario">
+                <input class="border rounded-md px-3 py-2 mb-4" v-model="username" placeholder="Nombre de Usuario">
+                <p :class="isHiddenUsernameError" class="text-red-400 text-sm">{{ usernameError }}</p>
                 <br>
-                <input class="border rounded-md px-3 py-2 mb-8" v-model="password" type="password" placeholder="Contraseña">
+                <input class="border rounded-md px-3 py-2 mb-4" v-model="password" type="password" placeholder="Contraseña">
+                <p :class="isHiddenPasswordError" class="text-red-400 text-sm">{{ passwordError }}</p>
                 <br>
                 <p>
                     <router-link to="/register">Register</router-link>
@@ -30,6 +32,13 @@ import router from '@/router';
 const auth = useAuthStore()
 const username = ref('')
 const password = ref('')
+
+const requiredFieldMessage = "Este campo es obligatorio";
+const usernameError = ref('')
+const passwordError = ref('')
+const isHiddenUsernameError = ref('invisible')
+const isHiddenPasswordError = ref('invisible')
+
 
 async function apiLogin(){
     const webhookUrl = 'http://127.0.0.1:8000/api/auth/login/'
@@ -57,11 +66,27 @@ async function apiLogin(){
 }
 
 function submitLogin() {
+
+    isHiddenUsernameError.value = "invisible"
+    isHiddenPasswordError.value = "invisible"
+
+    if (username.value === "") {
+        usernameError.value = requiredFieldMessage
+        isHiddenUsernameError.value = "visible"
+        return
+    }
+
+    if (password.value === "") {
+        passwordError.value = requiredFieldMessage
+        isHiddenPasswordError.value = "visible"
+        return
+    }
+
     apiLogin().then((data) => {
         auth.login(username.value, data.token)
     })
 
-    router.replace('/')
+    router.replace('/gamelist')
 }
 
 </script>

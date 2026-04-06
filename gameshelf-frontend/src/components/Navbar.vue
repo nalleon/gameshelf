@@ -9,6 +9,10 @@
             </div>
             <!-- DERECHA (ESCRITORIO) -->
             <nav class="hidden sm:flex gap-6 items-center text-sm">
+                <span class="py-1 px-5 bg-gsmenta border border-gsmenta rounded-lg">
+                    <router-link to="/gamelist">Games</router-link>
+                </span>
+
                 <span class="">
                     <input class="border rounded-md px-2 py-1" type="text" placeholder="Search...">
                 </span>
