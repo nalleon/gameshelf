@@ -33,8 +33,11 @@ class Game(SoftDeleteModel):
         blank=True,
     )
     
+    age_rating = models.CharField(max_length=10, blank=True, null=True, default='TBA')
+    mature_content = models.BooleanField(default=False)
+
     def __str__(self):
-        return f'Game(id={self.pk}, title="{self.title}", slug="{self.slug}", released_at="{self.released_at}"'
+        return f'Game(id={self.pk}, title="{self.title}", slug="{self.slug}", released_at="{self.released_at}", rating="{self.region} - {self.age_rating}", mature_content="{self.mature_content}"'
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -55,30 +58,6 @@ class Game(SoftDeleteModel):
     class Meta:
         unique_together = ['title', 'released_at', 'edition', 'region']
 
-
-class AgeRating(SoftDeleteModel):
-    TYPE_RATING = [
-        ('pegi', 'PEGI'),
-        ('esrb', 'ESRB'),
-        ('cero', 'CERO'),
-        ('usk', 'USK'),
-        ('grb', 'GRB'),
-        ('class_ind', 'ClassInd'),
-    ]
-
-    game = models.ForeignKey(
-        'Game',
-        on_delete=models.CASCADE,
-        related_name='age_ratings',
-    )
-    age_rating = models.CharField(max_length=20, choices=TYPE_RATING)
-    rating = models.CharField(max_length=10, blank=True, null=True)
-
-    class Meta:
-        unique_together = ['game', 'age_rating'] 
-
-    def __str__(self):
-        return f"{self.game.title} - {self.age_rating}: {self.rating}"
     
 class Review(SoftDeleteModel):
     content = models.TextField()

@@ -10,8 +10,8 @@ from shared.models import SoftDeleteModel
 
 
 class Classification(SoftDeleteModel):
-    name = models.CharField()
-    slug = models.SlugField()
+    name = models.CharField(unique=True)
+    slug = models.SlugField(unique=True)
     description = models.TextField(max_length=160)
 
     def __str__(self):
@@ -47,6 +47,31 @@ class Region(Classification):
     icon = models.ImageField(
         upload_to='regions/', default='regions/default.png', null=True, blank=True
     )
+    igdb_id = models.IntegerField(unique=True)
+    rating_organization = models.CharField(
+        max_length=20,
+        choices=[
+            ('PEGI', 'PEGI'),
+            ('ESRB', 'ESRB'),
+            ('CERO', 'CERO'),
+            ('USK', 'USK'),
+            ('GRAC', 'GRAC'),
+            ('CLASS_IND', 'CLASS_IND'),
+            ('ACB', 'ACB'),
+        ],
+        blank=True,
+        null=True
+    )
+    
+    def save(self, *args, **kwargs):
+        if not self.acronym:
+            name_upper = self.name.upper()
+            if "_" in name_upper:
+                parts = name_upper.split("_")
+                self.acronym = "".join(part[0] for part in parts)
+            else:
+                self.acronym = self.name[:2]
+        super().save(*args, **kwargs)
 
 
 class Genre(Classification):
