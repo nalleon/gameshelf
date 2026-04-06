@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.text import slugify
+from django.db import IntegrityError
 
 from shared.models import SoftDeleteModel
 
@@ -96,19 +97,24 @@ class Platform(Classification):
         return aliases
 
 
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
         aliases = self.generate_aliases()
 
-        self.slug_aliases.filter(deleted_at__isnull=True).update(deleted_at=timezone.now())
+        self.slug_aliases.filter(deleted_at__isnull=True).update(
+            deleted_at=timezone.now()
+        )
 
         for alias in aliases:
-            PlatformSlugAlias.objects.get_or_create(
-                platform=self,
-                slug=alias,
-            )
-
+            try:
+                PlatformSlugAlias.objects.get_or_create(
+                    platform=self,
+                    slug=alias,
+                )
+            except IntegrityError:
+                continue
 
 class PlatformSlugAlias(SoftDeleteModel):
     platform = models.ForeignKey(

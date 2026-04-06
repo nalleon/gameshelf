@@ -7,4 +7,6 @@ from . import views
 urlpatterns = [
     path('', views.game_wrapper, name='game-wrapper'),
     path('<int:pk_game>/', views.game_detail_wrapper, name='game-detail-wrapper'),
+    path('igbd/', views.igdb_wrapper, name='igdb_wrapper'),
+
 ]

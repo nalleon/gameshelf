@@ -23,11 +23,40 @@ from .serializers import (
     SaveFavoriteSchemaSerializer,SaveGameSchemaSerializer, SaveMediaSchemaSerializer, SaveReviewSchemaSerializer
 )
 
+from .services.igdb import import_games
+
 User = get_user_model()
 
 
+# Fetch games from IGDB
+@extend_schema(
+    methods=['POST'],
+    responses={
+        200: {
+            'type': 'object',
+            'properties': {
+                'created': {'type': 'integer'},
+                'skipped': {'type': 'integer'},
+                'total_received': {'type': 'integer'},
+            },
+        },
+        500: None,
+    },
+    description='Import 50 games from IGDB into the database',
+)
+@api_view(['POST'])
+@csrf_exempt
+@require_http_methods('POST')
+def igdb_wrapper(request):
+    try:
+        return import_games(request)
+    except Exception as e:
+        return JsonResponse(
+            {"error": str(e)},
+            status=500
+        )
+        
 # Games Methods
-
 @extend_schema(
     methods=['GET'],
     responses={200: GameSchemaSerializer},
