@@ -19,6 +19,10 @@ from .serializers import (
     SaveCollectionItemSchemaSerializer,
     SaveListSchemaSerializer,
     WishlistItemSerializer,
+    CreateWishlistItemSchemaSerializer,
+    WishlistSchemaSerializer,
+    WishlistItemSchemaSerializer,
+    WishlistSerializer
 )
 
 User = get_user_model()
@@ -83,6 +87,15 @@ def create_collection(request):
 @extend_schema(
     responses=CollectionSchemaSerializer,
     description='Get all items from a collection',
+     parameters=[
+        OpenApiParameter(
+            name='pk_collection',
+            description='ID of the collection',
+            required=True,
+            type=int,
+            location=OpenApiParameter.PATH,
+        )
+    ],
 )
 @extend_schema(
     request=SaveCollectionItemSchemaSerializer,
@@ -342,68 +355,47 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
 # Wishlist methods
 #############################
 
-# Wrapper para la wishlist del usuario
+# Method for making the API restful
 @extend_schema(
-    responses={200: CollectionSchemaSerializer},
+    responses={200: WishlistSchemaSerializer},
     description='Get the authenticated user wishlist',
     operation_id='get_wishlist',
 )
-@extend_schema(
-    request=SaveListSchemaSerializer,
-    responses={
-        201: CollectionSerializer,
-        400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
-    },
-    description='Create the wishlist for the authenticated user (only one allowed)',
-    operation_id='create_wishlist',
-)
-@api_view(['GET', 'POST'])
-@require_http_methods('GET', 'POST')
+@api_view(['GET'])
+@require_http_methods('GET')
 @auth_required
 def wishlist_wrapper(request):
     match request.method:
         case 'GET':
-            return wishlist_detail(request)
-        case 'POST':
-            return create_wishlist(request)
+            return own_wishlist_detail(request)
 
 
 @csrf_exempt
 @auth_required
-def wishlist_detail(request):
-    # Solo hay una wishlist por usuario
-    wishlist, _ = Wishlist.objects.get_or_create(user=request.user)
+def own_wishlist_detail(request):
+    wishlist = request.user.wishlist
     serializer = CollectionSerializer(wishlist, request=request)
     return JsonResponse(serializer.serialize())
 
 
-@csrf_exempt
-@require_json_body
-@require_fields('name', 'is_private')
-@auth_required
-def create_wishlist(request):
-    if Wishlist.objects.filter(user=request.user).exists():
-        return JsonResponse({'error': 'User already has a wishlist'}, status=400)
-
-    payload = request.json
-    wishlist = Wishlist.objects.create(
-        user=request.user,
-        name=payload['name'],
-        is_private=payload['is_private']
-    )
-    serializer = CollectionSerializer(wishlist, request=request)
-    return JsonResponse(serializer.serialize(), status=201)
-
-
-# Wrapper para items de la wishlist
+# Method for making the API restful
 @extend_schema(
-    responses=CollectionSchemaSerializer,
+    responses=WishlistSchemaSerializer,
     description='Get all items from the wishlist',
+     parameters=[
+        OpenApiParameter(
+            name='pk_wishlist',
+            description='ID of the wishlist',
+            required=True,
+            type=int,
+            location=OpenApiParameter.PATH,
+        )
+    ],
 )
 @extend_schema(
-    request=SaveCollectionItemSchemaSerializer,
+    request=CreateWishlistItemSchemaSerializer,
     responses={
-        201: CollectionItemSchemaSerializer,
+        201: WishlistItemSchemaSerializer,
         400: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
         403: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
         404: {'type': 'object', 'properties': {'error': {'type': 'string'}}},
@@ -428,25 +420,32 @@ def create_wishlist(request):
 @require_http_methods('GET', 'POST', 'PATCH')
 @auth_required
 def wishlist_items_wrapper(request, pk_wishlist: int):
-    wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
-
-    if wishlist.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
 
     match request.method:
         case 'GET':
-            return ''
+            return get_wishlist(request, pk_wishlist)
         case 'POST':
-            return add_self_wishlist_item(request, wishlist)
+            return add_self_wishlist_item(request, pk_wishlist)
         case 'PATCH':
-            return edit_wishlist(request, wishlist)
+            return edit_wishlist(request, pk_wishlist)
 
+
+
+@csrf_exempt
+def get_wishlist(request, pk_wishlist : int):
+    wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
+    serializer = CollectionSerializer(wishlist, request=request)
+
+    
+    return JsonResponse(serializer.serialize(), status=201)
 
 @csrf_exempt
 @require_json_body
 @require_fields('game_id', 'priority', 'annotation')
 @auth_required
-def add_self_wishlist_item(request, wishlist: Wishlist):
+def add_self_wishlist_item(request, pk_wishlist : int):
+    wishlist = check_wishlist_ownership(request.user, pk_wishlist)
+
     payload = request.json
     pk_game = payload['game_id']
     priority = payload['priority']
@@ -465,8 +464,11 @@ def add_self_wishlist_item(request, wishlist: Wishlist):
 
 
 @require_json_body
+@require_fields('name', 'is_private')
 @auth_required
-def edit_wishlist(request, wishlist: Wishlist):
+def edit_wishlist(request, pk_wishlist : int):
+    wishlist = check_wishlist_ownership(request.user, pk_wishlist)
+
     payload = request.json
     updated = False
 
@@ -480,14 +482,14 @@ def edit_wishlist(request, wishlist: Wishlist):
     if updated:
         wishlist.save()
 
-    serializer = CollectionSerializer(wishlist, request=request)
+    serializer = WishlistSerializer(wishlist, request=request)
     return JsonResponse(serializer.serialize())
 
 
-# Wrapper para item individual de la wishlist
+
 @extend_schema(
     methods=['GET'],
-    responses=WishlistItemSerializer,
+    responses=WishlistItemSchemaSerializer,
     description='Get a wishlist item',
 )
 @extend_schema(
@@ -511,30 +513,28 @@ def edit_wishlist(request, wishlist: Wishlist):
         },
         'required': [],
     },
-    responses=WishlistItemSerializer,
+    responses=WishlistItemSchemaSerializer,
     description='Edit a wishlist item (priority, annotation, is_private)',
 )
 @api_view(['GET', 'DELETE', 'PATCH'])
 @csrf_exempt
 @require_http_methods('GET', 'DELETE', 'PATCH')
 @auth_required
-def wishlist_item_detail_wrapper(request, pk_wishlist_item: int):
+def wishlist_item_detail_wrapper(request, pk_wishlist : int, pk_wishlist_item: int):
     match request.method:
         case 'GET':
-            return wishlist_item_detail(request, pk_wishlist_item)
+            return wishlist_item_detail(request, pk_wishlist, pk_wishlist_item)
         case 'DELETE':
-            return delete_wishlist_item(request, pk_wishlist_item)
+            return delete_wishlist_item(request, pk_wishlist, pk_wishlist_item)
         case 'PATCH':
-            return edit_wishlist_item(request, pk_wishlist_item)
+            return edit_wishlist_item(request, pk_wishlist, pk_wishlist_item)
 
 
 @csrf_exempt
 @require_http_methods('GET')
 @auth_required
-def wishlist_item_detail(request, pk_wishlist_item: int):
-    wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
-    if wishlist_item.wishlist.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+def wishlist_item_detail(request, pk_wishlist : int, pk_wishlist_item: int):
+    wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
     serializer = WishlistItemSerializer(wishlist_item, request=request)
     return JsonResponse(serializer.serialize())
 
@@ -542,24 +542,23 @@ def wishlist_item_detail(request, pk_wishlist_item: int):
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
-def delete_wishlist_item(request, pk_wishlist_item: int):
-    wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
-    if wishlist_item.wishlist.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+def delete_wishlist_item(request, pk_wishlist : int, pk_wishlist_item: int):
+    wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
     wishlist_item.delete()
     return JsonResponse(status=204)
 
 
 @csrf_exempt
 @require_json_body
+@require_fields('priority', 'annotation', 'is_private')
 @auth_required
-def edit_wishlist_item(request, pk_wishlist_item: int):
-    wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
-    if wishlist_item.wishlist.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+def edit_wishlist_item(request, pk_wishlist : int, pk_wishlist_item: int):
+        
+    wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
 
     payload = request.json
     updated = False
+    
     if 'priority' in payload:
         wishlist_item.priority = payload['priority']
         updated = True
@@ -575,3 +574,18 @@ def edit_wishlist_item(request, pk_wishlist_item: int):
 
     serializer = WishlistItemSerializer(wishlist_item, request=request)
     return JsonResponse(serializer.serialize())
+
+
+##################################
+# Aux methods
+##################################
+def check_wishlist_ownership(user, pk_wishlist):
+    wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
+
+    if wishlist.user != user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    
+def check_wishlistitem_ownership(user, pk_wishlist_item):
+    wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
+    if wishlist_item.wishlist.user != request.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
