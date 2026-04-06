@@ -16,7 +16,7 @@
                 <span v-if="auth.isLogged" class="hover:text-white">
                     <router-link to="/profile">Profile</router-link>
                 </span>
-                <span v-if="auth.isLogged" class="hover:text-white">
+                <span v-if="auth.isLogged" class="hover:text-white hover:cursor-pointer">
                     <li @click="handleLogout">Logout</li>
                 </span>
                 <span v-else class="mx-5 py-1 px-5 bg-gsmenta border border-gsmenta rounded-lg">

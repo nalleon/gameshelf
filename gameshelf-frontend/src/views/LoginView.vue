@@ -13,7 +13,7 @@
                     <router-link to="/register">Register</router-link>
                 </p>
                 <br>
-                <button class="bg-gsmenta rounded-md text-gsblanco py-2 px-4" type="submit">Entrar</button>
+                <button class="bg-gsmenta rounded-md text-gsblanco py-2 px-4 hover:cursor-pointer" type="submit">Entrar</button>
             </form>
         </div>
     </div>
@@ -24,6 +24,7 @@ import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore'
 
 import Navbar from '@/components/Navbar.vue';
+import router from '@/router';
 
 
 const auth = useAuthStore()
@@ -48,17 +49,21 @@ async function apiLogin(){
     );
     const data = await response.json();
     
-    console.log(data)
+    console.log(data.token)
+    username.value = "";
+    password.value = "";
+
+    return data;
 }
 
 function submitLogin() {
+    apiLogin().then((data) => {
+        auth.login(username.value, data.token)
+    })
 
-    apiLogin();
-
-    // const fakeUser = { id: 1, name: 'Juan', email: email.value }
-    // const fakeToken = 'abc123'
-    // auth.login(fakeUser, fakeToken)
+    router.replace('/')
 }
+
 </script>
 
 <style scoped>
