@@ -151,6 +151,9 @@ class FavoriteSchemaSerializer(serializers.Serializer):
     user = serializers.DictField()
 
 
+class IGBDRequestGameSchema(serializers.Serializer):
+    quantity = serializers.IntegerField()
+    
 # Schemas to save class objects in Swagger
 class SaveGameSchemaSerializer(serializers.Serializer):
     title = serializers.CharField()

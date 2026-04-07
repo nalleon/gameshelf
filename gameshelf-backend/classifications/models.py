@@ -58,6 +58,7 @@ class Region(Classification):
             ('GRAC', 'GRAC'),
             ('CLASS_IND', 'CLASS_IND'),
             ('ACB', 'ACB'),
+            ('IARC', 'IARC') 
         ],
         blank=True,
         null=True
@@ -120,7 +121,6 @@ class Platform(Classification):
                 aliases.add(words[0][0] + number)
 
         return aliases
-
 
 
     def save(self, *args, **kwargs):
