@@ -597,9 +597,10 @@ def edit_wishlist_item(request, pk_wishlist : int, pk_wishlist_item: int):
     return JsonResponse(serializer.serialize())
 
 
-##################################
-# Aux methods
-##################################
+######################################
+# Auxiliar methods
+######################################
+
 def check_wishlist_ownership(user, pk_wishlist):
     wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
 
