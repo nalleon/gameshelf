@@ -1,6 +1,6 @@
 from django.contrib import admin
 from shared.admin import SoftDeleteAdmin
-from .models import Edition, Region, Genre, Developer, Publisher, Platform
+from .models import Edition, Region, Genre, Developer, Publisher, Platform, PlatformSlugAlias
 
 
 @admin.register(Edition)
@@ -29,4 +29,8 @@ class PublisherAdmin(SoftDeleteAdmin):
 
 @admin.register(Platform)
 class PlatformAdmin(SoftDeleteAdmin):
+    pass
+
+@admin.register(PlatformSlugAlias)
+class PlatformSlugAliasAdmin(SoftDeleteAdmin):
     pass

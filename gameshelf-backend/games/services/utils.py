@@ -12,12 +12,13 @@ class Utils:
 
     MATURE_THRESHOLDS = {
         'PEGI': ['Eighteen'],
-        'ESRB': ['M', 'AO'],
-        'CERO': ['CERO_Z'],
+        'ESRB': ['M', 'AO', 'Mature'],
+        'CERO': ['CERO_Z',],
         'USK': ['USK_18'],
         'GRAC': ['GRAC_Eighteen'],
         'CLASS_IND': ['CLASS_IND_18'],
         'ACB': ['ACB_R18'],
+        'IARC': ['+18']
     }
 
     REGION_RATINGS = {
@@ -31,4 +32,59 @@ class Utils:
         8: 'IARC',          # worldwide
         9: 'GRAC',        # korea
         10: 'GRAC',       # brazil
+    }
+    
+    IARC_RATINGS = {
+        1: '3+',
+        2: '7+',
+        3: '12+',
+        4: '16+',
+        5: '18+'
+    }
+    
+    NORMALIZED_RATINGS = {
+        # PEGI
+        'Three': '3+',
+        'Seven': '7+',
+        '12': '12+',
+        '16': '16+',
+        '18': '18+',
+        'Eighteen': '18+',
+
+        # ESRB
+        'E': '3+',
+        'E10': '7+',
+        'T': '12+',
+        'M': '18+',
+        'AO': '18+',
+        'Mature': '18+',
+
+        # CERO
+        'CERO_A': '3+',
+        'CERO_B': '12+',
+        'CERO_C': '15+',
+        'CERO_D': '17+',
+        'CERO_Z': '18+',
+
+        # USK
+        'USK_0': '3+',
+        'USK_6': '7+',
+        'USK_12': '12+',
+        'USK_16': '16+',
+        'USK_18': '18+',
+
+        # GRAC
+        'GRAC_Eight': '7+',
+        'GRAC_Twelve': '12+',
+        'GRAC_Sixteen': '16+',
+        'GRAC_Eighteen': '18+',
+
+        # CLASS_IND
+        'CLASS_IND_18': '18+',
+
+        # ACB
+        'ACB_R18': '18+',
+        'ACB_Mature': '15+',
+        'ACB_Restricted': '18+',
+        'ACB_Adults': '18+',
     }

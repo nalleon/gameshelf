@@ -166,7 +166,6 @@ def save_games_to_db(games_data, default_region, default_edition, token):
 
     all_age_rating_ids = list(set(all_age_rating_ids))
     age_ratings_map = fetch_age_ratings(all_age_rating_ids, token)
-    print(age_ratings_map)
 
     for g in games_data:
         title = g.get('name')
@@ -232,7 +231,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                     game.publishers.add(pub)
 
             selected_rating = None
-            region_org = region_obj.rating_organization
+            region_org = Utils.REGION_RATINGS.get(release_region_id)
             if region_org and g.get('age_ratings'):
                 for rating in g['age_ratings']:
                     rating_id = str(rating.get('id'))
@@ -256,11 +255,11 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                     game.age_rating = selected_rating['value']
                     
                     mature_values = Utils.MATURE_THRESHOLDS.get(selected_rating['org'], [])
-                    game.mature_content = selected_rating['value'] in mature_values
+                    game.mature_content = selected_rating['value'] in mature_values 
                 else:
                     game.age_rating = 'TBA'
                     game.mature_content = True
-
+                    
                 game.save(update_fields=['age_rating', 'mature_content'])
     return created_count, skipped_count
 

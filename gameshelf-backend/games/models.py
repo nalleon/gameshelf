@@ -34,7 +34,7 @@ class Game(SoftDeleteModel):
     )
     
     age_rating = models.CharField(max_length=10, blank=True, null=True, default='TBA')
-    mature_content = models.BooleanField(default=False)
+    mature_content = models.BooleanField(default=True)
 
     def __str__(self):
         return f'Game(id={self.pk}, title="{self.title}", slug="{self.slug}", released_at="{self.released_at}", rating="{self.region} - {self.age_rating}", mature_content="{self.mature_content}"'
