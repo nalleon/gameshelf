@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.db import models
 from shared.models import SoftDeleteModel
-
+from django.utils.text import slugify
 
 class Game(SoftDeleteModel):
     title = models.CharField()
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
     cover = models.ImageField(
@@ -33,13 +33,32 @@ class Game(SoftDeleteModel):
         blank=True,
     )
     
-    def __str__(self):
-        return f'Game(id={self.pk}, title="{self.title}", slug="{self.slug}", released_at="{self.released_at}"'
+    age_rating = models.CharField(max_length=10, blank=True, null=True, default='TBA')
+    mature_content = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f'Game(id={self.pk}, title="{self.title}", slug="{self.slug}", released_at="{self.released_at}", rating="{self.region} - {self.age_rating}", mature_content="{self.mature_content}"'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            year = self.released_at.year if self.released_at else ''
+            slug_candidate = f"{base_slug}-{year}" if year else base_slug
+
+            counter = 1
+            slug = slug_candidate
+            while Game.objects.filter(slug=slug).exists():
+                slug = f"{slug_candidate}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
+        
     class Meta:
         unique_together = ['title', 'released_at', 'edition', 'region']
 
-
+    
 class Review(SoftDeleteModel):
     content = models.TextField()
 

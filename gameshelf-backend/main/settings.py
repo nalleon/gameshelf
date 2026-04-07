@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+from prettyconf import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -213,3 +214,6 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+# IGDB
+IGDB_CLIENT_ID = config("IGDB_CLIENT_ID")
+IGDB_CLIENT_SECRET = config("IGDB_CLIENT_SECRET")

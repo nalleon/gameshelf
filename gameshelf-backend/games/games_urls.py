@@ -5,9 +5,8 @@ from . import views
 # app_name = 'games'
 
 urlpatterns = [
-    path('', views.game_list, name='game-list'),
-    path('add/', views.add_game, name='add-game'),
-    path('<int:pk_game>/', views.game_detail, name='game-detail'),
-    path('<int:pk_game>/delete/', views.delete_game, name='delete-game'),
-    path('<int:pk_game>/edit/', views.edit_game, name='edit-game'),
+    path('', views.game_wrapper, name='game-wrapper'),
+    path('<int:pk_game>/', views.game_detail_wrapper, name='game-detail-wrapper'),
+    path('igbd/', views.igdb_wrapper, name='igdb_wrapper'),
+
 ]
