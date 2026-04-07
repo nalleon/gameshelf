@@ -40,17 +40,17 @@ User = get_user_model()
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
-@require_fields('username', 'password')
+@require_fields('username', 'password', 'email')
 def user_register(request):
 
     payload = request.json
 
     username = payload['username']
     password = payload['password']
+    email = payload['email']
 
     first_name = payload.get('first_name')
     last_name = payload.get('last_name')
-    email = payload.get('email')
 
     if User.objects.filter(username=username).exists():
         return JsonResponse({'error': 'Username already exists'}, status=400)
@@ -63,7 +63,7 @@ def user_register(request):
         password=password,
         first_name=first_name or "",
         last_name=last_name or "",
-        email=email or ""
+        email=email
     )
 
     Profile.objects.create(user=user)
