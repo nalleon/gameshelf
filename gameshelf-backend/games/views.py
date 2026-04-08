@@ -79,8 +79,8 @@ def game_wrapper(request):
     match request.method:
         case 'GET':
             return game_list(request)
-        case 'POST':
-            return add_game(request)
+        # case 'POST':
+        #     return add_game(request)
         
         
 @csrf_exempt
@@ -90,99 +90,99 @@ def game_list(request):
     serializer = GameSerializer(games, request=request)
     return serializer.json_response()
 
-@csrf_exempt
-@require_http_methods('POST')
-@require_json_body
-@require_fields(
-    'title',
-    'slug',
-    'description',
-    'cover',
-    'released_at',
-    'pk_platforms_list',
-    'pk_genres_list',
-    'pk_developers_list',
-    'pk_publishers_list',
-    'pk_edition',
-    'pk_region',
-)
-@auth_required
-@require_role(Profile.Role.ADMIN)
-def add_game(request):
-    payload = request.json
-    title = payload['title']
-    slug = payload['slug']
-    description = payload['description']
-    cover = payload['cover']
-    released_at = payload['released_at']
-    pk_platforms_list = payload['pk_platforms_list']
-    pk_genres_list = payload['pk_genres_list']
-    pk_developers_list = payload['pk_developers_list']
-    pk_publishers_list = payload['pk_publishers_list']
-    pk_edition = payload['pk_edition']
-    pk_region = payload['pk_region']
+# @csrf_exempt
+# @require_http_methods('POST')
+# @require_json_body
+# @require_fields(
+#     'title',
+#     'slug',
+#     'description',
+#     'cover_default',
+#     'released_at',
+#     'pk_platforms_list',
+#     'pk_genres_list',
+#     'pk_developers_list',
+#     'pk_publishers_list',
+#     'pk_edition',
+#     'pk_region',
+# )
+# @auth_required
+# @require_role(Profile.Role.ADMIN)
+# def add_game(request):
+#     payload = request.json
+#     title = payload['title']
+#     slug = payload['slug']
+#     description = payload['description']
+#     cover_default = payload['cover_default']
+#     released_at = payload['released_at']
+#     pk_platforms_list = payload['pk_platforms_list']
+#     pk_genres_list = payload['pk_genres_list']
+#     pk_developers_list = payload['pk_developers_list']
+#     pk_publishers_list = payload['pk_publishers_list']
+#     pk_edition = payload['pk_edition']
+#     pk_region = payload['pk_region']
 
-    platforms = []
-    for pk_platform in pk_platforms_list:
-        try:
-            platform = get_object_or_404(Platform, pk_platform)
-        except Http404:
-            return JsonResponse({'error': 'Platform associated not found'}, status=404)
+#     platforms = []
+#     for pk_platform in pk_platforms_list:
+#         try:
+#             platform = get_object_or_404(Platform, pk_platform)
+#         except Http404:
+#             return JsonResponse({'error': 'Platform associated not found'}, status=404)
 
-        platforms.append(platform)
+#         platforms.append(platform)
 
-    genres = []
-    for pk_genre in pk_genres_list:
-        try:
-            genre = get_object_or_404(Genre, pk_genre)
-        except Http404:
-            return JsonResponse({'error': 'Genre associated not found'}, status=404)
+#     genres = []
+#     for pk_genre in pk_genres_list:
+#         try:
+#             genre = get_object_or_404(Genre, pk_genre)
+#         except Http404:
+#             return JsonResponse({'error': 'Genre associated not found'}, status=404)
 
-        genres.append(genre)
+#         genres.append(genre)
 
-    developers = []
-    for pk_developer in pk_developers_list:
-        try:
-            developer = get_object_or_404(Developer, pk_developer)
-        except Http404:
-            return JsonResponse({'error': 'Developer associated not found'}, status=404)
+#     developers = []
+#     for pk_developer in pk_developers_list:
+#         try:
+#             developer = get_object_or_404(Developer, pk_developer)
+#         except Http404:
+#             return JsonResponse({'error': 'Developer associated not found'}, status=404)
 
-        developers.append(developer)
+#         developers.append(developer)
 
-    publishers = []
-    for pk_publisher in pk_publishers_list:
-        try:
-            publisher = get_object_or_404(Publisher, pk_publisher)
-        except Http404:
-            return JsonResponse({'error': 'Publisher associated not found'}, status=404)
+#     publishers = []
+#     for pk_publisher in pk_publishers_list:
+#         try:
+#             publisher = get_object_or_404(Publisher, pk_publisher)
+#         except Http404:
+#             return JsonResponse({'error': 'Publisher associated not found'}, status=404)
 
-        publishers.append(publisher)
+#         publishers.append(publisher)
 
-    try:
-        edition = get_object_or_404(Edition, pk_edition)
-    except Http404:
-        return JsonResponse({'error': 'Edition associated not found'}, status=404)
+#     try:
+#         edition = get_object_or_404(Edition, pk_edition)
+#     except Http404:
+#         return JsonResponse({'error': 'Edition associated not found'}, status=404)
 
-    try:
-        region = get_object_or_404(Region, pk_region)
-    except Http404:
-        return JsonResponse({'error': 'Region associated not found'}, status=404)
+#     try:
+#         region = get_object_or_404(Region, pk_region)
+#     except Http404:
+#         return JsonResponse({'error': 'Region associated not found'}, status=404)
 
-    game = Game.objects.create(
-        title=title,
-        slug=slug,
-        description=description,
-        cover=cover,
-        released_at=released_at,
-        platforms=platforms,
-        genres=genres,
-        developers=developers,
-        publishers=publishers,
-        edition=edition,
-        region=region,
-    )
+#     game = Game.objects.create(
+#         title=title,
+#         slug=slug,
+#         description=description,
+#         cover_default=cover_default,
+#         released_at=released_at,
+#         platforms=platforms,
+#         genres=genres,
+#         developers=developers,
+#         publishers=publishers,
+#         edition=edition,
+#         region=region,
+#     )
 
-    return JsonResponse({'id': game.pk}, status=200)
+#     return JsonResponse({'id': game.pk}, status=200)
 
 
 ###########
@@ -250,7 +250,7 @@ def edit_game(request, pk_game: int):
     title = payload['title']
     slug = payload['slug']
     description = payload['description']
-    cover = payload['cover']
+    cover_default = payload['cover_default']
     released_at = payload['released_at']
     pk_platforms_list = payload['pk_platforms_list']
     pk_genres_list = payload['pk_genres_list']
@@ -273,8 +273,8 @@ def edit_game(request, pk_game: int):
     if description:
         game.description = description
 
-    if cover:
-        game.cover = cover
+    if cover_default:
+        game.cover_default = cover_default
 
     if released_at:
         game.released_at = released_at

@@ -39,13 +39,16 @@ def import_games(request):
             name,
             summary,
             first_release_date,
+            cover.image_id,
             genres.name,
             platforms.name,
             involved_companies.company.name,
             involved_companies.developer,
             involved_companies.publisher,
             age_ratings.rating,
-            age_ratings.rating_category;
+            age_ratings.rating_category
+            ;
+                
         where version_parent = null;
         limit {batch_size};
         offset {offset};
@@ -173,6 +176,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             skipped_count += 1
             continue
 
+    
         game_releases = g.get('release_dates') or [{'date': g.get('first_release_date'), 'release_region': None}]
 
         for release in game_releases:
@@ -199,11 +203,24 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                 defaults={'description': (g.get('summary') or '')[:500]}
             )
 
+
             if created:
                 created_count += 1
             else:
                 skipped_count += 1
 
+            cover_data = g.get('cover_default')
+            image_id = cover_data.get('image_id') if cover_data else None
+            cover_url_default = build_cover_url(image_id)
+            
+            if cover_url_default:
+                game.cover_default = cover_url_default
+                
+            cover_url_detail = build_cover_url(image_id, 'original')
+            
+            if cover_url_detail:
+                game.cover_detail = cover_url_detail
+                
             for genre in g.get('genres', []):
                 if 'name' in genre:
                     obj, _ = Genre.objects.get_or_create(name=genre['name'])
@@ -260,7 +277,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                     game.age_rating = 'TBA'
                     game.mature_content = True
                     
-                game.save(update_fields=['age_rating', 'mature_content'])
+                game.save()
     return created_count, skipped_count
 
 # Method to fetch all existings age_ratings from IGDB 
@@ -324,3 +341,7 @@ def fetch_all_release_dates(game_ids, token):
 
     return all_release_dates
 
+def build_cover_url(image_id, size='1080p'):
+    if not image_id:
+        return None
+    return f'https://images.igdb.com/igdb/image/upload/t_{size}/{image_id}.jpg'

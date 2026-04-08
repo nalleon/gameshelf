@@ -29,7 +29,7 @@ class ProfileSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'user': UserSerializer(instance.user, request=self.request).serialize(),
-            'avatar': self.build_url(instance.cover.url),
+            'avatar': self.build_url(instance.cover_default.url),
             'bio': instance.bio,
             'verified': instance.verified,
             'role': instance.get_role_display(),

@@ -8,9 +8,8 @@ class Game(SoftDeleteModel):
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
-    cover = models.ImageField(
-        upload_to='games/covers/', default='games/covers/default.png', null=True, blank=True
-    )
+    cover_default = models.URLField(null=True, blank=True)
+    cover_detail = models.URLField(null=True, blank=True)
 
     released_at = models.DateField()
 
@@ -42,14 +41,17 @@ class Game(SoftDeleteModel):
     def save(self, *args, **kwargs):
         if not self.slug:
             base_slug = slugify(self.title)
-            year = self.released_at.year if self.released_at else ''
-            slug_candidate = f"{base_slug}-{year}" if year else base_slug
+            
+            slug = base_slug
+            if Game.objects.filter(slug=slug).exists():
+                year = self.released_at.year if self.released_at else ''
+                slug_candidate = f"{base_slug}-{year}" if year else base_slug
 
-            counter = 1
-            slug = slug_candidate
-            while Game.objects.filter(slug=slug).exists():
-                slug = f"{slug_candidate}-{counter}"
-                counter += 1
+                counter = 1
+                slug = slug_candidate
+                while Game.objects.filter(slug=slug).exists():
+                    slug = f"{slug_candidate}-{counter}"
+                    counter += 1
 
             self.slug = slug
 
