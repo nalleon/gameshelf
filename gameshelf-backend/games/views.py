@@ -21,10 +21,10 @@ from .serializers import (
     ReviewSchemaSerializer,
     ReviewSerializer,
     SaveFavoriteSchemaSerializer,SaveGameSchemaSerializer, SaveMediaSchemaSerializer, SaveReviewSchemaSerializer,
-    IGBDRequestGameSchema
+    IGBDRequestGameSchema, IGBDRequestGameTitleSchema
 )
 
-from .services.igdb import import_games
+from .services.igdb import import_games, search_games_by_title
 
 User = get_user_model()
 
@@ -46,16 +46,51 @@ User = get_user_model()
     },
     description='Import games from IGDB into the database',
 )
-@api_view(['POST'])
+@extend_schema(
+    methods=['GET'],
+    parameters=[
+        OpenApiParameter(
+            name='title',
+            description='Title of the game to search',
+            required=True,
+            type=OpenApiTypes.STR,
+        ),
+    ],
+    responses={
+        200: {
+            'type': 'array',
+            'items': {
+                'type': 'object',
+                'properties': {
+                    'id': {'type': 'integer'},
+                    'name': {'type': 'string'},
+                    'summary': {'type': 'string', 'nullable': True},
+                    'first_release_date': {'type': 'integer', 'nullable': True},
+                    'cover_url': {'type': 'string', 'nullable': True},
+                    'genres': {'type': 'array', 'items': {'type': 'string'}},
+                    'platforms': {'type': 'array', 'items': {'type': 'string'}},
+                    'developers': {'type': 'array', 'items': {'type': 'string'}},
+                    'publishers': {'type': 'array', 'items': {'type': 'string'}},
+                    'age_ratings': {'type': 'array', 'items': {'type': 'string'}},
+                },
+            },
+        },
+        400: None,
+        500: None,
+    },
+    description='Search games from IGDB by title',
+)
+@api_view(['POST', 'GET'])
 @csrf_exempt
-@require_http_methods('POST')
+@require_http_methods('POST', 'GET')
 @auth_required
-@require_role(Profile.Role.ADMIN)
 def igdb_wrapper(request):
     match request.method:
         case 'POST':
             return import_games(request)
-             
+        case 'GET':
+            return search_games_by_title(request)
+
 # Games Methods
 @extend_schema(
     methods=['GET'],

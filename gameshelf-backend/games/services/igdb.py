@@ -10,6 +10,8 @@ from shared.decorators import require_fields, require_http_methods, require_json
 from users.decorators import auth_required
 from django.views.decorators.csrf import csrf_exempt
 from users.models import Profile
+from rest_framework.response import Response
+
 
 # Method to import a list of games from IGDB to database. 
 @csrf_exempt
@@ -93,7 +95,51 @@ def import_games(request):
         'total_requested': quantity,
     })
     
-    
+
+@csrf_exempt
+def search_games_by_title(request):
+    title = request.GET.get('title')
+    if not title:
+        return Response({"error": "Missing title parameter"}, status=400)
+
+    url = "https://api.igdb.com/v4/games"
+    limit = 50
+
+    token = get_igdb_token()  
+
+    headers = {
+        "Client-ID": settings.IGDB_CLIENT_ID,
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/json",
+        "Content-Type": "text/plain",  
+    }
+
+    query = f"""
+        search "{title}";
+        fields id,name,summary,first_release_date,
+        cover.image_id,
+        genres.name,
+        platforms.name,
+        involved_companies.company.name,
+        involved_companies.developer,
+        involved_companies.publisher,
+        age_ratings.rating,age_ratings.rating_category;
+        limit {limit};
+    """
+
+    response = requests.post(url, headers=headers, data=query.strip())
+    response.raise_for_status()
+
+    games = response.json()
+
+    words = title.lower().split()
+    filtered_games = [
+        game for game in games
+        if all(word in game['name'].lower() for word in words)
+    ]
+
+    return Response(filtered_games)
+
 ######################################
 # Auxiliar methods
 ######################################
