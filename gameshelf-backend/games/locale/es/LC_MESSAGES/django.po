@@ -1,0 +1,69 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-09 21:27+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+
+#: games/tasks.py:16
+#, fuzzy
+#| msgid "New games available!"
+msgid "New games are here!"
+msgstr "¡Nuevos juegos disponibles!"
+
+#: games/templates/games/emails/new_games.html:71
+msgid "New games available!"
+msgstr "¡Nuevos juegos disponibles!"
+
+#: games/templates/games/emails/new_games.html:75
+msgid "Hello gamer,"
+msgstr "Hola jugador"
+
+#: games/templates/games/emails/new_games.html:79
+msgid "We’ve added new games to GameShelf and thought you’d like to know."
+msgstr "Hemos añadido nuevos juegos a GameShelf y pensamos que te gustaría saberlo"
+
+#: games/templates/games/emails/new_games.html:83
+msgid "Explore the latest additions and discover your next favorite game."
+msgstr "Encuentra las ultimás adiciones y descubre tu nuevo juego favorito."
+
+#: games/templates/games/emails/new_games.html:88
+msgid "New titles:"
+msgstr "Nuevos títulos:"
+
+#: games/templates/games/emails/new_games.html:100
+msgid "Visit our website to see more games!"
+msgstr "¡Visita nuestra página para más juegos!"
+
+#: games/templates/games/emails/new_games.html:107
+#: games/templates/games/emails/new_games.html:118
+msgid "Organize. Showcase. Discover."
+msgstr "Organiza. Muestra. Encuentra."
+
+#: games/templates/games/emails/new_games.html:111
+msgid "Best regards,"
+msgstr "Saludos,"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "        Hello %(name)s,\n"
+#~ "      "
+#~ msgstr ""
+#~ "\n"
+#~ "        Hola %(name)s,\n"
+#~ "      "

@@ -67,11 +67,11 @@ class Region(Classification):
     def save(self, *args, **kwargs):
         if not self.acronym:
             name_upper = self.name.upper()
-            if "_" in name_upper:
-                parts = name_upper.split("_")
-                self.acronym = "".join(part[0] for part in parts)
+            if '_' in name_upper:
+                parts = name_upper.split('_')
+                self.acronym = ''.join(part[0] for part in parts)
             else:
-                self.acronym = self.name[:2]
+                self.acronym = self.name[:2].upper()
         super().save(*args, **kwargs)
 
 

@@ -11,7 +11,7 @@ from users.decorators import auth_required
 from django.views.decorators.csrf import csrf_exempt
 from users.models import Profile
 from rest_framework.response import Response
-
+from games.tasks import deliver_new_games_notification
 
 # Method to import a list of games from IGDB to database. 
 @csrf_exempt
@@ -84,17 +84,25 @@ def import_games(request):
             
 
 
-        created_count, skipped_count = save_games_to_db(games_data, default_region, default_edition, token)
+        created_count, skipped_count, created_games = save_games_to_db(games_data, default_region, default_edition, token)
         total_created += created_count
         total_skipped += skipped_count
         time.sleep(0.3)
+        
+        filtered_games = exclude_mature_content(created_games)
 
+        deliver_new_games_notification.delay(
+            request.build_absolute_uri(),
+            filtered_games
+        )
+    
     return JsonResponse({
         'created': total_created,
         'skipped': total_skipped,
         'total_requested': quantity,
     })
     
+
 
 @csrf_exempt
 def search_games_by_title(request):
@@ -204,6 +212,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
     created_count = 0
     skipped_count = 0
 
+    created_games = []
     all_age_rating_ids = []
     for g in games_data:
         for rating in g.get('age_ratings', []):
@@ -321,7 +330,9 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                     game.mature_content = True
                     
                 game.save()
-    return created_count, skipped_count
+                created_games.append(game)
+                
+    return created_count, skipped_count, created_games
 
 # Method to fetch all existings age_ratings from IGDB 
 def fetch_age_ratings(age_rating_ids, token):
@@ -381,7 +392,21 @@ def fetch_all_release_dates(game_ids, token):
 
     return all_release_dates
 
+# Function to build an game's cover url based on IGDB
 def build_cover_url(image_id, size='1080p'):
     if not image_id:
         return None
     return f'https://images.igdb.com/igdb/image/upload/t_{size}/{image_id}.jpg'
+
+# Function to exclude games with marked with mature content from a list
+def exclude_mature_content(games, limit=8):
+    filtered_games = []
+
+    for game in games:
+        if not getattr(game, "mature_content", False):
+            filtered_games.append(game)
+
+        if len(filtered_games) == limit:
+            break
+
+    return filtered_games

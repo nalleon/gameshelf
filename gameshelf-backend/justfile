@@ -35,7 +35,7 @@ migrate app="":
 
 # Create a superuser (or update if already exists)
 [group('data')]
-create-su username="admin" password="admin" email="admin@example.com":
+create-su username="admin" password="admin" email="nlamail1529@gmail.com":
     #!/usr/bin/env bash
     uv run manage.py shell -v0 -c '
     from django.contrib.auth.models import User
@@ -245,3 +245,18 @@ dump-data:
 coverage: 
     uv run pytest --rich --cov=./ --cov-report=xml --cov-report=html
     echo "Coverage report generated: coverage.xml and html/index.html"
+
+# Make i18n messages
+[group('i18n')]
+makemessages locale="es":
+    uv run manage.py makemessages -l {{ locale }}
+
+# Compile i18n messages
+[group('i18n')]
+compilemessages:
+    uv run manage.py compilemessages -i .venv
+
+# # Open Poedit
+# [group('i18n')]
+# poedit app locale="es":
+#     poedit ./{{ app }}/locale/{{ locale }}/LC_MESSAGES/django.po
