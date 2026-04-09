@@ -1,21 +1,58 @@
 <template>
-    <Navbar />
-    <div class="pt-20">
-        <div class="bg-gsoscuro p-10 rounded-lg text-gsblanco mx-auto max-w-md">
-            <!-- LOGIN -->
-            <form class="text-center" @submit.prevent="submitLogin">
-                <h2 class="text-3xl font-bold mb-10">Login</h2>
-                <input class="border rounded-md px-3 py-2 mb-4" v-model="loginField" placeholder="Username or Email">
-                <p :class="isHiddenLoginFieldError" class="text-red-400 text-sm">{{ loginFieldError }}</p>
-                <br>
-                <input class="border rounded-md px-3 py-2 mb-4" v-model="password" type="password" placeholder="Password">
-                <p :class="isHiddenPasswordError" class="text-red-400 text-sm">{{ passwordError }}</p>
-                <br>
-                <p>
-                    <router-link to="/register">Register</router-link>
-                </p>
-                <br>
-                <button class="bg-gsmenta rounded-md text-gsblanco py-2 px-4 hover:cursor-pointer" type="submit">Login</button>
+    <Navbar/>
+
+    <div class="pt-20 h-[92.5vh] bg-gsoscuro/95 flex justify-center items-start px-4">
+        <!-- Tarjeta Principal -->
+        <div class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsgris/20 relative overflow-hidden">
+        
+            <!-- Detalle estético superior -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gsmenta to-gsbosque"></div>
+
+            <!-- FORMULARIO LOGIN -->
+            <form class="flex flex-col text-center" @submit.prevent="submitLogin">
+                <h2 class="text-4xl font-extrabold mb-2 tracking-tight">Wellcome</h2>
+                <p class="text-gsgris text-sm mb-10 font-medium uppercase tracking-widest">Log in to your collection</p>
+
+                <!-- Campo Username/Email -->
+                <div class="mb-6 text-left">
+                    <label class="text-xs font-bold text-gsmenta uppercase ml-1">Username or Email</label>
+                    <input 
+                        v-model="loginField" 
+                        class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-4 py-3 mt-1 focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta/50 transition-all placeholder-gsgris/40"
+                        placeholder="collector_01"
+                    >
+                    <!-- Error Login Field -->
+                    <p :class="isHiddenLoginFieldError" class="text-red-400 text-xs mt-2 ml-1 italic">
+                        {{ loginFieldError }}
+                    </p>
+                </div>
+
+                <!-- Campo Password -->
+                <div class="mb-4 text-left">
+                    <label class="text-xs font-bold text-gsmenta uppercase ml-1">Password</label>
+                    <input v-model="password" type="password" 
+                        class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-4 py-3 mt-1 focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta/50 transition-all placeholder-gsgris/40"
+                        placeholder="••••••••"
+                    >
+                    <!-- Error Password -->
+                    <p :class="isHiddenPasswordError" class="text-red-400 text-xs mt-2 ml-1 italic">
+                        {{ passwordError }}
+                    </p>
+                </div>
+
+                <!-- Links de navegación -->
+                <div class="flex justify-between items-center mt-2 mb-8 px-1">
+                    <router-link to="/register" class="text-sm text-gsgris hover:text-gsblanco transition-colors underline-offset-4 hover:underline">
+                        Don't have an account? Register
+                    </router-link>
+                </div>
+
+                <!-- Botón Submit -->
+                <button type="submit"
+                    class="bg-gsmenta hover:bg-gsbosque text-gsoscuro font-bold py-3.5 px-6 rounded-xl transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg cursor-pointer uppercase tracking-wider text-sm" 
+                >
+                    Login
+                </button>
             </form>
         </div>
     </div>

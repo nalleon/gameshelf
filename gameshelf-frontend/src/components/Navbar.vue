@@ -37,7 +37,7 @@
             <!-- Divisor visual -->
             <div class="h-6 w-[1px] bg-gsgris/30"></div>
 
-        <!-- Cuenta -->
+            <!-- Cuenta -->
             
             <!-- Estado: Autenticado -->
             <template v-if="auth.isLogged">
