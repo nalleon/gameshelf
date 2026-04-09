@@ -38,4 +38,5 @@ urlpatterns = [
     path('api/libraries/', include('libraries.urls')),
     path('api/collections/', include('game_collections.collections_urls')),
     path('api/wishlist/', include('game_collections.wishlists_urls')),
+    path('django-rq/', include('django_rq.urls')),
 ]

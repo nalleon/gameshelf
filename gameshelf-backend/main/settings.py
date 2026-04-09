@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+
 from prettyconf import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     # THIRD PARTY
     'rest_framework_swagger',
     'drf_spectacular',
+    'django_rq',
 ]
 
 MIDDLEWARE = [
@@ -180,11 +182,27 @@ SPECTACULAR_SETTINGS = {
     },
 }
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=90),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 # IGDB
-IGDB_CLIENT_ID = config("IGDB_CLIENT_ID")
-IGDB_CLIENT_SECRET = config("IGDB_CLIENT_SECRET")
+IGDB_CLIENT_ID = config('IGDB_CLIENT_ID')
+IGDB_CLIENT_SECRET = config('IGDB_CLIENT_SECRET')
+
+# Django-RQ
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+    },
+}
+
+# Email config
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')

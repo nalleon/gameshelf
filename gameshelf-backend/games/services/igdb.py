@@ -35,7 +35,7 @@ def import_games(request):
     total_skipped = 0
 
     for offset in range(0, quantity, batch_size):
-        query = f'''
+        query = f"""
         fields 
             id,
             name,
@@ -54,7 +54,7 @@ def import_games(request):
         where version_parent = null;
         limit {batch_size};
         offset {offset};
-        '''
+        """
 
         headers = {
             'Client-ID': settings.IGDB_CLIENT_ID,
@@ -100,22 +100,22 @@ def import_games(request):
 def search_games_by_title(request):
     title = request.GET.get('title')
     if not title:
-        return Response({"error": "Missing title parameter"}, status=400)
+        return Response({'error': 'Missing title parameter'}, status=400)
 
-    url = "https://api.igdb.com/v4/games"
+    url = 'https://api.igdb.com/v4/games'
     limit = 50
 
     token = get_igdb_token()  
 
     headers = {
-        "Client-ID": settings.IGDB_CLIENT_ID,
-        "Authorization": f"Bearer {token}",
-        "Accept": "application/json",
-        "Content-Type": "text/plain",  
+        'Client-ID': settings.IGDB_CLIENT_ID,
+        'Authorization': f'Bearer {token}',
+        'Accept': 'application/json',
+        'Content-Type': 'text/plain',  
     }
 
     query = f"""
-        search "{title}";
+        search '{title}';
         fields id,name,summary,first_release_date,
         cover.image_id,
         genres.name,
@@ -164,10 +164,7 @@ def get_defaults():
 
 # Method to sync GameShelf's regions with IGDB ones
 def sync_igdb_regions():
-    '''
-    Trae todas las regiones oficiales desde IGDB y las guarda en la base de datos,
-    asignando también la organización de rating correspondiente.
-    '''
+
     token = get_igdb_token()
     url = 'https://api.igdb.com/v4/release_date_regions'
 
@@ -177,10 +174,10 @@ def sync_igdb_regions():
         'Accept': 'application/json',
     }
 
-    query = '''
+    query = """
     fields id, region;
     limit 50;
-    '''
+    """
 
     response = requests.post(url, data=query, headers=headers)
     response.raise_for_status()
@@ -328,9 +325,6 @@ def save_games_to_db(games_data, default_region, default_edition, token):
 
 # Method to fetch all existings age_ratings from IGDB 
 def fetch_age_ratings(age_rating_ids, token):
-    '''
-    Consulta IGDB /age_ratings para traer los valores reales.
-    '''
     if not age_rating_ids:
         return {}
 
@@ -342,11 +336,11 @@ def fetch_age_ratings(age_rating_ids, token):
     }
 
     ids_str = ','.join(age_rating_ids)
-    query = f'''
+    query = f"""
     fields id, rating, rating_category, category, organization;
     where id = ({ids_str});
     limit {len(age_rating_ids)};
-    '''
+    """
 
     response = requests.post(url, data=query, headers=headers)
     response.raise_for_status()
@@ -368,12 +362,12 @@ def fetch_all_release_dates(game_ids, token):
     }
 
     while True:
-        query_release_dates = f'''
+        query_release_dates = f"""
         fields game, date, region, release_region, platform;
         where game = ({game_ids});
         limit {batch_size};
         offset {offset};
-        '''
+        """
 
         response = requests.post(url=url, data=query_release_dates, headers=headers)
         response.raise_for_status()
