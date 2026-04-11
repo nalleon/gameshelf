@@ -45,12 +45,12 @@ class Game(SoftDeleteModel):
             slug = base_slug
             if Game.objects.filter(slug=slug).exists():
                 year = self.released_at.year if self.released_at else ''
-                slug_candidate = f"{base_slug}-{year}" if year else base_slug
+                slug_candidate = f'{base_slug}-{year}' if year else base_slug
 
                 counter = 1
                 slug = slug_candidate
                 while Game.objects.filter(slug=slug).exists():
-                    slug = f"{slug_candidate}-{counter}"
+                    slug = f'{slug_candidate}-{counter}'
                     counter += 1
 
             self.slug = slug

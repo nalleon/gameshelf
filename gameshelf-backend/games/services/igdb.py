@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from users.models import Profile
 from rest_framework.response import Response
 from games.tasks import deliver_new_games_notification
-
+from django.db.models.functions import ExtractYear, ExtractMonth
 # Method to import a list of games from IGDB to database. 
 @csrf_exempt
 @require_http_methods('POST')
@@ -105,6 +105,7 @@ def import_games(request):
 
 
 @csrf_exempt
+@require_http_methods('GET')
 def search_games_by_title(request):
     title = request.GET.get('title')
     if not title:
@@ -123,7 +124,7 @@ def search_games_by_title(request):
     }
 
     query = f"""
-        search '{title}';
+        search "{title}";
         fields id,name,summary,first_release_date,
         cover.image_id,
         genres.name,
@@ -247,14 +248,29 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             else:
                 region_obj = default_region
 
-            game, created = Game.objects.get_or_create(
+            exists = Game.objects.annotate(
+                year=ExtractYear('released_at'),
+                month=ExtractMonth('released_at')
+            ).filter(
+                title=title,
+                region=region_obj,
+                year=released_at.year,
+                month=released_at.month,
+            ).exists()
+
+            if exists:
+                skipped_count += 1
+                continue
+
+            game = Game.objects.create(
                 title=title,
                 released_at=released_at,
                 edition=default_edition,
                 region=region_obj,
-                defaults={'description': (g.get('summary') or '')[:500]}
+                description=(g.get('summary') or '')[:500]
             )
 
+            created = True
 
             if created:
                 created_count += 1
