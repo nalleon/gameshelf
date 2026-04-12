@@ -21,8 +21,6 @@ def deliver_new_games_notification(base_url, games):
     )
     
     for profile in active_profiles: 
-        
-   
         email = EmailMessage(
             subject=subject,
             body=body,

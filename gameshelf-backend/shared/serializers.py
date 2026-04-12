@@ -51,3 +51,11 @@ class ShowUsernameSerializer(BaseSerializer):
         return {
             'username': serializers.CharField(),
         }
+        
+
+class MessageResponseSerializer(serializers.Serializer):
+    message = serializers.CharField()
+
+
+class ErrorResponseSerializer(serializers.Serializer):
+    error = serializers.CharField()

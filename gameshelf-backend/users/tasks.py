@@ -1,32 +1,24 @@
-import os
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
-
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-
 from django_rq import job
 
-from games.models import Game, Review
+User = get_user_model()
+
 
 @job
-def deliver_games_notification(base_url, user):
-    # file_dir = os.path.join(settings.BASE_DIR, 'media', 'notifications', 'games')
-    # os.makedirs(file_dir, exist_ok=True)
+def deliver_verification_email(base_url, user, token):
+    subject = 'Verify your account at GameShelf'
 
-    # filepath = generate_games_notification(file_dir, user)
+    verification_url = f'{base_url}{token}'
 
     body = render_to_string(
-        'subjects/emails/certificate.html',
-        {
-            'user': user,
-            'base_url': base_url,
-        }
+        'users/emails/verification_email.html', {'user': user, 'verification_url': verification_url}
     )
 
     email = EmailMessage(
-        subject='',
+        subject=subject,
         body=body,
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=[user.email],
@@ -34,3 +26,38 @@ def deliver_games_notification(base_url, user):
     email.content_subtype = 'html'
     email.send()
 
+
+@job
+def deliver_password_reset_email(base_url, user, token):
+    subject = 'Reset your password'
+
+    url = f'{base_url}{token}'
+
+    body = render_to_string('users/emails/reset_password.html', {'user': user, 'reset_url': url})
+
+    email = EmailMessage(
+        subject=subject,
+        body=body,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[user.email],
+    )
+    email.content_subtype = 'html'
+    email.send()
+
+
+@job
+def deliver_activation_email(base_url, user, token):
+    subject = 'Reactivate your account'
+
+    url = f'{base_url}{token}'
+
+    body = render_to_string('users/emails/activate_account.html', {'user': user, 'activation_url': url})
+
+    email = EmailMessage(
+        subject=subject,
+        body=body,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[user.email],
+    )
+    email.content_subtype = 'html'
+    email.send()

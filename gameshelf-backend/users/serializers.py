@@ -29,7 +29,7 @@ class ProfileSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'user': UserSerializer(instance.user, request=self.request).serialize(),
-            'avatar': self.build_url(instance.cover_default.url),
+            'avatar': self.build_url(instance.avatar.url),
             'bio': instance.bio,
             'verified': instance.verified,
             'role': instance.get_role_display(),
@@ -60,3 +60,15 @@ class RegisterSchemaSerializer(serializers.Serializer):
     
 class ShowUsernameSchemaSerializer(serializers.Serializer):
     username = serializers.CharField()
+    
+class TokenResponseSerializer(serializers.Serializer):
+    token = serializers.CharField()
+
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField()
+    new_password = serializers.CharField()
+    
+class EmailRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()

@@ -270,12 +270,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                 description=(g.get('summary') or '')[:500]
             )
 
-            created = True
-
-            if created:
-                created_count += 1
-            else:
-                skipped_count += 1
+            created_count += 1
 
             cover_data = g.get('cover_default')
             image_id = cover_data.get('image_id') if cover_data else None
@@ -419,7 +414,7 @@ def exclude_mature_content(games, limit=8):
     filtered_games = []
 
     for game in games:
-        if not getattr(game, "mature_content", False):
+        if not getattr(game, 'mature_content', False):
             filtered_games.append(game)
 
         if len(filtered_games) == limit:
