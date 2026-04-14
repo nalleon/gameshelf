@@ -151,6 +151,11 @@ show-users password="1234":
     echo "--------------------------"
     echo "✔ All users have '{{ password }}' as password."
 
+# Restore .env
+[group('utils')]
+env:
+    cp .env.example .env
+
 # Clean data
 [private]
 [group('data')]

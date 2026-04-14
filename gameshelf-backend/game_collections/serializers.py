@@ -13,15 +13,6 @@ class CollectionItemSerializer(BaseSerializer):
             'collection_id': instance.collection.pk,
         }
 
-    @staticmethod
-    def get_fields_dict():
-        return {
-            'id': serializers.IntegerField(),
-            'game': GameSerializer.get_fields_dict(),
-            'collection_id': serializers.IntegerField(),
-        }
-
-
 class CollectionSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
@@ -31,15 +22,6 @@ class CollectionSerializer(BaseSerializer):
             'items': CollectionItemSerializer(
                 instance.items.all(), request=self.request
             ).serialize(),
-        }
-
-    @staticmethod
-    def get_fields_dict():
-        return {
-            'id': serializers.IntegerField(),
-            'name': serializers.CharField(),
-            'user': ShowUsernameSerializer.get_fields_dict(),
-            'items': CollectionItemSerializer.get_fields_dict(),
         }
 
 class WishlistItemSerializer(BaseSerializer):

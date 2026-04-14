@@ -11,7 +11,7 @@ from shared.decorators import require_fields, require_http_methods, require_json
 from users.decorators import auth_required
 
 from .models import Profile, UserToken
-from .serializers import LoginSchemaSerializer, ProfileSerializer, RegisterSchemaSerializer, TokenResponseSerializer, ChangePasswordSerializer, EmailRequestSerializer
+from .serializers import LoginSchemaSerializer, ProfileSerializer, LoggedProfileSerializer, RegisterSchemaSerializer, TokenResponseSerializer, ChangePasswordSerializer, EmailRequestSerializer
 from shared.serializers import MessageResponseSerializer, ErrorResponseSerializer
 from django.utils import timezone
 from datetime import timedelta
@@ -148,6 +148,31 @@ def profile_detail(request, pk_profile: int):
         return JsonResponse({'error': 'Profile not found'}, status=404)
 
     serializer = ProfileSerializer(profile, request=request)
+    return serializer.json_response()
+
+@extend_schema(
+    tags=['Profile'],
+    parameters=[
+        OpenApiParameter(
+            name='token',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.PATH,
+            description='User Token'
+        )
+    ],
+    responses={
+        200: ProfileSerializer,
+        404: ErrorResponseSerializer,
+    },
+    description='Get profile detail from user token',
+    operation_id='retrieveMyProfile',
+)
+@csrf_exempt
+@require_http_methods('GET')
+@auth_required
+def profile_me(request):
+    profile = request.user.profile
+    serializer = LoggedProfileSerializer(profile, request=request)
     return serializer.json_response()
 
 @extend_schema(

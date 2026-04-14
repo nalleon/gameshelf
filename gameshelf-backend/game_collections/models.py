@@ -31,7 +31,7 @@ class Collection(SoftDeleteModel):
     is_private = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
 
 class CollectionItem(Item):     
     is_private = models.BooleanField(default=False)
