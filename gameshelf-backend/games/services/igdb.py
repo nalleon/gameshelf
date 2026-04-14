@@ -10,7 +10,9 @@ from shared.decorators import require_fields, require_http_methods, require_json
 from users.decorators import auth_required
 from django.views.decorators.csrf import csrf_exempt
 from users.models import Profile
-
+from rest_framework.response import Response
+from games.tasks import deliver_new_games_notification
+from django.db.models.functions import ExtractYear, ExtractMonth
 # Method to import a list of games from IGDB to database. 
 @csrf_exempt
 @require_http_methods('POST')
@@ -33,23 +35,26 @@ def import_games(request):
     total_skipped = 0
 
     for offset in range(0, quantity, batch_size):
-        query = f'''
+        query = f"""
         fields 
             id,
             name,
             summary,
             first_release_date,
+            cover.image_id,
             genres.name,
             platforms.name,
             involved_companies.company.name,
             involved_companies.developer,
             involved_companies.publisher,
             age_ratings.rating,
-            age_ratings.rating_category;
+            age_ratings.rating_category
+            ;
+                
         where version_parent = null;
         limit {batch_size};
         offset {offset};
-        '''
+        """
 
         headers = {
             'Client-ID': settings.IGDB_CLIENT_ID,
@@ -79,18 +84,71 @@ def import_games(request):
             
 
 
-        created_count, skipped_count = save_games_to_db(games_data, default_region, default_edition, token)
+        created_count, skipped_count, created_games = save_games_to_db(games_data, default_region, default_edition, token)
         total_created += created_count
         total_skipped += skipped_count
         time.sleep(0.3)
+        
+        filtered_games = exclude_mature_content(created_games)
 
+        deliver_new_games_notification.delay(
+            request.build_absolute_uri(),
+            filtered_games
+        )
+    
     return JsonResponse({
         'created': total_created,
         'skipped': total_skipped,
         'total_requested': quantity,
     })
     
-    
+
+
+@csrf_exempt
+@require_http_methods('GET')
+def search_games_by_title(request):
+    title = request.GET.get('title')
+    if not title:
+        return Response({'error': 'Missing title parameter'}, status=400)
+
+    url = 'https://api.igdb.com/v4/games'
+    limit = 50
+
+    token = get_igdb_token()  
+
+    headers = {
+        'Client-ID': settings.IGDB_CLIENT_ID,
+        'Authorization': f'Bearer {token}',
+        'Accept': 'application/json',
+        'Content-Type': 'text/plain',  
+    }
+
+    query = f"""
+        search "{title}";
+        fields id,name,summary,first_release_date,
+        cover.image_id,
+        genres.name,
+        platforms.name,
+        involved_companies.company.name,
+        involved_companies.developer,
+        involved_companies.publisher,
+        age_ratings.rating,age_ratings.rating_category;
+        limit {limit};
+    """
+
+    response = requests.post(url, headers=headers, data=query.strip())
+    response.raise_for_status()
+
+    games = response.json()
+
+    words = title.lower().split()
+    filtered_games = [
+        game for game in games
+        if all(word in game['name'].lower() for word in words)
+    ]
+
+    return Response(filtered_games)
+
 ######################################
 # Auxiliar methods
 ######################################
@@ -115,10 +173,7 @@ def get_defaults():
 
 # Method to sync GameShelf's regions with IGDB ones
 def sync_igdb_regions():
-    '''
-    Trae todas las regiones oficiales desde IGDB y las guarda en la base de datos,
-    asignando también la organización de rating correspondiente.
-    '''
+
     token = get_igdb_token()
     url = 'https://api.igdb.com/v4/release_date_regions'
 
@@ -128,10 +183,10 @@ def sync_igdb_regions():
         'Accept': 'application/json',
     }
 
-    query = '''
+    query = """
     fields id, region;
     limit 50;
-    '''
+    """
 
     response = requests.post(url, data=query, headers=headers)
     response.raise_for_status()
@@ -158,6 +213,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
     created_count = 0
     skipped_count = 0
 
+    created_games = []
     all_age_rating_ids = []
     for g in games_data:
         for rating in g.get('age_ratings', []):
@@ -173,6 +229,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             skipped_count += 1
             continue
 
+    
         game_releases = g.get('release_dates') or [{'date': g.get('first_release_date'), 'release_region': None}]
 
         for release in game_releases:
@@ -191,19 +248,42 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             else:
                 region_obj = default_region
 
-            game, created = Game.objects.get_or_create(
+            exists = Game.objects.annotate(
+                year=ExtractYear('released_at'),
+                month=ExtractMonth('released_at')
+            ).filter(
+                title=title,
+                region=region_obj,
+                year=released_at.year,
+                month=released_at.month,
+            ).exists()
+
+            if exists:
+                skipped_count += 1
+                continue
+
+            game = Game.objects.create(
                 title=title,
                 released_at=released_at,
                 edition=default_edition,
                 region=region_obj,
-                defaults={'description': (g.get('summary') or '')[:500]}
+                description=(g.get('summary') or '')[:500]
             )
 
-            if created:
-                created_count += 1
-            else:
-                skipped_count += 1
+            created_count += 1
 
+            cover_data = g.get('cover_default')
+            image_id = cover_data.get('image_id') if cover_data else None
+            cover_url_default = build_cover_url(image_id)
+            
+            if cover_url_default:
+                game.cover_default = cover_url_default
+                
+            cover_url_detail = build_cover_url(image_id, 'original')
+            
+            if cover_url_detail:
+                game.cover_detail = cover_url_detail
+                
             for genre in g.get('genres', []):
                 if 'name' in genre:
                     obj, _ = Genre.objects.get_or_create(name=genre['name'])
@@ -260,14 +340,13 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                     game.age_rating = 'TBA'
                     game.mature_content = True
                     
-                game.save(update_fields=['age_rating', 'mature_content'])
-    return created_count, skipped_count
+                game.save()
+                created_games.append(game)
+                
+    return created_count, skipped_count, created_games
 
 # Method to fetch all existings age_ratings from IGDB 
 def fetch_age_ratings(age_rating_ids, token):
-    '''
-    Consulta IGDB /age_ratings para traer los valores reales.
-    '''
     if not age_rating_ids:
         return {}
 
@@ -279,11 +358,11 @@ def fetch_age_ratings(age_rating_ids, token):
     }
 
     ids_str = ','.join(age_rating_ids)
-    query = f'''
+    query = f"""
     fields id, rating, rating_category, category, organization;
     where id = ({ids_str});
     limit {len(age_rating_ids)};
-    '''
+    """
 
     response = requests.post(url, data=query, headers=headers)
     response.raise_for_status()
@@ -305,12 +384,12 @@ def fetch_all_release_dates(game_ids, token):
     }
 
     while True:
-        query_release_dates = f'''
+        query_release_dates = f"""
         fields game, date, region, release_region, platform;
         where game = ({game_ids});
         limit {batch_size};
         offset {offset};
-        '''
+        """
 
         response = requests.post(url=url, data=query_release_dates, headers=headers)
         response.raise_for_status()
@@ -324,3 +403,21 @@ def fetch_all_release_dates(game_ids, token):
 
     return all_release_dates
 
+# Function to build an game's cover url based on IGDB
+def build_cover_url(image_id, size='1080p'):
+    if not image_id:
+        return None
+    return f'https://images.igdb.com/igdb/image/upload/t_{size}/{image_id}.jpg'
+
+# Function to exclude games with marked with mature content from a list
+def exclude_mature_content(games, limit=8):
+    filtered_games = []
+
+    for game in games:
+        if not getattr(game, 'mature_content', False):
+            filtered_games.append(game)
+
+        if len(filtered_games) == limit:
+            break
+
+    return filtered_games

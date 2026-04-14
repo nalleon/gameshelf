@@ -1,0 +1,16 @@
+{% extends "users/emails/base_email.html" %}
+
+{% block content %}
+<p>Hi {{ user.username }},</p>
+<p>Your account is currently deactivated.</p>
+
+<p>You can reactivate it by clicking the button below:</p>
+
+<p style="text-align:center;">
+    <a href="{{ activation_url }}" class="button">
+        Reactivate Account
+    </a>
+</p>
+
+<p>We’d love to have you back 🎮</p>
+{% endblock %}

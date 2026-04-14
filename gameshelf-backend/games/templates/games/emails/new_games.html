@@ -1,0 +1,120 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    :root {
+      --gs-primary: #198754;
+      --gs-bg-light: #f3f8f5;
+      --gs-text-dark: #1f2d2a;
+      --gs-text-muted: #6c757d;
+      --gs-border: #d1e7dd;
+      --gs-card-bg: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      padding: 30px;
+      background-color: var(--gs-bg-light);
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--gs-text-dark);
+    }
+
+    .email-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--gs-card-bg);
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    }
+
+    .email-title {
+      text-align: center;
+      color: var(--gs-primary);
+      margin-bottom: 24px;
+    }
+
+    .email-text {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .highlight {
+      color: var(--gs-primary);
+      font-weight: bold;
+    }
+
+    .email-signature {
+      margin-top: 24px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--gs-border);
+      margin: 28px 0;
+    }
+
+    .email-footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gs-text-muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="email-card">
+    <h2 class="email-title">
+      {% translate "New games available!" %}
+    </h2>
+
+    <p class="email-text">
+        {% translate "Hello gamer," %}
+    </p>
+
+    <p class="email-text">
+      {% translate "We’ve added new games to GameShelf and thought you’d like to know." %}
+    </p>
+
+    <p class="email-text">
+      {% translate "Explore the latest additions and discover your next favorite game." %}
+    </p>
+
+    {% if games %}
+      <p class="email-text">
+        <span class="highlight">{% translate "New titles:" %}</span>
+      </p>
+
+      <ul>
+        {% for game in games %}
+          <li class="email-text">{{ game.title }} ({{game.released_at.year}}/{{game.released_at.month}} - {{game.region.acronym}})</li>
+        {% endfor %}
+      </ul>
+
+        <p class="email-text">
+          <a href="{{ website_url }}" style="color: var(--gs-primary); text-decoration: none;">
+            {% translate "Visit our website to see more games!" %}
+          </a>
+        </p>
+    {% endif %}
+
+    <p class="email-text">
+      {% translate "Organize. Showcase. Discover." %}
+    </p>
+
+    <p class="email-text email-signature">
+      {% translate "Best regards," %}<br>
+      <strong>GameShelf</strong>
+    </p>
+
+    <hr>
+
+    <div class="email-footer">
+      © GameShelf · {% translate "Organize. Showcase. Discover." %}
+    </div>
+  </div>
+</body>
+</html>

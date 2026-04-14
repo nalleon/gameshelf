@@ -1,6 +1,11 @@
 from django.conf import settings
 from django.db import models
 from shared.models import SoftDeleteModel
+import uuid
+from django.db import models
+from django.conf import settings
+from django.utils import timezone
+from datetime import timedelta
 
 class Profile(SoftDeleteModel):
     class Role(models.TextChoices):
@@ -17,3 +22,18 @@ class Profile(SoftDeleteModel):
     
     role = models.CharField(max_length=1, choices=Role, default=Role.USER)
     
+
+class UserToken(models.Model):
+    class TokenType(models.TextChoices):
+        VERIFY_EMAIL = 'VERIFY_EMAIL'
+        CHANGE_PASSWORD = 'CHANGE_PASSWORD'
+        ACTIVATE_ACCOUNT = 'ACTIVATE_ACCOUNT'
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    type = models.CharField(max_length=32, choices=TokenType.choices)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+
+    def is_valid(self):
+        return timezone.now() < self.expires_at

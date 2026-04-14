@@ -19,7 +19,7 @@ class GameFactory(factory.django.DjangoModelFactory):
     title = UniqueFaker('random_element', elements=GAME_NAMES)
     slug = factory.LazyAttribute(lambda obj: slugify(obj.title))
     description = factory.Faker('paragraph', nb_sentences=3)
-    cover = factory.django.ImageField(color=factory.Faker('color'), upload_to='games/covers/')
+    cover_default = factory.django.ImageField(color=factory.Faker('color'), upload_to='games/covers/')
     price = factory.Faker('pydecimal', left_digits=4, right_digits=2, positive=True)
     stock = factory.Faker('random_int', min=0, max=100)
     released_at = factory.Faker('date_between', start_date='-5y', end_date='today')

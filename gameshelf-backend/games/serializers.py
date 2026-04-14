@@ -19,7 +19,7 @@ class GameSerializer(BaseSerializer):
             'title': instance.title,
             'slug': instance.slug,
             'description': instance.description,
-            'cover': self.build_url(instance.cover.url),
+            'cover_default': self.build_url(instance.cover_default.url),
             'released_at': instance.released_at.isoformat(),
             'platforms': PlatformSerializer(
                 instance.platforms.all(), request=self.request
@@ -42,7 +42,7 @@ class GameSerializer(BaseSerializer):
             'title': serializers.CharField(),
             'slug': serializers.SlugField(),
             'description': serializers.CharField(),
-            'cover': serializers.URLField(),
+            'cover_default': serializers.URLField(),
             'released_at': serializers.DateTimeField(),
             'platforms': PlatformSerializer.get_fields_dict(),
             'genres': GenreSerializer.get_fields_dict(),
@@ -82,7 +82,7 @@ class MediaSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
             'id': instance.pk,
-            'image': self.build_url(instance.cover.url),
+            'image': self.build_url(instance.cover_default.url),
             'review': ReviewSerializer(instance.review, request=self.request).serialize(),
         }
 
@@ -119,7 +119,7 @@ class GameSchemaSerializer(serializers.Serializer):
     title = serializers.CharField()
     slug = serializers.SlugField()
     description = serializers.CharField()
-    cover = serializers.URLField()
+    cover_default = serializers.URLField()
     released_at = serializers.DateTimeField()
     pk_platforms_list = serializers.ListField(child=serializers.IntegerField())
     pk_genres_list = serializers.ListField(child=serializers.IntegerField())
@@ -151,14 +151,19 @@ class FavoriteSchemaSerializer(serializers.Serializer):
     user = serializers.DictField()
 
 
+# IGDB schemas for swagger
 class IGBDRequestGameSchema(serializers.Serializer):
     quantity = serializers.IntegerField()
+    
+
+class IGBDRequestGameTitleSchema(serializers.Serializer):
+    title = serializers.CharField()
     
 # Schemas to save class objects in Swagger
 class SaveGameSchemaSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
-    cover = serializers.URLField()
+    cover_default = serializers.URLField()
     released_at = serializers.DateTimeField()
     pk_platforms_list = serializers.ListField(child=serializers.IntegerField())
     pk_genres_list = serializers.ListField(child=serializers.IntegerField())
