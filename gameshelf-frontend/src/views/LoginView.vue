@@ -95,7 +95,6 @@ async function apiLogin(){
     );
     const data = await response.json();
     
-    console.log(data.token)
     loginField.value = "";
     password.value = "";
 
@@ -120,8 +119,8 @@ function submitLogin() {
     }
 
     apiLogin().then((data) => {
-        auth.login(loginField.value, data.token)
-        router.replace('/gamelist')
+        auth.setUserSesion(data.token)
+        router.replace('/profile')
     })
 }
 

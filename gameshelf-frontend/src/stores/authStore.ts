@@ -2,14 +2,12 @@ import { defineStore } from 'pinia'
 import type { User } from '@/types/authTypes'
 
 interface AuthState {
-  user: string | null
   token: string | null
 }
 
 export const useAuthStore = defineStore('auth', {
 
   state: (): AuthState => ({
-    user: null,
     token: null
   }),
 
@@ -23,14 +21,12 @@ export const useAuthStore = defineStore('auth', {
       if (token) this.token = token
     },
     
-    login(user: string, token: string) {
-      this.user = user
+    setUserSesion(token: string) {
       this.token = token
-      localStorage.setItem('token', token) // persistencia simple
+      localStorage.setItem('token', token)
     },
     
-    logout() {
-      this.user = null
+    removeUserSesion() {
       this.token = null
       localStorage.removeItem('token')
     }

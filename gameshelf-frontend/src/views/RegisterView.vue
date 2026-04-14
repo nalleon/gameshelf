@@ -194,8 +194,8 @@ function submitRegister() {
 
 
     apiRegister().then((data) => {
-        auth.login(username.value, data.token)
-        router.replace('/gamelist')
+        auth.setUserSesion(data.token)
+        router.replace('/profile')
     })
 }
 </script>

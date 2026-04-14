@@ -70,7 +70,7 @@
     const auth = useAuthStore()
 
     function handleLogout() {
-        auth.logout()
+        auth.removeUserSesion()
     }
 
     function handleSearch(){
