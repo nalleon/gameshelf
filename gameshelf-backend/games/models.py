@@ -88,11 +88,10 @@ class Media(SoftDeleteModel):
     image = models.ImageField(
         upload_to='reviews/', default='reviews/default.png', null=True, blank=True
     )
-    review = models.ForeignKey('games.Review', related_name='medias', on_delete=models.CASCADE)
+    review = models.ForeignKey('games.Review', related_name='media_items', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Media(id={self.pk}, image="{self.content}", review="{self.review}")'
-
+        return f'Media(id={self.pk}, image="{self.image}", review="{self.review}")'
 
 class FavoriteItem(SoftDeleteModel):
     game = models.ForeignKey('games.Game', related_name='favorites', on_delete=models.CASCADE)
@@ -101,5 +100,13 @@ class FavoriteItem(SoftDeleteModel):
         settings.AUTH_USER_MODEL, related_name='favorites', on_delete=models.CASCADE
     )
 
+    order = models.PositiveIntegerField(default=0)
+    
     def __str__(self):
         return f'FavoriteItem(id={self.pk}, game="{self.game}", user="{self.user}")'
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'game'], name='unique_user_game_favorite')
+        ]
+        ordering = ['order']

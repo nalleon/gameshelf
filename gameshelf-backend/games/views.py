@@ -2,28 +2,29 @@ from django.contrib.auth import get_user_model
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema, extend_schema_view
 from rest_framework.decorators import api_view
 
 from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
 from users.decorators import auth_required
 from users.models import Profile
-
-from .models import FavoriteItem, Game, Media, Review
+from django.db.models import Max
+from shared.serializers import ErrorResponseSerializer
+from .models import FavoriteItem, Game, Review
 from .serializers import (
     FavoriteItemSerializer,
     FavoriteSchemaSerializer,
     GameSchemaSerializer,
     GameSerializer,
-    MediaSchemaSerializer,
-    MediaSerializer,
+    IGBDRequestGameSchema,
     ReviewSchemaSerializer,
     ReviewSerializer,
-    SaveFavoriteSchemaSerializer,SaveGameSchemaSerializer, SaveMediaSchemaSerializer, SaveReviewSchemaSerializer,
-    IGBDRequestGameSchema, IGBDRequestGameTitleSchema
+    SaveFavoriteSchemaSerializer,
+    SaveGameSchemaSerializer,
+    SaveReviewSchemaSerializer,
+    UpdateFavoriteSchemaSerializer
 )
-
 from .services.igdb import import_games, search_games_by_title
 
 User = get_user_model()
@@ -91,6 +92,7 @@ def igdb_wrapper(request):
         case 'GET':
             return search_games_by_title(request)
 
+
 # Games Methods
 @extend_schema(
     methods=['GET'],
@@ -114,10 +116,8 @@ def game_wrapper(request):
     match request.method:
         case 'GET':
             return game_list(request)
-        # case 'POST':
-        #     return add_game(request)
-        
-        
+
+
 @csrf_exempt
 @require_http_methods('GET')
 def game_list(request):
@@ -125,102 +125,6 @@ def game_list(request):
     serializer = GameSerializer(games, request=request)
     return serializer.json_response()
 
-# @csrf_exempt
-# @require_http_methods('POST')
-# @require_json_body
-# @require_fields(
-#     'title',
-#     'slug',
-#     'description',
-#     'cover_default',
-#     'released_at',
-#     'pk_platforms_list',
-#     'pk_genres_list',
-#     'pk_developers_list',
-#     'pk_publishers_list',
-#     'pk_edition',
-#     'pk_region',
-# )
-# @auth_required
-# @require_role(Profile.Role.ADMIN)
-# def add_game(request):
-#     payload = request.json
-#     title = payload['title']
-#     slug = payload['slug']
-#     description = payload['description']
-#     cover_default = payload['cover_default']
-#     released_at = payload['released_at']
-#     pk_platforms_list = payload['pk_platforms_list']
-#     pk_genres_list = payload['pk_genres_list']
-#     pk_developers_list = payload['pk_developers_list']
-#     pk_publishers_list = payload['pk_publishers_list']
-#     pk_edition = payload['pk_edition']
-#     pk_region = payload['pk_region']
-
-#     platforms = []
-#     for pk_platform in pk_platforms_list:
-#         try:
-#             platform = get_object_or_404(Platform, pk_platform)
-#         except Http404:
-#             return JsonResponse({'error': 'Platform associated not found'}, status=404)
-
-#         platforms.append(platform)
-
-#     genres = []
-#     for pk_genre in pk_genres_list:
-#         try:
-#             genre = get_object_or_404(Genre, pk_genre)
-#         except Http404:
-#             return JsonResponse({'error': 'Genre associated not found'}, status=404)
-
-#         genres.append(genre)
-
-#     developers = []
-#     for pk_developer in pk_developers_list:
-#         try:
-#             developer = get_object_or_404(Developer, pk_developer)
-#         except Http404:
-#             return JsonResponse({'error': 'Developer associated not found'}, status=404)
-
-#         developers.append(developer)
-
-#     publishers = []
-#     for pk_publisher in pk_publishers_list:
-#         try:
-#             publisher = get_object_or_404(Publisher, pk_publisher)
-#         except Http404:
-#             return JsonResponse({'error': 'Publisher associated not found'}, status=404)
-
-#         publishers.append(publisher)
-
-#     try:
-#         edition = get_object_or_404(Edition, pk_edition)
-#     except Http404:
-#         return JsonResponse({'error': 'Edition associated not found'}, status=404)
-
-#     try:
-#         region = get_object_or_404(Region, pk_region)
-#     except Http404:
-#         return JsonResponse({'error': 'Region associated not found'}, status=404)
-
-#     game = Game.objects.create(
-#         title=title,
-#         slug=slug,
-#         description=description,
-#         cover_default=cover_default,
-#         released_at=released_at,
-#         platforms=platforms,
-#         genres=genres,
-#         developers=developers,
-#         publishers=publishers,
-#         edition=edition,
-#         region=region,
-#     )
-
-#     return JsonResponse({'id': game.pk}, status=200)
-
-
-###########
 
 @extend_schema(
     methods=['GET'],
@@ -260,7 +164,7 @@ def game_detail_wrapper(request, pk_game: int):
             return edit_game(request, pk_game)
         case 'DELETE':
             return delete_game(request, pk_game)
-        
+
 
 @csrf_exempt
 @require_http_methods('GET')
@@ -272,7 +176,6 @@ def game_detail(request, pk_game: int):
 
     serializer = GameSerializer(game, request=request)
     return serializer.json_response()
-
 
 
 @csrf_exempt
@@ -591,364 +494,324 @@ def delete_review(request, pk_review: int):
 ##############################
 
 
-@extend_schema(
-    responses={200: MediaSchemaSerializer, 404: None},
-    description='Get all medias',
-    operation_id='get_medias',
+# @extend_schema(
+#     responses={200: MediaSchemaSerializer, 404: None},
+#     description='Get all medias',
+#     operation_id='get_medias',
+# )
+# @api_view(['GET'])
+# @csrf_exempt
+# @require_http_methods('GET')
+# def media_list(request):
+#     medias = Media.objects.all()
+#     serializer = MediaSerializer(medias, request=request)
+#     return serializer.json_response()
+
+
+# @extend_schema(
+#     responses={200: MediaSchemaSerializer, 404: None},
+#     description='Get details of a specific media',
+#     operation_id='get_media_detail',
+#     parameters=[
+#         OpenApiParameter(
+#             name='pk_media',
+#             type=OpenApiTypes.INT,
+#             location=OpenApiParameter.PATH,
+#             description='ID of the media to view',
+#             required=True,
+#         ),
+#     ],
+# )
+# @api_view(['GET'])
+# @csrf_exempt
+# @require_http_methods('GET')
+# def media_detail(request, pk_media: int):
+#     try:
+#         media = get_object_or_404(Media, pk=pk_media)
+#     except Http404:
+#         return JsonResponse({'error': 'Media not found'}, status=404)
+
+#     serializer = MediaSerializer(media, request=request)
+#     return serializer.json_response()
+
+
+# @extend_schema(
+#     request=SaveMediaSchemaSerializer,
+#     responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 400: None},
+#     description='Create a media',
+#     operation_id='add_media',
+#     methods=['POST'],
+# )
+# @api_view(['POST'])
+# @csrf_exempt
+# @require_http_methods('POST')
+# @require_json_body
+# @require_fields('image', 'pk_review')
+# @auth_required
+# def add_media(request):
+#     payload = request.json
+#     image = payload['image']
+#     pk_review = payload['pk_review']
+
+#     try:
+#         review = get_object_or_404(Review, pk_review)
+#     except Http404:
+#         return JsonResponse({'error': 'Review associated not found'}, status=404)
+
+#     if request.user != review.author:
+#         if request.user.role != 'Admin':
+#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
+#     media = Media.objects.create(image=image, review=review)
+#     return JsonResponse({'id': media.pk}, status=200)
+
+
+# @extend_schema(
+#     request=SaveMediaSchemaSerializer,
+#     responses={
+#         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+#         400: None,
+#         403: None,
+#         404: None,
+#     },
+#     description='Update an existing media',
+#     operation_id='update_media',
+#     methods=['PUT'],
+#     parameters=[
+#         OpenApiParameter(
+#             name='pk_media',
+#             type=OpenApiTypes.INT,
+#             location=OpenApiParameter.PATH,
+#             description='ID of the media to update',
+#             required=True,
+#         ),
+#     ],
+# )
+# @api_view(['PUT'])
+# @csrf_exempt
+# @require_http_methods('PUT')
+# @require_json_body
+# @auth_required
+# @require_role(Profile.Role.ADMIN)
+# def edit_media(request, pk_media: int):
+#     payload = request.json
+#     image = payload['image']
+#     pk_review = payload['pk_review']
+
+#     try:
+#         media = get_object_or_404(Media, pk=pk_media)
+#     except Http404:
+#         return JsonResponse({'error': 'Media not found'}, status=404)
+
+#     if request.user != media.review.author:
+#         if request.user.role != 'Admin':
+#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
+#     if image:
+#         media.image = image
+
+#     if pk_review:
+#         if request.user.role != 'Admin':
+#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
+#         try:
+#             review = get_object_or_404(Review, pk_review)
+#         except Http404:
+#             return JsonResponse({'error': 'Review to associate not found'}, status=404)
+
+#         media.review = review
+
+#     media.save()
+#     return JsonResponse({'id': media.pk}, status=200)
+
+
+# @extend_schema(
+#     request=MediaSchemaSerializer,
+#     responses={
+#         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+#         400: None,
+#         403: None,
+#         404: None,
+#     },
+#     description='Delete an existing media',
+#     operation_id='delete_media',
+#     parameters=[
+#         OpenApiParameter(
+#             name='pk_media',
+#             type=OpenApiTypes.INT,
+#             location=OpenApiParameter.PATH,
+#             description='ID of the media to delete',
+#             required=True,
+#         ),
+#     ],
+# )
+# @api_view(['DELETE'])
+# @csrf_exempt
+# @require_http_methods('DELETE')
+# @auth_required
+# def delete_media(request, pk_media: int):
+
+#     try:
+#         media = get_object_or_404(Media, pk=pk_media)
+#     except Http404:
+#         return JsonResponse({'error': 'Media not found'}, status=404)
+
+#     if request.user != media.review.author:
+#         if request.user.role != 'Admin':
+#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+
+#     media.delete()
+#     return JsonResponse(status=200)
+
+
+# Favorite Methods
+
+@extend_schema_view(
+    get=extend_schema(
+        responses={200: FavoriteSchemaSerializer, 404: None},
+        description='Get all favoriteitem',
+        operation_id='get_favorites',
+    ),
+    post=extend_schema(
+        request=SaveFavoriteSchemaSerializer,
+        responses={
+            200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+            400: ErrorResponseSerializer,
+            404: ErrorResponseSerializer,
+        },
+        description='Add a new favorite',
+        operation_id='add_self_favorite',
+    ),
 )
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 @csrf_exempt
-@require_http_methods('GET')
-def media_list(request):
-    medias = Media.objects.all()
-    serializer = MediaSerializer(medias, request=request)
-    return serializer.json_response()
-
-
-@extend_schema(
-    responses={200: MediaSchemaSerializer, 404: None},
-    description='Get details of a specific media',
-    operation_id='get_media_detail',
-    parameters=[
-        OpenApiParameter(
-            name='pk_media',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the media to view',
-            required=True,
-        ),
-    ],
-)
-@api_view(['GET'])
-@csrf_exempt
-@require_http_methods('GET')
-def media_detail(request, pk_media: int):
-    try:
-        media = get_object_or_404(Media, pk=pk_media)
-    except Http404:
-        return JsonResponse({'error': 'Media not found'}, status=404)
-
-    serializer = MediaSerializer(media, request=request)
-    return serializer.json_response()
-
-
-@extend_schema(
-    request=SaveMediaSchemaSerializer,
-    responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 400: None},
-    description='Create a media',
-    operation_id='add_media',
-    methods=['POST'],
-)
-@api_view(['POST'])
-@csrf_exempt
-@require_http_methods('POST')
-@require_json_body
-@require_fields('image', 'pk_review')
+@require_http_methods(['GET', 'POST'])
 @auth_required
-def add_media(request):
-    payload = request.json
-    image = payload['image']
-    pk_review = payload['pk_review']
+def favorites_wrapper(request):
+     match request.method:
+        case 'POST':
+            return add_favorite_item(request)
+        case 'GET':
+            return favorite_item_list(request)
 
-    try:
-        review = get_object_or_404(Review, pk_review)
-    except Http404:
-        return JsonResponse({'error': 'Review associated not found'}, status=404)
-
-    if request.user != review.author:
-        if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
-    media = Media.objects.create(image=image, review=review)
-    return JsonResponse({'id': media.pk}, status=200)
-
-
-@extend_schema(
-    request=SaveMediaSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        403: None,
-        404: None,
-    },
-    description='Update an existing media',
-    operation_id='update_media',
-    methods=['PUT'],
-    parameters=[
-        OpenApiParameter(
-            name='pk_media',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the media to update',
-            required=True,
-        ),
-    ],
-)
-@api_view(['PUT'])
-@csrf_exempt
-@require_http_methods('PUT')
-@require_json_body
-@auth_required
-@require_role(Profile.Role.ADMIN)
-def edit_media(request, pk_media: int):
-    payload = request.json
-    image = payload['image']
-    pk_review = payload['pk_review']
-
-    try:
-        media = get_object_or_404(Media, pk=pk_media)
-    except Http404:
-        return JsonResponse({'error': 'Media not found'}, status=404)
-
-    if request.user != media.review.author:
-        if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
-    if image:
-        media.image = image
-
-    if pk_review:
-        if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
-        try:
-            review = get_object_or_404(Review, pk_review)
-        except Http404:
-            return JsonResponse({'error': 'Review to associate not found'}, status=404)
-
-        media.review = review
-
-    media.save()
-    return JsonResponse({'id': media.pk}, status=200)
-
-
-@extend_schema(
-    request=MediaSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        403: None,
-        404: None,
-    },
-    description='Delete an existing media',
-    operation_id='delete_media',
-    parameters=[
-        OpenApiParameter(
-            name='pk_media',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the media to delete',
-            required=True,
-        ),
-    ],
-)
-@api_view(['DELETE'])
-@csrf_exempt
-@require_http_methods('DELETE')
-@auth_required
-def delete_media(request, pk_media: int):
-
-    try:
-        media = get_object_or_404(Media, pk=pk_media)
-    except Http404:
-        return JsonResponse({'error': 'Media not found'}, status=404)
-
-    if request.user != media.review.author:
-        if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
-    media.delete()
-    return JsonResponse(status=200)
-
-
-# FavoriteItem Methods
-@extend_schema(
-    responses={200: FavoriteSchemaSerializer, 404: None},
-    description='Get all favoriteitem',
-    operation_id='get_favorites',
-)
-@api_view(['GET'])
 @csrf_exempt
 @require_http_methods('GET')
 def favorite_item_list(request):
-    favorite_items = FavoriteItem.objects.all()
+    favorite_items = request.user.favorites
     serializer = FavoriteItemSerializer(favorite_items, request=request)
     return serializer.json_response()
 
-
-@extend_schema(
-    responses={200: FavoriteSchemaSerializer, 404: None},
-    description='Get details of a specific favorite',
-    operation_id='get_favorite_detail',
-    parameters=[
-        OpenApiParameter(
-            name='pk_favorite',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the media to view',
-            required=True,
-        ),
-    ],
-)
-@api_view(['GET'])
 @csrf_exempt
-@require_http_methods('GET')
-def favorite_item_detail(request, pk_favorite_item: int):
-    try:
-        favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite_item)
-    except Http404:
-        return JsonResponse({'error': 'FavoriteItem not found'}, status=404)
-
-    serializer = FavoriteItemSerializer(favorite_item, request=request)
-    return serializer.json_response()
-
-
-# Public Method
-@extend_schema(
-    request=SaveFavoriteSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        404: None,
-    },
-    description='Add a new favorite',
-    operation_id='add_self_favorite',
-    methods=['POST'],
-)
-@api_view(['POST'])
-@csrf_exempt
-@require_http_methods('POST')
+@require_http_methods(['POST'])
 @require_json_body
 @require_fields('pk_game')
 @auth_required
-def add_self_favorite_item(request):
+def add_favorite_item(request):
+
     payload = request.json
     pk_game = payload['pk_game']
-
-    try:
-        game = get_object_or_404(Game, pk=pk_game)
-    except Http404:
-        return JsonResponse({'error': 'Game asociated not found'}, status=404)
 
     user = request.user
 
-    favorite_item = FavoriteItem.objects.create(game=game, user=user)
-    return JsonResponse({'id': favorite_item.pk}, status=200)
-
-
-@extend_schema(
-    request=SaveFavoriteSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        404: None,
-    },
-    description='Add a new favorite',
-    operation_id='add_favorite',
-    methods=['POST'],
-)
-@api_view(['POST'])
-@csrf_exempt
-@require_http_methods('POST')
-@require_json_body
-@require_fields('pk_game', 'pk_user')
-@auth_required
-def add_favorite_item(request):
-    payload = request.json
-    pk_game = payload['pk_game']
-    pk_user = payload['pk_user']
-
     try:
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
         return JsonResponse({'error': 'Game asociated not found'}, status=404)
 
-    try:
-        user = get_object_or_404(User, pk=pk_user)
-    except Http404:
-        return JsonResponse({'error': 'User asociated not found'}, status=404)
+    if FavoriteItem.objects.filter(user=user, game=game).exists():
+        return JsonResponse({'error': 'Game already in favorites'}, status=400)
 
-    favorite_item = FavoriteItem.objects.create(game=game, user=user)
+    last_order = (
+        FavoriteItem.objects
+        .filter(user=user)
+        .aggregate(max_order=Max('order'))['max_order']
+    )
+
+    favorite_item = FavoriteItem.objects.create(
+        game=game,
+        user=user,
+        order=(last_order or 0) + 1
+    )
+
     return JsonResponse({'id': favorite_item.pk}, status=200)
 
 
-# Private Method because normal users wants only to add or delete from favorites
-@extend_schema(
-    request=SaveFavoriteSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        403: None,
-        404: None,
-    },
-    description='Update an existing favorite',
-    operation_id='update_favorite',
-    methods=['PUT'],
-    parameters=[
-        OpenApiParameter(
-            name='pk_favorite',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the favorite to update',
-            required=True,
-        ),
-    ],
+
+@extend_schema_view(
+    patch=extend_schema(
+        request=UpdateFavoriteSchemaSerializer,
+        responses={
+            200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+            403: ErrorResponseSerializer,
+            404: ErrorResponseSerializer,
+        },
+        description='Update an existing favorite',
+        operation_id='update_favorite',
+        parameters=[
+            OpenApiParameter(
+                name='pk_favorite',
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description='ID of the favorite to update',
+                required=True,
+            ),
+        ],
+    ),
+    delete=extend_schema(
+        request=FavoriteSchemaSerializer,
+        responses={
+            200: None,
+            403: ErrorResponseSerializer,
+            404: ErrorResponseSerializer,
+        },
+        description='Delete an existing favorite',
+        operation_id='delete_favorite',
+        parameters=[
+            OpenApiParameter(
+                name='pk_favorite',
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description='ID of the favorite to delete',
+                required=True,
+            ),
+        ],
+    ),
 )
-@api_view(['PUT'])
+@api_view(['PATCH', 'DELETE'])
 @csrf_exempt
-@require_http_methods('PUT')
+@require_http_methods(['PATCH', 'DELETE'])
+@auth_required
+def favorites_detail_wrapper(request, pk_favorite: int):
+
+    match request.method:
+        case 'PATCH':
+            return edit_favorite_item(request, pk_favorite)
+
+        case 'DELETE':
+            return delete_favorite_item(request, pk_favorite)
+        
+
+@csrf_exempt
+@require_http_methods('PATCH')
 @require_json_body
 @auth_required
-@require_role(Profile.Role.ADMIN)
-def edit_favorite_item(request, pk_favorite_item: int):
+def edit_favorite_item(request, pk_favorite: int):
     payload = request.json
-    pk_game = payload['pk_game']
-    pk_user = payload['pk_user']
+    order = payload['order']
 
     try:
-        favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite_item)
+        favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite)
     except Http404:
-        return JsonResponse({'error': 'FavoriteItem not found'}, status=404)
+        return JsonResponse({'error': 'Favorite not found'}, status=404)
 
-    if pk_game:
-        try:
-            game = get_object_or_404(Game, pk=pk_game)
-        except Http404:
-            return JsonResponse({'error': 'Game to asociate not found'}, status=404)
-        favorite_item.game = game
+    if request.user != favorite_item.user:
+        return JsonResponse({'error': 'Unable to edit another user favorites'}, status=403)
 
-    if pk_user:
-        try:
-            user = get_object_or_404(User, pk=pk_user)
-        except Http404:
-            return JsonResponse({'error': 'User to asociate not found'}, status=404)
-        favorite_item.user = user
-
+    favorite_item.order = order
     favorite_item.save()
     return JsonResponse({'id': favorite_item.pk}, status=200)
 
 
-@extend_schema(
-    request=FavoriteSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        403: None,
-        404: None,
-    },
-    description='Delete an existing favorite',
-    operation_id='delete_favorite',
-    parameters=[
-        OpenApiParameter(
-            name='pk_favorite',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the favorite to delete',
-            required=True,
-        ),
-    ],
-)
-@api_view(['DELETE'])
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
@@ -956,11 +819,10 @@ def delete_favorite_item(request, pk_favorite_item: int):
     try:
         favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite_item)
     except Http404:
-        return JsonResponse({'error': 'FavoriteItem not found'}, status=404)
+        return JsonResponse({'error': 'Favorite not found'}, status=404)
 
     if request.user != favorite_item.user:
-        if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+        return JsonResponse({'error': 'Forbbiden Access'}, status=403)
 
     favorite_item.delete()
     return JsonResponse(status=200)

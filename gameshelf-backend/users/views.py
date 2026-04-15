@@ -22,7 +22,7 @@ User = get_user_model()
 
 # Profile Methods
 @extend_schema(
-    tags=['Profile'],
+    tags=['profile'],
     responses={
         200: ProfileSerializer,
         404: ErrorResponseSerializer,
@@ -40,7 +40,7 @@ def profile_me(request):
     return serializer.json_response()
 
 @extend_schema(
-    tags=['Profile'],
+    tags=['profile'],
     responses=ProfileSerializer,
     description='Get all profiles',
     operation_id='listProfiles',
@@ -62,7 +62,7 @@ def profile_list(request):
 
 
 @extend_schema(
-    tags=['Profile'],
+    tags=['profile'],
     parameters=[
         OpenApiParameter(
             name='pk_profile',
@@ -79,7 +79,7 @@ def profile_list(request):
     operation_id='retrieveProfile',
 )
 @extend_schema(
-    tags=['Profile'],
+    tags=['profile'],
     request=UpdateProfileSerializer,
     responses={
         200: ProfileSerializer,
@@ -162,7 +162,7 @@ def profile_edit(request, pk_profile: int):
 
 
 @extend_schema(
-    tags=['Profile'],
+    tags=['profile'],
     parameters=[
         OpenApiParameter(
             name='q',
@@ -195,7 +195,7 @@ def search_by_name(request):
 
 # Auth methods
 @extend_schema(
-    tags=['Auth'],
+    tags=['auth'],
     request=RegisterSchemaSerializer,
     responses={
         201: TokenResponseSerializer,
@@ -241,7 +241,7 @@ def user_register(request):
 
 
 @extend_schema(
-    tags=['Auth'],
+    tags=['auth'],
     request=LoginSchemaSerializer,
     responses={
         201: TokenResponseSerializer,
@@ -285,7 +285,7 @@ def user_login(request):
 
 
 @extend_schema(
-    tags=['Auth'],
+    tags=['auth'],
     request=EmailRequestSerializer,
     responses={
         200: MessageResponseSerializer,
@@ -319,7 +319,7 @@ def request_password_reset(request):
     return JsonResponse({'message': 'If account exists, email sent'})
 
 @extend_schema(
-    tags=['Auth'],
+    tags=['auth'],
     request=ChangePasswordSerializer,
     responses={
         200: MessageResponseSerializer,
@@ -353,7 +353,7 @@ def change_password(request):
 
 
 @extend_schema(
-    tags=['Auth'],
+    tags=['auth'],
     request=None,
     responses={
         200: MessageResponseSerializer,
@@ -405,7 +405,7 @@ def verify_email(request, token):
 
 
 @extend_schema(
-    tags=['Auth'],
+    tags=['auth'],
     responses={
         200: MessageResponseSerializer,
         401: ErrorResponseSerializer,
@@ -430,7 +430,7 @@ def deactivate_account(request):
     return JsonResponse({'message': 'Account deactivated'}, status=200)
 
 @extend_schema(
-    tags=['Auth'],
+    tags=['auth'],
     request=EmailRequestSerializer,
     responses={
         200: MessageResponseSerializer,

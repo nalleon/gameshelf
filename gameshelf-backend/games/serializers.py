@@ -189,3 +189,6 @@ class SaveMediaSchemaSerializer(serializers.Serializer):
 class SaveFavoriteSchemaSerializer(serializers.Serializer):
     game = id = serializers.IntegerField()
     user = serializers.DictField()
+
+class UpdateFavoriteSchemaSerializer(serializers.Serializer):
+    order = serializers.IntegerField(default=1)
