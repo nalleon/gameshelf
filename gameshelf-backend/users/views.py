@@ -6,12 +6,13 @@ from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import Q
 
 from shared.decorators import require_fields, require_http_methods, require_json_body
 from users.decorators import auth_required
 
 from .models import Profile, UserToken
-from .serializers import LoginSchemaSerializer, ProfileSerializer, LoggedProfileSerializer, RegisterSchemaSerializer, TokenResponseSerializer, ChangePasswordSerializer, EmailRequestSerializer
+from .serializers import LoginSchemaSerializer, ProfileSerializer, LoggedProfileSerializer, RegisterSchemaSerializer, TokenResponseSerializer, UpdateProfileSerializer, ChangePasswordSerializer, EmailRequestSerializer
 from shared.serializers import MessageResponseSerializer, ErrorResponseSerializer
 from django.utils import timezone
 from datetime import timedelta
@@ -19,6 +20,180 @@ from .tasks import deliver_activation_email, deliver_password_reset_email, deliv
 
 User = get_user_model()       
 
+# Profile Methods
+@extend_schema(
+    tags=['Profile'],
+    responses={
+        200: ProfileSerializer,
+        404: ErrorResponseSerializer,
+    },
+    description='Get profile detail from user token',
+    operation_id='retrieveMyProfile',
+)
+@api_view(['GET'])
+@csrf_exempt
+@require_http_methods('GET')
+@auth_required
+def profile_me(request):
+    profile = request.user.profile
+    serializer = LoggedProfileSerializer(profile, request=request)
+    return serializer.json_response()
+
+@extend_schema(
+    tags=['Profile'],
+    responses=ProfileSerializer,
+    description='Get all profiles',
+    operation_id='listProfiles',
+)
+@api_view(['GET'])
+@csrf_exempt
+@require_http_methods('GET')
+def profile_wrapper(request, pk_profile: int):
+    match request.method:
+        case 'GET':
+            return profile_list(request, pk_profile)
+        
+@csrf_exempt
+@require_http_methods('GET')
+def profile_list(request):
+    profiles = Profile.objects.all()
+    serializer = ProfileSerializer(profiles, request=request)
+    return serializer.json_response()
+
+
+@extend_schema(
+    tags=['Profile'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_profile',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='Profile ID'
+        )
+    ],
+    responses={
+        200: ProfileSerializer,
+        404: ErrorResponseSerializer,
+    },
+    description='Get profile detail',
+    operation_id='retrieveProfile',
+)
+@extend_schema(
+    tags=['Profile'],
+    request=UpdateProfileSerializer,
+    responses={
+        200: ProfileSerializer,
+        400: ErrorResponseSerializer,
+        403: ErrorResponseSerializer,
+        404: ErrorResponseSerializer,
+    },
+    description='Edit profile (partial update)',
+    operation_id='editProfile',
+)
+@api_view(['GET', 'PATCH'])
+@csrf_exempt
+@require_http_methods('GET', 'PATCH')
+def profile_detail_wrapper(request, pk_profile: int):
+    match request.method:
+        case 'GET':
+            return profile_detail(request, pk_profile)
+        case 'PATCH':
+            return profile_edit(request, pk_profile)
+        
+@csrf_exempt
+@require_http_methods('GET')
+def profile_detail(request, pk_profile: int):
+    try:
+        profile = get_object_or_404(Profile, pk=pk_profile)
+    except Http404:
+        return JsonResponse({'error': 'Profile not found'}, status=404)
+
+    serializer = ProfileSerializer(profile, request=request)
+    return serializer.json_response()
+
+
+@csrf_exempt
+@require_http_methods('PATCH')
+@require_json_body
+@auth_required
+def profile_edit(request, pk_profile: int):
+    try:
+        profile = get_object_or_404(Profile, pk=pk_profile)
+    except Http404:
+        return JsonResponse({'error': 'Profile not found'}, status=404)
+
+    if request.user != profile.user:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    payload = request.json
+
+    if 'bio' in payload:
+        profile.bio = payload['bio']
+
+    if 'avatar' in payload:
+        profile.avatar = payload['avatar'] 
+
+    if 'color_bg' in payload:
+        if not profile.verified:
+            return JsonResponse(
+                {'error': 'Only verified users can change background color'},
+                status=403
+            )
+        profile.color_bg = payload['color_bg']
+
+    user = profile.user
+
+    if 'username' in payload:
+        if User.objects.filter(username=payload['username']).exclude(pk=user.pk).exists():
+            return JsonResponse({'error': 'Username already taken'}, status=400)
+        user.username = payload['username']
+
+    if 'first_name' in payload:
+        user.first_name = payload['first_name']
+
+    if 'last_name' in payload:
+        user.last_name = payload['last_name']
+
+    profile.save()
+    user.save()
+
+    serializer = ProfileSerializer(profile, request=request)
+    return serializer.json_response()
+
+
+@extend_schema(
+    tags=['Profile'],
+    parameters=[
+        OpenApiParameter(
+            name='q',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Search query (username, first name or last name)',
+            required=True
+        )
+    ],
+    responses={200: ProfileSerializer},
+    description='Search profiles by username or name',
+    operation_id='searchProfiles',
+)
+@api_view(['GET'])
+@require_http_methods('GET')
+def search_by_name(request):
+    query = request.GET.get('q', '').strip()
+
+    if not query:
+        return JsonResponse({'error': 'Query parameter "q" is required'}, status=400)
+
+    profiles = Profile.objects.select_related('user').filter(
+        Q(user__username__icontains=query) |
+        Q(user__first_name__icontains=query) |
+        Q(user__last_name__icontains=query)
+    )
+
+    serializer = ProfileSerializer(profiles, request=request)
+    return serializer.json_response()
+
+# Auth methods
 @extend_schema(
     tags=['Auth'],
     request=RegisterSchemaSerializer,
@@ -108,72 +283,6 @@ def user_login(request):
     return JsonResponse({'token': str(refresh.access_token)}, status=201)
 
 
-# Profile Methods
-@extend_schema(
-    tags=['Profile'],
-    responses=ProfileSerializer,
-    description='Get all profiles',
-    operation_id='listProfiles',
-)
-@csrf_exempt
-@require_http_methods('GET')
-def profile_list(request):
-    profiles = Profile.objects.all()
-    serializer = ProfileSerializer(profiles, request=request)
-    return serializer.json_response()
-
-@extend_schema(
-    tags=['Profile'],
-    parameters=[
-        OpenApiParameter(
-            name='pk_profile',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='Profile ID'
-        )
-    ],
-    responses={
-        200: ProfileSerializer,
-        404: ErrorResponseSerializer,
-    },
-    description='Get profile detail',
-    operation_id='retrieveProfile',
-)
-@csrf_exempt
-@require_http_methods('GET')
-def profile_detail(request, pk_profile: int):
-    try:
-        profile = get_object_or_404(Profile, pk=pk_profile)
-    except Http404:
-        return JsonResponse({'error': 'Profile not found'}, status=404)
-
-    serializer = ProfileSerializer(profile, request=request)
-    return serializer.json_response()
-
-@extend_schema(
-    tags=['Profile'],
-    parameters=[
-        OpenApiParameter(
-            name='token',
-            type=OpenApiTypes.STR,
-            location=OpenApiParameter.PATH,
-            description='User Token'
-        )
-    ],
-    responses={
-        200: ProfileSerializer,
-        404: ErrorResponseSerializer,
-    },
-    description='Get profile detail from user token',
-    operation_id='retrieveMyProfile',
-)
-@csrf_exempt
-@require_http_methods('GET')
-@auth_required
-def profile_me(request):
-    profile = request.user.profile
-    serializer = LoggedProfileSerializer(profile, request=request)
-    return serializer.json_response()
 
 @extend_schema(
     tags=['Auth'],
@@ -381,29 +490,5 @@ def restore_account(request, token):
     
     return JsonResponse({'message': 'Account restored'}, status=200)
 
-
-# @csrf_exempt
-# @require_http_methods('PUT')
-# @require_json_body
-# @auth_required
-# @require_role(Profile.Role.ADMIN)
-# def edit_profile(request, pk_profile : int):
-#     payload = request.json
-#     name = payload['name']
-#     description = payload['description']
-
-#     try:
-#         profile = get_object_or_404(Profile, pk=pk_profile)
-#     except Http404:
-#         return JsonResponse({'error': 'Profile not found'}, status=404)
-
-#     if name:
-#         profile.name = name
-
-#     if description:
-#         profile.description = description
-
-#     profile.save()
-#     return JsonResponse({'id': profile.pk}, status=200)
 
 

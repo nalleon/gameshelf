@@ -58,7 +58,10 @@ class LoggedUserSerializer(BaseSerializer):
             'first_name': instance.first_name,
             'last_name': instance.last_name,
             'email': instance.email,
-            'collections': LoggedCollectionSerializer(instance.collections, request=self.request)
+            'collections': [
+                LoggedCollectionSerializer(c, request=self.request).serialize()
+                for c in instance.collections.all()
+            ]
         }
 
     @staticmethod
@@ -70,18 +73,21 @@ class LoggedUserSerializer(BaseSerializer):
             'last_name': serializers.CharField(),
             'email': serializers.EmailField(),
         }
-
+        
 class LoggedProfileSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
             'id': instance.pk,
-            'user': LoggedUserSerializer(instance.user, request=self.request).serialize(),
-            'avatar': self.build_url(instance.avatar.url),
+            'user': LoggedUserSerializer(
+                instance.user,
+                request=self.request
+            ).serialize(),
+            'avatar': self.build_url(instance.avatar.url) if instance.avatar else None,
             'bio': instance.bio,
             'verified': instance.verified,
+            'color_bg': instance.color_bg,
             'role': instance.get_role_display(),
         }
-
     @staticmethod
     def get_fields_dict():
         return {
@@ -181,3 +187,11 @@ class ChangePasswordSerializer(serializers.Serializer):
     
 class EmailRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
+    
+class UpdateProfileSerializer(serializers.Serializer):
+    bio = serializers.CharField(required=False)
+    avatar = serializers.ImageField(required=False)
+    username = serializers.CharField(required=False)
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    color_bg = serializers.CharField(required=False)

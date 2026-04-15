@@ -6,7 +6,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
-
+from colorfield.fields import ColorField
 class Profile(SoftDeleteModel):
     class Role(models.TextChoices):
         USER = 'U', 'User'
@@ -20,6 +20,7 @@ class Profile(SoftDeleteModel):
         settings.AUTH_USER_MODEL, related_name='profile', on_delete=models.CASCADE
     )
     
+    color_bg = ColorField(default='#79A998')
     role = models.CharField(max_length=1, choices=Role, default=Role.USER)
     
 
