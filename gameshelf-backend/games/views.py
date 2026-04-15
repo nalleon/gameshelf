@@ -26,6 +26,7 @@ from .serializers import (
     UpdateFavoriteSchemaSerializer
 )
 from .services.igdb import import_games, search_games_by_title
+from django.db import models
 
 User = get_user_model()
 
@@ -794,10 +795,12 @@ def favorites_detail_wrapper(request, pk_favorite: int):
 @csrf_exempt
 @require_http_methods('PATCH')
 @require_json_body
+@require_fields('order')
 @auth_required
 def edit_favorite_item(request, pk_favorite: int):
+
     payload = request.json
-    order = payload['order']
+    new_order = payload['order']
 
     try:
         favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite)
@@ -807,8 +810,27 @@ def edit_favorite_item(request, pk_favorite: int):
     if request.user != favorite_item.user:
         return JsonResponse({'error': 'Unable to edit another user favorites'}, status=403)
 
-    favorite_item.order = order
+    old_order = favorite_item.order
+
+    if new_order == old_order:
+        return JsonResponse({'id': favorite_item.pk}, status=200)
+
+    user_favorites = FavoriteItem.objects.filter(user=request.user)
+
+    if new_order > old_order:
+        user_favorites.filter(
+            order__gt=old_order,
+            order__lte=new_order
+        ).update(order=models.F('order') - 1)
+    else:
+        user_favorites.filter(
+            order__lt=old_order,
+            order__gte=new_order
+        ).update(order=models.F('order') + 1)
+
+    favorite_item.order = new_order
     favorite_item.save()
+
     return JsonResponse({'id': favorite_item.pk}, status=200)
 
 
