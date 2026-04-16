@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import Navbar from '@/components/Navbar.vue';
 import { onMounted, ref } from 'vue';
-import type { Game } from '@/types/generalTypes';
+import type { Game } from '@/types/profileTypes';
 
 
 let games = ref<Game[]>([])
