@@ -58,7 +58,9 @@ class LoggedUserSerializer(BaseSerializer):
             'first_name': instance.first_name,
             'last_name': instance.last_name,
             'email': instance.email,
-            'collections': LoggedCollectionSerializer(instance.collections, request=self.request)
+            'collections': LoggedCollectionSerializer(instance.collections.all(), request=self.request).serialize(),
+            'library': LoggedLibraryItemSerializer(instance.library.all(), request=self.request).serialize(),
+            'wishlist': LoggedWishlistSerializer(instance.wishlist, request=self.request).serialize(),
         }
 
     @staticmethod
@@ -122,6 +124,70 @@ class LoggedCollectionItemSerializer(BaseSerializer):
     def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
+            'game': LoggedGameSerializer.get_fields_dict(),
+        }
+
+class LoggedLibraryItemSerializer(BaseSerializer):
+    def serialize_instance(self, instance) -> dict:
+        return {
+            'id': instance.pk,
+            'status': instance.get_status_display(),
+            'hours_played': instance.hours_played,
+            'game': LoggedGameSerializer(instance.game, request=self.request).serialize(),
+            'created_at': instance.created_at,
+            'updated_at': instance.updated_at,
+        }
+
+    @staticmethod
+    def get_fields_dict():
+        return {
+            'id': serializers.IntegerField(),
+            'game': LoggedGameSerializer.get_fields_dict(),
+            'status': serializers.CharField(),
+            'hours_played': serializers.CharField(),
+            'created_at': serializers.DateTimeField(),
+            'updated_at': serializers.DateTimeField(),
+        }
+        
+class LoggedWishlistSerializer(BaseSerializer):
+    def serialize_instance(self, instance) -> dict:
+        return {
+            'id': instance.pk,
+            'name': instance.name,
+            'is_private': instance.is_private,
+            'created_at': instance.created_at,
+            'items': LoggedWishlistItemSerializer(
+                instance.items.all(), request=self.request
+            ).serialize(),
+        }
+
+    @staticmethod
+    def get_fields_dict():
+        return {
+            'id': serializers.IntegerField(),
+            'name': serializers.CharField(),
+            'is_private': serializers.BooleanField(),
+            'created_at': serializers.DateTimeField(),
+            'items': LoggedCollectionItemSerializer.get_fields_dict(),
+        }
+
+class LoggedWishlistItemSerializer(BaseSerializer):
+    def serialize_instance(self, instance) -> dict:
+        return {
+            'id': instance.pk,
+            'priroty': instance.priority,
+            'annotation': instance.annotation,
+            'is_private': instance.is_private,
+            'game': LoggedGameSerializer(instance.game, request=self.request).serialize(),
+        }
+
+    @staticmethod
+    def get_fields_dict():
+        return {
+            'id': serializers.IntegerField(),
+            'priroty': serializers.IntegerField(),
+            'annotation': serializers.CharField(),
+            'is_private': serializers.BooleanField(),
             'game': LoggedGameSerializer.get_fields_dict(),
         }
 
