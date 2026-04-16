@@ -85,7 +85,6 @@ def create_collection(request):
 
 
 # Method for making the API restful
-from drf_spectacular.utils import extend_schema, extend_schema_view
 
 @extend_schema_view(
     get=extend_schema(
@@ -523,20 +522,20 @@ def edit_wishlist(request, pk_wishlist : int):
 @csrf_exempt
 @require_http_methods('GET', 'DELETE', 'PATCH')
 @auth_required
-def wishlist_item_detail_wrapper(request, pk_wishlist : int, pk_wishlist_item: int):
+def wishlist_item_detail_wrapper(request, pk_wishlist_item: int):
     match request.method:
         case 'GET':
-            return wishlist_item_detail(request, pk_wishlist, pk_wishlist_item)
+            return wishlist_item_detail(request, pk_wishlist_item)
         case 'DELETE':
-            return delete_wishlist_item(request, pk_wishlist, pk_wishlist_item)
+            return delete_wishlist_item(request, pk_wishlist_item)
         case 'PATCH':
-            return edit_wishlist_item(request, pk_wishlist, pk_wishlist_item)
+            return edit_wishlist_item(request, pk_wishlist_item)
 
 
 @csrf_exempt
 @require_http_methods('GET')
 @auth_required
-def wishlist_item_detail(request, pk_wishlist : int, pk_wishlist_item: int):
+def wishlist_item_detail(request, pk_wishlist_item: int):
     wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
     serializer = WishlistItemSerializer(wishlist_item, request=request)
     return JsonResponse(serializer.serialize())
@@ -545,7 +544,7 @@ def wishlist_item_detail(request, pk_wishlist : int, pk_wishlist_item: int):
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required
-def delete_wishlist_item(request, pk_wishlist : int, pk_wishlist_item: int):
+def delete_wishlist_item(request, pk_wishlist_item: int):
     wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
     wishlist_item.delete()
     return JsonResponse(status=204)
@@ -555,7 +554,7 @@ def delete_wishlist_item(request, pk_wishlist : int, pk_wishlist_item: int):
 @require_json_body
 @require_fields('priority', 'annotation', 'is_private')
 @auth_required
-def edit_wishlist_item(request, pk_wishlist : int, pk_wishlist_item: int):
+def edit_wishlist_item(request, pk_wishlist_item: int):
     
     
     wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
