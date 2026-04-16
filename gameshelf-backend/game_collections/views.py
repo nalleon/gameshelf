@@ -88,7 +88,7 @@ def create_collection(request):
 
 @extend_schema_view(
     get=extend_schema(
-        responses=CollectionSchemaSerializer,
+        responses={200: CollectionSchemaSerializer},
         description='Get all items from a collection',
         parameters=[
             OpenApiParameter(
@@ -135,14 +135,8 @@ def create_collection(request):
     ),
 
     patch=extend_schema(
-        request={
-            'type': 'object',
-            'properties': {
-                'name': {'type': 'string'},
-                'is_private': {'type': 'boolean'}
-            },
-        },
-        responses=CollectionSerializer,
+        request=SaveListSchemaSerializer,
+        responses={200: CollectionSerializer},
         description='Edit the name and/or is_private of a collection',
         operation_id='edit_collection',
     ),
@@ -232,7 +226,7 @@ def edit_collection(request, pk_collection: int):
 # Method for making the API restful
 @extend_schema_view(
     get=extend_schema(
-        responses=CollectionItemSchemaSerializer,
+        responses={200: CollectionItemSchemaSerializer},
         description='Get an item from a collection',
         parameters=[
             OpenApiParameter(
@@ -285,7 +279,7 @@ def edit_collection(request, pk_collection: int):
                 'is_private': {'type': 'boolean'}
             },
         },
-        responses=CollectionItemSchemaSerializer,
+        responses={200: CollectionItemSchemaSerializer},
         description='Edit the is_private field of a collection item',
         operation_id='update_collection_item',
     ),
@@ -391,7 +385,7 @@ def own_wishlist_detail(request):
 # Method for making the API restful
 @extend_schema_view(
     get=extend_schema(
-        responses=WishlistSchemaSerializer,
+        responses={200: WishlistSchemaSerializer},
         description='Get all items from the wishlist',
         parameters=[
             OpenApiParameter(
@@ -417,7 +411,7 @@ def own_wishlist_detail(request):
     ),
     patch=extend_schema(
         request=SaveListSchemaSerializer,
-        responses=WishlistSerializer,
+        responses={200: WishlistSerializer},
         description='Edit the name and/or is_private of the wishlist',
         operation_id='edit_wishlist',
     ),
@@ -495,7 +489,7 @@ def edit_wishlist(request, pk_wishlist : int):
 
 @extend_schema(
     methods=['GET'],
-    responses=WishlistItemSchemaSerializer,
+    responses={200: WishlistItemSchemaSerializer},
     description='Get a wishlist item',
     operation_id='get_wishlist_item',
 
@@ -514,7 +508,7 @@ def edit_wishlist(request, pk_wishlist : int):
 @extend_schema(
     methods=['PATCH'],
     request=UpdateWishlistItemSchemaSerializer,
-    responses=WishlistItemSchemaSerializer,
+    responses={200: WishlistItemSchemaSerializer},
     description='Edit a wishlist item (priority, annotation, is_private)',
     operation_id='update_wishlist_item',
 )

@@ -100,19 +100,9 @@ def igdb_wrapper(request):
     responses={200: GameSchemaSerializer},
     description='Get all games',
 )
-@extend_schema(
-    methods=['POST'],
-    request=SaveGameSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        404: None,
-    },
-    description='Create a new game',
-)
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 @csrf_exempt
-@require_http_methods('GET', 'POST')
+@require_http_methods('GET')
 def game_wrapper(request):
     match request.method:
         case 'GET':
@@ -300,49 +290,11 @@ def delete_game(request, pk_game: int):
 
 # Reviews Methods
 
-
 @extend_schema(
     responses={200: ReviewSchemaSerializer, 404: None},
     description='Get all reviews',
     operation_id='get_reviews',
 )
-@api_view(['GET'])
-@csrf_exempt
-@require_http_methods('GET')
-def review_list(request):
-    reviews = Review.objects.all()
-    serializer = ReviewSerializer(reviews, request=request)
-    return serializer.json_response()
-
-
-@extend_schema(
-    responses={200: ReviewSchemaSerializer, 404: None},
-    description='Get all reviews',
-    operation_id='get_review_detail',
-    parameters=[
-        OpenApiParameter(
-            name='pk_review',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the review to view',
-            required=True,
-        ),
-    ],
-)
-@api_view(['GET'])
-@csrf_exempt
-@require_http_methods('GET')
-def review_detail(request, pk_review: int):
-    try:
-        review = get_object_or_404(Review, pk=pk_review)
-    except Http404:
-        return JsonResponse({'error': 'Review not found'}, status=404)
-
-    serializer = ReviewSerializer(review, request=request)
-    return serializer.json_response()
-
-
-# Public Method
 @extend_schema(
     request=SaveReviewSchemaSerializer,
     responses={
@@ -354,7 +306,25 @@ def review_detail(request, pk_review: int):
     operation_id='add_review',
     methods=['POST'],
 )
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
+@csrf_exempt
+@require_http_methods(['GET', 'POST'])
+def review_wrapper(request):
+    match request.method:
+        case 'GET':
+            return review_list(request)
+        case 'POST':
+            return add_review(request)
+
+
+@csrf_exempt
+@require_http_methods('GET')
+def review_list(request):
+    reviews = Review.objects.all()
+    serializer = ReviewSerializer(reviews, request=request)
+    return serializer.json_response()
+
+# Public Method
 @csrf_exempt
 @require_http_methods('POST')
 @require_json_body
@@ -376,8 +346,20 @@ def add_review(request):
     review = Review.objects.create(content=content, recommend=recommend, game=game, user=user)
     return JsonResponse({'id': review.pk}, status=200)
 
-
-# Public method
+@extend_schema(
+    responses={200: ReviewSchemaSerializer, 404: None},
+    description='Get all reviews',
+    operation_id='get_review_detail',
+    parameters=[
+        OpenApiParameter(
+            name='pk_review',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the review to view',
+            required=True,
+        ),
+    ],
+)
 @extend_schema(
     request=SaveReviewSchemaSerializer,
     responses={
@@ -388,7 +370,7 @@ def add_review(request):
     },
     description='Update an existing review',
     operation_id='update_review',
-    methods=['PUT'],
+    methods=['PATCH'],
     parameters=[
         OpenApiParameter(
             name='pk_review',
@@ -399,9 +381,56 @@ def add_review(request):
         ),
     ],
 )
-@api_view(['PUT'])
+@extend_schema(
+    request=ReviewSchemaSerializer,
+    responses={
+        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+        400: None,
+        403: None,
+        404: None,
+    },
+    description='Delete an existing review',
+    operation_id='update_review',
+    methods=['PUT'],
+    parameters=[
+        OpenApiParameter(
+            name='pk_review',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID of the review to delete',
+            required=True,
+        ),
+    ],
+)
+@api_view(['GET', 'PATCH', 'DELETE'])
 @csrf_exempt
-@require_http_methods('PUT')
+@require_http_methods('GET', 'PATCH', 'DELETE')
+def review_detail_wrapper(request, pk_review: int):
+    match request.method:
+        case 'GET':
+            return review_detail(request, pk_review)
+        case 'PATCH':
+            return edit_review(request, pk_review)
+        case 'DELETE':
+            return delete_review(request, pk_review)
+        
+
+@csrf_exempt
+@require_http_methods('GET')
+def review_detail(request, pk_review: int):
+    try:
+        review = get_object_or_404(Review, pk=pk_review)
+    except Http404:
+        return JsonResponse({'error': 'Review not found'}, status=404)
+
+    serializer = ReviewSerializer(review, request=request)
+    return serializer.json_response()
+
+
+
+# Public method
+@csrf_exempt
+@require_http_methods('PATCH')
 @require_json_body
 @auth_required
 def edit_review(request, pk_review: int):
@@ -450,28 +479,7 @@ def edit_review(request, pk_review: int):
 
 
 # Public method
-@extend_schema(
-    request=ReviewSchemaSerializer,
-    responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-        400: None,
-        403: None,
-        404: None,
-    },
-    description='Delete an existing review',
-    operation_id='update_review',
-    methods=['PUT'],
-    parameters=[
-        OpenApiParameter(
-            name='pk_review',
-            type=OpenApiTypes.INT,
-            location=OpenApiParameter.PATH,
-            description='ID of the review to delete',
-            required=True,
-        ),
-    ],
-)
-@api_view(['DELETE'])
+
 @csrf_exempt
 @require_http_methods('DELETE')
 @auth_required

@@ -128,3 +128,4 @@ class UpdateWishlistItemSchemaSerializer(serializers.Serializer):
     priority = serializers.IntegerField(required=False)
     annotation = serializers.CharField(required=False, allow_null=True)
     is_private = serializers.BooleanField(default=False)
+

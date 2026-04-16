@@ -41,7 +41,7 @@ def profile_me(request):
 
 @extend_schema(
     tags=['profile'],
-    responses=ProfileSerializer,
+    responses={200: ProfileSerializer},
     description='Get all profiles',
     operation_id='listProfiles',
 )
