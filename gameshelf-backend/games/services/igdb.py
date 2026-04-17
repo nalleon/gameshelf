@@ -272,7 +272,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
 
             created_count += 1
 
-            cover_data = g.get('cover_default')
+            cover_data = g.get('cover')
             image_id = cover_data.get('image_id') if cover_data else None
             cover_url_default = build_cover_url(image_id)
             
