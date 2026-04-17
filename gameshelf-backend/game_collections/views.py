@@ -4,12 +4,12 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework.decorators import api_view
-
+from django.http import HttpResponse
 from games.models import Game
 from shared.decorators import require_fields, require_json_body
 from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
-
+from django.core.exceptions import PermissionDenied
 from .models import Collection, CollectionItem, Wishlist, WishListItem
 from .serializers import (
     CollectionItemSchemaSerializer,
@@ -25,6 +25,9 @@ from .serializers import (
     WishlistSchemaSerializer,
     WishlistSerializer,
 )
+
+from django.db.models import Prefetch
+from django.db.models import Count, Q
 
 User = get_user_model()
 
@@ -60,7 +63,7 @@ def collection_wrapper(request):
 # This method is public to get all existing collections
 @csrf_exempt
 def collection_list(request):
-    collections = Collection.objects.filter(is_private=False)
+    collections = get_collections_queryset(request.user)
     serializer = CollectionSerializer(collections, request=request)
     return serializer.json_response()
 
@@ -68,16 +71,13 @@ def collection_list(request):
 # This method is public to create a new collection collection
 @csrf_exempt
 @require_json_body
-@require_fields('name')
+@require_fields('name', 'is_private')
 @auth_required
 def create_collection(request):
     payload = request.json
     name = payload['name']
-
-    collection = Collection.objects.create(
-        user=request.user,
-        name=name,
-    )
+    is_private = payload['is_private']
+    collection = Collection.objects.create(user=request.user, name=name, is_private=is_private)
 
     serializer = CollectionSerializer(collection, request=request)
     return JsonResponse(serializer.serialize(), status=201)
@@ -155,35 +155,26 @@ def collection_items_wrapper(request, pk_collection):
 # This method is public to get all items from a collection
 @csrf_exempt
 def collection_item_list(request, pk_collection):
-    collection = get_object_or_404(Collection, pk=pk_collection)
+    collection = get_collection_with_items(pk_collection, request.user)
 
-    is_owner = request.user.is_authenticated and request.user == collection.user
+    serializer = CollectionSerializer(
+        collection,
+        request=request
+    )
 
-    if not is_owner and collection.is_private:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
-
-    items = collection.items.all()
-
-    if not is_owner:
-        items = items.filter(is_private=False)
-
-    serializer = CollectionSerializer(collection, request=request)
-    data = serializer.serialize()
-
-    data['items'] = CollectionItemSerializer(items, request=request).serialize()
-
-    return JsonResponse(data, safe=False)
+    return serializer.json_response()
 
 
 # This method is public to add to its own collection
 @csrf_exempt
 @require_json_body
-@require_fields('game_id')
+@require_fields('game_id', 'is_private', 'type')
 @auth_required
 def add_self_collection_item(request, pk_collection):
     payload = request.json
     pk_game = payload['game_id']
-
+    is_private = payload['is_private']
+    item_type = payload['type']
     collection = get_object_or_404(Collection, pk=pk_collection)
 
     if collection.user != request.user:
@@ -191,7 +182,19 @@ def add_self_collection_item(request, pk_collection):
 
     game = get_object_or_404(Game, pk=pk_game)
 
-    collection_item = CollectionItem.objects.create(game=game, collection=collection)
+    exists = CollectionItem.objects.filter(
+        collection=collection,
+        game=game,
+        type=item_type,
+        deleted_at__isnull=True
+    ).exists()
+
+    if exists:
+        return JsonResponse({'error': 'Game already exists in collection'}, status=400)
+
+    collection_item = CollectionItem.objects.create(
+        game=game, collection=collection, is_private=is_private, type=item_type
+    )
 
     return JsonResponse({'id': collection_item.pk}, status=201)
 
@@ -209,7 +212,7 @@ def delete_collection(request, pk_collection: int):
         return JsonResponse({'error': 'Forbidden access'}, status=403)
 
     collection.delete()
-    return JsonResponse(status=204)
+    return HttpResponse(status=204)
 
 
 @require_json_body
@@ -310,9 +313,16 @@ def collection_item_detail_wrapper(request, pk_collection: int, pk_collection_it
 def collection_item_detail(request, pk_collection: int, pk_collection_item: int):
 
     collection = get_object_or_404(Collection, pk=pk_collection)
+    is_owner = request.user.is_authenticated and request.user == collection.user
 
+    if collection.is_private and not is_owner:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    
     collection_item = get_object_or_404(
-        CollectionItem, pk=pk_collection_item, collection=collection
+        CollectionItem,
+        pk=pk_collection_item,
+        collection=collection,
+        deleted_at__isnull=True,
     )
 
     serializer = CollectionItemSerializer(collection_item, request=request)
@@ -334,11 +344,11 @@ def delete_collection_item(request, pk_collection: int, pk_collection_item: int)
         return JsonResponse({'error': 'Forbidden access'}, status=403)
 
     collection_item.delete()
-    return JsonResponse(status=204)
+    return HttpResponse(status=204)
 
 
 @require_json_body
-@require_fields('is_private')
+@require_fields('is_private', 'type')
 @auth_required
 def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
     collection_item = get_object_or_404(
@@ -352,11 +362,21 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
 
     payload = request.json
     is_private = payload['is_private']
+    item_type = payload['type']
+
+    updated=False
 
     if is_private != collection_item.is_private:
         collection_item.is_private = is_private
-        collection_item.save()
+        updated=True 
+           
+    if item_type != collection_item.type:
+        collection_item.type = item_type
+        updated=True
 
+    if updated:
+        collection_item.save()
+    
     serializer = CollectionItemSerializer(collection_item, request=request)
     return serializer.json_response()
 
@@ -383,8 +403,9 @@ def wishlist_wrapper(request):
 @csrf_exempt
 @auth_required
 def own_wishlist_detail(request):
-    wishlist = request.user.wishlist
-    serializer = CollectionSerializer(wishlist, request=request)
+    wishlist = get_wishlist_with_items(request.user.wishlist.pk, request.user)
+
+    serializer = WishlistSerializer(wishlist, request=request)
     return JsonResponse(serializer.serialize())
 
 
@@ -434,18 +455,17 @@ def wishlist_items_wrapper(request, pk_wishlist: int):
         case 'PATCH':
             return edit_wishlist(request, pk_wishlist)
 
-
 @csrf_exempt
+@auth_required
 def get_wishlist(request, pk_wishlist: int):
-    wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
-    serializer = CollectionSerializer(wishlist, request=request)
+    wishlist = get_wishlist_with_items(pk_wishlist, request.user)
 
-    return JsonResponse(serializer.serialize(), status=201)
-
+    serializer = WishlistSerializer(wishlist, request=request)
+    return JsonResponse(serializer.serialize(), status=200)
 
 @csrf_exempt
 @require_json_body
-@require_fields('game_id', 'priority', 'annotation')
+@require_fields('game_id', 'priority', 'annotation', 'is_private', 'type')
 @auth_required
 def add_self_wishlist_item(request, pk_wishlist: int):
     wishlist = check_wishlist_ownership(request.user, pk_wishlist)
@@ -454,11 +474,26 @@ def add_self_wishlist_item(request, pk_wishlist: int):
     pk_game = payload['game_id']
     priority = payload['priority']
     annotation = payload['annotation']
+    is_private = payload['is_private']
+    item_type = payload['type']
 
     game = get_object_or_404(Game, pk=pk_game)
 
+    if WishListItem.objects.filter(
+        wishlist=wishlist,
+        game=game,
+        type=item_type,
+        deleted_at__isnull=True
+    ).exists():
+        return JsonResponse({'error': 'Game already exists in wishlist'}, status=400)
+    
     wishlist_item = WishListItem.objects.create(
-        wishlist=wishlist, game=game, priority=priority, annotation=annotation
+        wishlist=wishlist,
+        game=game,
+        priority=priority,
+        annotation=annotation,
+        is_private=is_private,
+        type=item_type
     )
     serializer = WishlistItemSerializer(wishlist_item, request=request)
     return JsonResponse(serializer.serialize(), status=201)
@@ -482,10 +517,11 @@ def edit_wishlist(request, pk_wishlist: int):
 
     if updated:
         wishlist.save()
+        
+    wishlist = get_wishlist_with_items(pk_wishlist, request.user)
 
     serializer = WishlistSerializer(wishlist, request=request)
-    return JsonResponse(serializer.serialize())
-
+    return JsonResponse(serializer.serialize(), status=200)
 
 @extend_schema(
     methods=['GET'],
@@ -528,6 +564,12 @@ def wishlist_item_detail_wrapper(request, pk_wishlist_item: int):
 @auth_required
 def wishlist_item_detail(request, pk_wishlist_item: int):
     wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
+
+    is_owner = request.user.is_authenticated and request.user == wishlist_item.wishlist.user
+
+    if wishlist_item.is_private and not is_owner:
+        raise PermissionDenied('Forbidden')
+
     serializer = WishlistItemSerializer(wishlist_item, request=request)
     return JsonResponse(serializer.serialize())
 
@@ -537,7 +579,7 @@ def wishlist_item_detail(request, pk_wishlist_item: int):
 def delete_wishlist_item(request, pk_wishlist_item: int):
     wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
     wishlist_item.delete()
-    return JsonResponse(status=204)
+    return HttpResponse(status=204)
 
 
 @csrf_exempt
@@ -577,10 +619,146 @@ def check_wishlist_ownership(user, pk_wishlist):
     wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
 
     if wishlist.user != user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        raise PermissionDenied('Forbidden')    
+    
+    return wishlist
 
 
 def check_wishlistitem_ownership(user, pk_wishlist_item):
     wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
     if wishlist_item.wishlist.user != user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        raise PermissionDenied('Forbidden')    
+    return wishlist_item
+
+
+def get_collections_queryset(user):
+    qs = Collection.objects.all()
+
+    if not user.is_authenticated:
+        qs = qs.filter(is_private=False)
+        items_qs = CollectionItem.objects.filter(
+            deleted_at__isnull=True,
+            is_private=False
+        )
+    else:
+        qs = qs.filter(
+            Q(is_private=False) | Q(user=user)
+        )
+
+        items_qs = CollectionItem.objects.filter(
+            deleted_at__isnull=True
+        )
+
+    return qs.annotate(
+        total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
+        total_public=Count('items', filter=Q(items__deleted_at__isnull=True, items__is_private=False)),
+        total_private=Count('items', filter=Q(items__deleted_at__isnull=True, items__is_private=True)),
+    ).prefetch_related(
+        Prefetch('items', queryset=items_qs)
+    )
+    
+def get_collection_with_items(pk_collection, user):
+    collection_qs = Collection.objects.filter(pk=pk_collection)
+
+    is_owner = user.is_authenticated and collection_qs.filter(user=user).exists()
+
+    if not is_owner:
+        collection_qs = collection_qs.filter(is_private=False)
+
+    collection_qs = collection_qs.annotate(
+        total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
+        total_public=Count(
+            'items',
+            filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+        ),
+        total_private=Count(
+            'items',
+            filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+        ),
+    )
+
+    if is_owner:
+        items_qs = CollectionItem.objects.filter(deleted_at__isnull=True)
+    else:
+        items_qs = CollectionItem.objects.filter(
+            deleted_at__isnull=True,
+            is_private=False
+        )
+
+    collection = collection_qs.prefetch_related(
+        Prefetch('items', queryset=items_qs)
+    ).first()
+
+    if not collection:
+        raise PermissionDenied()
+
+    return collection
+
+def get_wishlist_queryset(user):
+    qs = Wishlist.objects.filter(user=user)
+
+    if not user.is_authenticated:
+        qs = qs.filter(is_private=False)
+        items_qs = WishListItem.objects.filter(
+            deleted_at__isnull=True,
+            is_private=False
+        )
+    else:
+        qs = qs.filter(
+            Q(is_private=False) | Q(user=user)
+        )
+
+        items_qs = WishListItem.objects.filter(
+            deleted_at__isnull=True
+        )
+
+    return qs.annotate(
+        total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
+        total_public=Count(
+            'items',
+            filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+        ),
+        total_private=Count(
+            'items',
+            filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+        ),
+    ).prefetch_related(
+        Prefetch('items', queryset=items_qs)
+    )
+    
+def get_wishlist_with_items(pk_wishlist, user):
+    wishlist_qs = Wishlist.objects.filter(pk=pk_wishlist)
+
+    is_owner = user.is_authenticated and wishlist_qs.filter(user=user).exists()
+
+    if not is_owner:
+        wishlist_qs = wishlist_qs.filter(is_private=False)
+
+    wishlist_qs = wishlist_qs.annotate(
+        total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
+        total_public=Count(
+            'items',
+            filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+        ),
+        total_private=Count(
+            'items',
+            filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+        ),
+    )
+
+    if is_owner:
+        items_qs = WishListItem.objects.filter(deleted_at__isnull=True)
+    else:
+        items_qs = WishListItem.objects.filter(
+            deleted_at__isnull=True,
+            is_private=False
+        )
+
+    wishlist = wishlist_qs.prefetch_related(
+        Prefetch('items', queryset=items_qs)
+    ).first()
+
+    if not wishlist:
+        raise PermissionDenied()
+
+    return wishlist

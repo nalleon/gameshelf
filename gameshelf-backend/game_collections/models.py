@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from shared.models import SoftDeleteModel
+from django.db.models.functions import Lower
 
 
 class Item(SoftDeleteModel):
@@ -31,9 +32,19 @@ class Collection(SoftDeleteModel):
     is_private = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                Lower('name'),
+                'user',
+                condition=models.Q(deleted_at__isnull=True),
+                name='unique_collection_name_per_user_ci'
+            )
+        ]
 
 
-class CollectionItem(Item):     
+class CollectionItem(Item):
     is_private = models.BooleanField(default=False)
 
     collection = models.ForeignKey(
@@ -45,10 +56,17 @@ class CollectionItem(Item):
     game = models.ForeignKey(
         'games.Game',
         related_name='collection_items',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        on_delete=models.CASCADE,
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['collection', 'game', 'type'],
+                condition=models.Q(deleted_at__isnull=True),
+                name='unique_game_per_collection_and_type'
+            )
+        ]
 
 
 class Wishlist(SoftDeleteModel):
@@ -88,3 +106,11 @@ class WishListItem(Item):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['wishlist', 'game', 'type'],
+                condition=models.Q(deleted_at__isnull=True),
+                name='unique_game_per_wishlist_and_type'
+            )
+        ]
