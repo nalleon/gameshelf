@@ -10,24 +10,24 @@
 
     /* Definir las animaciones para que Tailwind las reconozca como clases animate- */
     --animate-divine-flow: divine-flow 10s ease infinite;
+    --animate-legend-flow: legend-flow 5s linear infinite;
     --animate-shimmer: shimmer 4s infinite linear;
-    --animate-twinkle: twinkle 2s ease-in-out infinite;
 
     @keyframes divine-flow {
         0%, 100% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
     }
 
+    @keyframes legend-flow {
+        from { background-position: 0% 50%; }
+        to { background-position: 100% 50%; }
+    }
+
     @keyframes shimmer {
         0% { transform: translateX(-100%) skewX(-15deg); }
         100% { transform: translateX(200%) skewX(-15deg); }
+    
     }
-
-
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.3; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
-  }
 }
 
 @utility divine-gradient {
@@ -40,6 +40,20 @@
         #8ec5fc, /* Azul */
         #ffffff, /* Blanco de salida */
         #ffd700  /* Oro final */
+    ) ;
+    background-size: 300% 300% ;
+}
+
+@utility legend-gradient {
+    background-image: linear-gradient(
+        -45deg, 
+        #FFFFFF,
+        #eff702,
+        #00F2FE, 
+        #FFFFFF,
+        #eff702,
+        #00F2FE,
+        #FFFFFF
     ) ;
     background-size: 300% 300% ;
 }

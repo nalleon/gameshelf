@@ -19,10 +19,10 @@
                         <p class="text-gsmenta font-medium">@{{ profile?.user.username }}</p>
                         <div class="flex flex-wrap gap-2 mt-3">
                             <Badge nombre="role" :role="profile?.role ?? 'unknown'"/>
+                            <Badge nombre="completionist" :completedQuantity="completed ?? 0"/>
                             <Badge nombre="collectionist" :collectionsQuantity="(profile?.user.collections)?.length ?? 0"/>
                             <Badge nombre="wisher" :wishlistQuantity="(profile?.user.wishlist.items)?.length ?? 0"/>
                             <Badge nombre="player" :libraryQuantity="(profile?.user.library)?.length ?? 0"/>
-                            <Badge nombre="completionist" :completedQuantity="completed ?? 0"/>
                             <!-- <p>{{ profile?.role }}</p> -->
                         </div>
                     </div>
