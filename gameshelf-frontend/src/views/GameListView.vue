@@ -14,33 +14,27 @@
             <!-- Grid Principal: 5 columnas en escritorio -->
             <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
                 <!-- Card de Juego (Iteración de 30 elementos) -->
-                <div 
-                v-for="game in games" 
-                :key="game.id"
-                class="group flex flex-col bg-[#161a21] rounded-xl border border-[--color-gsgris]/20 hover:border-[--color-gsmenta]/50 transition-all duration-300 shadow-lg"
+                <div v-for="game in games" :key="game.id"
+                    class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
                 >
-                <!-- Contenedor de Imagen -->
-                <div class="relative aspect-[3/4] rounded-t-xl overflow-hidden">
-                    <img 
-                    :src="game.title" 
-                    :alt="game.title"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    >
-                    <!-- Badge de Plataforma -->
-                    <div class="absolute top-2 left-2 bg-[--color-gsoscuro]/80 backdrop-blur-sm text-[--color-gsmenta] text-[10px] font-bold px-2 py-0.5 rounded border border-[--color-gsmenta]/30 uppercase">
-                    <!-- {{ game.platform }} -->
+                    <!-- Contenedor de Imagen -->
+                    <div class="relative aspect-[3/4] rounded-t-xl overflow-hidden">
+                        <img :src="game.title" :alt="game.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <!-- Badge de Plataforma -->
+                        <div class="absolute top-2 left-2 bg-gsoscuro/80 backdrop-blur-sm text-gsmenta text-[10px] font-bold px-2 py-0.5 rounded border border-gsmenta/30 uppercase">
+                        <!-- {{ game.platform }} -->
+                        </div>
                     </div>
-                </div>
 
-                <!-- Información del Juego -->
-                <div class="p-4 flex flex-col flex-grow">
-                    <h3 class="font-bold text-base line-clamp-1 group-hover:text-[--color-gsmenta] transition-colors">
-                    {{ game.title }}
-                    </h3>
-                    <p class="text-[--color-gsgris] text-xs mt-1 mb-4 italic leading-tight">
-                    <!-- {{ game.developer }} -->
-                    </p>
-                </div>
+                    <!-- Información del Juego -->
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="font-bold text-base line-clamp-1 group-hover:text-[--color-gsmenta] transition-colors">
+                            {{ game.title }}
+                        </h3>
+                        <p class="text-[--color-gsgris] text-xs mt-1 mb-4 italic leading-tight">
+                            <!-- {{ game.developer }} -->
+                        </p>
+                    </div>
                 </div>
             </main>
 
