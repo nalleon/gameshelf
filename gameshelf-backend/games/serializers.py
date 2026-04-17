@@ -19,7 +19,8 @@ class GameSerializer(BaseSerializer):
             'title': instance.title,
             'slug': instance.slug,
             'description': instance.description,
-            'cover_default': self.build_url(instance.cover_default.url),
+            'cover_default': instance.cover_default,
+            'cover_detail': instance.cover_detail,
             'released_at': instance.released_at.isoformat(),
             'platforms': PlatformSerializer(
                 instance.platforms.all(), request=self.request
@@ -43,6 +44,7 @@ class GameSerializer(BaseSerializer):
             'slug': serializers.SlugField(),
             'description': serializers.CharField(),
             'cover_default': serializers.URLField(),
+            'cover_detail': serializers.URLField(),
             'released_at': serializers.DateTimeField(),
             'platforms': PlatformSerializer.get_fields_dict(),
             'genres': GenreSerializer.get_fields_dict(),
@@ -52,7 +54,6 @@ class GameSerializer(BaseSerializer):
             'region': RegionSerializer.get_fields_dict(),
         }
 
-
 class ReviewSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
@@ -60,9 +61,13 @@ class ReviewSerializer(BaseSerializer):
             'content': instance.content,
             'recommend': instance.recommend,
             'game': GameSerializer(instance.game, request=self.request).serialize(),
-            'author': UserSerializer(instance.user, request=self.request).serialize(),
-            'created_at': instance.released_at.isoformat(),
-            'updated_at': instance.released_at.isoformat(),
+            'author': UserSerializer(instance.author, request=self.request).serialize(),
+            'media': [
+                MediaSerializer(m, request=self.request).serialize()
+                for m in instance.media_items.all()
+            ],
+            'created_at': instance.created_at.isoformat(),
+            'updated_at': instance.updated_at.isoformat(),
         }
 
     @staticmethod
@@ -73,27 +78,27 @@ class ReviewSerializer(BaseSerializer):
             'recommend': serializers.BooleanField(),
             'game': GameSerializer.get_fields_dict(),
             'author': UserSerializer.get_fields_dict(),
+            'media': MediaSerializer.get_fields_dict(many=True),
             'created_at': serializers.DateTimeField(),
             'updated_at': serializers.DateTimeField(),
         }
-
-
 class MediaSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
             'id': instance.pk,
-            'image': self.build_url(instance.cover_default.url),
-            'review': ReviewSerializer(instance.review, request=self.request).serialize(),
+            'image': (
+                self.build_url(instance.image.url)
+                if instance.image and hasattr(instance.image, "url")
+                else None
+            ),
         }
 
     @staticmethod
     def get_fields_dict():
         return {
             'id': serializers.IntegerField(),
-            'image': serializers.URLField(),
-            'review': ReviewSerializer.get_fields_dict(),
+            'image': serializers.URLField(allow_null=True),
         }
-
 
 class FavoriteItemSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
@@ -176,15 +181,7 @@ class SaveGameSchemaSerializer(serializers.Serializer):
 class SaveReviewSchemaSerializer(serializers.Serializer):
     content = serializers.CharField()
     recommend = serializers.BooleanField()
-    game = id = serializers.IntegerField()
-    author = serializers.DictField()
-    updated_at = serializers.DateTimeField()
-
-
-class SaveMediaSchemaSerializer(serializers.Serializer):
-    image = serializers.URLField()
-    review = ReviewSchemaSerializer()
-
+    game_id = serializers.IntegerField()
 
 class SaveFavoriteSchemaSerializer(serializers.Serializer):
     game = id = serializers.IntegerField()
@@ -192,3 +189,9 @@ class SaveFavoriteSchemaSerializer(serializers.Serializer):
 
 class UpdateFavoriteSchemaSerializer(serializers.Serializer):
     order = serializers.IntegerField(default=1)
+    
+class ReviewMediaUploadSerializer(serializers.Serializer):
+    images = serializers.ListField(
+        child=serializers.ImageField(),
+        allow_empty=False
+    )

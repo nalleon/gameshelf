@@ -1,32 +1,35 @@
 from django.contrib.auth import get_user_model
+from django.db import models
+from django.db.models import Max
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema, extend_schema_view
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import FormParser, MultiPartParser
 
 from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
-from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
+from shared.decorators import require_fields, require_json_body, require_role
+from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
 from users.models import Profile
-from django.db.models import Max
-from shared.serializers import ErrorResponseSerializer
-from .models import FavoriteItem, Game, Review
+
+from .models import FavoriteItem, Game, Media, Review
 from .serializers import (
     FavoriteItemSerializer,
     FavoriteSchemaSerializer,
     GameSchemaSerializer,
     GameSerializer,
     IGBDRequestGameSchema,
+    ReviewMediaUploadSerializer,
     ReviewSchemaSerializer,
     ReviewSerializer,
     SaveFavoriteSchemaSerializer,
     SaveGameSchemaSerializer,
     SaveReviewSchemaSerializer,
-    UpdateFavoriteSchemaSerializer
+    UpdateFavoriteSchemaSerializer,
 )
 from .services.igdb import import_games, search_games_by_title
-from django.db import models
 
 User = get_user_model()
 
@@ -84,7 +87,6 @@ User = get_user_model()
 )
 @api_view(['POST', 'GET'])
 @csrf_exempt
-@require_http_methods('POST', 'GET')
 @auth_required
 def igdb_wrapper(request):
     match request.method:
@@ -102,7 +104,6 @@ def igdb_wrapper(request):
 )
 @api_view(['GET'])
 @csrf_exempt
-@require_http_methods('GET')
 def game_wrapper(request):
     match request.method:
         case 'GET':
@@ -110,7 +111,6 @@ def game_wrapper(request):
 
 
 @csrf_exempt
-@require_http_methods('GET')
 def game_list(request):
     games = Game.objects.all()
     serializer = GameSerializer(games, request=request)
@@ -146,7 +146,6 @@ def game_list(request):
 )
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-@require_http_methods('GET', 'PUT', 'DELETE')
 def game_detail_wrapper(request, pk_game: int):
     match request.method:
         case 'GET':
@@ -158,7 +157,6 @@ def game_detail_wrapper(request, pk_game: int):
 
 
 @csrf_exempt
-@require_http_methods('GET')
 def game_detail(request, pk_game: int):
     try:
         game = get_object_or_404(Game, pk=pk_game)
@@ -170,7 +168,6 @@ def game_detail(request, pk_game: int):
 
 
 @csrf_exempt
-@require_http_methods('PUT')
 @require_json_body
 @auth_required
 @require_role(Profile.Role.ADMIN)
@@ -274,7 +271,6 @@ def edit_game(request, pk_game: int):
 
 
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 @require_role(Profile.Role.ADMIN)
 def delete_game(request, pk_game: int):
@@ -289,6 +285,7 @@ def delete_game(request, pk_game: int):
 
 
 # Reviews Methods
+
 
 @extend_schema(
     responses={200: ReviewSchemaSerializer, 404: None},
@@ -308,7 +305,6 @@ def delete_game(request, pk_game: int):
 )
 @api_view(['GET', 'POST'])
 @csrf_exempt
-@require_http_methods(['GET', 'POST'])
 def review_wrapper(request):
     match request.method:
         case 'GET':
@@ -318,37 +314,37 @@ def review_wrapper(request):
 
 
 @csrf_exempt
-@require_http_methods('GET')
 def review_list(request):
     reviews = Review.objects.all()
     serializer = ReviewSerializer(reviews, request=request)
     return serializer.json_response()
 
+
 # Public Method
 @csrf_exempt
-@require_http_methods('POST')
 @require_json_body
-@require_fields('content', 'recommend', 'pk_game')
+@require_fields('content', 'recommend', 'game_id')
 @auth_required
 def add_review(request):
     payload = request.json
     content = payload['content']
     recommend = payload['recommend']
-    pk_game = payload['pk_game']
+    game_id = payload['game_id']
 
     try:
-        game = get_object_or_404(Game, pk_game)
+        game = get_object_or_404(Game, pk=game_id)
     except Http404:
         return JsonResponse({'error': 'Game associated not found'}, status=404)
 
     user = request.user
 
-    review = Review.objects.create(content=content, recommend=recommend, game=game, user=user)
+    review = Review.objects.create(content=content, recommend=recommend, game=game, author=user)
     return JsonResponse({'id': review.pk}, status=200)
+
 
 @extend_schema(
     responses={200: ReviewSchemaSerializer, 404: None},
-    description='Get all reviews',
+    description='Get review detail',
     operation_id='get_review_detail',
     parameters=[
         OpenApiParameter(
@@ -404,7 +400,6 @@ def add_review(request):
 )
 @api_view(['GET', 'PATCH', 'DELETE'])
 @csrf_exempt
-@require_http_methods('GET', 'PATCH', 'DELETE')
 def review_detail_wrapper(request, pk_review: int):
     match request.method:
         case 'GET':
@@ -413,10 +408,9 @@ def review_detail_wrapper(request, pk_review: int):
             return edit_review(request, pk_review)
         case 'DELETE':
             return delete_review(request, pk_review)
-        
+
 
 @csrf_exempt
-@require_http_methods('GET')
 def review_detail(request, pk_review: int):
     try:
         review = get_object_or_404(Review, pk=pk_review)
@@ -427,10 +421,8 @@ def review_detail(request, pk_review: int):
     return serializer.json_response()
 
 
-
 # Public method
 @csrf_exempt
-@require_http_methods('PATCH')
 @require_json_body
 @auth_required
 def edit_review(request, pk_review: int):
@@ -480,8 +472,8 @@ def edit_review(request, pk_review: int):
 
 # Public method
 
+
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 def delete_review(request, pk_review: int):
 
@@ -498,6 +490,81 @@ def delete_review(request, pk_review: int):
     return JsonResponse(status=200)
 
 
+@extend_schema(
+    request=ReviewMediaUploadSerializer,
+    responses={
+        200: {
+            'type': 'object',
+            'properties': {'ids': {'type': 'array', 'items': {'type': 'integer'}}},
+        },
+        400: None,
+        403: None,
+        404: None,
+    },
+    description='Upload media files to a review',
+    operation_id='add_review_media',
+)
+@parser_classes([MultiPartParser, FormParser])
+@api_view(['POST'])
+@csrf_exempt
+@auth_required
+def add_review_media(request, pk_review: int):
+
+    try:
+        review = get_object_or_404(Review, pk=pk_review)
+    except Http404:
+        return JsonResponse({'error': 'Review not found'}, status=404)
+
+    if request.user != review.author:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    files = request.FILES.getlist('images')
+
+    if not files:
+        return JsonResponse({'error': 'At least one image is required'}, status=400)
+
+    media_ids = []
+
+    for file in files:
+        media = Media.objects.create(review=review, image=file)
+        media_ids.append(media.pk)
+
+    return JsonResponse({'ids': media_ids}, status=200)
+
+
+@extend_schema_view(
+    delete=extend_schema(
+        responses={200: None, 403: None, 404: None},
+        description='Delete a review media item',
+        operation_id='delete_review_media',
+        parameters=[
+            OpenApiParameter(
+                name='pk_media',
+                type=OpenApiTypes.INT,
+                location=OpenApiParameter.PATH,
+                description='ID of the media to delete',
+                required=True,
+            ),
+        ],
+    ),
+)
+@api_view(['DELETE'])
+@csrf_exempt
+@auth_required
+def delete_review_media(request, pk_media: int):
+
+    try:
+        media = get_object_or_404(Media, pk=pk_media)
+    except Http404:
+        return JsonResponse({'error': 'Media not found'}, status=404)
+
+    if request.user != media.review.author:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    media.delete()
+    return JsonResponse({}, status=204)
+
+
 ##############################
 # Media Methods
 ##############################
@@ -510,7 +577,7 @@ def delete_review(request, pk_review: int):
 # )
 # @api_view(['GET'])
 # @csrf_exempt
-# @require_http_methods('GET')
+#
 # def media_list(request):
 #     medias = Media.objects.all()
 #     serializer = MediaSerializer(medias, request=request)
@@ -533,7 +600,7 @@ def delete_review(request, pk_review: int):
 # )
 # @api_view(['GET'])
 # @csrf_exempt
-# @require_http_methods('GET')
+#
 # def media_detail(request, pk_media: int):
 #     try:
 #         media = get_object_or_404(Media, pk=pk_media)
@@ -553,7 +620,7 @@ def delete_review(request, pk_review: int):
 # )
 # @api_view(['POST'])
 # @csrf_exempt
-# @require_http_methods('POST')
+#
 # @require_json_body
 # @require_fields('image', 'pk_review')
 # @auth_required
@@ -598,7 +665,7 @@ def delete_review(request, pk_review: int):
 # )
 # @api_view(['PUT'])
 # @csrf_exempt
-# @require_http_methods('PUT')
+#
 # @require_json_body
 # @auth_required
 # @require_role(Profile.Role.ADMIN)
@@ -656,7 +723,7 @@ def delete_review(request, pk_review: int):
 # )
 # @api_view(['DELETE'])
 # @csrf_exempt
-# @require_http_methods('DELETE')
+#
 # @auth_required
 # def delete_media(request, pk_media: int):
 
@@ -674,6 +741,7 @@ def delete_review(request, pk_review: int):
 
 
 # Favorite Methods
+
 
 @extend_schema_view(
     get=extend_schema(
@@ -694,24 +762,23 @@ def delete_review(request, pk_review: int):
 )
 @api_view(['GET', 'POST'])
 @csrf_exempt
-@require_http_methods(['GET', 'POST'])
 @auth_required
 def favorites_wrapper(request):
-     match request.method:
+    match request.method:
         case 'POST':
             return add_favorite_item(request)
         case 'GET':
             return favorite_item_list(request)
 
+
 @csrf_exempt
-@require_http_methods('GET')
 def favorite_item_list(request):
     favorite_items = request.user.favorites
     serializer = FavoriteItemSerializer(favorite_items, request=request)
     return serializer.json_response()
 
+
 @csrf_exempt
-@require_http_methods(['POST'])
 @require_json_body
 @require_fields('pk_game')
 @auth_required
@@ -730,20 +797,13 @@ def add_favorite_item(request):
     if FavoriteItem.objects.filter(user=user, game=game).exists():
         return JsonResponse({'error': 'Game already in favorites'}, status=400)
 
-    last_order = (
-        FavoriteItem.objects
-        .filter(user=user)
-        .aggregate(max_order=Max('order'))['max_order']
-    )
+    last_order = FavoriteItem.objects.filter(user=user).aggregate(max_order=Max('order'))[
+        'max_order'
+    ]
 
-    favorite_item = FavoriteItem.objects.create(
-        game=game,
-        user=user,
-        order=(last_order or 0) + 1
-    )
+    favorite_item = FavoriteItem.objects.create(game=game, user=user, order=(last_order or 0) + 1)
 
     return JsonResponse({'id': favorite_item.pk}, status=200)
-
 
 
 @extend_schema_view(
@@ -788,7 +848,6 @@ def add_favorite_item(request):
 )
 @api_view(['PATCH', 'DELETE'])
 @csrf_exempt
-@require_http_methods(['PATCH', 'DELETE'])
 @auth_required
 def favorites_detail_wrapper(request, pk_favorite: int):
 
@@ -798,10 +857,9 @@ def favorites_detail_wrapper(request, pk_favorite: int):
 
         case 'DELETE':
             return delete_favorite_item(request, pk_favorite)
-        
+
 
 @csrf_exempt
-@require_http_methods('PATCH')
 @require_json_body
 @require_fields('order')
 @auth_required
@@ -826,15 +884,13 @@ def edit_favorite_item(request, pk_favorite: int):
     user_favorites = FavoriteItem.objects.filter(user=request.user)
 
     if new_order > old_order:
-        user_favorites.filter(
-            order__gt=old_order,
-            order__lte=new_order
-        ).update(order=models.F('order') - 1)
+        user_favorites.filter(order__gt=old_order, order__lte=new_order).update(
+            order=models.F('order') - 1
+        )
     else:
-        user_favorites.filter(
-            order__lt=old_order,
-            order__gte=new_order
-        ).update(order=models.F('order') + 1)
+        user_favorites.filter(order__lt=old_order, order__gte=new_order).update(
+            order=models.F('order') + 1
+        )
 
     favorite_item.order = new_order
     favorite_item.save()
@@ -843,7 +899,6 @@ def edit_favorite_item(request, pk_favorite: int):
 
 
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 def delete_favorite_item(request, pk_favorite_item: int):
     try:

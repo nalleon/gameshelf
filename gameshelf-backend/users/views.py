@@ -1,24 +1,39 @@
+from datetime import timedelta
+
 from django.contrib.auth import authenticate, get_user_model
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.db.models import Q
 
-from shared.decorators import require_fields, require_http_methods, require_json_body
+from shared.decorators import require_fields, require_json_body
+from shared.serializers import ErrorResponseSerializer, MessageResponseSerializer
 from users.decorators import auth_required
 
 from .models import Profile, UserToken
-from .serializers import LoginSchemaSerializer, ProfileSerializer, LoggedProfileSerializer, RegisterSchemaSerializer, TokenResponseSerializer, UpdateProfileSerializer, ChangePasswordSerializer, EmailRequestSerializer
-from shared.serializers import MessageResponseSerializer, ErrorResponseSerializer
-from django.utils import timezone
-from datetime import timedelta
-from .tasks import deliver_activation_email, deliver_password_reset_email, deliver_verification_email 
+from .serializers import (
+    ChangePasswordSerializer,
+    EmailRequestSerializer,
+    LoggedProfileSerializer,
+    LoginSchemaSerializer,
+    ProfileSerializer,
+    RegisterSchemaSerializer,
+    TokenResponseSerializer,
+    UpdateProfileSerializer,
+)
+from .tasks import (
+    deliver_activation_email,
+    deliver_password_reset_email,
+    deliver_verification_email,
+)
 
-User = get_user_model()       
+User = get_user_model()
+
 
 # Profile Methods
 @extend_schema(
@@ -32,12 +47,12 @@ User = get_user_model()
 )
 @api_view(['GET'])
 @csrf_exempt
-@require_http_methods('GET')
 @auth_required
 def profile_me(request):
     profile = request.user.profile
     serializer = LoggedProfileSerializer(profile, request=request)
     return serializer.json_response()
+
 
 @extend_schema(
     tags=['profile'],
@@ -47,14 +62,13 @@ def profile_me(request):
 )
 @api_view(['GET'])
 @csrf_exempt
-@require_http_methods('GET')
 def profile_wrapper(request, pk_profile: int):
     match request.method:
         case 'GET':
             return profile_list(request, pk_profile)
-        
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def profile_list(request):
     profiles = Profile.objects.all()
     serializer = ProfileSerializer(profiles, request=request)
@@ -68,7 +82,7 @@ def profile_list(request):
             name='pk_profile',
             type=OpenApiTypes.INT,
             location=OpenApiParameter.PATH,
-            description='Profile ID'
+            description='Profile ID',
         )
     ],
     responses={
@@ -92,16 +106,15 @@ def profile_list(request):
 )
 @api_view(['GET', 'PATCH'])
 @csrf_exempt
-@require_http_methods('GET', 'PATCH')
 def profile_detail_wrapper(request, pk_profile: int):
     match request.method:
         case 'GET':
             return profile_detail(request, pk_profile)
         case 'PATCH':
             return profile_edit(request, pk_profile)
-        
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def profile_detail(request, pk_profile: int):
     try:
         profile = get_object_or_404(Profile, pk=pk_profile)
@@ -113,7 +126,6 @@ def profile_detail(request, pk_profile: int):
 
 
 @csrf_exempt
-@require_http_methods('PATCH')
 @require_json_body
 @auth_required
 def profile_edit(request, pk_profile: int):
@@ -131,13 +143,12 @@ def profile_edit(request, pk_profile: int):
         profile.bio = payload['bio']
 
     if 'avatar' in payload:
-        profile.avatar = payload['avatar'] 
+        profile.avatar = payload['avatar']
 
     if 'color_bg' in payload:
         if not profile.verified:
             return JsonResponse(
-                {'error': 'Only verified users can change background color'},
-                status=403
+                {'error': 'Only verified users can change background color'}, status=403
             )
         profile.color_bg = payload['color_bg']
 
@@ -169,7 +180,7 @@ def profile_edit(request, pk_profile: int):
             type=OpenApiTypes.STR,
             location=OpenApiParameter.QUERY,
             description='Search query (username, first name or last name)',
-            required=True
+            required=True,
         )
     ],
     responses={200: ProfileSerializer},
@@ -177,7 +188,6 @@ def profile_edit(request, pk_profile: int):
     operation_id='searchProfiles',
 )
 @api_view(['GET'])
-@require_http_methods('GET')
 def search_by_name(request):
     query = request.GET.get('q', '').strip()
 
@@ -185,13 +195,14 @@ def search_by_name(request):
         return JsonResponse({'error': 'Query parameter "q" is required'}, status=400)
 
     profiles = Profile.objects.select_related('user').filter(
-        Q(user__username__icontains=query) |
-        Q(user__first_name__icontains=query) |
-        Q(user__last_name__icontains=query)
+        Q(user__username__icontains=query)
+        | Q(user__first_name__icontains=query)
+        | Q(user__last_name__icontains=query)
     )
 
     serializer = ProfileSerializer(profiles, request=request)
     return serializer.json_response()
+
 
 # Auth methods
 @extend_schema(
@@ -206,7 +217,6 @@ def search_by_name(request):
 )
 @api_view(['POST'])
 @csrf_exempt
-@require_http_methods('POST')
 @require_json_body
 @require_fields('username', 'password', 'email')
 def user_register(request):
@@ -253,7 +263,6 @@ def user_register(request):
 )
 @api_view(['POST'])
 @csrf_exempt
-@require_http_methods('POST')
 @require_json_body
 @require_fields('login', 'password')
 def user_login(request):
@@ -283,7 +292,6 @@ def user_login(request):
     return JsonResponse({'token': str(refresh.access_token)}, status=201)
 
 
-
 @extend_schema(
     tags=['auth'],
     request=EmailRequestSerializer,
@@ -307,16 +315,15 @@ def request_password_reset(request):
         token = UserToken.objects.create(
             user=user,
             type=UserToken.TokenType.CHANGE_PASSWORD,
-            expires_at=timezone.now() + timedelta(hours=1)
+            expires_at=timezone.now() + timedelta(hours=1),
         )
 
         deliver_password_reset_email.delay(
-            base_url=request.build_absolute_uri(),
-            user=user,
-            token=str(token.token)
+            base_url=request.build_absolute_uri(), user=user, token=str(token.token)
         )
 
     return JsonResponse({'message': 'If account exists, email sent'})
+
 
 @extend_schema(
     tags=['auth'],
@@ -331,7 +338,6 @@ def request_password_reset(request):
 )
 @api_view(['POST'])
 @csrf_exempt
-@require_http_methods('POST')
 @require_json_body
 @require_fields('old_password', 'new_password')
 @auth_required
@@ -344,10 +350,7 @@ def change_password(request):
 
     user.set_password(payload['new_password'])
     user.save()
-    UserToken.objects.filter(
-        user=user,
-        type=UserToken.TokenType.CHANGE_PASSWORD
-    ).delete()
+    UserToken.objects.filter(user=user, type=UserToken.TokenType.CHANGE_PASSWORD).delete()
 
     return JsonResponse({'message': 'Password updated successfully'}, status=200)
 
@@ -370,13 +373,11 @@ def send_verification_email(request):
     token = UserToken.objects.create(
         user=user,
         type=UserToken.TokenType.VERIFY_EMAIL,
-        expires_at=timezone.now() + timedelta(hours=24)
+        expires_at=timezone.now() + timedelta(hours=24),
     )
 
     deliver_verification_email.delay(
-        base_url=request.build_absolute_uri(),
-        user=user,
-        token=str(token.token)
+        base_url=request.build_absolute_uri(), user=user, token=str(token.token)
     )
 
     return JsonResponse({'message': 'Verification email sent'})
@@ -385,10 +386,7 @@ def send_verification_email(request):
 @csrf_exempt
 def verify_email(request, token):
     try:
-        token_obj = UserToken.objects.get(
-            token=token,
-            type=UserToken.TokenType.VERIFY_EMAIL
-        )
+        token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.VERIFY_EMAIL)
     except UserToken.DoesNotExist:
         return JsonResponse({'error': 'Invalid token'}, status=400)
 
@@ -415,7 +413,6 @@ def verify_email(request, token):
 )
 @api_view(['DELETE'])
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 def deactivate_account(request):
     user = request.user
@@ -426,8 +423,9 @@ def deactivate_account(request):
         return JsonResponse({'error': 'Profile not found'}, status=404)
 
     profile.delete()
-    
+
     return JsonResponse({'message': 'Account deactivated'}, status=200)
+
 
 @extend_schema(
     tags=['auth'],
@@ -444,9 +442,7 @@ def deactivate_account(request):
 def send_activation_email(request):
     email = request.json['email']
 
-    profile = Profile.all_objects.select_related('user').filter(
-        user__email=email
-    ).first()
+    profile = Profile.all_objects.select_related('user').filter(user__email=email).first()
 
     user = profile.user if profile else None
 
@@ -454,13 +450,11 @@ def send_activation_email(request):
         token = UserToken.objects.create(
             user=user,
             type=UserToken.TokenType.ACTIVATE_ACCOUNT,
-            expires_at=timezone.now() + timedelta(hours=24)
+            expires_at=timezone.now() + timedelta(hours=24),
         )
 
         deliver_activation_email.delay(
-            base_url=request.build_absolute_uri(),
-            user=user, 
-            token=str(token.token)
+            base_url=request.build_absolute_uri(), user=user, token=str(token.token)
         )
 
     return JsonResponse({'message': 'If account exists, email sent'})
@@ -469,10 +463,7 @@ def send_activation_email(request):
 @csrf_exempt
 def restore_account(request, token):
     try:
-        token_obj = UserToken.objects.get(
-            token=token,
-            type=UserToken.TokenType.VERIFY_EMAIL
-        )
+        token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.VERIFY_EMAIL)
     except UserToken.DoesNotExist:
         return JsonResponse({'error': 'Invalid token'}, status=400)
 
@@ -487,8 +478,5 @@ def restore_account(request, token):
 
     profile.restore()
     token_obj.delete()
-    
+
     return JsonResponse({'message': 'Account restored'}, status=200)
-
-
-

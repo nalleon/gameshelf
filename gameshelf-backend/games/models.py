@@ -86,7 +86,7 @@ class Review(SoftDeleteModel):
 
 class Media(SoftDeleteModel):
     image = models.ImageField(
-        upload_to='reviews/', default='reviews/default.png', null=True, blank=True
+        upload_to='reviews/', default='reviews/default.png', blank=True
     )
     review = models.ForeignKey('games.Review', related_name='media_items', on_delete=models.CASCADE)
 

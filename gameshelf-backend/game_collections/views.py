@@ -6,24 +6,24 @@ from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema
 from rest_framework.decorators import api_view
 
 from games.models import Game
-from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
-from users.decorators import auth_required
+from shared.decorators import require_fields, require_json_body
 from shared.serializers import ErrorResponseSerializer
+from users.decorators import auth_required
 
-from .models import Collection, CollectionItem, WishListItem, Wishlist
+from .models import Collection, CollectionItem, Wishlist, WishListItem
 from .serializers import (
     CollectionItemSchemaSerializer,
     CollectionItemSerializer,
     CollectionSchemaSerializer,
     CollectionSerializer,
+    CreateWishlistItemSchemaSerializer,
     SaveCollectionItemSchemaSerializer,
     SaveListSchemaSerializer,
-    WishlistItemSerializer,
-    CreateWishlistItemSchemaSerializer,
-    WishlistSchemaSerializer,
+    UpdateWishlistItemSchemaSerializer,
     WishlistItemSchemaSerializer,
+    WishlistItemSerializer,
+    WishlistSchemaSerializer,
     WishlistSerializer,
-    UpdateWishlistItemSchemaSerializer
 )
 
 User = get_user_model()
@@ -49,7 +49,6 @@ User = get_user_model()
     operation_id='create_collection',
 )
 @api_view(['GET', 'POST'])
-@require_http_methods('GET', 'POST')
 def collection_wrapper(request):
     match request.method:
         case 'GET':
@@ -86,6 +85,7 @@ def create_collection(request):
 
 # Method for making the API restful
 
+
 @extend_schema_view(
     get=extend_schema(
         responses={200: CollectionSchemaSerializer},
@@ -101,7 +101,6 @@ def create_collection(request):
         ],
         operation_id='get_collection',
     ),
-
     post=extend_schema(
         request=SaveCollectionItemSchemaSerializer,
         responses={
@@ -113,7 +112,6 @@ def create_collection(request):
         description='Add a game to your own collection',
         operation_id='add_collection',
     ),
-
     delete=extend_schema(
         request=None,
         responses={
@@ -133,7 +131,6 @@ def create_collection(request):
         ],
         operation_id='delete_collection',
     ),
-
     patch=extend_schema(
         request=SaveListSchemaSerializer,
         responses={200: CollectionSerializer},
@@ -143,7 +140,6 @@ def create_collection(request):
 )
 @api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 @csrf_exempt
-@require_http_methods('GET', 'POST', 'DELETE', 'PATCH')
 def collection_items_wrapper(request, pk_collection):
     match request.method:
         case 'GET':
@@ -155,9 +151,9 @@ def collection_items_wrapper(request, pk_collection):
         case 'PATCH':
             return edit_collection(request, pk_collection)
 
+
 # This method is public to get all items from a collection
 @csrf_exempt
-@require_http_methods('GET')
 def collection_item_list(request, pk_collection):
     collection = get_object_or_404(Collection, pk=pk_collection)
     serializer = CollectionSerializer(collection, request=request)
@@ -187,7 +183,6 @@ def add_self_collection_item(request, pk_collection):
 
 # This method is public to delete a collection
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 def delete_collection(request, pk_collection: int):
     try:
@@ -200,6 +195,7 @@ def delete_collection(request, pk_collection: int):
 
     collection.delete()
     return JsonResponse(status=204)
+
 
 @require_json_body
 @require_fields('name', 'is_private')
@@ -216,7 +212,7 @@ def edit_collection(request, pk_collection: int):
 
     collection.name = name
     collection.is_private = is_private
-   
+
     collection.save()
 
     serializer = CollectionSerializer(collection, request=request)
@@ -275,9 +271,7 @@ def edit_collection(request, pk_collection: int):
     patch=extend_schema(
         request={
             'type': 'object',
-            'properties': {
-                'is_private': {'type': 'boolean'}
-            },
+            'properties': {'is_private': {'type': 'boolean'}},
         },
         responses={200: CollectionItemSchemaSerializer},
         description='Edit the is_private field of a collection item',
@@ -286,7 +280,6 @@ def edit_collection(request, pk_collection: int):
 )
 @api_view(['GET', 'DELETE', 'PATCH'])
 @csrf_exempt
-@require_http_methods('GET', 'DELETE', 'PATCH')
 def collection_item_detail_wrapper(request, pk_collection: int, pk_collection_item: int):
     match request.method:
         case 'GET':
@@ -313,7 +306,6 @@ def collection_item_detail(request, pk_collection: int, pk_collection_item: int)
 
 # This method is public to delete an item of a collection
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 def delete_collection_item(request, pk_collection: int, pk_collection_item: int):
     try:
@@ -329,14 +321,13 @@ def delete_collection_item(request, pk_collection: int, pk_collection_item: int)
     collection_item.delete()
     return JsonResponse(status=204)
 
+
 @require_json_body
 @require_fields('is_private')
 @auth_required
 def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
     collection_item = get_object_or_404(
-        CollectionItem,
-        pk=pk_collection_item,
-        collection_id=pk_collection
+        CollectionItem, pk=pk_collection_item, collection_id=pk_collection
     )
 
     collection = collection_item.collection
@@ -346,7 +337,7 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
 
     payload = request.json
     is_private = payload['is_private']
-    
+
     if is_private != collection_item.is_private:
         collection_item.is_private = is_private
         collection_item.save()
@@ -359,6 +350,7 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
 # Wishlist methods
 #############################
 
+
 # Method for making the API restful
 @extend_schema(
     responses={200: WishlistSchemaSerializer},
@@ -366,7 +358,6 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
     operation_id='get_own_wishlist',
 )
 @api_view(['GET'])
-@require_http_methods('GET')
 @auth_required
 def wishlist_wrapper(request):
     match request.method:
@@ -418,7 +409,6 @@ def own_wishlist_detail(request):
 )
 @api_view(['GET', 'POST', 'PATCH'])
 @csrf_exempt
-@require_http_methods(['GET', 'POST', 'PATCH'])
 @auth_required
 def wishlist_items_wrapper(request, pk_wishlist: int):
     match request.method:
@@ -430,20 +420,19 @@ def wishlist_items_wrapper(request, pk_wishlist: int):
             return edit_wishlist(request, pk_wishlist)
 
 
-
 @csrf_exempt
-def get_wishlist(request, pk_wishlist : int):
+def get_wishlist(request, pk_wishlist: int):
     wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
     serializer = CollectionSerializer(wishlist, request=request)
 
-    
     return JsonResponse(serializer.serialize(), status=201)
+
 
 @csrf_exempt
 @require_json_body
 @require_fields('game_id', 'priority', 'annotation')
 @auth_required
-def add_self_wishlist_item(request, pk_wishlist : int):
+def add_self_wishlist_item(request, pk_wishlist: int):
     wishlist = check_wishlist_ownership(request.user, pk_wishlist)
 
     payload = request.json
@@ -454,10 +443,7 @@ def add_self_wishlist_item(request, pk_wishlist : int):
     game = get_object_or_404(Game, pk=pk_game)
 
     wishlist_item = WishListItem.objects.create(
-        wishlist=wishlist,
-        game=game,
-        priority=priority,
-        annotation=annotation
+        wishlist=wishlist, game=game, priority=priority, annotation=annotation
     )
     serializer = WishlistItemSerializer(wishlist_item, request=request)
     return JsonResponse(serializer.serialize(), status=201)
@@ -466,7 +452,7 @@ def add_self_wishlist_item(request, pk_wishlist : int):
 @require_json_body
 @require_fields('name', 'is_private')
 @auth_required
-def edit_wishlist(request, pk_wishlist : int):
+def edit_wishlist(request, pk_wishlist: int):
     wishlist = check_wishlist_ownership(request.user, pk_wishlist)
 
     payload = request.json
@@ -486,13 +472,11 @@ def edit_wishlist(request, pk_wishlist : int):
     return JsonResponse(serializer.serialize())
 
 
-
 @extend_schema(
     methods=['GET'],
     responses={200: WishlistItemSchemaSerializer},
     description='Get a wishlist item',
     operation_id='get_wishlist_item',
-
 )
 @extend_schema(
     methods=['DELETE'],
@@ -514,7 +498,6 @@ def edit_wishlist(request, pk_wishlist : int):
 )
 @api_view(['GET', 'DELETE', 'PATCH'])
 @csrf_exempt
-@require_http_methods('GET', 'DELETE', 'PATCH')
 @auth_required
 def wishlist_item_detail_wrapper(request, pk_wishlist_item: int):
     match request.method:
@@ -527,7 +510,6 @@ def wishlist_item_detail_wrapper(request, pk_wishlist_item: int):
 
 
 @csrf_exempt
-@require_http_methods('GET')
 @auth_required
 def wishlist_item_detail(request, pk_wishlist_item: int):
     wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
@@ -536,7 +518,6 @@ def wishlist_item_detail(request, pk_wishlist_item: int):
 
 
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 def delete_wishlist_item(request, pk_wishlist_item: int):
     wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
@@ -549,13 +530,12 @@ def delete_wishlist_item(request, pk_wishlist_item: int):
 @require_fields('priority', 'annotation', 'is_private')
 @auth_required
 def edit_wishlist_item(request, pk_wishlist_item: int):
-    
-    
+
     wishlist_item = check_wishlistitem_ownership(request.user, pk_wishlist_item)
 
     payload = request.json
     updated = False
-    
+
     if 'priority' in payload:
         wishlist_item.priority = payload['priority']
         updated = True
@@ -577,12 +557,14 @@ def edit_wishlist_item(request, pk_wishlist_item: int):
 # Auxiliar methods
 ######################################
 
+
 def check_wishlist_ownership(user, pk_wishlist):
     wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
 
     if wishlist.user != user:
         return JsonResponse({'error': 'Forbidden'}, status=403)
-    
+
+
 def check_wishlistitem_ownership(user, pk_wishlist_item):
     wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
     if wishlist_item.wishlist.user != user:

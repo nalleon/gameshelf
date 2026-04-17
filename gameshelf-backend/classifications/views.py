@@ -4,12 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema, extend_schema_view
 from rest_framework.decorators import api_view
 
-from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
+from shared.decorators import require_fields, require_json_body, require_role
 from users.decorators import auth_required
 from users.models import Profile
 
 from .models import Developer, Edition, Genre, Platform, Publisher, Region
-
 from .serializers import (
     ClassificationSchemaSerializer,
     DeveloperSerializer,
@@ -21,11 +20,12 @@ from .serializers import (
     PublisherSerializer,
     RegionSchemaSerializer,
     RegionSerializer,
+    SaveClassificationSchemaSerializer,
     SaveGenreSchemaSerializer,
     SavePlatformSchemaSerializer,
     SaveRegionSchemaSerializer,
-    SaveClassificationSchemaSerializer
 )
+
 
 @extend_schema_view(
     get=extend_schema(
@@ -45,7 +45,6 @@ from .serializers import (
 )
 @api_view(['GET'])
 @csrf_exempt
-@require_http_methods(['GET'])
 def platform_wrapper(request, pk_platform: int = None):
 
     match request.method:
@@ -53,10 +52,9 @@ def platform_wrapper(request, pk_platform: int = None):
             if pk_platform:
                 return platform_detail(request, pk_platform)
             return platform_list(request)
-        
+
 
 @csrf_exempt
-@require_http_methods('GET')
 def platform_list(request):
     platforms = Platform.objects.all()
     serializer = PlatformSerializer(platforms, request=request)
@@ -80,10 +78,7 @@ def platform_list(request):
     ),
     put=extend_schema(
         request=SavePlatformSchemaSerializer,
-        responses={
-            200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-            404: None
-        },
+        responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
         description='Update an existing platform',
         operation_id='update_platform',
         parameters=[
@@ -113,7 +108,6 @@ def platform_list(request):
 )
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-@require_http_methods(['GET', 'PUT', 'DELETE'])
 def platform_detail_wrapper(request, pk_platform: int):
 
     match request.method:
@@ -125,9 +119,9 @@ def platform_detail_wrapper(request, pk_platform: int):
 
         case 'DELETE':
             return delete_platform(request, pk_platform)
-        
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def platform_detail(request, pk_platform: int):
     try:
         platform = get_object_or_404(Platform, pk=pk_platform)
@@ -139,7 +133,6 @@ def platform_detail(request, pk_platform: int):
 
 
 @csrf_exempt
-@require_http_methods('PUT')
 @require_json_body
 @auth_required
 @require_role(Profile.Role.ADMIN)
@@ -164,7 +157,6 @@ def edit_platform(request, pk_platform: int):
 
 
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 @require_role(Profile.Role.ADMIN)
 def delete_platform(request, pk_platform: int):
@@ -180,6 +172,7 @@ def delete_platform(request, pk_platform: int):
 
 # Genre methods
 
+
 @extend_schema_view(
     get=extend_schema(
         responses={200: GenreSchemaSerializer, 404: None},
@@ -189,21 +182,20 @@ def delete_platform(request, pk_platform: int):
 )
 @api_view(['GET'])
 @csrf_exempt
-@require_http_methods(['GET'])
 @auth_required
 def genre_wrapper(request):
 
     match request.method:
         case 'GET':
             return genre_list(request)
-        
+
 
 @csrf_exempt
-@require_http_methods('GET')
 def genre_list(request):
     genres = Genre.objects.all()
     serializer = GenreSerializer(genres, request=request)
     return serializer.json_response()
+
 
 @extend_schema_view(
     get=extend_schema(
@@ -222,10 +214,7 @@ def genre_list(request):
     ),
     put=extend_schema(
         request=SaveGenreSchemaSerializer,
-        responses={
-            200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-            404: None
-        },
+        responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
         description='Update an existing genre',
         operation_id='update_genre',
         parameters=[
@@ -255,7 +244,6 @@ def genre_list(request):
 )
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-@require_http_methods(['GET', 'PUT', 'DELETE'])
 def genre_detail_wrapper(request, pk_genre: int):
 
     match request.method:
@@ -267,9 +255,9 @@ def genre_detail_wrapper(request, pk_genre: int):
 
         case 'DELETE':
             return delete_genre(request, pk_genre)
-        
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def genre_detail(request, pk_genre: int):
     try:
         genre = get_object_or_404(Genre, pk=pk_genre)
@@ -281,7 +269,6 @@ def genre_detail(request, pk_genre: int):
 
 
 @csrf_exempt
-@require_http_methods('PUT')
 @require_json_body
 @auth_required
 @require_role(Profile.Role.ADMIN)
@@ -309,7 +296,6 @@ def edit_genre(request, pk_genre: int):
 
 
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 @require_role(Profile.Role.ADMIN)
 def delete_genre(request, pk_genre: int):
@@ -332,15 +318,14 @@ def delete_genre(request, pk_genre: int):
 )
 @api_view(['GET'])
 @csrf_exempt
-@require_http_methods(['GET'])
 def developer_wrapper(request):
 
     match request.method:
         case 'GET':
             return developer_list(request)
 
+
 @csrf_exempt
-@require_http_methods('GET')
 def developer_list(request):
     developers = Developer.objects.all()
     serializer = DeveloperSerializer(developers, request=request)
@@ -364,10 +349,7 @@ def developer_list(request):
     ),
     put=extend_schema(
         request=ClassificationSchemaSerializer,
-        responses={
-            200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-            404: None
-        },
+        responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
         description='Update an existing developer',
         operation_id='update_developer',
         parameters=[
@@ -398,7 +380,6 @@ def developer_list(request):
 )
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-@require_http_methods(['GET', 'PUT', 'DELETE'])
 def developer_detail_wrapper(request, pk_developer: int):
 
     match request.method:
@@ -410,9 +391,9 @@ def developer_detail_wrapper(request, pk_developer: int):
 
         case 'DELETE':
             return delete_developer(request, pk_developer)
-        
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def developer_detail(request, pk_developer: int):
     try:
         developer = get_object_or_404(Developer, pk=pk_developer)
@@ -424,7 +405,6 @@ def developer_detail(request, pk_developer: int):
 
 
 @csrf_exempt
-@require_http_methods('PUT')
 @require_json_body
 @auth_required
 @require_role(Profile.Role.ADMIN)
@@ -449,7 +429,6 @@ def edit_developer(request, pk_developer: int):
 
 
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 @require_role(Profile.Role.ADMIN)
 def delete_developer(request, pk_developer: int):
@@ -461,6 +440,7 @@ def delete_developer(request, pk_developer: int):
     developer.delete()
     return JsonResponse(status=200)
 
+
 # Publisher methods
 @extend_schema_view(
     get=extend_schema(
@@ -471,18 +451,18 @@ def delete_developer(request, pk_developer: int):
 )
 @api_view(['GET'])
 @csrf_exempt
-@require_http_methods(['GET'])
 def publisher_wrapper(request):
     match request.method:
         case 'GET':
             return publisher_list(request)
-        
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def publisher_list(request):
     publishers = Publisher.objects.all()
     serializer = PublisherSerializer(publishers, request=request)
     return serializer.json_response()
+
 
 @extend_schema_view(
     get=extend_schema(
@@ -535,7 +515,6 @@ def publisher_list(request):
 )
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-@require_http_methods(['GET', 'PUT', 'DELETE'])
 def publisher_detail_wrapper(request, pk_publisher: int):
 
     match request.method:
@@ -548,8 +527,8 @@ def publisher_detail_wrapper(request, pk_publisher: int):
         case 'DELETE':
             return delete_publisher(request, pk_publisher)
 
+
 @csrf_exempt
-@require_http_methods('GET')
 def publisher_detail(request, pk_publisher: int):
     try:
         publisher = get_object_or_404(Publisher, pk=pk_publisher)
@@ -561,7 +540,6 @@ def publisher_detail(request, pk_publisher: int):
 
 
 @csrf_exempt
-@require_http_methods('PUT')
 @require_json_body
 @auth_required
 @require_role(Profile.Role.ADMIN)
@@ -586,7 +564,6 @@ def edit_publisher(request, pk_publisher: int):
 
 
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 @require_role(Profile.Role.ADMIN)
 def delete_publisher(request, pk_publisher: int):
@@ -600,6 +577,7 @@ def delete_publisher(request, pk_publisher: int):
 
 
 # Edition methods
+
 
 @extend_schema_view(
     get=extend_schema(
@@ -620,7 +598,6 @@ def delete_publisher(request, pk_publisher: int):
 )
 @api_view(['GET', 'POST'])
 @csrf_exempt
-@require_http_methods(['GET', 'POST'])
 def edition_wrapper(request):
 
     match request.method:
@@ -628,9 +605,10 @@ def edition_wrapper(request):
             return edition_list(request)
 
         case 'POST':
-            return add_edition(request)        
+            return add_edition(request)
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def edition_list(request):
     editions = Edition.objects.all()
     serializer = EditionSerializer(editions, request=request)
@@ -638,7 +616,6 @@ def edition_list(request):
 
 
 @csrf_exempt
-@require_http_methods('POST')
 @require_json_body
 @require_fields('name', 'description')
 @auth_required
@@ -650,6 +627,7 @@ def add_edition(request):
 
     edition = Edition.objects.create(name=name, description=description)
     return JsonResponse({'id': edition.pk}, status=200)
+
 
 @extend_schema_view(
     get=extend_schema(
@@ -702,7 +680,6 @@ def add_edition(request):
 )
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-@require_http_methods(['GET', 'PUT', 'DELETE'])
 def edition_detail_wrapper(request, pk_edition: int):
 
     match request.method:
@@ -714,10 +691,9 @@ def edition_detail_wrapper(request, pk_edition: int):
 
         case 'DELETE':
             return delete_edition(request, pk_edition)
-       
+
 
 @csrf_exempt
-@require_http_methods('GET')
 def edition_detail(request, pk_edition: int):
     try:
         edition = get_object_or_404(Edition, pk=pk_edition)
@@ -727,8 +703,8 @@ def edition_detail(request, pk_edition: int):
     serializer = EditionSerializer(edition, request=request)
     return serializer.json_response()
 
+
 @csrf_exempt
-@require_http_methods('PUT')
 @require_json_body
 @auth_required
 @require_role(Profile.Role.ADMIN)
@@ -753,7 +729,6 @@ def edit_edition(request, pk_edition: int):
 
 
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 @require_role(Profile.Role.ADMIN)
 def delete_edition(request, pk_edition: int):
@@ -768,6 +743,7 @@ def delete_edition(request, pk_edition: int):
 
 # Region methods
 
+
 @extend_schema_view(
     get=extend_schema(
         responses={200: RegionSchemaSerializer, 404: None},
@@ -777,20 +753,18 @@ def delete_edition(request, pk_edition: int):
 )
 @api_view(['GET'])
 @csrf_exempt
-@require_http_methods(['GET'])
 def region_wrapper(request):
 
     match request.method:
         case 'GET':
             return region_list(request)
-        
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def region_list(request):
     regions = Region.objects.all()
     serializer = RegionSerializer(regions, request=request)
     return serializer.json_response()
-
 
 
 @extend_schema_view(
@@ -810,10 +784,7 @@ def region_list(request):
     ),
     put=extend_schema(
         request=SaveRegionSchemaSerializer,
-        responses={
-            200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-            404: None
-        },
+        responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 404: None},
         description='Update an existing region',
         operation_id='update_region',
         parameters=[
@@ -843,7 +814,6 @@ def region_list(request):
 )
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-@require_http_methods(['GET', 'PUT', 'DELETE'])
 def region_detail_wrapper(request, pk_region: int):
 
     match request.method:
@@ -855,10 +825,9 @@ def region_detail_wrapper(request, pk_region: int):
 
         case 'DELETE':
             return delete_region(request, pk_region)
-        
-        
+
+
 @csrf_exempt
-@require_http_methods('GET')
 def region_detail(request, pk_region: int):
     try:
         region = get_object_or_404(Region, pk=pk_region)
@@ -870,7 +839,6 @@ def region_detail(request, pk_region: int):
 
 
 @csrf_exempt
-@require_http_methods('PUT')
 @require_json_body
 @auth_required
 @require_role(Profile.Role.ADMIN)
@@ -900,9 +868,7 @@ def edit_region(request, pk_region: int):
     return JsonResponse({'id': region.pk}, status=200)
 
 
-
 @csrf_exempt
-@require_http_methods('DELETE')
 @auth_required
 @require_role(Profile.Role.ADMIN)
 def delete_region(request, pk_region: int):
