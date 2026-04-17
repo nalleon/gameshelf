@@ -34,7 +34,7 @@ def import_games(request):
     payload = request.json
     quantity = payload['quantity']
 
-    batch_size = 50
+    batch_size = 10
     total_created = 0
     total_skipped = 0
 
@@ -74,6 +74,7 @@ def import_games(request):
         response.raise_for_status()
 
         games_data = response.json()
+        print(games_data)
         if not games_data:
             break
 
@@ -281,20 +282,18 @@ def save_games_to_db(games_data, default_region, default_edition, token):
 
             created_count += 1
 
-            cover_data = g.get('cover_default')
+            cover_data = g.get('cover')
             image_id = cover_data.get('image_id') if cover_data else None
             cover_url_default = build_cover_url(image_id)
 
             if cover_url_default:
                 game.cover_default = cover_url_default
 
-            print(cover_url_default)
             cover_url_detail = build_cover_url(image_id, 'original')
 
             if cover_url_detail:
                 game.cover_detail = cover_url_detail
 
-            print(cover_url_detail)
             
             for genre in g.get('genres', []):
                 if 'name' in genre:
@@ -359,8 +358,8 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                     game.age_rating = 'TBA'
                     game.mature_content = True
 
-                game.save()
-                created_games.append(game)
+            game.save()
+            created_games.append(game)
 
     return created_count, skipped_count, created_games
 
@@ -426,7 +425,7 @@ def fetch_all_release_dates(game_ids, token):
 
 
 # Function to build an game's cover url based on IGDB
-def build_cover_url(image_id, size='1080p'):
+def build_cover_url(image_id, size='cover_big'):
     if not image_id:
         return None
     return f'https://images.igdb.com/igdb/image/upload/t_{size}/{image_id}.jpg'
