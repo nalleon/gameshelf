@@ -59,6 +59,18 @@
 
         <!-- Main Content -->
         <main class="max-w-5xl mx-auto px-6 mt-12">
+            <section class="mb-12">
+                <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-3">Biografía</h3>
+                <div class="bg-[#1a1e26] border border-gsgris/10 p-5 rounded-2xl relative overflow-hidden group">
+                    <!-- Detalle decorativo de esquina -->
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-gsmenta/5 rounded-bl-full transition-all group-hover:bg-gsmenta/10"></div>
+                    
+                    <p class="text-gsblanco/80 leading-relaxed text-sm md:text-base">
+                        {{ profile?.bio || 'Este coleccionista aún no ha escrito su historia... ¡Pero su estantería habla por sí sola!' }}
+                    </p>
+                </div>
+            </section>
+
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold border-l-4 border-gsmenta pl-4">Mi Estantería Reciente</h2>
                 <a href="#" class="text-gsmenta hover:text-gsbosque text-sm font-medium transition-colors">Ver toda la colección →</a>
