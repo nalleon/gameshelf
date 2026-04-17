@@ -265,3 +265,6 @@ compilemessages:
 # [group('i18n')]
 # poedit app locale="es":
 #     poedit ./{{ app }}/locale/{{ locale }}/LC_MESSAGES/django.po
+
+rq:
+    uv run manage.py rqworker

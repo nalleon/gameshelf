@@ -100,6 +100,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore'
+import { uniqueNamesGenerator, adjectives, names, animals, NumberDictionary } from 'unique-names-generator';
 
 import Navbar from '@/components/Navbar.vue';
 import router from '@/router';
@@ -132,11 +133,32 @@ const isHiddenUsernameError = ref('invisible')
 const isHiddenEmailError = ref('invisible')
 const isHiddenPasswordError = ref('invisible')
 
+const numberDictionary = NumberDictionary.generate({ min: 100, max: 9999 });
+
+const generateRandomFirstName = () => {
+  return uniqueNamesGenerator({
+    dictionaries: [adjectives, animals], // Adjetivo + Nombre
+    separator: '',
+    style: 'capital', // Para que sea AdjetivoNombre123
+  });
+};
+
 
 async function apiRegister(){
     const webhookUrl = 'http://127.0.0.1:8000/api/auth/register/'
+
+    if (!firstName.value.trim()) {
+        firstName.value = generateRandomFirstName();
+    }
+
+    if (!lastName.value.trim()) {
+        lastName.value = String(numberDictionary);
+    }
+
     const payload = {
         username: username.value,
+        first_name: firstName.value,
+        last_name: lastName.value,
         email: email.value,
         password: password.value
     }
@@ -150,9 +172,16 @@ async function apiRegister(){
             body: JSON.stringify(payload)
         }
     );
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error en registro:", errorData);
+        return;
+    }
+
     const data = await response.json();
     
-    console.log(data.token)
+    // console.log(data.token)
     username.value = "";
     email.value = "";
     password.value = "";

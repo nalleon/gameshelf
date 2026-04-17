@@ -87,7 +87,7 @@ User = get_user_model()
 )
 @api_view(['POST', 'GET'])
 @csrf_exempt
-@auth_required
+# @auth_required
 def igdb_wrapper(request):
     match request.method:
         case 'POST':

@@ -21,9 +21,11 @@ from .utils import Utils
 # Method to import a list of games from IGDB to database.
 @csrf_exempt
 @require_json_body
-@require_fields('quantity')
-@auth_required
-@require_role(Profile.Role.ADMIN)
+@require_fields(
+    'quantity'
+)
+# @auth_required
+# @require_role(Profile.Role.ADMIN)
 def import_games(request):
     token = get_igdb_token()
     default_region, default_edition = get_defaults()

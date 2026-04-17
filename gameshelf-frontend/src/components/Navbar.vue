@@ -64,6 +64,7 @@
 <script setup lang="ts">
     import {ref} from 'vue'
     import { useAuthStore } from '@/stores/authStore'
+    import router from '@/router'
 
     let searchQuery = ref('')
 
@@ -71,6 +72,7 @@
 
     function handleLogout() {
         auth.removeUserSesion()
+        router.replace('/login')
     }
 
     function handleSearch(){

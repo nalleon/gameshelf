@@ -17,9 +17,13 @@
                     <div class="flex-1">
                         <h1 class="text-3xl md:text-4xl font-bold">{{ fullName }}</h1>
                         <p class="text-gsmenta font-medium">@{{ profile?.user.username }}</p>
-                        <div class="flex gap-2 mt-3">
-                            <span class="px-3 py-1 bg-gsgris/30 text-xs rounded-md border border-gsgris/50">Coleccionista Pro</span>
-                            <span class="px-3 py-1 bg-gsgris/30 text-xs rounded-md border border-gsgris/50">Explorador</span>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <Badge nombre="role" :role="profile?.role ?? 'unknown'"/>
+                            <Badge nombre="collectionist" :collectionsQuantity="(profile?.user.collections)?.length ?? 0"/>
+                            <Badge nombre="wisher" :wishlistQuantity="(profile?.user.wishlist.items)?.length ?? 0"/>
+                            <Badge nombre="player" :libraryQuantity="(profile?.user.library)?.length ?? 0"/>
+                            <Badge nombre="completionist" :completedQuantity="completed ?? 0"/>
+                            <!-- <p>{{ profile?.role }}</p> -->
                         </div>
                     </div>
 
@@ -35,22 +39,38 @@
         <section class="bg-[#161a21] border-y border-gsgris/10 py-8">
             <div class="max-w-5xl mx-auto px-6 flex justify-around md:justify-center md:gap-24">
                 <div class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">124</span>
-                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Juegos</span>
-                </div>
-                <div class="text-center border-x border-gsgris/20 px-10 md:border-none">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">12</span>
-                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Completados</span>
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ (profile?.user.collections)?.length }}</span>
+                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Collections</span>
                 </div>
                 <div class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">45</span>
-                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Deseados</span>
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ (profile?.user.library)?.length }}</span>
+                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Library</span>
+                </div>
+                <div class="text-center border-x border-gsgris/20 px-10 md:border-none">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ completed }}</span>
+                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Completed</span>
+                </div>
+                <div class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ (profile?.user.wishlist.items)?.length }}</span>
+                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Wishlist</span>
                 </div>
             </div>
         </section>
 
         <!-- Main Content -->
         <main class="max-w-5xl mx-auto px-6 mt-12">
+            <section class="mb-12">
+                <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-3">Biografía</h3>
+                <div class="bg-[#1a1e26] border border-gsgris/10 p-5 rounded-2xl relative overflow-hidden group">
+                    <!-- Detalle decorativo de esquina -->
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-gsmenta/5 rounded-bl-full transition-all group-hover:bg-gsmenta/10"></div>
+                    
+                    <p class="text-gsblanco/80 leading-relaxed text-sm md:text-base">
+                        {{ profile?.bio || 'Este coleccionista aún no ha escrito su historia... ¡Pero su estantería habla por sí sola!' }}
+                    </p>
+                </div>
+            </section>
+
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold border-l-4 border-gsmenta pl-4">Mi Estantería Reciente</h2>
                 <a href="#" class="text-gsmenta hover:text-gsbosque text-sm font-medium transition-colors">Ver toda la colección →</a>
@@ -80,10 +100,21 @@
 import Navbar from '@/components/Navbar.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
-import type { Profile } from '@/types/generalTypes';
+import type { Collection, Game, LibraryItem, Profile } from '@/types/profileTypes';
+import Badge from '@/components/Badge.vue';
 
+const authStore = useAuthStore()
 const profile = ref<Profile | null>(null);
-    
+const loading = ref(true)
+
+onMounted(async () => {
+    apiProfileMe().then((data) => {
+        console.log(JSON.stringify(data))
+        profile.value = data
+        loading.value = false
+    })
+});
+
 const fullName = computed(() => {
     const first = profile.value?.user.first_name?.trim()
     const last = profile.value?.user.last_name?.trim()
@@ -95,15 +126,14 @@ const fullName = computed(() => {
     return `${first || ''} ${last || ''}`.trim()
 })
 
-const authStore = useAuthStore()
+const completed = computed(()=>{
+    let completedItems = 0;
+    profile.value?.user.library.forEach(item => {
+        item.status === "Completed" && completedItems++
+    });
 
-onMounted(async () => {
-
-    apiProfileMe().then((data) => {
-        console.log(JSON.stringify(data))
-        profile.value = data
-    })
-});
+    return completedItems
+})
 
 async function apiProfileMe(){
     const webhookUrl = `http://127.0.0.1:8000/api/users/me/`
