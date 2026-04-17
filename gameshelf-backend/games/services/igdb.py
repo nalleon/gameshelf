@@ -20,8 +20,8 @@ from django.db.models.functions import ExtractYear, ExtractMonth
 @require_fields(
     'quantity'
 )
-@auth_required
-@require_role(Profile.Role.ADMIN)
+# @auth_required
+# @require_role(Profile.Role.ADMIN)
 def import_games(request):
     token = get_igdb_token()
     default_region, default_edition = get_defaults()
