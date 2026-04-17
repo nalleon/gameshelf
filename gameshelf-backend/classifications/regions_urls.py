@@ -5,9 +5,6 @@ from . import views
 # app_name = 'regions'
 
 urlpatterns = [
-    path('', views.region_list, name='region-list'),
-    path('add/', views.add_region, name='add-region'),
-    path('<int:pk_region>/', views.region_detail, name='region-detail'),
-    path('<int:pk_region>/delete/', views.delete_region, name='delete-region'),
-    path('<int:pk_region>/edit/', views.edit_region, name='edit-region'),
+    path('', views.region_wrapper, name='region-wrapper'),
+    path('<int:pk_region>/', views.region_detail_wrapper, name='region-detail-wrapper'),
 ]

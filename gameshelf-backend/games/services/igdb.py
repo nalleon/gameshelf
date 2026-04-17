@@ -1,21 +1,25 @@
 import time
-import requests
 from datetime import datetime
-from django.http import JsonResponse
+
+import requests
 from django.conf import settings
-from games.models import Game
-from classifications.models import Genre, Platform, Developer, Publisher, Region, Edition
-from .utils import Utils
-from shared.decorators import require_fields, require_http_methods, require_json_body, require_role
-from users.decorators import auth_required
+from django.db.models.functions import ExtractMonth, ExtractYear
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from users.models import Profile
 from rest_framework.response import Response
+
+from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
+from games.models import Game
 from games.tasks import deliver_new_games_notification
-from django.db.models.functions import ExtractYear, ExtractMonth
-# Method to import a list of games from IGDB to database. 
+from shared.decorators import require_fields, require_json_body, require_role
+from users.decorators import auth_required
+from users.models import Profile
+
+from .utils import Utils
+
+
+# Method to import a list of games from IGDB to database.
 @csrf_exempt
-@require_http_methods('POST')
 @require_json_body
 @require_fields(
     'quantity'
@@ -29,8 +33,8 @@ def import_games(request):
     sync_igdb_regions()
     payload = request.json
     quantity = payload['quantity']
-    
-    batch_size = 50
+
+    batch_size = 10
     total_created = 0
     total_skipped = 0
 
@@ -64,10 +68,13 @@ def import_games(request):
 
         response = requests.post('https://api.igdb.com/v4/games', data=query, headers=headers)
         if response.status_code == 403:
-            return JsonResponse({'error': '403 Forbidden: posible rate limit o token expirado'}, status=403)
+            return JsonResponse(
+                {'error': '403 Forbidden: posible rate limit o token expirado'}, status=403
+            )
         response.raise_for_status()
 
         games_data = response.json()
+        print(games_data)
         if not games_data:
             break
 
@@ -81,31 +88,28 @@ def import_games(request):
 
         for g in games_data:
             g['release_dates'] = release_dates_map.get(g['id'], [])
-            
 
-
-        created_count, skipped_count, created_games = save_games_to_db(games_data, default_region, default_edition, token)
+        created_count, skipped_count, created_games = save_games_to_db(
+            games_data, default_region, default_edition, token
+        )
         total_created += created_count
         total_skipped += skipped_count
         time.sleep(0.3)
-        
+
         filtered_games = exclude_mature_content(created_games)
 
-        deliver_new_games_notification.delay(
-            request.build_absolute_uri(),
-            filtered_games
-        )
-    
-    return JsonResponse({
-        'created': total_created,
-        'skipped': total_skipped,
-        'total_requested': quantity,
-    })
-    
+        deliver_new_games_notification.delay(request.build_absolute_uri(), filtered_games)
+
+    return JsonResponse(
+        {
+            'created': total_created,
+            'skipped': total_skipped,
+            'total_requested': quantity,
+        }
+    )
 
 
 @csrf_exempt
-@require_http_methods('GET')
 def search_games_by_title(request):
     title = request.GET.get('title')
     if not title:
@@ -114,13 +118,13 @@ def search_games_by_title(request):
     url = 'https://api.igdb.com/v4/games'
     limit = 50
 
-    token = get_igdb_token()  
+    token = get_igdb_token()
 
     headers = {
         'Client-ID': settings.IGDB_CLIENT_ID,
         'Authorization': f'Bearer {token}',
         'Accept': 'application/json',
-        'Content-Type': 'text/plain',  
+        'Content-Type': 'text/plain',
     }
 
     query = f"""
@@ -142,16 +146,15 @@ def search_games_by_title(request):
     games = response.json()
 
     words = title.lower().split()
-    filtered_games = [
-        game for game in games
-        if all(word in game['name'].lower() for word in words)
-    ]
+    filtered_games = [game for game in games if all(word in game['name'].lower() for word in words)]
 
     return Response(filtered_games)
+
 
 ######################################
 # Auxiliar methods
 ######################################
+
 
 # Method to get the IGDB token
 def get_igdb_token():
@@ -165,11 +168,17 @@ def get_igdb_token():
     response.raise_for_status()
     return response.json()['access_token']
 
+
 # Method to create and/or get the defaults region and edition
 def get_defaults():
-    region, _ = Region.objects.get_or_create(name='to_be_add', defaults={'acronym': 'TBA', 'igdb_id': 0})
-    edition, _ = Edition.objects.get_or_create(name='Standard', defaults={'description': 'Default edition'})
+    region, _ = Region.objects.get_or_create(
+        name='to_be_add', defaults={'acronym': 'TBA', 'igdb_id': 0}
+    )
+    edition, _ = Edition.objects.get_or_create(
+        name='Standard', defaults={'description': 'Default edition'}
+    )
     return region, edition
+
 
 # Method to sync GameShelf's regions with IGDB ones
 def sync_igdb_regions():
@@ -191,7 +200,7 @@ def sync_igdb_regions():
     response = requests.post(url, data=query, headers=headers)
     response.raise_for_status()
     data = response.json()
-    
+
     for region in data:
         igdb_id = region.get('id')
         name = region.get('region')
@@ -199,16 +208,13 @@ def sync_igdb_regions():
             continue
 
         rating_org = Utils.REGION_RATINGS.get(igdb_id)
-        
+
         obj, created = Region.objects.update_or_create(
-            igdb_id=igdb_id,
-            defaults={
-                'name': name,
-                'rating_organization': rating_org
-            }
+            igdb_id=igdb_id, defaults={'name': name, 'rating_organization': rating_org}
         )
-        
-# Method to save a game obtained from IGDB into the database    
+
+
+# Method to save a game obtained from IGDB into the database
 def save_games_to_db(games_data, default_region, default_edition, token):
     created_count = 0
     skipped_count = 0
@@ -229,8 +235,9 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             skipped_count += 1
             continue
 
-    
-        game_releases = g.get('release_dates') or [{'date': g.get('first_release_date'), 'release_region': None}]
+        game_releases = g.get('release_dates') or [
+            {'date': g.get('first_release_date'), 'release_region': None}
+        ]
 
         for release in game_releases:
             release_timestamp = release.get('date')
@@ -248,15 +255,18 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             else:
                 region_obj = default_region
 
-            exists = Game.objects.annotate(
-                year=ExtractYear('released_at'),
-                month=ExtractMonth('released_at')
-            ).filter(
-                title=title,
-                region=region_obj,
-                year=released_at.year,
-                month=released_at.month,
-            ).exists()
+            exists = (
+                Game.objects.annotate(
+                    year=ExtractYear('released_at'), month=ExtractMonth('released_at')
+                )
+                .filter(
+                    title=title,
+                    region=region_obj,
+                    year=released_at.year,
+                    month=released_at.month,
+                )
+                .exists()
+            )
 
             if exists:
                 skipped_count += 1
@@ -267,7 +277,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                 released_at=released_at,
                 edition=default_edition,
                 region=region_obj,
-                description=(g.get('summary') or '')[:500]
+                description=(g.get('summary') or '')[:500],
             )
 
             created_count += 1
@@ -275,15 +285,16 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             cover_data = g.get('cover')
             image_id = cover_data.get('image_id') if cover_data else None
             cover_url_default = build_cover_url(image_id)
-            
+
             if cover_url_default:
                 game.cover_default = cover_url_default
-                
+
             cover_url_detail = build_cover_url(image_id, 'original')
-            
+
             if cover_url_detail:
                 game.cover_detail = cover_url_detail
-                
+
+            
             for genre in g.get('genres', []):
                 if 'name' in genre:
                     obj, _ = Genre.objects.get_or_create(name=genre['name'])
@@ -325,27 +336,35 @@ def save_games_to_db(games_data, default_region, default_edition, token):
                     if not rating_value_str:
                         continue
 
-                    org_map = {1:'PEGI',2:'ESRB',3:'CERO',4:'USK',5:'GRAC',6:'CLASS_IND',7:'ACB'}
+                    org_map = {
+                        1: 'PEGI',
+                        2: 'ESRB',
+                        3: 'CERO',
+                        4: 'USK',
+                        5: 'GRAC',
+                        6: 'CLASS_IND',
+                        7: 'ACB',
+                    }
                     if org_map.get(rating_org_id) == region_org:
                         selected_rating = {'org': region_org, 'value': rating_value_str}
                         break
 
-                            
                 if selected_rating:
                     game.age_rating = selected_rating['value']
-                    
+
                     mature_values = Utils.MATURE_THRESHOLDS.get(selected_rating['org'], [])
-                    game.mature_content = selected_rating['value'] in mature_values 
+                    game.mature_content = selected_rating['value'] in mature_values
                 else:
                     game.age_rating = 'TBA'
                     game.mature_content = True
-                    
-                game.save()
-                created_games.append(game)
-                
+
+            game.save()
+            created_games.append(game)
+
     return created_count, skipped_count, created_games
 
-# Method to fetch all existings age_ratings from IGDB 
+
+# Method to fetch all existings age_ratings from IGDB
 def fetch_age_ratings(age_rating_ids, token):
     if not age_rating_ids:
         return {}
@@ -369,6 +388,7 @@ def fetch_age_ratings(age_rating_ids, token):
     data = response.json()
 
     return {r['id']: r for r in data}
+
 
 # Method to fetch all release dates from a list of game based on their id
 def fetch_all_release_dates(game_ids, token):
@@ -403,11 +423,13 @@ def fetch_all_release_dates(game_ids, token):
 
     return all_release_dates
 
+
 # Function to build an game's cover url based on IGDB
-def build_cover_url(image_id, size='1080p'):
+def build_cover_url(image_id, size='cover_big'):
     if not image_id:
         return None
     return f'https://images.igdb.com/igdb/image/upload/t_{size}/{image_id}.jpg'
+
 
 # Function to exclude games with marked with mature content from a list
 def exclude_mature_content(games, limit=8):
