@@ -286,11 +286,14 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             if cover_url_default:
                 game.cover_default = cover_url_default
 
+            print(cover_url_default)
             cover_url_detail = build_cover_url(image_id, 'original')
 
             if cover_url_detail:
                 game.cover_detail = cover_url_detail
 
+            print(cover_url_detail)
+            
             for genre in g.get('genres', []):
                 if 'name' in genre:
                     obj, _ = Genre.objects.get_or_create(name=genre['name'])

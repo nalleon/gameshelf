@@ -60,7 +60,7 @@ def collection_wrapper(request):
 # This method is public to get all existing collections
 @csrf_exempt
 def collection_list(request):
-    collections = Collection.objects.all()
+    collections = Collection.objects.filter(is_private=False)
     serializer = CollectionSerializer(collections, request=request)
     return serializer.json_response()
 
@@ -156,8 +156,23 @@ def collection_items_wrapper(request, pk_collection):
 @csrf_exempt
 def collection_item_list(request, pk_collection):
     collection = get_object_or_404(Collection, pk=pk_collection)
+
+    is_owner = request.user.is_authenticated and request.user == collection.user
+
+    if not is_owner and collection.is_private:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    items = collection.items.all()
+
+    if not is_owner:
+        items = items.filter(is_private=False)
+
     serializer = CollectionSerializer(collection, request=request)
-    return JsonResponse(serializer.serialize(), safe=False)
+    data = serializer.serialize()
+
+    data['items'] = CollectionItemSerializer(items, request=request).serialize()
+
+    return JsonResponse(data, safe=False)
 
 
 # This method is public to add to its own collection
