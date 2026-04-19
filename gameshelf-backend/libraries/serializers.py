@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from games.serializers import GameSerializer
-from shared.serializers import BaseSerializer
-from users.serializers import UserSerializer
+from shared.serializers import BaseSerializer, ShowUsernameSerializer
+from users.serializers import ShowUsernameSchemaSerializer
 
 
 class LibraryItemSerializer(BaseSerializer):
@@ -10,12 +10,12 @@ class LibraryItemSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'status': instance.get_status_display(),
-            'edition': GameSerializer(instance.edition, request=self.request).serialize(),
-            'description': instance.description,
+            'game': GameSerializer(instance.game, request=self.request).serialize(),
             'hours_played': instance.hours_played,
-            'created_at': instance.released_at.isoformat(),
-            'updated_at': instance.released_at.isoformat(),
-            'author': UserSerializer(instance.user, request=self.request).serialize(),
+            'is_private': instance.is_private,
+            'created_at': instance.created_at.isoformat(),
+            'updated_at': instance.updated_at.isoformat(),
+            'library_id': instance.library.pk,
         }
 
     @staticmethod
@@ -23,10 +23,33 @@ class LibraryItemSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'status': serializers.CharField(),
-            'edition': GameSerializer.get_fields_dict(),
-            'description': serializers.CharField(),
+            'game': GameSerializer.get_fields_dict(),
             'hours_played': serializers.FloatField(),
+            'is_private': serializers.BooleanField(),
             'created_at': serializers.DateTimeField(),
             'updated_at': serializers.DateTimeField(),
-            'author': UserSerializer.get_fields_dict(),
+            'library_id': serializers.IntegerField(),
         }
+        
+class LibrarySerializer(BaseSerializer):
+    def serialize_instance(self, instance) -> dict:
+        return {
+            'id': instance.pk,
+            'user': ShowUsernameSerializer(instance.user, request=self.request).serialize(),
+
+            'is_private': instance.is_private,
+            'total_all': getattr(instance, 'total_all', 0),
+            'total_public': getattr(instance, 'total_public', 0),
+            'total_private': getattr(instance, 'total_private', 0),
+            'items': LibraryItemSerializer(
+                instance.items.all(), request=self.request
+            ).serialize(),
+        }
+        
+class LibraryItemSchemaSerializer(serializers.Serializer):
+    status = serializers.CharField(required=False)
+    hours_played = serializers.FloatField(required=False)
+    is_private = serializers.BooleanField(required=False)
+    
+class LibrarySchemaSerializer(serializers.Serializer):
+    is_private = serializers.BooleanField()
