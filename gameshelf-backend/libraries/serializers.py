@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from games.serializers import GameSerializer
 from shared.serializers import BaseSerializer, ShowUsernameSerializer
-from users.serializers import ShowUsernameSchemaSerializer
 
 
 class LibraryItemSerializer(BaseSerializer):

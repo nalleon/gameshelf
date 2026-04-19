@@ -1,22 +1,25 @@
 from django.contrib.auth import get_user_model
-from django.http import Http404, JsonResponse
+from django.core.exceptions import PermissionDenied
+from django.db.models import Count, Prefetch, Q
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
-from rest_framework.decorators import api_view
-from games.models import Game
-from shared.decorators import require_fields, require_json_body, require_role
-from users.decorators import auth_required
-from users.models import Profile
-from django.db.models import Q, Prefetch, Count
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
-from .models import LibraryItem, Library
-from .serializers import LibraryItemSerializer, LibrarySerializer, LibrarySchemaSerializer, LibraryItemSchemaSerializer
-from django.http import HttpResponse
-from shared.serializers import ErrorResponseSerializer
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from rest_framework.decorators import permission_classes
+
+from games.models import Game
+from shared.decorators import require_fields, require_json_body
+from shared.serializers import ErrorResponseSerializer
+from users.decorators import auth_required
+
+from .models import Library, LibraryItem
+from .serializers import (
+    LibraryItemSchemaSerializer,
+    LibraryItemSerializer,
+    LibrarySchemaSerializer,
+    LibrarySerializer,
+)
 
 User = get_user_model()
 
@@ -55,7 +58,8 @@ def library_wrapper(request):
             return edit_own_library(request)
         case 'POST':
             return add_library_item(request)
-        
+
+
 @csrf_exempt
 @auth_required
 def get_own_library(request):
@@ -63,6 +67,7 @@ def get_own_library(request):
 
     serializer = LibrarySerializer(library, request=request)
     return JsonResponse(serializer.serialize())
+
 
 @csrf_exempt
 @require_json_body
@@ -77,6 +82,7 @@ def edit_own_library(request):
     serializer = LibrarySerializer(library, request=request)
     return JsonResponse(serializer.serialize())
 
+
 @csrf_exempt
 @require_json_body
 @require_fields('game_id', 'status', 'is_private')
@@ -86,20 +92,15 @@ def add_library_item(request):
 
     game = get_object_or_404(Game, pk=request.json['game_id'])
 
-    if LibraryItem.objects.filter(
-        library=library,
-        game=game,
-        deleted_at__isnull=True
-    ).exists():
+    if LibraryItem.objects.filter(library=library, game=game, deleted_at__isnull=True).exists():
         return JsonResponse({'error': 'Game already in library'}, status=400)
-
 
     item = LibraryItem.objects.create(
         library=library,
         game=game,
         status=request.json['status'],
         is_private=request.json['is_private'],
-        hours_played=request.json.get('hours_played', 0)
+        hours_played=request.json.get('hours_played', 0),
     )
 
     return JsonResponse({'id': item.pk}, status=201)
@@ -144,10 +145,8 @@ def library_detail_wrapper(request, pk_item: int):
 
         case 'DELETE':
             return delete_library_item(request, pk_item)
-        
 
-      
-    
+
 @csrf_exempt
 def get_library_item(request, pk_item):
     item = get_object_or_404(LibraryItem, pk=pk_item)
@@ -159,6 +158,7 @@ def get_library_item(request, pk_item):
 
     serializer = LibraryItemSerializer(item, request=request)
     return JsonResponse(serializer.serialize())
+
 
 @csrf_exempt
 @require_json_body
@@ -190,6 +190,7 @@ def edit_library_item(request, pk_item: int):
     serializer = LibraryItemSerializer(item, request=request)
     return JsonResponse(serializer.serialize())
 
+
 @csrf_exempt
 def delete_library_item(request, pk_item):
     item = get_object_or_404(LibraryItem, pk=pk_item)
@@ -199,6 +200,7 @@ def delete_library_item(request, pk_item):
 
     item.delete()
     return HttpResponse(status=204)
+
 
 @extend_schema(
     responses={200: LibrarySerializer},
@@ -223,15 +225,14 @@ def get_library(request, pk_user):
     library = get_library_with_items(user, request.user)
 
     if not library:
-        return JsonResponse(
-            {'error': 'Library not accessible'}, 
-            status=404
-        )
+        return JsonResponse({'error': 'Library not accessible'}, status=404)
 
     serializer = LibrarySerializer(library, request=request)
     return JsonResponse(serializer.serialize())
-  
+
+
 # Aux methods
+
 
 def get_library_with_items(user_owner, requester):
     qs = Library.objects.filter(user=user_owner)
@@ -244,22 +245,17 @@ def get_library_with_items(user_owner, requester):
     qs = qs.annotate(
         total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
         total_public=Count(
-            'items',
-            filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=False)
         ),
         total_private=Count(
-            'items',
-            filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=True)
         ),
     )
 
     items_qs = LibraryItem.objects.filter(
-        deleted_at__isnull=True,
-        is_private=False if not is_owner else Q()
+        deleted_at__isnull=True, is_private=False if not is_owner else Q()
     )
 
-    library = qs.prefetch_related(
-        Prefetch('items', queryset=items_qs)
-    ).first()
+    library = qs.prefetch_related(Prefetch('items', queryset=items_qs)).first()
 
     return library
