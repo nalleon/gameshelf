@@ -59,7 +59,7 @@ class LoggedUserSerializer(BaseSerializer):
             'last_name': instance.last_name,
             'email': instance.email,
             'collections': LoggedCollectionSerializer(instance.collections.all(), request=self.request).serialize(),
-            'library': LoggedLibraryItemSerializer(instance.library.all(), request=self.request).serialize(),
+            'library': LoggedLibrarySerializer(instance.library, request=self.request).serialize(),
             'wishlist': LoggedWishlistSerializer(instance.wishlist, request=self.request).serialize(),
         }
 
@@ -129,6 +129,26 @@ class LoggedCollectionItemSerializer(BaseSerializer):
             'id': serializers.IntegerField(),
             'game': LoggedGameSerializer.get_fields_dict(),
         }
+        
+class LoggedLibrarySerializer(BaseSerializer):
+    def serialize_instance(self, instance) -> dict:
+        return {
+            'id': instance.pk,
+            'is_private': instance.is_private,
+            'created_at': instance.created_at,
+            'updated_at': instance.updated_at,
+            'items': LoggedLibraryItemSerializer(instance.items.all(), request=self.request).serialize(),
+        }
+
+    @staticmethod
+    def get_fields_dict():
+        return {
+            'id': serializers.IntegerField(),
+            'is_private': serializers.BooleanField(),
+            'created_at': serializers.DateTimeField(),
+            'updated_at': serializers.DateTimeField(),
+            'items': LoggedLibraryItemSerializer.get_fields_dict()
+        }
 
 class LoggedLibraryItemSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
@@ -139,6 +159,7 @@ class LoggedLibraryItemSerializer(BaseSerializer):
             'game': LoggedGameSerializer(instance.game, request=self.request).serialize(),
             'created_at': instance.created_at,
             'updated_at': instance.updated_at,
+            'is_private': instance.is_private,
         }
 
     @staticmethod
@@ -150,6 +171,7 @@ class LoggedLibraryItemSerializer(BaseSerializer):
             'hours_played': serializers.CharField(),
             'created_at': serializers.DateTimeField(),
             'updated_at': serializers.DateTimeField(),
+            'is_private': serializers.BooleanField()
         }
         
 class LoggedWishlistSerializer(BaseSerializer):
