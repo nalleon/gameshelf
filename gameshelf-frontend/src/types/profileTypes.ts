@@ -15,7 +15,7 @@ export interface User {
     last_name: string,
     email: string,
     collections: Array<Collection>
-    library: Array<LibraryItem>
+    library: Library
     wishlist: Wishlist
 }
 
@@ -49,6 +49,14 @@ export interface WishlistItem{
     game: Game
 }
 
+export interface Library {
+    id: number
+    is_private: boolean,
+    created_at: string,
+    updated_at: string,
+    items: Array<LibraryItem>
+}
+
 export interface LibraryItem {
     id: number
     game: Game,
@@ -56,6 +64,7 @@ export interface LibraryItem {
     hours_played: string,
     created_at: string,
     updated_at: string,
+    is_private: boolean,
 }
 
 export interface Game {

@@ -22,7 +22,7 @@
                             <Badge nombre="completionist" :completedQuantity="completed ?? 0"/>
                             <Badge nombre="collectionist" :collectionsQuantity="(profile?.user.collections)?.length ?? 0"/>
                             <Badge nombre="wisher" :wishlistQuantity="(profile?.user.wishlist.items)?.length ?? 0"/>
-                            <Badge nombre="player" :libraryQuantity="(profile?.user.library)?.length ?? 0"/>
+                            <Badge nombre="player" :libraryQuantity="(profile?.user.library.items)?.length ?? 0"/>
                             <!-- <p>{{ profile?.role }}</p> -->
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Collections</span>
                 </div>
                 <div class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ (profile?.user.library)?.length }}</span>
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ (profile?.user.library.items)?.length }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Library</span>
                 </div>
                 <div class="text-center border-x border-gsgris/20 px-10 md:border-none">
@@ -128,7 +128,7 @@ const fullName = computed(() => {
 
 const completed = computed(()=>{
     let completedItems = 0;
-    profile.value?.user.library.forEach(item => {
+    profile.value?.user.library.items.forEach(item => {
         item.status === "Completed" && completedItems++
     });
 
@@ -154,7 +154,3 @@ async function apiProfileMe(){
 
 
 </script>
-
-<style scoped>
-
-</style>
