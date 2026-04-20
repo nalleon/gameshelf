@@ -10,7 +10,7 @@ from shared.decorators import require_fields, require_json_body
 from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
 from django.core.exceptions import PermissionDenied
-from .models import Collection, CollectionItem, Wishlist, WishListItem
+from .models import Collection, CollectionItem, Wishlist, WishListItem, Item
 from .serializers import (
     CollectionItemSchemaSerializer,
     CollectionItemSerializer,
@@ -180,8 +180,14 @@ def add_self_collection_item(request, pk_collection):
     if collection.user != request.user:
         return JsonResponse({'error': 'Forbidden'}, status=403)
 
+
     game = get_object_or_404(Game, pk=pk_game)
 
+    try:
+        validate_item_type_for_game(game, item_type)
+    except ValueError as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    
     exists = CollectionItem.objects.filter(
         collection=collection,
         game=game,
@@ -364,6 +370,14 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
     is_private = payload['is_private']
     item_type = payload['type']
 
+
+    game = get_object_or_404(Game, pk=collection_item.game.pk)
+
+    try:
+        validate_item_type_for_game(game, item_type)
+    except ValueError as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    
     updated=False
 
     if is_private != collection_item.is_private:
@@ -476,9 +490,14 @@ def add_self_wishlist_item(request, pk_wishlist: int):
     annotation = payload['annotation']
     is_private = payload['is_private']
     item_type = payload['type']
-
+    
     game = get_object_or_404(Game, pk=pk_game)
 
+    try:
+        validate_item_type_for_game(game, item_type)
+    except ValueError as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    
     if WishListItem.objects.filter(
         wishlist=wishlist,
         game=game,
@@ -584,7 +603,7 @@ def delete_wishlist_item(request, pk_wishlist_item: int):
 
 @csrf_exempt
 @require_json_body
-@require_fields('priority', 'annotation', 'is_private')
+@require_fields('priority', 'annotation', 'is_private', 'type')
 @auth_required
 def edit_wishlist_item(request, pk_wishlist_item: int):
 
@@ -592,7 +611,17 @@ def edit_wishlist_item(request, pk_wishlist_item: int):
 
     payload = request.json
     updated = False
+    
+    
 
+    game = get_object_or_404(Game, pk=wishlist_item.game.pk)
+
+    try:
+        validate_item_type_for_game(game, payload['type'])
+    except ValueError as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    
+    
     if 'priority' in payload:
         wishlist_item.priority = payload['priority']
         updated = True
@@ -762,3 +791,18 @@ def get_wishlist_with_items(pk_wishlist, user):
         raise PermissionDenied()
 
     return wishlist
+
+
+def validate_item_type_for_game(game, item_type):
+    only_digital_keywords = {'pc', 'mobile'}
+
+    platform_names = [
+        p.name.lower() for p in game.platforms.all()
+    ]
+
+    def is_only_digital(name: str) -> bool:
+        return any(keyword in name for keyword in only_digital_keywords)
+
+    if platform_names and all(is_only_digital(name) for name in platform_names):
+        if item_type != Item.Type.DIGITAL:
+            raise ValueError('This game can only be added as Digital')
