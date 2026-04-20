@@ -24,6 +24,8 @@ from .serializers import (
     SaveGenreSchemaSerializer,
     SavePlatformSchemaSerializer,
     SaveRegionSchemaSerializer,
+    EditionSchemaSerializer,
+    SaveEditionSchemaSerializer
 )
 
 
@@ -139,7 +141,6 @@ def platform_detail(request, pk_platform: int):
 def edit_platform(request, pk_platform: int):
     payload = request.json
     name = payload['name']
-    description = payload['description']
 
     try:
         platform = get_object_or_404(Platform, pk=pk_platform)
@@ -148,9 +149,6 @@ def edit_platform(request, pk_platform: int):
 
     if name:
         platform.name = name
-
-    if description:
-        platform.description = description
 
     platform.save()
     return JsonResponse({'id': platform.pk}, status=200)
@@ -275,7 +273,6 @@ def genre_detail(request, pk_genre: int):
 def edit_genre(request, pk_genre: int):
     payload = request.json
     name = payload['name']
-    description = payload['description']
 
     try:
         genre = get_object_or_404(Genre, pk=pk_genre)
@@ -284,12 +281,6 @@ def edit_genre(request, pk_genre: int):
 
     if name:
         genre.name = name
-
-    if description:
-        genre.description = description
-
-    if description:
-        genre.description = description
 
     genre.save()
     return JsonResponse({'id': genre.pk}, status=200)
@@ -411,7 +402,6 @@ def developer_detail(request, pk_developer: int):
 def edit_developer(request, pk_developer: int):
     payload = request.json
     name = payload['name']
-    description = payload['description']
 
     try:
         developer = get_object_or_404(Developer, pk=pk_developer)
@@ -421,8 +411,6 @@ def edit_developer(request, pk_developer: int):
     if name:
         developer.name = name
 
-    if description:
-        developer.description = description
 
     developer.save()
     return JsonResponse({'id': developer.pk}, status=200)
@@ -546,7 +534,6 @@ def publisher_detail(request, pk_publisher: int):
 def edit_publisher(request, pk_publisher: int):
     payload = request.json
     name = payload['name']
-    description = payload['description']
 
     try:
         publisher = get_object_or_404(Publisher, pk=pk_publisher)
@@ -556,8 +543,6 @@ def edit_publisher(request, pk_publisher: int):
     if name:
         publisher.name = name
 
-    if description:
-        publisher.description = description
 
     publisher.save()
     return JsonResponse({'id': publisher.pk}, status=200)
@@ -581,12 +566,12 @@ def delete_publisher(request, pk_publisher: int):
 
 @extend_schema_view(
     get=extend_schema(
-        responses={200: ClassificationSchemaSerializer, 404: None},
+        responses={200: EditionSchemaSerializer, 404: None},
         description='Get all editions',
         operation_id='get_editions',
     ),
     post=extend_schema(
-        request=SaveClassificationSchemaSerializer,
+        request=SaveEditionSchemaSerializer,
         responses={
             200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
             400: None,
@@ -631,7 +616,7 @@ def add_edition(request):
 
 @extend_schema_view(
     get=extend_schema(
-        responses={200: ClassificationSchemaSerializer, 404: None},
+        responses={200: EditionSchemaSerializer, 404: None},
         description='Get details of a specific edition',
         operation_id='get_edition_detail',
         parameters=[
@@ -645,7 +630,7 @@ def add_edition(request):
         ],
     ),
     put=extend_schema(
-        request=SaveClassificationSchemaSerializer,
+        request=SaveEditionSchemaSerializer,
         responses={
             200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
             400: None,
@@ -846,10 +831,7 @@ def edit_region(request, pk_region: int):
     payload = request.json
     name = payload['name']
     acronym = payload['acronym']
-    icon = payload[
-        'icon'
-    ]  # TODO: Question - No hay que manejar de alguna forma el icono aquí? Lógica del front?
-
+   
     try:
         region = get_object_or_404(Region, pk=pk_region)
     except Http404:
@@ -860,9 +842,6 @@ def edit_region(request, pk_region: int):
 
     if acronym:
         region.acronym = acronym
-
-    if icon:
-        region.icon = icon
 
     region.save()
     return JsonResponse({'id': region.pk}, status=200)

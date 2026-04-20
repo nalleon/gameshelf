@@ -19,7 +19,6 @@ class Migration(migrations.Migration):
                 ('deleted_at', models.DateTimeField(blank=True, null=True)),
                 ('name', models.CharField(unique=True)),
                 ('slug', models.SlugField(unique=True)),
-                ('description', models.TextField(max_length=160)),
             ],
             options={
                 'abstract': False,
@@ -47,7 +46,6 @@ class Migration(migrations.Migration):
                 ('deleted_at', models.DateTimeField(blank=True, null=True)),
                 ('name', models.CharField(unique=True)),
                 ('slug', models.SlugField(unique=True)),
-                ('description', models.TextField(max_length=160)),
                 ('acronym', models.CharField(blank=True, max_length=10, null=True)),
             ],
             options={
@@ -62,7 +60,6 @@ class Migration(migrations.Migration):
                 ('deleted_at', models.DateTimeField(blank=True, null=True)),
                 ('name', models.CharField(unique=True)),
                 ('slug', models.SlugField(unique=True)),
-                ('description', models.TextField(max_length=160)),
             ],
             options={
                 'abstract': False,
@@ -76,7 +73,6 @@ class Migration(migrations.Migration):
                 ('deleted_at', models.DateTimeField(blank=True, null=True)),
                 ('name', models.CharField(unique=True)),
                 ('slug', models.SlugField(unique=True)),
-                ('description', models.TextField(max_length=160)),
             ],
             options={
                 'abstract': False,
@@ -91,7 +87,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(unique=True)),
                 ('slug', models.SlugField(unique=True)),
                 ('acronym', models.CharField(max_length=2)),
-                ('icon', models.ImageField(blank=True, default='regions/default.png', null=True, upload_to='regions/')),
                 ('igdb_id', models.IntegerField(unique=True)),
                 ('rating_organization', models.CharField(blank=True, choices=[('PEGI', 'PEGI'), ('ESRB', 'ESRB'), ('CERO', 'CERO'), ('USK', 'USK'), ('GRAC', 'GRAC'), ('CLASS_IND', 'CLASS_IND'), ('ACB', 'ACB'), ('IARC', 'IARC')], max_length=20, null=True)),
             ],
