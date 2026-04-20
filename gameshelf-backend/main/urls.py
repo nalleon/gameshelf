@@ -19,6 +19,9 @@ from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
@@ -39,4 +42,5 @@ urlpatterns = [
     path('api/collections/', include('game_collections.collections_urls')),
     path('api/wishlist/', include('game_collections.wishlists_urls')),
     path('django-rq/', include('django_rq.urls')),
-]
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

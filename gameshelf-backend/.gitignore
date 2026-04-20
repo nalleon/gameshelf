@@ -1,9 +1,13 @@
 *.pyc
 __pycache__/
 .mypy_cache/
-/media
 db.sqlite3
 .DS_Store
 .vscode/
 .env
 .venv
+
+/media/*
+!/media/avatars/
+/media/avatars/*
+!/media/avatars/default.png
