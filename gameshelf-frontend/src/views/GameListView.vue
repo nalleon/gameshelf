@@ -1,77 +1,108 @@
 <template>
-    <Navbar/>
-    <section class="min-h-screen bg-[--color-gsoscuro] p-6 sm:p-8 text-[--color-gsblanco]">
-        <!-- Contenedor del Grid -->
-        <div class="max-w-[1600px] mx-auto">
-            <!-- Título de sección opcional / Filtros rápidos -->
-            <div class="mb-8 flex items-center justify-between text-gsmenta">
-                <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
-                    Catálogo de Juegos
-                </h2>
-                <span class="text-gsgris text-sm">Mostrando 30 resultados</span>
-            </div>
 
-            <!-- Grid Principal: 5 columnas en escritorio -->
-            <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
-                <!-- Card de Juego (Iteración de 30 elementos) -->
-                <div v-for="game in games" :key="game.id"
-                    class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
-                >
-                    <!-- Contenedor de Imagen -->
-                    <div class="relative aspect-[3/4] rounded-t-xl overflow-hidden">
-                        <img :src="game.title" :alt="game.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <!-- Badge de Plataforma -->
-                        <div class="absolute top-2 left-2 bg-gsoscuro/80 backdrop-blur-sm text-gsmenta text-[10px] font-bold px-2 py-0.5 rounded border border-gsmenta/30 uppercase">
-                        <!-- {{ game.platform }} -->
-                        </div>
-                    </div>
-
-                    <!-- Información del Juego -->
-                    <div class="p-4 flex flex-col flex-grow">
-                        <h3 class="font-bold text-base line-clamp-1 group-hover:text-[--color-gsmenta] transition-colors">
-                            {{ game.title }}
-                        </h3>
-                        <p class="text-[--color-gsgris] text-xs mt-1 mb-4 italic leading-tight">
-                            <!-- {{ game.developer }} -->
-                        </p>
-                    </div>
-                </div>
-            </main>
-
-            <!-- Paginación Estilo Coleccionista -->
-            <nav class="mt-16 flex justify-center items-center gap-2 text-gsblanco">
-                <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gsblanco hover:text-color-gsmenta hover:border-gsmenta transition-colors">
-                    <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-
-                <!-- Páginas -->
-                <div class="flex items-center bg-[#161a21] rounded-lg border border-gsblanco p-1">
-                    <button class="w-9 h-9 flex items-center justify-center rounded-md bg-gsmenta font-bold">1</button>
-                    <button class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-gsblanco/20 transition-colors">2</button>
-                    <button class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-gsblanco/20 transition-colors">3</button>
-                    <span class="px-2 text-gsblanco">...</span>
-                    <button class="w-9 h-9 flex items-center justify-center rounded-md hover:bg-gsblanco/20 transition-colors">12</button>
-                </div>
-
-                <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gsblanco hover:text-gsmenta hover:border-gsmenta transition-colors">
-                <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-                </button>
-            </nav>
+    <div class="h-screen flex flex-col bg-[#0b0e14]"> 
+        <div class="flex-shrink-0 sticky top-0 z-50">
+            <Navbar/>
         </div>
-    </section>
+        <section class="flex-1 overflow-y-auto p-6 sm:p-8 text-gsblanco">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="mb-8 flex items-center justify-between text-gsmenta">
+                    <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
+                        Catálogo de Juegos
+                    </h2>
+                    <span class="text-gsgris text-sm">Mostrando {{ games.length }} resultados</span>
+                </div>
+
+                <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
+                    <div v-for="game in paginatedGames" :key="game.id"
+                        class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
+                    >
+                        <GameCard :game="game"/>
+                    </div>
+                </main>
+
+                <nav v-if="totalPages > 1" class="mt-16 flex justify-center items-center gap-2 text-gsblanco">
+                    <button 
+                        @click="prevPage" 
+                        :disabled="currentPage === 1"
+                        :class="[
+                            'w-10 h-10 flex items-center justify-center rounded-lg border transition-colors',
+                            currentPage === 1 ? 'border-gsgris/30 text-gsgris/30 cursor-not-allowed' : 'border-gsblanco hover:text-gsmenta hover:border-gsmenta'
+                        ]"
+                    >
+                        <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+
+                    <div class="flex items-center bg-[#161a21] rounded-lg border border-gsblanco p-1 gap-1">
+                        <button 
+                            v-for="page in totalPages" 
+                            :key="page"
+                            @click="goToPage(page)"
+                            :class="[
+                                'w-9 h-9 flex items-center justify-center rounded-md transition-colors',
+                                currentPage === page ? 'bg-gsmenta font-bold text-[#161a21]' : 'hover:bg-gsblanco/20'
+                            ]"
+                        >
+                            {{ page }}
+                        </button>
+                    </div>
+
+                    <button 
+                        @click="nextPage" 
+                        :disabled="currentPage === totalPages"
+                        :class="[
+                            'w-10 h-10 flex items-center justify-center rounded-lg border transition-colors',
+                            currentPage === totalPages ? 'border-gsgris/30 text-gsgris/30 cursor-not-allowed' : 'border-gsblanco hover:text-gsmenta hover:border-gsmenta'
+                        ]"
+                    >
+                        <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+        </section>
+    </div>
 </template>
 
 <script setup lang="ts">
+import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import type { Game } from '@/types/gameListTypes';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 
 let games = ref<Game[]>([])
+
+// --- VARIABLES DE PAGINACIÓN ---
+const currentPage = ref(1);
+const itemsPerPage = 15; // 15 es ideal para tu grid de 5 columnas (3 filas)
+
+const totalPages = computed(() => {
+    return Math.ceil(games.value.length / itemsPerPage);
+});
+
+// Calcula qué juegos mostrar en la página actual
+const paginatedGames = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return games.value.slice(start, end);
+});
+
+// --- FUNCIONES DE NAVEGACIÓN ---
+const nextPage = () => {
+    if (currentPage.value < totalPages.value) currentPage.value++;
+};
+
+const prevPage = () => {
+    if (currentPage.value > 1) currentPage.value--;
+};
+
+const goToPage = (page: number) => {
+    currentPage.value = page;
+};
 
 onMounted(async () => {
     try {
