@@ -99,7 +99,7 @@ class EditionSerializer(BaseSerializer):
             'id': instance.pk,
             'name': instance.name,
             'slug': instance.slug,
-            'description': instance.edition
+            'description': instance.description
         }
 
     @staticmethod
@@ -118,9 +118,7 @@ class RegionSerializer(BaseSerializer):
             'id': instance.pk,
             'name': instance.name,
             'slug': instance.slug,
-            'acronym': instance.acronym,
-            'icon': self.build_url(instance.icon.url),
-        }
+            'acronym': instance.acronym,        }
 
     @staticmethod
     def get_fields_dict():
@@ -129,7 +127,6 @@ class RegionSerializer(BaseSerializer):
             'name': serializers.CharField(),
             'slug': serializers.SlugField(),
             'acronym': serializers.CharField(),
-            'icon': serializers.URLField(),
         }
 
 
@@ -160,7 +157,6 @@ class RegionSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()
     slug = serializers.SlugField()
     acronym = serializers.CharField()
-    icon = serializers.URLField()
 
 
 class PlatformSchemaSerializer(serializers.Serializer):
@@ -187,7 +183,6 @@ class SaveGenreSchemaSerializer(serializers.Serializer):
 class SaveRegionSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()
     acronym = serializers.CharField()
-    icon = serializers.URLField()
 
 class SavePlatformSchemaSerializer(serializers.Serializer):
     name = serializers.CharField()

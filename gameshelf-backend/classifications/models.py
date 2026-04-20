@@ -14,7 +14,7 @@ class Classification(SoftDeleteModel):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return f'PK="{self.pk}", name="{self.name}", slug="{self.slug}" description="{self.description}"'
+        return f'PK="{self.pk}", name="{self.name}", slug="{self.slug}"'
 
     class Meta:
         abstract = True
