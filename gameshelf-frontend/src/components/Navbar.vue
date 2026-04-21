@@ -29,9 +29,9 @@
 
             <!-- Botón Game List -->
             <router-link 
-                to="/gamelist" 
+                to="/game-list" 
                 class="text-sm font-semibold uppercase tracking-wider hover:text-gsmenta transition-colors">
-            Colección
+                Colección
             </router-link>
 
             <!-- Divisor visual -->
@@ -42,18 +42,18 @@
             <!-- Estado: Autenticado -->
             <template v-if="auth.isLogged">
                 <router-link to="/profile" class="flex items-center gap-2 hover:text-gsmenta transition-colors font-medium">
-                Mi Perfil
+                    Mi Perfil
                 </router-link>
 
                 <button @click="handleLogout" class="list-none cursor-pointer text-gsgris hover:text-red-400 transition-colors font-medium">
-                Cerrar Sesión
+                    Cerrar Sesión
                 </button>
             </template>
 
             <!-- Estado: No Autenticado -->
             <template v-else>
                 <router-link to="/login" class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2 rounded-md font-bold transition-all transform hover:scale-105 active:scale-95 text-md">
-                Login
+                    Login
                 </router-link>
             </template>
 

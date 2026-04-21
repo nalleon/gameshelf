@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
 import ProfileView from '@/views/ProfileView.vue';
 import RegisterView from '@/views/RegisterView.vue';
+import GameDetails from '@/views/GameDetails.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 
@@ -10,7 +11,14 @@ const routes = [
   { path: '/', component: HomeView },
   { path: '/login', component: LoginView },
   { path: '/register', component: RegisterView },
-  { path: '/gamelist', component: GameListView },
+  { 
+    path: '/game-list', 
+    component: GameListView
+  },
+  {
+    path: '/game-list/detail/:slug',
+    component: GameDetails
+  },
   { 
     path: '/profile', 
     component: ProfileView,

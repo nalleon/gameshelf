@@ -4,6 +4,7 @@ export interface Game {
     slug: string,
     description: string,
     cover_default: string,
+    cover_detail: string,
     released_at: Date,
     platform: Platform,
     genres: Array<Genre>,
