@@ -12,10 +12,9 @@ from shared.models import SoftDeleteModel
 class Classification(SoftDeleteModel):
     name = models.CharField(unique=True)
     slug = models.SlugField(unique=True)
-    description = models.TextField(max_length=160)
 
     def __str__(self):
-        return f'PK="{self.pk}", name="{self.name}", slug="{self.slug}" description="{self.description}"'
+        return f'PK="{self.pk}", name="{self.name}", slug="{self.slug}"'
 
     class Meta:
         abstract = True
@@ -38,15 +37,11 @@ class Classification(SoftDeleteModel):
 
 
 class Edition(Classification):
-    pass
+    description = models.TextField(max_length=160)
 
 
 class Region(Classification):
-    description = None
     acronym = models.CharField(max_length=2)
-    icon = models.ImageField(
-        upload_to='regions/', default='regions/default.png', null=True, blank=True
-    )
     igdb_id = models.IntegerField(unique=True)
     rating_organization = models.CharField(
         max_length=20,
@@ -107,10 +102,11 @@ class Platform(Classification):
 
         aliases = set()
 
-        compact = re.sub(r'[\s\-]+', '', name)
+        compact = re.sub(r'[^a-z0-9]+', '', name)
         aliases.add(compact)
 
-        words = re.split(r'[\s\-]+', name)
+        words = re.findall(r'[a-z0-9]+', name)
+
         acronym = ''.join(word[0] for word in words if word)
         aliases.add(acronym)
 
@@ -121,7 +117,6 @@ class Platform(Classification):
                 aliases.add(words[0][0] + number)
 
         return aliases
-
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

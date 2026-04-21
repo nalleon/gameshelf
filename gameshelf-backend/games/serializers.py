@@ -22,9 +22,7 @@ class GameSerializer(BaseSerializer):
             'cover_default': instance.cover_default,
             'cover_detail': instance.cover_detail,
             'released_at': instance.released_at.isoformat(),
-            'platforms': PlatformSerializer(
-                instance.platforms.all(), request=self.request
-            ).serialize(),
+            'platform': PlatformSerializer(instance.platform, request=self.request).serialize(),
             'genres': GenreSerializer(instance.genres.all(), request=self.request).serialize(),
             'developers': DeveloperSerializer(
                 instance.developers.all(), request=self.request
@@ -46,7 +44,7 @@ class GameSerializer(BaseSerializer):
             'cover_default': serializers.URLField(),
             'cover_detail': serializers.URLField(),
             'released_at': serializers.DateTimeField(),
-            'platforms': PlatformSerializer.get_fields_dict(),
+            'platform': PlatformSerializer.get_fields_dict(),
             'genres': GenreSerializer.get_fields_dict(),
             'developers': DeveloperSerializer.get_fields_dict(),
             'publishers': PublisherSerializer.get_fields_dict(),
@@ -126,7 +124,7 @@ class GameSchemaSerializer(serializers.Serializer):
     description = serializers.CharField()
     cover_default = serializers.URLField()
     released_at = serializers.DateTimeField()
-    pk_platforms_list = serializers.ListField(child=serializers.IntegerField())
+    pk_platform = serializers.IntegerField()
     pk_genres_list = serializers.ListField(child=serializers.IntegerField())
     pk_developers_list = serializers.ListField(child=serializers.IntegerField())
     pk_publishers_list = serializers.ListField(child=serializers.IntegerField())
@@ -170,7 +168,7 @@ class SaveGameSchemaSerializer(serializers.Serializer):
     description = serializers.CharField()
     cover_default = serializers.URLField()
     released_at = serializers.DateTimeField()
-    pk_platforms_list = serializers.ListField(child=serializers.IntegerField())
+    pk_platform = serializers.IntegerField()
     pk_genres_list = serializers.ListField(child=serializers.IntegerField())
     pk_developers_list = serializers.ListField(child=serializers.IntegerField())
     pk_publishers_list = serializers.ListField(child=serializers.IntegerField())

@@ -13,7 +13,13 @@ class Game(SoftDeleteModel):
 
     released_at = models.DateField()
 
-    platforms = models.ManyToManyField('classifications.Platform', related_name='games')
+    platform = models.ForeignKey(
+        'classifications.Platform',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    
     genres = models.ManyToManyField('classifications.Genre', related_name='games')
     developers = models.ManyToManyField('classifications.Developer', related_name='games')
     publishers = models.ManyToManyField('classifications.Publisher', related_name='games')
@@ -58,7 +64,7 @@ class Game(SoftDeleteModel):
         super().save(*args, **kwargs)
         
     class Meta:
-        unique_together = ['title', 'released_at', 'edition', 'region']
+        unique_together = ['title', 'released_at', 'platform', 'edition', 'region']
 
     
 class Review(SoftDeleteModel):
