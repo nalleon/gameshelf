@@ -178,7 +178,7 @@ def edit_game(request, pk_game: int):
     description = payload['description']
     cover_default = payload['cover_default']
     released_at = payload['released_at']
-    pk_platform = payload['pk_platform']
+    pk_platforms_list = payload['pk_platforms_list']
     pk_genres_list = payload['pk_genres_list']
     pk_developers_list = payload['pk_developers_list']
     pk_publishers_list = payload['pk_publishers_list']
@@ -204,14 +204,17 @@ def edit_game(request, pk_game: int):
 
     if released_at:
         game.released_at = released_at
-        
-    if pk_platform:
-        try:
-            platform = get_object_or_404(Platform, pk_platform)
-        except Http404:
-            return JsonResponse({'error': 'Platform to associate not found'}, status=404)
 
-        game.platform = platform
+    if pk_platforms_list:
+        platforms = []
+        for pk_platform in pk_platforms_list:
+            try:
+                platform = get_object_or_404(Platform, pk_platform)
+            except Http404:
+                return JsonResponse({'error': 'Platform to associate not found'}, status=404)
+            platforms.append(platform)
+
+        game.platforms = platforms
 
     if pk_genres_list:
         genres = []
