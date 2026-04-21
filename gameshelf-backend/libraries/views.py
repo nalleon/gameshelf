@@ -12,13 +12,14 @@ from games.models import Game
 from shared.decorators import require_fields, require_json_body
 from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
-
+from classifications.models import Platform
 from .models import Library, LibraryItem
 from .serializers import (
-    LibraryItemSchemaSerializer,
+    AddLibraryItemSchemaSerializer,
     LibraryItemSerializer,
     LibrarySchemaSerializer,
     LibrarySerializer,
+    UpdateLibraryItemSchemaSerializer
 )
 
 User = get_user_model()
@@ -40,7 +41,7 @@ User = get_user_model()
     ),
     post=extend_schema(
         description='Add item to library',
-        request=LibraryItemSchemaSerializer,
+        request=AddLibraryItemSchemaSerializer,
         responses={
             201: LibraryItemSerializer,
             400: ErrorResponseSerializer,
@@ -85,19 +86,28 @@ def edit_own_library(request):
 
 @csrf_exempt
 @require_json_body
-@require_fields('game_id', 'status', 'is_private')
+@require_fields('game_id', 'platform_id', 'status', 'is_private')
 @auth_required
 def add_library_item(request):
     library = request.user.library
 
     game = get_object_or_404(Game, pk=request.json['game_id'])
 
-    if LibraryItem.objects.filter(library=library, game=game, deleted_at__isnull=True).exists():
+    if not game.platforms.filter(id=request.json['platform_id']).exists():
+        return JsonResponse(
+            {'error': 'This game is not available on the selected platform'},
+            status=400
+    )
+        
+    platform = get_object_or_404(Platform, pk=request.json['platform_id'])
+
+    if LibraryItem.objects.filter(library=library, game=game, platform=platform, deleted_at__isnull=True).exists():
         return JsonResponse({'error': 'Game already in library'}, status=400)
 
     item = LibraryItem.objects.create(
         library=library,
         game=game,
+        platform=platform,
         status=request.json['status'],
         is_private=request.json['is_private'],
         hours_played=request.json.get('hours_played', 0),
@@ -117,7 +127,7 @@ def add_library_item(request):
     ),
     patch=extend_schema(
         description='Edit library item',
-        request=LibraryItemSchemaSerializer,
+        request=UpdateLibraryItemSchemaSerializer,
         responses={
             200: LibraryItemSerializer,
             400: ErrorResponseSerializer,
@@ -171,6 +181,18 @@ def edit_library_item(request, pk_item: int):
 
     payload = request.json
     updated = False
+
+    if not item.game.platforms.filter(id=request.json['platform_id']).exists():
+            return JsonResponse(
+                {'error': 'This game is not available on the selected platform'},
+                status=400
+        )
+    
+    platform = get_object_or_404(Platform, pk=payload['platform_id'])
+    
+    if 'platform_id' in payload and payload['platform_id'] != item.platform.pk:
+        item.platform = platform
+        updated = True
 
     if 'status' in payload and payload['status'] != item.status:
         item.status = payload['status']
