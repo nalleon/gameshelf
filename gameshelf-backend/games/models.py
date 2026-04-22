@@ -13,6 +13,7 @@ class Game(SoftDeleteModel):
     cover_detail = models.URLField(null=True, blank=True)
 
     released_at = models.DateField()
+    
 
     platforms = models.ManyToManyField('classifications.Platform', related_name='games')
     genres = models.ManyToManyField('classifications.Genre', related_name='games')
