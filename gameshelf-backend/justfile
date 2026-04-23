@@ -1,8 +1,7 @@
 # Run development server
 [group('server')]
 dev port="8000":
-    uv run manage.py runserver {{ port }}
-
+    sh -c 'uv run manage.py rqworker & uv run manage.py runserver {{ port }}'
 # Run development server with external access
 [group('server')]
 dev0 port="8000":
@@ -196,55 +195,51 @@ clean-data:
 
 
 # Generate fake data and populate database
-[group('data')]
-[private]
-gen-data: clean-data
-    #!/usr/bin/env bash
-    rm -fr media/games/covers/example*.jpg
-    rm -fr media/platforms/logos/example*.jpg
-    uv run manage.py gen_data
-    echo "✔ Fake data generated and loaded into database."
+# [group('data')]
+# [private]
+# gen-data: clean-data
+#     #!/usr/bin/env bash
+#     uv run manage.py
+#     echo "✔ Fake data generated and loaded into database."
 
 
 [group('data')]
 [private]
 dump-data:
     #!/usr/bin/env bash
-    uv run manage.py dumpdata auth.User > fixtures/auth.json
-    uv run manage.py dumpdata users > fixtures/users.json
+    set -e
 
-    uv run manage.py dumpdata auth.User \
-        --indent 2 > fixtures/auth.json
+    mkdir -p fixtures
 
-    uv run manage.py dumpdata users \
-        --indent 2 > fixtures/users.json
+    echo "Dumping classifications..."
+    uv run manage.py dumpdata classifications.genre --indent 2 > fixtures/genres.json
+    uv run manage.py dumpdata classifications.platform --indent 2 > fixtures/platforms.json
+    uv run manage.py dumpdata classifications.region --indent 2 > fixtures/regions.json
+    uv run manage.py dumpdata classifications.developer --indent 2 > fixtures/developers.json
+    uv run manage.py dumpdata classifications.publisher --indent 2 > fixtures/publishers.json
 
-    uv run manage.py dumpdata classifications \
-        --indent 2 > fixtures/classifications.json
-
-    uv run manage.py dumpdata games \
-        --indent 2 > fixtures/games.json
-
-    uv run manage.py dumpdata collections \
-        --indent 2 > fixtures/collections.json
-
-    uv run manage.py dumpdata libraries \
-        --indent 2 > fixtures/libraries.json
+    echo "Dumping games..."
+    uv run manage.py dumpdata games.game --indent 2 > fixtures/games.json
 
     echo "Data dumped into fixtures/*.json"
 
-
 # Load fixtures into database
 [group('data')]
-@load-data: clean-data && show-users
-    uv run manage.py loaddata fixtures/auth.json 
-    uv run manage.py loaddata fixtures/editions.json
-    uv run manage.py loaddata fixtures/regions.json
+load-data:
+    #!/usr/bin/env bash
+    set -e
+
+    echo "Loading classifications..."
     uv run manage.py loaddata fixtures/genres.json
+    uv run manage.py loaddata fixtures/platforms.json
+    uv run manage.py loaddata fixtures/regions.json
     uv run manage.py loaddata fixtures/developers.json
     uv run manage.py loaddata fixtures/publishers.json
-    uv run manage.py loaddata fixtures/platforms.json
 
+    echo "Loading games..."
+    uv run manage.py loaddata fixtures/games.json
+
+    echo "Fixtures loaded"
 
 [group('testing')]
 coverage: 

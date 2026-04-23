@@ -11,7 +11,7 @@ from shared.models import SoftDeleteModel
 
 class Classification(SoftDeleteModel):
     name = models.CharField(unique=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField()
 
     def __str__(self):
         return f'PK="{self.pk}", name="{self.name}", slug="{self.slug}"'
@@ -32,9 +32,23 @@ class Classification(SoftDeleteModel):
         ]
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
+        if not self.slug:
+            base_slug = slugify(self.name)
+            
+            base_slug = base_slug.replace('(', '').replace(')', '')
 
+            slug = base_slug
+            counter = 1
+
+            Model = self.__class__
+
+            while Model.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base_slug}-{counter}'
+                counter += 1
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
 
 class Edition(Classification):
     description = models.TextField(max_length=160)
