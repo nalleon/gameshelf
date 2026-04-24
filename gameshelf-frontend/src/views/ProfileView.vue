@@ -4,7 +4,7 @@
         <!-- Header / Banner -->
         <header class="relative bg-[#1a1e26]">
             <!-- Banner con degradado usando tus colores -->
-            <div class="h-48 md:h-55 bg-gradient-to-r from-gsbosque to-gsmenta"></div>
+            <div class="h-48 md:h-55" :style="{ backgroundColor: profile?.color_bg || '#79a998' }"/>
             
             <div class="max-w-5xl mx-auto px-6">
                 <div class="flex flex-col md:flex-row items-end -mt-12 md:-mt-10 gap-6 pb-6">
@@ -78,18 +78,21 @@
             
             <!-- Game Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                <div v-for="i in 4" :key="i" class="group cursor-pointer">
-                <div class="relative aspect-[3/4] bg-gsgris rounded-xl overflow-hidden transition-transform duration-300 group-hover:-translate-y-2 shadow-lg">
-                    <!-- Overlay para el estado -->
-                    <div class="absolute top-3 left-3 px-2 py-1 bg-gsoscuro/80 backdrop-blur-md rounded text-[10px] uppercase font-bold text-gsmenta border border-gsmenta/30">
-                    Jugando
+                <div v-if="profile && (profile?.user.library.items)?.length > 0" v-for="item in profile?.user.library.items" :key="item.id" class="group cursor-pointer">
+                    <!-- <div class="relative aspect-[3/4] bg-gsgris rounded-xl overflow-hidden transition-transform duration-300 group-hover:-translate-y-2 shadow-lg">
+                        <div class="absolute top-3 left-3 px-2 py-1 bg-gsoscuro/80 backdrop-blur-md rounded text-[10px] uppercase font-bold text-gsmenta border border-gsmenta/30">
+                            Jugando
+                        </div>
+                        <div class="w-full h-full bg-gradient-to-t from-gsoscuro via-transparent to-transparent opacity-60"></div>
                     </div>
-                    <div class="w-full h-full bg-gradient-to-t from-gsoscuro via-transparent to-transparent opacity-60"></div>
+                    <div class="mt-4">
+                        <h3 class="font-semibold text-gsblanco group-hover:text-gsmenta transition-colors line-clamp-1">The Legend of Zelda</h3>
+                        <p class="text-gsgris text-sm italic">Switch</p>
+                    </div> -->
+                    <GameCard :game="item.game" :platform="item.platform"/>
                 </div>
-                <div class="mt-4">
-                    <h3 class="font-semibold text-gsblanco group-hover:text-gsmenta transition-colors line-clamp-1">The Legend of Zelda</h3>
-                    <p class="text-gsgris text-sm italic">Switch</p>
-                </div>
+                <div v-else class="col-span-full flex justify-center items-center">
+                    <img alt="no recent games" src="@/assets/Empty-cuate.svg" class="w-sm" />
                 </div>
             </div>
         </main>
@@ -100,8 +103,9 @@
 import Navbar from '@/components/Navbar.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
-import type { Collection, Game, LibraryItem, Profile } from '@/types/profileTypes';
+import type { Profile } from '@/types/profileTypes';
 import Badge from '@/components/Badge.vue';
+import GameCard from '@/components/GameCard.vue';
 
 const authStore = useAuthStore()
 const profile = ref<Profile | null>(null);
