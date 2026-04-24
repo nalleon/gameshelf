@@ -26,16 +26,18 @@
 
 <script setup lang="ts">
 import type { Game } from '@/types/gameListTypes';
+import type { Platform } from '@/types/profileTypes';
 import { computed } from 'vue';
 
 interface Props {
-    game: Game
+    game: Game,
+    platform?: Platform
 }
 
 const props = defineProps<Props>()
 
 const platform = computed(()=> {
-    switch (props.game.region.name) {
+    switch (props.platform?.name) {
         case "pc-microsoft-windows":
             return `<img :src="" class="h-[15px]">` 
     }

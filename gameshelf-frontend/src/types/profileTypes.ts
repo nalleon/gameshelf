@@ -1,3 +1,5 @@
+import type { Game } from "./gameListTypes"
+
 // User Interfaces
 export interface Profile {
     id: number,
@@ -5,7 +7,8 @@ export interface Profile {
     avatar: string,
     bio: string,
     verified: boolean,
-    role: string
+    role: string,
+    color_bg: string,
 }
 
 export interface User {
@@ -60,34 +63,45 @@ export interface Library {
 export interface LibraryItem {
     id: number
     game: Game,
+    platform: Platform,
     status: string,
+    is_private: boolean,
     hours_played: string,
     created_at: string,
     updated_at: string,
-    is_private: boolean,
 }
 
-export interface Game {
-    id: number,
-    title: string,
-    slug: string,
-    description: string,
-    cover_default: string,
-    edition: Edition,
-    region: Region,
-}
-
-export interface Edition {
+export interface Platform {
     id: number,
     name: string,
     slug: string,
-    description: string,
+    // slug_aliases: string,
 }
 
-export interface Region {
-    id: number,
-    name: string,
-    slug: string,
-    description: string,
-    acronym: string,
-}
+// export interface Game {
+//     id: number,
+//     title: string,
+//     slug: string,
+//     description: string,
+//     cover_default: string,
+//     cover_detail: string,
+//     released_at: Date,
+//     edition: Edition,
+//     region: Region,
+//     mature_content: boolean,
+// }
+
+// export interface Edition {
+//     id: number,
+//     name: string,
+//     slug: string,
+//     description: string,
+// }
+
+// export interface Region {
+//     id: number,
+//     name: string,
+//     slug: string,
+//     description: string,
+//     acronym: string,
+// }
