@@ -9,7 +9,8 @@ class PlatformSerializer(BaseSerializer):
             'id': instance.pk,
             'name': instance.name,
             'slug': instance.slug,
-            'aliases': PlatformSlugAliasSerializer(
+            # aliases?
+            'slug_aliases': PlatformSlugAliasSerializer(
                 instance.slug_aliases.filter(deleted_at__isnull=True),
                 request=self.request
             ).serialize(),
@@ -118,7 +119,9 @@ class RegionSerializer(BaseSerializer):
             'id': instance.pk,
             'name': instance.name,
             'slug': instance.slug,
-            'acronym': instance.acronym,        }
+            'acronym': instance.acronym,
+            # rating     
+        }
 
     @staticmethod
     def get_fields_dict():

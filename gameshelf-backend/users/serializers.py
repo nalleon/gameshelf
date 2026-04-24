@@ -5,6 +5,7 @@ from classifications.serializers import (
     EditionSerializer,
     PlatformSerializer,
     RegionSerializer,
+    GenreSerializer
 )
 
 class UserSerializer(BaseSerializer):
@@ -154,12 +155,13 @@ class LoggedLibraryItemSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
             'id': instance.pk,
-            'status': instance.get_status_display(),
-            'hours_played': instance.hours_played,
             'game': LoggedGameSerializer(instance.game, request=self.request).serialize(),
+            'platform': PlatformSerializer(instance.platform, request=self.request).serialize(),
+            'status': instance.get_status_display(),
+            'is_private': instance.is_private,
+            'hours_played': instance.hours_played,
             'created_at': instance.created_at,
             'updated_at': instance.updated_at,
-            'is_private': instance.is_private,
         }
 
     @staticmethod
@@ -167,11 +169,12 @@ class LoggedLibraryItemSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'game': LoggedGameSerializer.get_fields_dict(),
+            'platform': PlatformSerializer.get_fields_dict(),
             'status': serializers.CharField(),
+            'is_private': serializers.BooleanField(),
             'hours_played': serializers.CharField(),
             'created_at': serializers.DateTimeField(),
             'updated_at': serializers.DateTimeField(),
-            'is_private': serializers.BooleanField()
         }
         
 class LoggedWishlistSerializer(BaseSerializer):
@@ -224,12 +227,14 @@ class LoggedGameSerializer(BaseSerializer):
             'slug': instance.slug,
             'description': instance.description,
             'cover_default': self.build_url(instance.cover_default.url),
+            'cover_detail': self.build_url(instance.cover_detail.url),
             'released_at': instance.released_at.isoformat(),
-            'platforms': PlatformSerializer(
-                instance.platforms.all(), request=self.request
-            ).serialize(),
-            'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
+            # 'platforms': PlatformSerializer(
+            #     instance.platforms.all(), request=self.request
+            # ).serialize(),
+            # 'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
             'region': RegionSerializer(instance.region, request=self.request).serialize(),
+            'mature_content': instance.mature_content,
         }
 
     @staticmethod
@@ -241,9 +246,10 @@ class LoggedGameSerializer(BaseSerializer):
             'description': serializers.CharField(),
             'cover_default': serializers.URLField(),
             'released_at': serializers.DateTimeField(),
-            'platforms': PlatformSerializer.get_fields_dict(),
-            'edition': EditionSerializer.get_fields_dict(),
+            # 'platforms': PlatformSerializer.get_fields_dict(),
+            # 'edition': EditionSerializer.get_fields_dict(),
             'region': RegionSerializer.get_fields_dict(),
+            'mature_content': serializers.BooleanField(),
         }
 
 # Schemas to create an user in Swagger
