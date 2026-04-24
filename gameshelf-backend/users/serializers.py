@@ -232,7 +232,7 @@ class LoggedGameSerializer(BaseSerializer):
             # 'platforms': PlatformSerializer(
             #     instance.platforms.all(), request=self.request
             # ).serialize(),
-            # 'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
+            'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
             'region': RegionSerializer(instance.region, request=self.request).serialize(),
             'mature_content': instance.mature_content,
         }
