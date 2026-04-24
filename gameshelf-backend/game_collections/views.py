@@ -11,6 +11,7 @@ from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
 from django.core.exceptions import PermissionDenied
 from .models import Collection, CollectionItem, Wishlist, WishListItem, Item
+from classifications.models import Platform
 from .serializers import (
     CollectionItemSchemaSerializer,
     CollectionItemSerializer,
@@ -168,13 +169,14 @@ def collection_item_list(request, pk_collection):
 # This method is public to add to its own collection
 @csrf_exempt
 @require_json_body
-@require_fields('game_id', 'is_private', 'type')
+@require_fields('game_id', 'platform_id','is_private', 'type')
 @auth_required
 def add_self_collection_item(request, pk_collection):
     payload = request.json
     pk_game = payload['game_id']
     is_private = payload['is_private']
     item_type = payload['type']
+    platform_id = payload['platform_id']
     collection = get_object_or_404(Collection, pk=pk_collection)
 
     if collection.user != request.user:
@@ -183,14 +185,26 @@ def add_self_collection_item(request, pk_collection):
 
     game = get_object_or_404(Game, pk=pk_game)
 
+
+    if not game.platforms.filter(id=platform_id).exists():
+        return JsonResponse(
+            {'error': 'This game is not available on the selected platform'},
+            status=400
+    )
+        
+    platform = get_object_or_404(Platform, pk=platform_id)
+    
     try:
         validate_item_type_for_game(game, item_type)
     except ValueError as e:
         return JsonResponse({'error': str(e)}, status=400)
-    
+
+
+
     exists = CollectionItem.objects.filter(
         collection=collection,
         game=game,
+        platform=platform,
         type=item_type,
         deleted_at__isnull=True
     ).exists()
@@ -199,7 +213,7 @@ def add_self_collection_item(request, pk_collection):
         return JsonResponse({'error': 'Game already exists in collection'}, status=400)
 
     collection_item = CollectionItem.objects.create(
-        game=game, collection=collection, is_private=is_private, type=item_type
+        game=game, collection=collection, platform=platform, is_private=is_private, type=item_type
     )
 
     return JsonResponse({'id': collection_item.pk}, status=201)
@@ -354,7 +368,7 @@ def delete_collection_item(request, pk_collection: int, pk_collection_item: int)
 
 
 @require_json_body
-@require_fields('is_private', 'type')
+@require_fields('is_private', 'type', 'platform_id')
 @auth_required
 def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
     collection_item = get_object_or_404(
@@ -369,10 +383,19 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
     payload = request.json
     is_private = payload['is_private']
     item_type = payload['type']
-
+    platform_id = payload['platform_id']
+    
 
     game = get_object_or_404(Game, pk=collection_item.game.pk)
 
+    if not game.platforms.filter(id=platform_id).exists():
+            return JsonResponse(
+                {'error': 'This game is not available on the selected platform'},
+                status=400
+        )
+            
+    platform = get_object_or_404(Platform, pk=platform_id)
+    
     try:
         validate_item_type_for_game(game, item_type)
     except ValueError as e:
@@ -386,6 +409,10 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
            
     if item_type != collection_item.type:
         collection_item.type = item_type
+        updated=True
+        
+    if platform != collection_item.platform:
+        collection_item.platform = platform
         updated=True
 
     if updated:
@@ -479,7 +506,7 @@ def get_wishlist(request, pk_wishlist: int):
 
 @csrf_exempt
 @require_json_body
-@require_fields('game_id', 'priority', 'annotation', 'is_private', 'type')
+@require_fields('game_id', 'platform_id', 'priority', 'annotation', 'is_private', 'type')
 @auth_required
 def add_self_wishlist_item(request, pk_wishlist: int):
     wishlist = check_wishlist_ownership(request.user, pk_wishlist)
@@ -490,9 +517,20 @@ def add_self_wishlist_item(request, pk_wishlist: int):
     annotation = payload['annotation']
     is_private = payload['is_private']
     item_type = payload['type']
+    platform_id = payload['platform_id']
     
     game = get_object_or_404(Game, pk=pk_game)
 
+
+    if not game.platforms.filter(id=platform_id).exists():
+            return JsonResponse(
+                {'error': 'This game is not available on the selected platform'},
+                status=400
+        )
+            
+    platform = get_object_or_404(Platform, pk=platform_id)
+    
+    
     try:
         validate_item_type_for_game(game, item_type)
     except ValueError as e:
@@ -509,6 +547,7 @@ def add_self_wishlist_item(request, pk_wishlist: int):
     wishlist_item = WishListItem.objects.create(
         wishlist=wishlist,
         game=game,
+        platform=platform,
         priority=priority,
         annotation=annotation,
         is_private=is_private,
@@ -603,7 +642,7 @@ def delete_wishlist_item(request, pk_wishlist_item: int):
 
 @csrf_exempt
 @require_json_body
-@require_fields('priority', 'annotation', 'is_private', 'type')
+@require_fields('priority', 'platform_id', 'annotation', 'is_private', 'type')
 @auth_required
 def edit_wishlist_item(request, pk_wishlist_item: int):
 
@@ -613,9 +652,17 @@ def edit_wishlist_item(request, pk_wishlist_item: int):
     updated = False
     
     
+    
 
     game = get_object_or_404(Game, pk=wishlist_item.game.pk)
-
+    if not game.platforms.filter(id=payload['platform_id']).exists():
+            return JsonResponse(
+                {'error': 'This game is not available on the selected platform'},
+                status=400
+        )
+            
+    platform = get_object_or_404(Platform, pk=payload['platform_id'])
+    
     try:
         validate_item_type_for_game(game, payload['type'])
     except ValueError as e:
@@ -630,6 +677,9 @@ def edit_wishlist_item(request, pk_wishlist_item: int):
         updated = True
     if 'is_private' in payload:
         wishlist_item.is_private = payload['is_private']
+        updated = True
+    if platform != wishlist_item.platform:
+        wishlist_item.platform = platform
         updated = True
 
     if updated:

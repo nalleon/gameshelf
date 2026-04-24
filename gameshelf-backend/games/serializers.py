@@ -22,7 +22,11 @@ class GameSerializer(BaseSerializer):
             'cover_default': instance.cover_default,
             'cover_detail': instance.cover_detail,
             'released_at': instance.released_at.isoformat(),
-            'platform': PlatformSerializer(instance.platform, request=self.request).serialize(),
+            'age_rating': instance.age_rating,
+            'mature_content': instance.mature_content,
+            'platforms': PlatformSerializer(
+                instance.platforms.all(), request=self.request
+            ).serialize(),
             'genres': GenreSerializer(instance.genres.all(), request=self.request).serialize(),
             'developers': DeveloperSerializer(
                 instance.developers.all(), request=self.request
@@ -43,14 +47,17 @@ class GameSerializer(BaseSerializer):
             'description': serializers.CharField(),
             'cover_default': serializers.URLField(),
             'cover_detail': serializers.URLField(),
-            'released_at': serializers.DateTimeField(),
-            'platform': PlatformSerializer.get_fields_dict(),
+            'released_at': serializers.DateField(),
+            'age_rating': serializers.CharField(allow_null=True, required=False),
+            'mature_content': serializers.BooleanField(),
+            'platforms': PlatformSerializer.get_fields_dict(),
             'genres': GenreSerializer.get_fields_dict(),
             'developers': DeveloperSerializer.get_fields_dict(),
             'publishers': PublisherSerializer.get_fields_dict(),
             'edition': EditionSerializer.get_fields_dict(),
             'region': RegionSerializer.get_fields_dict(),
         }
+
 
 class ReviewSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
@@ -80,13 +87,15 @@ class ReviewSerializer(BaseSerializer):
             'created_at': serializers.DateTimeField(),
             'updated_at': serializers.DateTimeField(),
         }
+
+
 class MediaSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
             'id': instance.pk,
             'image': (
                 self.build_url(instance.image.url)
-                if instance.image and hasattr(instance.image, "url")
+                if instance.image and hasattr(instance.image, 'url')
                 else None
             ),
         }
@@ -97,6 +106,7 @@ class MediaSerializer(BaseSerializer):
             'id': serializers.IntegerField(),
             'image': serializers.URLField(allow_null=True),
         }
+
 
 class FavoriteItemSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
@@ -117,6 +127,7 @@ class FavoriteItemSerializer(BaseSerializer):
 
 # Serializers for documentation via Swagger
 
+
 class GameSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
@@ -124,7 +135,7 @@ class GameSchemaSerializer(serializers.Serializer):
     description = serializers.CharField()
     cover_default = serializers.URLField()
     released_at = serializers.DateTimeField()
-    pk_platform = serializers.IntegerField()
+    pk_platforms_list = serializers.ListField(child=serializers.IntegerField())
     pk_genres_list = serializers.ListField(child=serializers.IntegerField())
     pk_developers_list = serializers.ListField(child=serializers.IntegerField())
     pk_publishers_list = serializers.ListField(child=serializers.IntegerField())
@@ -157,18 +168,19 @@ class FavoriteSchemaSerializer(serializers.Serializer):
 # IGDB schemas for swagger
 class IGBDRequestGameSchema(serializers.Serializer):
     quantity = serializers.IntegerField()
-    
+
 
 class IGBDRequestGameTitleSchema(serializers.Serializer):
     title = serializers.CharField()
-    
+
+
 # Schemas to save class objects in Swagger
 class SaveGameSchemaSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
     cover_default = serializers.URLField()
     released_at = serializers.DateTimeField()
-    pk_platform = serializers.IntegerField()
+    pk_platforms_list = serializers.ListField(child=serializers.IntegerField())
     pk_genres_list = serializers.ListField(child=serializers.IntegerField())
     pk_developers_list = serializers.ListField(child=serializers.IntegerField())
     pk_publishers_list = serializers.ListField(child=serializers.IntegerField())
@@ -181,15 +193,15 @@ class SaveReviewSchemaSerializer(serializers.Serializer):
     recommend = serializers.BooleanField()
     game_id = serializers.IntegerField()
 
+
 class SaveFavoriteSchemaSerializer(serializers.Serializer):
     game = id = serializers.IntegerField()
     user = serializers.DictField()
 
+
 class UpdateFavoriteSchemaSerializer(serializers.Serializer):
     order = serializers.IntegerField(default=1)
-    
+
+
 class ReviewMediaUploadSerializer(serializers.Serializer):
-    images = serializers.ListField(
-        child=serializers.ImageField(),
-        allow_empty=False
-    )
+    images = serializers.ListField(child=serializers.ImageField(), allow_empty=False)

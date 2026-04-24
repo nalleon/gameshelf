@@ -4,7 +4,13 @@ from django.db.models import Max
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema, extend_schema_view
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiParameter,
+    OpenApiTypes,
+    extend_schema,
+    extend_schema_view,
+)
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import FormParser, MultiPartParser
 
@@ -99,8 +105,24 @@ def igdb_wrapper(request):
 # Games Methods
 @extend_schema(
     methods=['GET'],
-    responses={200: GameSchemaSerializer},
     description='Get all games',
+    parameters=[
+        OpenApiParameter(
+            name='mature_content',
+            type=OpenApiTypes.BOOL,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description=(
+                'If true, returns all games (both mature and non-mature). '
+                'If false, returns only non-mature games.'
+            ),
+            examples=[
+                OpenApiExample('Return all games', value=True),
+                OpenApiExample('Only non-mature games', value=False),
+            ],
+        ),
+    ],
+    responses={200: GameSchemaSerializer},
 )
 @api_view(['GET'])
 @csrf_exempt
@@ -112,7 +134,22 @@ def game_wrapper(request):
 
 @csrf_exempt
 def game_list(request):
-    games = Game.objects.all()
+    mature_content = request.GET.get('mature_content')
+
+    if mature_content is not None:
+        # Convertir string a booleano
+        mature_content = mature_content.lower() == 'true'
+
+        if mature_content:
+            # Mostrar todos (true + false)
+            games = Game.objects.all()
+        else:
+            # Solo los que NO son mature
+            games = Game.objects.filter(mature_content=False)
+    else:
+        # Si no viene el parámetro, puedes decidir comportamiento por defecto
+        games = Game.objects.all()
+
     serializer = GameSerializer(games, request=request)
     return serializer.json_response()
 
@@ -178,7 +215,7 @@ def edit_game(request, pk_game: int):
     description = payload['description']
     cover_default = payload['cover_default']
     released_at = payload['released_at']
-    pk_platform = payload['pk_platform']
+    pk_platforms_list = payload['pk_platforms_list']
     pk_genres_list = payload['pk_genres_list']
     pk_developers_list = payload['pk_developers_list']
     pk_publishers_list = payload['pk_publishers_list']
@@ -204,14 +241,17 @@ def edit_game(request, pk_game: int):
 
     if released_at:
         game.released_at = released_at
-        
-    if pk_platform:
-        try:
-            platform = get_object_or_404(Platform, pk_platform)
-        except Http404:
-            return JsonResponse({'error': 'Platform to associate not found'}, status=404)
 
-        game.platform = platform
+    if pk_platforms_list:
+        platforms = []
+        for pk_platform in pk_platforms_list:
+            try:
+                platform = get_object_or_404(Platform, pk_platform)
+            except Http404:
+                return JsonResponse({'error': 'Platform to associate not found'}, status=404)
+            platforms.append(platform)
+
+        game.platforms = platforms
 
     if pk_genres_list:
         genres = []
@@ -847,7 +887,6 @@ def add_favorite_item(request):
 @csrf_exempt
 @auth_required
 def favorites_detail_wrapper(request, pk_favorite: int):
-
     match request.method:
         case 'PATCH':
             return edit_favorite_item(request, pk_favorite)

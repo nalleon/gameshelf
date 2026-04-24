@@ -1,0 +1,2351 @@
+[
+    {
+        "model": "classifications.region",
+        "pk": 1,
+        "fields": {
+            "name": "europe",
+            "slug": "europe",
+            "acronym": "EU",
+            "igdb_id": 1,
+            "rating_organization": "PEGI"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 2,
+        "fields": {
+            "name": "north_america",
+            "slug": "north_america",
+            "acronym": "NO",
+            "igdb_id": 2,
+            "rating_organization": "ESRB"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 3,
+        "fields": {
+            "name": "australia",
+            "slug": "australia",
+            "acronym": "AU",
+            "igdb_id": 3,
+            "rating_organization": "PEGI"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 4,
+        "fields": {
+            "name": "new_zealand",
+            "slug": "new_zealand",
+            "acronym": "NE",
+            "igdb_id": 4,
+            "rating_organization": "PEGI"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 5,
+        "fields": {
+            "name": "japan",
+            "slug": "japan",
+            "acronym": "JA",
+            "igdb_id": 5,
+            "rating_organization": "CERO"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 6,
+        "fields": {
+            "name": "china",
+            "slug": "china",
+            "acronym": "CH",
+            "igdb_id": 6,
+            "rating_organization": "GRAC"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 7,
+        "fields": {
+            "name": "asia",
+            "slug": "asia",
+            "acronym": "AS",
+            "igdb_id": 7,
+            "rating_organization": "GRAC"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 8,
+        "fields": {
+            "name": "worldwide",
+            "slug": "worldwide",
+            "acronym": "WO",
+            "igdb_id": 8,
+            "rating_organization": "IARC"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 9,
+        "fields": {
+            "name": "korea",
+            "slug": "korea",
+            "acronym": "KO",
+            "igdb_id": 9,
+            "rating_organization": "GRAC"
+        }
+    },
+    {
+        "model": "classifications.region",
+        "pk": 10,
+        "fields": {
+            "name": "brazil",
+            "slug": "brazil",
+            "acronym": "BR",
+            "igdb_id": 10,
+            "rating_organization": "GRAC"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 5,
+        "fields": {
+            "name": "Shooter",
+            "slug": "shooter"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 31,
+        "fields": {
+            "name": "Adventure",
+            "slug": "adventure"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 32,
+        "fields": {
+            "name": "Indie",
+            "slug": "indie"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 8,
+        "fields": {
+            "name": "Platform",
+            "slug": "platform"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 9,
+        "fields": {
+            "name": "Puzzle",
+            "slug": "puzzle"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 14,
+        "fields": {
+            "name": "Sport",
+            "slug": "sport"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 10,
+        "fields": {
+            "name": "Racing",
+            "slug": "racing"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 33,
+        "fields": {
+            "name": "Arcade",
+            "slug": "arcade"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 26,
+        "fields": {
+            "name": "Quiz/Trivia",
+            "slug": "quiztrivia"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 7,
+        "fields": {
+            "name": "Music",
+            "slug": "music"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 12,
+        "fields": {
+            "name": "Role-playing (RPG)",
+            "slug": "role-playing-rpg"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 4,
+        "fields": {
+            "name": "Fighting",
+            "slug": "fighting"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 35,
+        "fields": {
+            "name": "Card & Board Game",
+            "slug": "card-board-game"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 15,
+        "fields": {
+            "name": "Strategy",
+            "slug": "strategy"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 13,
+        "fields": {
+            "name": "Simulator",
+            "slug": "simulator"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 34,
+        "fields": {
+            "name": "Visual Novel",
+            "slug": "visual-novel"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 16,
+        "fields": {
+            "name": "Turn-based strategy (TBS)",
+            "slug": "turn-based-strategy-tbs"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 24,
+        "fields": {
+            "name": "Tactical",
+            "slug": "tactical"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 6,
+        "fields": {
+            "name": "PC (Microsoft Windows)",
+            "slug": "pc-microsoft-windows"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 19,
+        "fields": {
+            "name": "Super Nintendo Entertainment System",
+            "slug": "super-nintendo-entertainment-system"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 9,
+        "fields": {
+            "name": "PlayStation 3",
+            "slug": "playstation-3"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 3,
+        "fields": {
+            "name": "Linux",
+            "slug": "linux"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 14,
+        "fields": {
+            "name": "Mac",
+            "slug": "mac"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 12,
+        "fields": {
+            "name": "Xbox 360",
+            "slug": "xbox-360"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 130,
+        "fields": {
+            "name": "Nintendo Switch",
+            "slug": "nintendo-switch"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 58,
+        "fields": {
+            "name": "Super Famicom",
+            "slug": "super-famicom"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 34,
+        "fields": {
+            "name": "Android",
+            "slug": "android"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 55,
+        "fields": {
+            "name": "Legacy Mobile Device",
+            "slug": "legacy-mobile-device"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 306,
+        "fields": {
+            "name": "Satellaview",
+            "slug": "satellaview"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 7,
+        "fields": {
+            "name": "PlayStation",
+            "slug": "playstation"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 38,
+        "fields": {
+            "name": "PlayStation Portable",
+            "slug": "playstation-portable"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 48,
+        "fields": {
+            "name": "PlayStation 4",
+            "slug": "playstation-4"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 49,
+        "fields": {
+            "name": "Xbox One",
+            "slug": "xbox-one"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 169,
+        "fields": {
+            "name": "Xbox Series X|S",
+            "slug": "xbox-series-xs"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 167,
+        "fields": {
+            "name": "PlayStation 5",
+            "slug": "playstation-5"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 39,
+        "fields": {
+            "name": "iOS",
+            "slug": "ios"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 163,
+        "fields": {
+            "name": "SteamVR",
+            "slug": "steamvr"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 82,
+        "fields": {
+            "name": "Web browser",
+            "slug": "web-browser"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 510,
+        "fields": {
+            "name": "e-Reader / Card-e Reader",
+            "slug": "e-reader-card-e-reader"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 15,
+        "fields": {
+            "name": "Commodore C64/128/MAX",
+            "slug": "commodore-c64128max"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 46,
+        "fields": {
+            "name": "PlayStation Vita",
+            "slug": "playstation-vita"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 56,
+        "fields": {
+            "name": "Valve",
+            "slug": "valve"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 30131,
+        "fields": {
+            "name": "Nippon Telenet",
+            "slug": "nippon-telenet"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 69764,
+        "fields": {
+            "name": "DualFanGames",
+            "slug": "dualfangames"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 34952,
+        "fields": {
+            "name": "LWMedia",
+            "slug": "lwmedia"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 24136,
+        "fields": {
+            "name": "DeadSeriousBros",
+            "slug": "deadseriousbros"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 70,
+        "fields": {
+            "name": "Nintendo",
+            "slug": "nintendo"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 22845,
+        "fields": {
+            "name": "Rocket Studio, Inc.",
+            "slug": "rocket-studio-inc"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 1956,
+        "fields": {
+            "name": "Idea Factory",
+            "slug": "idea-factory"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 5187,
+        "fields": {
+            "name": "07th Expansion",
+            "slug": "07th-expansion"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 47222,
+        "fields": {
+            "name": "Flyin Dogs",
+            "slug": "flyin-dogs"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 66368,
+        "fields": {
+            "name": "Emberwave Studios",
+            "slug": "emberwave-studios"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 12226,
+        "fields": {
+            "name": "Total Mayhem Games",
+            "slug": "total-mayhem-games"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 486,
+        "fields": {
+            "name": "Sports Interactive",
+            "slug": "sports-interactive"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 12010,
+        "fields": {
+            "name": "Winding Way Games",
+            "slug": "winding-way-games"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 530,
+        "fields": {
+            "name": "Eagle Dynamics",
+            "slug": "eagle-dynamics"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 12777,
+        "fields": {
+            "name": "Alternativa Games",
+            "slug": "alternativa-games"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 258,
+        "fields": {
+            "name": "KnowWonder",
+            "slug": "knowwonder"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 378,
+        "fields": {
+            "name": "Westlake Interactive",
+            "slug": "westlake-interactive"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 66198,
+        "fields": {
+            "name": "Shen Mansell",
+            "slug": "shen-mansell"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 13685,
+        "fields": {
+            "name": "Tate Multimedia",
+            "slug": "tate-multimedia"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 184,
+        "fields": {
+            "name": "id Software",
+            "slug": "id-software"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 60254,
+        "fields": {
+            "name": "Daniel Baamonde",
+            "slug": "daniel-baamonde"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 17561,
+        "fields": {
+            "name": "8FLOOR",
+            "slug": "8floor"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 8107,
+        "fields": {
+            "name": "Graftgold",
+            "slug": "graftgold"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 21557,
+        "fields": {
+            "name": "Prekano",
+            "slug": "prekano"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 42862,
+        "fields": {
+            "name": "SPY Interactive",
+            "slug": "spy-interactive"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 55876,
+        "fields": {
+            "name": "Leon Stephan Brinkmann",
+            "slug": "leon-stephan-brinkmann"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 12,
+        "fields": {
+            "name": "Black Isle Studios",
+            "slug": "black-isle-studios"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 24213,
+        "fields": {
+            "name": "Interplay",
+            "slug": "interplay"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 59101,
+        "fields": {
+            "name": "Team Gigadrive",
+            "slug": "team-gigadrive"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 67190,
+        "fields": {
+            "name": "Akitaldo",
+            "slug": "akitaldo"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 32062,
+        "fields": {
+            "name": "Properly Decent",
+            "slug": "properly-decent"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 62014,
+        "fields": {
+            "name": "XinUmer",
+            "slug": "xinumer"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 56,
+        "fields": {
+            "name": "Valve",
+            "slug": "valve"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 1,
+        "fields": {
+            "name": "Electronic Arts",
+            "slug": "electronic-arts"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 30131,
+        "fields": {
+            "name": "Nippon Telenet",
+            "slug": "nippon-telenet"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 69764,
+        "fields": {
+            "name": "DualFanGames",
+            "slug": "dualfangames"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 34952,
+        "fields": {
+            "name": "LWMedia",
+            "slug": "lwmedia"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 70,
+        "fields": {
+            "name": "Nintendo",
+            "slug": "nintendo"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 25230,
+        "fields": {
+            "name": "St. GIGA",
+            "slug": "st-giga"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 12846,
+        "fields": {
+            "name": "Bushiroad",
+            "slug": "bushiroad"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 1956,
+        "fields": {
+            "name": "Idea Factory",
+            "slug": "idea-factory"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 5187,
+        "fields": {
+            "name": "07th Expansion",
+            "slug": "07th-expansion"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 47222,
+        "fields": {
+            "name": "Flyin Dogs",
+            "slug": "flyin-dogs"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 66368,
+        "fields": {
+            "name": "Emberwave Studios",
+            "slug": "emberwave-studios"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 12226,
+        "fields": {
+            "name": "Total Mayhem Games",
+            "slug": "total-mayhem-games"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 112,
+        "fields": {
+            "name": "Sega",
+            "slug": "sega"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 12010,
+        "fields": {
+            "name": "Winding Way Games",
+            "slug": "winding-way-games"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 530,
+        "fields": {
+            "name": "Eagle Dynamics",
+            "slug": "eagle-dynamics"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 12777,
+        "fields": {
+            "name": "Alternativa Games",
+            "slug": "alternativa-games"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 73,
+        "fields": {
+            "name": "Aspyr Media",
+            "slug": "aspyr-media"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 64202,
+        "fields": {
+            "name": "RetroDotCards",
+            "slug": "retrodotcards"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 13685,
+        "fields": {
+            "name": "Tate Multimedia",
+            "slug": "tate-multimedia"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 16565,
+        "fields": {
+            "name": "Bethesda Softworks",
+            "slug": "bethesda-softworks"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 60254,
+        "fields": {
+            "name": "Daniel Baamonde",
+            "slug": "daniel-baamonde"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 17561,
+        "fields": {
+            "name": "8FLOOR",
+            "slug": "8floor"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 3715,
+        "fields": {
+            "name": "Hewson Consultants",
+            "slug": "hewson-consultants"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 14847,
+        "fields": {
+            "name": "ENTERGRAM",
+            "slug": "entergram"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 42862,
+        "fields": {
+            "name": "SPY Interactive",
+            "slug": "spy-interactive"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 59101,
+        "fields": {
+            "name": "Team Gigadrive",
+            "slug": "team-gigadrive"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 32062,
+        "fields": {
+            "name": "Properly Decent",
+            "slug": "properly-decent"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+        "pk": 62014,
+        "fields": {
+            "name": "XinUmer",
+            "slug": "xinumer"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 350392,
+        "fields": {
+            "title": "Rival Species",
+            "slug": "rival-species",
+            "description": "In the far distant future of the 40th millennium behind the stars there is only war. Enter the universe of WARHAMMER 40,000 and play a mighty warrior for one out of an ever growing list of rival species. A large PvP team multiplayer mod for Half-Life that plays similary to Battlefield/Battlefront, based on the Game's Workshop property. Eventually Exterminatus, A sequel for the Source Engine would be made",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coa0fw.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coa0fw.jpg",
+            "genres": [
+                5
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 207571,
+        "fields": {
+            "title": "A Very Corporate Escape Room",
+            "slug": "a-very-corporate-escape-room",
+            "description": "This is no ordinary escape room; this is A Very Corporate Escape Room. In this first person 3D puzzle adventure you will solve challenges, unlock secret locations and uncover the dark truth about your manager in a chilling satire of office life.",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co594f.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co594f.jpg",
+            "genres": [
+                31,
+                32
+            ],
+            "platforms": [],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 339266,
+        "fields": {
+            "title": "Power Guy World",
+            "slug": "power-guy-world",
+            "description": "Power Guy World is a 30 exit SMW romhack created by LucasMegaStriker as a tribute to the Vtuber \"Power Guy\".",
+            "released_at": "2023-08-15",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9tq2.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9tq2.jpg",
+            "genres": [],
+            "platforms": [
+                19
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 72,
+        "fields": {
+            "title": "Portal 2",
+            "slug": "portal-2",
+            "description": "Sequel to the acclaimed Portal (2007), Portal 2 pits the protagonist of the original game, Chell, and her new robot friend, Wheatley, against more puzzles conceived by GLaDOS, an A.I. with the sole purpose of testing the Portal Gun's mechanics and taking revenge on Chell for the events of Portal. As a result of several interactions and revelations, Chell once again pushes to escape Aperture Science Labs.",
+            "released_at": "2011-04-18",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rs4.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co1rs4.jpg",
+            "genres": [
+                8,
+                9,
+                31
+            ],
+            "platforms": [
+                9,
+                3,
+                6,
+                14,
+                12,
+                130
+            ],
+            "developers": [
+                56
+            ],
+            "publishers": [
+                56,
+                1
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 63844,
+        "fields": {
+            "title": "Ace wo Nerae!",
+            "slug": "ace-wo-nerae",
+            "description": "A tennis game for the Super Famicom based on the 1970s manga and anime of the same name.",
+            "released_at": "1993-12-22",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2kux.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2kux.jpg",
+            "genres": [
+                14
+            ],
+            "platforms": [
+                58
+            ],
+            "developers": [
+                30131
+            ],
+            "publishers": [
+                30131
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 371149,
+        "fields": {
+            "title": "The Deal",
+            "slug": "the-deal",
+            "description": "A Doom II WAD.",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": null,
+            "cover_detail": null,
+            "genres": [],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                69764
+            ],
+            "publishers": [
+                69764
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 330684,
+        "fields": {
+            "title": "Nightmare Kart: The Old Karts",
+            "slug": "nightmare-kart-the-old-karts",
+            "description": "An upcoming free expansion to Nightmare Kart with a brand new mini-campaign, racers, karts, tracks, power-ups, and game modes.",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9d8y.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9d8y.jpg",
+            "genres": [
+                10,
+                33
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                34952
+            ],
+            "publishers": [
+                34952
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 129477,
+        "fields": {
+            "title": "Chomp Chomp",
+            "slug": "chomp-chomp",
+            "description": "The bad ghosts have scared the Chomplets away and captured them all in cages! Help Chomp Chomp rescue the captured Chomplets by collecting keys and opening the cages, while you keep Chomp Chomp fed by eating pellets, and by eating power pellets to unleash Chomp's power to pay the ghosts back one Chomp at a time! \n \nCustomize your Chomp: \nMake your Chomp feel special as you customize with hats, eyes, teeth, and color! In any combination you want! \n \nUpgrade your Chomp: \nMake your Chomp Chomp heal",
+            "released_at": "2020-01-14",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2tbb.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2tbb.jpg",
+            "genres": [
+                32,
+                33
+            ],
+            "platforms": [
+                34,
+                55
+            ],
+            "developers": [
+                24136
+            ],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 179243,
+        "fields": {
+            "title": "Satella-Q: Mou Sugu Haru desu ne - Chotto Sate-Q Shimasen ka?",
+            "slug": "satella-q-mou-sugu-haru-desu-ne-chotto-sate-q-shimasen-ka",
+            "description": "A single-episode season of Satella-Q.",
+            "released_at": "1998-03-15",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": null,
+            "cover_detail": null,
+            "genres": [
+                26
+            ],
+            "platforms": [
+                306
+            ],
+            "developers": [
+                70
+            ],
+            "publishers": [
+                25230,
+                70
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 152887,
+        "fields": {
+            "title": "BanG Dream! Girls Band Party! for Nintendo Switch",
+            "slug": "bang-dream-girls-band-party-for-nintendo-switch",
+            "description": "Popular rhythm game in Japan!\nTap to the rhythm of over 200 songs to choose from.\nPlay both original and cover songs from popular J-Pop artists and anime songs!\nPlay your favorite songs on a level of difficulty that suits you!",
+            "released_at": "2021-09-16",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3an7.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co3an7.jpg",
+            "genres": [
+                7,
+                31
+            ],
+            "platforms": [
+                130
+            ],
+            "developers": [
+                22845
+            ],
+            "publishers": [
+                12846
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 391061,
+        "fields": {
+            "title": "Silence, Exile, and Cunning",
+            "slug": "silence-exile-and-cunning",
+            "description": "Silence, Exile, and Cunning is a narrative exploration of real geography and fictionalized history. You progress through scenes, interact with unusual characters, and solve puzzles through James’s wit and Nora’s practical sense.",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobkux.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/cobkux.jpg",
+            "genres": [
+                31
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 99773,
+        "fields": {
+            "title": "Space Drop",
+            "slug": "space-drop",
+            "description": "Planets and Objects fall from space. Match in 3, 4 or 5's. It sounds easy, but becomes increasingly difficult as the player progresses with the addition of more Planets/Objects.",
+            "released_at": "2018-05-25",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobhkd.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/cobhkd.jpg",
+            "genres": [],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 138930,
+        "fields": {
+            "title": "Suna no Embrace: Eden no Sato no Never",
+            "slug": "suna-no-embrace-eden-no-sato-no-never",
+            "description": "A RPG set in a desert fantasy world where water is the most valued resource.",
+            "released_at": "2000-07-27",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2glq.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2glq.jpg",
+            "genres": [
+                12
+            ],
+            "platforms": [
+                9,
+                7,
+                38
+            ],
+            "developers": [
+                1956
+            ],
+            "publishers": [
+                1956
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 94975,
+        "fields": {
+            "title": "Wubble Bubbles",
+            "slug": "wubble-bubbles",
+            "description": "",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": null,
+            "cover_detail": null,
+            "genres": [],
+            "platforms": [],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 79850,
+        "fields": {
+            "title": "Umineko: Ougon Musou Kyoku - Cross",
+            "slug": "umineko-ougon-musou-kyoku-cross",
+            "description": "A tag-team fighting game based around the Umineko no Naku Koro ni universe of visual novels, Cross is the followup to 2010's Ougon Musou Kyoku.\n\nIn this version George, Jessica, and Rosa from the Ushiromiya family join the fray.",
+            "released_at": "2011-12-31",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/j0e8kydfndtqtfigkx65.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/j0e8kydfndtqtfigkx65.jpg",
+            "genres": [
+                4
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                5187
+            ],
+            "publishers": [
+                5187
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 200111,
+        "fields": {
+            "title": "The Tales of Bayun",
+            "slug": "the-tales-of-bayun",
+            "description": "Can a flat world resting on the backs of three demon bears live in peace? Of course not! Immerse yourself in the universe of the dark Slavic legends, explore the characters' stories and make difficult choices that affect the course of events. Bayun the Cat will help you. If you're lucky, that is.",
+            "released_at": "2023-02-16",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5nd8.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5nd8.jpg",
+            "genres": [
+                12,
+                31,
+                32,
+                35
+            ],
+            "platforms": [
+                48,
+                6,
+                49,
+                130
+            ],
+            "developers": [
+                47222
+            ],
+            "publishers": [
+                47222
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 274434,
+        "fields": {
+            "title": "Merge Games Horror Bundle",
+            "slug": "merge-games-horror-bundle",
+            "description": "What do dark Nordic fables, intergalactic cruises and Lovecraftian gore all have in common? Gruesome, gory and ghoulish monsters! Dive into the horror-themed worlds of Bramble: The Mountain King, Morbid: The Seven Acolytes and Slaycation Paradise - if you dare!",
+            "released_at": "2023-10-27",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7d6t.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co7d6t.jpg",
+            "genres": [],
+            "platforms": [
+                169,
+                49
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 363578,
+        "fields": {
+            "title": "Pica",
+            "slug": "pica",
+            "description": "This is a casual jigsaw puzzle game. All you need to do is use the mouse to drag the pieces to the correct positions, and when you complete the puzzle and form a complete picture, you can unlock the picture gallery.",
+            "released_at": "2025-08-04",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaei2.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coaei2.jpg",
+            "genres": [
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 252319,
+        "fields": {
+            "title": "Viking Heroes 4",
+            "slug": "viking-heroes-4",
+            "description": "Join the Viking heroes in a race against time to save the world from eternal darkness. As the sun and moon falter and Fenrir threatens to consume them, the Vikings must travel across realms to forge a magical chain that can capture him.",
+            "released_at": "2023-06-07",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6qxp.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co6qxp.jpg",
+            "genres": [
+                15,
+                31,
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 213010,
+        "fields": {
+            "title": "For What Will Come",
+            "slug": "for-what-will-come",
+            "description": "Return to your childhood home in hopes to see your family, uncover the secrets behind your family's disappearance. What will you uncover? Will the family mystery end with you, or never be thought of again..",
+            "released_at": "2022-10-29",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5obz.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5obz.jpg",
+            "genres": [
+                31,
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                66368
+            ],
+            "publishers": [
+                66368
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 130742,
+        "fields": {
+            "title": "Flashy Maze",
+            "slug": "flashy-maze",
+            "description": "",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2q64.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2q64.jpg",
+            "genres": [],
+            "platforms": [],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 347330,
+        "fields": {
+            "title": "Street Vendor Simulator",
+            "slug": "street-vendor-simulator",
+            "description": "Buy, sell, and earn big on the city streets by selling water.",
+            "released_at": "2025-06-07",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9z6v.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9z6v.jpg",
+            "genres": [
+                13
+            ],
+            "platforms": [
+                130
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 109535,
+        "fields": {
+            "title": "We Were Here Together",
+            "slug": "we-were-here-together",
+            "description": "As we explore these frozen wastes, misfortune strikes once again. Through the fierce blizzard, an emergency flare lights the sky, followed by a cry for help over the radio - broken, dying... No one else will be able to come to their rescue. But can we make it back - together?",
+            "released_at": "2019-10-10",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1tbz.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co1tbz.jpg",
+            "genres": [
+                9,
+                31,
+                32
+            ],
+            "platforms": [
+                48,
+                6,
+                167,
+                14,
+                49,
+                130
+            ],
+            "developers": [
+                12226
+            ],
+            "publishers": [
+                12226
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 371216,
+        "fields": {
+            "title": "Football Manager Touch 2016",
+            "slug": "football-manager-touch-2016",
+            "description": "Football Manager Touch 2016 is a streamlined football management simulation designed for faster play on tablets and computers. It features over 130 real leagues, cross-save compatibility between devices, and the series’ 3D match engine. New additions include Create-a-Club mode, Prozone match analysis, expanded tactical options, and various unlockables, offering a more accessible alternative to the full Football Manager experience.",
+            "released_at": "2015-11-25",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coals3.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coals3.jpg",
+            "genres": [
+                13,
+                14,
+                15
+            ],
+            "platforms": [
+                3,
+                34,
+                6,
+                39,
+                14
+            ],
+            "developers": [
+                486
+            ],
+            "publishers": [
+                112
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 227130,
+        "fields": {
+            "title": "Soccer Cup 2022",
+            "slug": "soccer-cup-2022",
+            "description": "",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": null,
+            "cover_detail": null,
+            "genres": [],
+            "platforms": [],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 27003,
+        "fields": {
+            "title": "Filthy, Stinking, Orcs!",
+            "slug": "filthy-stinking-orcs",
+            "description": "Filthy, Stinking, Orcs! is a VR tower defense game set in a fantasy world besieged by monsters. Plan your strategy and join in the action by taking control of the weapons of war with your own hands! Defend your citadel and villages in beaches, plains, swamps, and mountains across 16 levels. Fight orcs, goblins, ogres, and dragons! Fire bows, crossbows, cannons, and machine guns!",
+            "released_at": "2017-04-21",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co24h4.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co24h4.jpg",
+            "genres": [
+                5,
+                15,
+                32
+            ],
+            "platforms": [
+                6,
+                163
+            ],
+            "developers": [
+                12010
+            ],
+            "publishers": [
+                12010
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 325939,
+        "fields": {
+            "title": "DCS World: NS 430 Navigation System for SA342 Gazelle by Eagle Dynamics, Polychop Simulations",
+            "slug": "dcs-world-ns-430-navigation-system-for-sa342-gazelle-by-eagle-dynamics-polychop-simulations",
+            "description": "The NS 430 for the SA342 Gazelle module integrates the NS 430 panel directly into the SA342 Gazelle cockpit (not as a pop-up display).",
+            "released_at": "2022-01-26",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co95wz.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co95wz.jpg",
+            "genres": [
+                13
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                530
+            ],
+            "publishers": [
+                530
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 23614,
+        "fields": {
+            "title": "Tanki Online",
+            "slug": "tanki-online",
+            "description": "Tanki Online is a free-to-play, browser-based multiplayer game in the arcade tank-shooter genre. Players use customized tanks on various different maps to defeat their opponents, either as part of a team or fighting solo. Other game modes include capturing flags and controlling specific points. Based on performance, every battle rewards players in the form of Crystals. Crystals can be spent to upgrade your tank or to buy new equipment. Tanki has many communities around the world, mostly based in",
+            "released_at": "2009-06-04",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co92g7.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co92g7.jpg",
+            "genres": [
+                5,
+                12,
+                33
+            ],
+            "platforms": [
+                82,
+                3,
+                34,
+                6,
+                39,
+                14,
+                130
+            ],
+            "developers": [
+                12777
+            ],
+            "publishers": [
+                12777
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 217315,
+        "fields": {
+            "title": "Eonwar",
+            "slug": "eonwar",
+            "description": "Comfortably paced, match-based strategy with a PvE twist, contrasted with intense physics-based combat. Take direct control of tanks, infantry and ships across space and planetside. Manage your powerful deck of commanders and battle with up to 6 players! Will you rule or unite Omega Centauri?",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co58tu.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co58tu.jpg",
+            "genres": [
+                15,
+                32
+            ],
+            "platforms": [],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 3941,
+        "fields": {
+            "title": "Harry Potter and the Chamber of Secrets",
+            "slug": "harry-potter-and-the-chamber-of-secrets",
+            "description": "Harry Potter and the Chamber of Secrets is the sequel to Harry Potter and the Sorcerer's Stone for PC and Mac. As its prequel, five different versions of this game were released for different gaming platforms. In this version, you control Harry in an action-adventure platforming gameplay. The most significant difference from the previous game is that gameplay is less linear, with Hogwarts becoming more of an open world. You can Interact with familiar characters from the movie like Ron, Hermione ",
+            "released_at": "2002-11-08",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co20dl.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co20dl.jpg",
+            "genres": [
+                8,
+                31
+            ],
+            "platforms": [
+                6,
+                14
+            ],
+            "developers": [
+                258,
+                378
+            ],
+            "publishers": [
+                73,
+                1
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 346280,
+        "fields": {
+            "title": "E-Snake",
+            "slug": "e-snake",
+            "description": "A phone classic, brought to the E-Reader!\n\nE-Snake contains many levels, modes, secrets and its own achievements!",
+            "released_at": "2025-07-27",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9vx9.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9vx9.jpg",
+            "genres": [
+                32,
+                33
+            ],
+            "platforms": [
+                510
+            ],
+            "developers": [
+                66198
+            ],
+            "publishers": [
+                64202
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 152345,
+        "fields": {
+            "title": "Urban Trial Tricky: Deluxe Edition",
+            "slug": "urban-trial-tricky-deluxe-edition",
+            "description": "Grab your seat and pull off the most savage tricks and combos on your motorbike. Ride freely, spin around in the air, go back and forth and let yourself be carried away by the fun, fast-paced gameplay, colorful visuals, and smooth controls.",
+            "released_at": "2020-11-05",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3g8c.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co3g8c.jpg",
+            "genres": [
+                8,
+                10,
+                13,
+                14,
+                32,
+                33
+            ],
+            "platforms": [
+                48,
+                6,
+                49,
+                130
+            ],
+            "developers": [
+                13685
+            ],
+            "publishers": [
+                13685
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 375952,
+        "fields": {
+            "title": "Dying Night Sex with Zombi",
+            "slug": "dying-night-sex-with-zombi",
+            "description": "Cum on girls, have fun and get ready for the shocking ending of the story ... A third-person PORN game set in the future at a research station full of sexy female employees. Explore space stations and read the sexual pleasures of girls from their science computers.",
+            "released_at": "2022-05-27",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coasbi.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coasbi.jpg",
+            "genres": [
+                31
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 26558,
+        "fields": {
+            "title": "Doom: Bloodfall",
+            "slug": "doom-bloodfall",
+            "description": "Doom: Bloodfall is the third and final DLC Pack to bring all-new multiplayer content to the award-winning first-person shooter. With three new maps to dominate, one new playable demon to unleash, a new weapon to master, a new equipment item, and a host of new armor sets, taunts, and Hack Modules, Bloodfall offers players even more ways to expand and customize their fast-paced multiplayer experience.",
+            "released_at": "2016-12-14",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2jmg.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2jmg.jpg",
+            "genres": [
+                5
+            ],
+            "platforms": [
+                48,
+                6,
+                49
+            ],
+            "developers": [
+                184
+            ],
+            "publishers": [
+                16565
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 101315,
+        "fields": {
+            "title": "Streamers Company Tycoon",
+            "slug": "streamers-company-tycoon",
+            "description": "First online streamer agency in this country! A new company! Now face the whole country and recruit company manager!",
+            "released_at": "2019-03-13",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobsj7.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/cobsj7.jpg",
+            "genres": [
+                13
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 324850,
+        "fields": {
+            "title": "Symble",
+            "slug": "symble",
+            "description": "A code-cracking logic game, where players must guess a secret five letter word. Each guess reveals a set of three mystery symbols, and players must use their guesses to determine what each symbol represents in order to decode the secret word.",
+            "released_at": "2022-03-22",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co94ns.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co94ns.jpg",
+            "genres": [
+                9
+            ],
+            "platforms": [
+                82
+            ],
+            "developers": [
+                60254
+            ],
+            "publishers": [
+                60254
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 275615,
+        "fields": {
+            "title": "Hi-Fi Rush: Teamplay Costume Pack",
+            "slug": "hi-fi-rush-teamplay-costume-pack",
+            "description": "Give your Hi-Fi Rush crew a new look inspired by each other's styles with the Teamplay Costume Pack! After all, sharing is caring.",
+            "released_at": "2023-11-07",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7snv.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co7snv.jpg",
+            "genres": [],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 195444,
+        "fields": {
+            "title": "1001 Jigsaw: Cute Cats",
+            "slug": "1001-jigsaw-cute-cats",
+            "description": "A new game in the series of 1001 Puzzles. Cute, funny, cozy cats will melt even the coldest hearts! Assemble the puzzle pieces and enjoy the cute faces of pets.",
+            "released_at": "2022-03-14",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5c91.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5c91.jpg",
+            "genres": [
+                9
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                17561
+            ],
+            "publishers": [
+                17561
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 344599,
+        "fields": {
+            "title": "Dungeon Drops",
+            "slug": "dungeon-drops",
+            "description": "Jump, fight and climb your way out of the ever-changing depths of the Snake Castle in Dungeon Drops!",
+            "released_at": "2025-06-18",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9u7w.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9u7w.jpg",
+            "genres": [
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 28850,
+        "fields": {
+            "title": "Alleykat",
+            "slug": "alleykat",
+            "description": "Alleykat is a vertically-scrolling racer with elements of a shoot-em up game.\n\nThe player, a speeder pilot, strives to become the Alleykat Champion by competing in eight space stadiums scattered around the galaxy. Different races like demolition derbies, time-trials, endurance epics and others feature all kinds of obstacles like rocks, pillars, bridges and hard walls, and several types of enemies race along.\n\nThe game also features a cooperative two-player-mode.",
+            "released_at": "1986-12-31",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/mywtpdjnjytdvixg9yen.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/mywtpdjnjytdvixg9yen.jpg",
+            "genres": [
+                5,
+                10,
+                33
+            ],
+            "platforms": [
+                15
+            ],
+            "developers": [
+                8107
+            ],
+            "publishers": [
+                3715
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 147446,
+        "fields": {
+            "title": "Mikagami Sumika No Seifuku Katsudou",
+            "slug": "mikagami-sumika-no-seifuku-katsudou",
+            "description": "The protagonist met a girl in a school uniform at Japan’s famed theme park Delight Resort. While it was their first meeting, they hit it off right away, but they didn’t exchange contacts before leaving their separate ways.\n\nSome days later, he discovered after moving into a new home that his neighbor was the girl from that day. Even though she was happy to meet him once again, she froze upon hearing her friend say:\n\n“Hey… He thinks you’re a high school student, doesn’t he?”\n\nSumika had already g",
+            "released_at": "2018-05-24",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co30bb.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co30bb.jpg",
+            "genres": [
+                34
+            ],
+            "platforms": [
+                48,
+                46
+            ],
+            "developers": [
+                21557
+            ],
+            "publishers": [
+                14847
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 296966,
+        "fields": {
+            "title": "Machine Runaway",
+            "slug": "machine-runaway",
+            "description": "MACHINE RUNAWAY is a third-person shooter game where you aim from 200 floors underground to the surface. The protagonist can transform into enemy characters. Make full use of the abilities of various enemy characters to advance the game to your advantage.",
+            "released_at": "2024-02-29",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co82gr.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co82gr.jpg",
+            "genres": [
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 214388,
+        "fields": {
+            "title": "Coastline to Atmosphere",
+            "slug": "coastline-to-atmosphere",
+            "description": "Coastline to Atmosphere is a big Single Player Modification for Half-Life 2. It's actually 15 Single Player maps with a story that links them together.\n\nLeon Stephan Brinkmann took about 1 year to create this. He's done an excelent job to create this. With new models, such as a Keycard model, Tree models, a new shiny metal texture. And new sounds from the games Medal of Honor, Call of Duty, Soldier of Fortune 2, Max Payne 2, Cold Winter and a whole lot of ambient sounds.",
+            "released_at": "2006-07-23",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8z5x.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co8z5x.jpg",
+            "genres": [
+                5
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                55876,
+                42862
+            ],
+            "publishers": [
+                42862
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 53024,
+        "fields": {
+            "title": "Fallout Classic Collection",
+            "slug": "fallout-classic-collection",
+            "description": "Fallout Classic Collection brings together the iconic role-playing games that laid the foundation for one of the most beloved franchises in gaming history. Set in a post-apocalyptic world, players navigate the wasteland, making critical choices that shape their journey and affect the game's outcome. With a blend of open-world exploration, turn-based combat, and immersive storytelling, this collection delivers a nostalgic yet thoroughly engaging experience, allowing gamers to revisit the origins ",
+            "released_at": "2016-11-11",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3hg3.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co3hg3.jpg",
+            "genres": [
+                12,
+                15,
+                16,
+                24
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                12,
+                24213
+            ],
+            "publishers": [
+                16565
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 318630,
+        "fields": {
+            "title": "Sonic Uprising",
+            "slug": "sonic-uprising",
+            "description": "SONIC UPRISING is a 2D side-scrolling platform fan project led by bennascar and Team Giga-Drive. Uprising is inspired by the classic formula from the Mega Drive Era of Sonic the Hedgehog, expanding it by taking elements from various other titles in the series. The project's goal is to create a story inspired by SEGA's Sonic Forces, while also being able to tell a narrative that goes far beyond a simple reboot.",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8yq3.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co8yq3.jpg",
+            "genres": [
+                8
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                59101
+            ],
+            "publishers": [
+                59101
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 164186,
+        "fields": {
+            "title": "Refrigerant Recovery Simulation",
+            "slug": "refrigerant-recovery-simulation",
+            "description": "Recover, Pressure Test, Evacuate, Charge - watch a detailed process in 3D and then try it yourself hands-on using this fully interactive tool.",
+            "released_at": "2021-02-25",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co478t.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co478t.jpg",
+            "genres": [],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 362759,
+        "fields": {
+            "title": "Retro Meadow",
+            "slug": "retro-meadow",
+            "description": "A pixel-art sandbox where you design infinite maps. Build your perfect world with retro designs. No simulation, no action - just cozy construction. What unique worlds will you create with cute pixels? Turn your visions into peaceful creations.",
+            "released_at": "2025-09-24",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coabva.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coabva.jpg",
+            "genres": [
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                67190
+            ],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 143800,
+        "fields": {
+            "title": "Ballsy! World Cup 2020",
+            "slug": "ballsy-world-cup-2020",
+            "description": "Retro football game, with local coop & cup mode. Less sluggish than modern football games, but with more 'weighty' physics than most retro football games. No referee, so no offside or fouls - all is permitted.",
+            "released_at": "2020-10-28",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2trg.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2trg.jpg",
+            "genres": [
+                14,
+                32,
+                33
+            ],
+            "platforms": [
+                3,
+                6
+            ],
+            "developers": [
+                32062
+            ],
+            "publishers": [
+                32062
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 333640,
+        "fields": {
+            "title": "Spooky Survivors",
+            "slug": "spooky-survivors",
+            "description": "Spooky Survivors puts you in the shoes of Van Hobo, a quirky hero battling the supernatural! Start with all unlocks BUT choose which to level up as you face endless waves. Equip powerful gear and unlock unique abilities. Outlast the nightmare and prove yourself as the ultimate spooky survivor!",
+            "released_at": "2025-04-29",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9gqf.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9gqf.jpg",
+            "genres": [
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": [],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    },
+    {
+        "model": "games.game",
+        "pk": 333677,
+        "fields": {
+            "title": "Sonic: StarLight",
+            "slug": "sonic-starlight",
+            "description": "",
+            "released_at": "2000-01-01",
+            "region": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9gxy.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9gxy.jpg",
+            "genres": [
+                8
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                62014
+            ],
+            "publishers": [
+                62014
+            ],
+            "created_at": "2026-04-22T14:54:17Z",
+            "updated_at": "2026-04-22T14:54:17Z"
+        }
+    }
+]

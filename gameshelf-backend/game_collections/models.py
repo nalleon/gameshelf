@@ -11,7 +11,12 @@ class Item(SoftDeleteModel):
         DIGITAL = 'D', 'Digital'
 
     type = models.CharField(max_length=1, choices=Type, default=Type.DIGITAL)
-
+    
+    platform = models.ForeignKey(
+        'classifications.Platform',
+        on_delete=models.CASCADE
+    )
+    
     is_private = models.BooleanField(default=False)
     
     created_at = models.DateTimeField(auto_now_add=True)

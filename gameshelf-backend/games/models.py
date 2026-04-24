@@ -3,7 +3,9 @@ from django.db import models
 from shared.models import SoftDeleteModel
 from django.utils.text import slugify
 
+
 class Game(SoftDeleteModel):
+    igdb_id = models.PositiveIntegerField(db_index=True)
     title = models.CharField()
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(blank=True, null=True)
@@ -12,24 +14,16 @@ class Game(SoftDeleteModel):
     cover_detail = models.URLField(null=True, blank=True)
 
     released_at = models.DateField()
-
-    platform = models.ForeignKey(
-        'classifications.Platform',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
     
+
+    platforms = models.ManyToManyField('classifications.Platform', related_name='games')
     genres = models.ManyToManyField('classifications.Genre', related_name='games')
     developers = models.ManyToManyField('classifications.Developer', related_name='games')
     publishers = models.ManyToManyField('classifications.Publisher', related_name='games')
     
-    edition = models.ForeignKey(
-        'classifications.Edition',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
+    parent_game_igdb = models.PositiveIntegerField(null=True, blank=True)
+
+    
     
     region = models.ForeignKey(
         'classifications.Region',
@@ -64,7 +58,9 @@ class Game(SoftDeleteModel):
         super().save(*args, **kwargs)
         
     class Meta:
-        unique_together = ['title', 'released_at', 'platform', 'edition', 'region']
+        unique_together = ['title', 'released_at', 'region']
+
+        
 
     
 class Review(SoftDeleteModel):
