@@ -22,7 +22,7 @@ const routes = [
   { 
     path: '/profile', 
     component: ProfileView,
-    meta: { requiresAuth: true } // Indica que esta ruta es privada
+    meta: { requiresAuth: true }
   },
 ];
 
@@ -31,15 +31,15 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const authStore = useAuthStore();
-  const isProtected = to.matched.some(record => record.meta.requiresAuth); // Si la ruta contiene el meta.requiresAuth o alguno de sus anidados
+  const isProtected = to.matched.some(record => record.meta.requiresAuth);
 
+  // Vue 3 prefiere retornar la ruta en vez de invocar next()
   if (isProtected && !authStore.isLogged) {
-    next('/login'); // Bloquea y manda al login
-  } else {
-    next(); // Permite el paso
+    return '/login'; 
   }
+  // Si no se retorna nada, la navegación continúa normalmente
 });
 
 export default router
