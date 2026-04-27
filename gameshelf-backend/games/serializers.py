@@ -34,7 +34,7 @@ class GameSerializer(BaseSerializer):
             'publishers': PublisherSerializer(
                 instance.publishers.all(), request=self.request
             ).serialize(),
-            'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
+            # 'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
             'region': RegionSerializer(instance.region, request=self.request).serialize(),
         }
 
