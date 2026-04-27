@@ -64,6 +64,7 @@ import { useAuthStore } from '@/stores/authStore'
 
 import Navbar from '@/components/Navbar.vue';
 import router from '@/router';
+import axios from 'axios';
 
 
 const auth = useAuthStore()
@@ -84,21 +85,28 @@ async function apiLogin(){
         password: password.value
     }
 
-    const response = await fetch(webhookUrl, 
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        }
-    );
-    const data = await response.json();
-    
-    loginField.value = "";
-    password.value = "";
+    const headers = {
+        'Content-Type': 'application/json'
+    }
 
-    return data;
+    try {
+        const response = await axios.post(webhookUrl, payload, { headers })
+        const data = response.data;
+
+        // console.log(data.token)
+        loginField.value = "";
+        password.value = "";
+
+        return data;
+    } catch (error) {
+        if (error.response) {
+            console.error("Error en login:", error.response.data);
+        } else {
+            console.error("Error de red o configuración:", error.message);
+        }
+        return null;
+    }
+
 }
 
 function submitLogin() {

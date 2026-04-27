@@ -111,6 +111,7 @@ import StepPanels from 'primevue/steppanels';
 import StepItem from 'primevue/stepitem';
 import Step from 'primevue/step';
 import StepPanel from 'primevue/steppanel';
+import axios from 'axios';
 
 
 const auth = useAuthStore()
@@ -136,11 +137,11 @@ const isHiddenPasswordError = ref('invisible')
 const numberDictionary = NumberDictionary.generate({ min: 100, max: 9999 });
 
 const generateRandomFirstName = () => {
-  return uniqueNamesGenerator({
-    dictionaries: [adjectives, animals], // Adjetivo + Nombre
-    separator: '',
-    style: 'capital', // Para que sea AdjetivoNombre123
-  });
+    return uniqueNamesGenerator({
+        dictionaries: [adjectives, animals], // Adjetivo + Nombre
+        separator: '',
+        style: 'capital', // Para que sea AdjetivoNombre123
+    });
 };
 
 
@@ -163,30 +164,28 @@ async function apiRegister(){
         password: password.value
     }
 
-    const response = await fetch(webhookUrl, 
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        }
-    );
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error en registro:", errorData);
-        return;
+    const headers = {
+        'Content-Type': 'application/json'
     }
 
-    const data = await response.json();
-    
-    // console.log(data.token)
-    username.value = "";
-    email.value = "";
-    password.value = "";
+    try {
+        const response = await axios.post(webhookUrl, payload, { headers })
+        const data = response.data;
 
-    return data;
+        // console.log(data.token)
+        username.value = "";
+        email.value = "";
+        password.value = "";
+
+        return data;
+    } catch (error) {
+        if (error.response) {
+            console.error("Error en registro:", error.response.data);
+        } else {
+            console.error("Error de red o configuración:", error.message);
+        }
+        return null;
+    }
 }
 
 function checkFields(){
