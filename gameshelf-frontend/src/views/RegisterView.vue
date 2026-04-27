@@ -68,8 +68,8 @@
                     <StepPanel v-slot="{ activateCallback }" :value="2">
                         <div class="flex flex-col gap-4 mx-auto" style="min-height: 16rem; max-width: 24rem">
                             <div class="text-center mt-4 mb-4 text-xl font-semibold">Personal Information</div>
-                            <input v-model="firstName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="First Name">
-                            <input v-model="lastName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="Last Name">
+                            <input v-model="firstName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="First Name (Optional)">
+                            <input v-model="lastName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="Last Name (Optional">
                             
                             <div class="flex flex-col gap-2 mt-4 text-center">
                                 <router-link to="/login" class="text-gsgris hover:text-gsblanco text-sm">Already have an account? Login</router-link>
