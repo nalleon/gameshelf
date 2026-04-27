@@ -80,16 +80,47 @@
 <script setup lang="ts">
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
-import router from '@/router';
 import type { Game } from '@/types/gameListTypes';
 import { computed, onMounted, ref } from 'vue';
+import { useGameStore } from '@/stores/gameStore';
 
+const gameStore = useGameStore()
 
 let games = ref<Game[]>([])
 
+// Load Games
+onMounted(async () => {
+
+    if(gameStore.gamesLoaded){
+        games.value = gameStore.games;
+    } else {
+        try {
+            const webhookUrl = 'http://127.0.0.1:8000/api/games/'
+
+            const response = await fetch(webhookUrl, 
+                {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }    
+                }
+            );
+
+            const data = await response.json();
+            games.value = data;
+            // console.log(data);
+            gameStore.setGamesCache(data);
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+});
+
 // --- VARIABLES DE PAGINACIÓN ---
 const currentPage = ref(1);
-const itemsPerPage = 15; // 15 es ideal para tu grid de 5 columnas (3 filas)
+const itemsPerPage = 15; // Numero de items por página
 
 const totalPages = computed(() => {
     return Math.ceil(games.value.length / itemsPerPage);
@@ -115,27 +146,7 @@ const goToPage = (page: number) => {
     currentPage.value = page;
 };
 
-onMounted(async () => {
-    try {
-        const webhookUrl = 'http://127.0.0.1:8000/api/games/'
-
-        const response = await fetch(webhookUrl, 
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                }    
-            }
-        );
-
-        const data = await response.json();
-        games.value = data;
-        console.log(data)
-    } catch (err) {
-        console.error(err);
-    }
-});
-
+// Botón de scroll hasta arriba
 const scrollContainer = ref<HTMLElement | null>(null);
 const showButton = ref(false);
 
@@ -149,17 +160,16 @@ function scrollTop() {
     scrollContainer.value?.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-
 </script>
 
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
+    opacity: 0;
+    transform: translateY(20px);
 }
 </style>

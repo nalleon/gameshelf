@@ -17,8 +17,8 @@
             <h3 class="font-bold text-base line-clamp-1 group-hover:text-gsmenta transition-colors">
                 {{ game.title }}
             </h3>
-            <p class="text-[--color-gsgris] text-xs mt-1 mb-4 italic leading-tight">
-                <!-- {{ game.developer }} -->
+            <p class="text-gsgris text-xs mt-1 mb-4 italic leading-tight">
+                {{ game.released_at }}
             </p>
         </div>
     </router-link>
@@ -50,7 +50,7 @@ const region = computed(()=> {
         case "europe":
             return '🇪🇺'
         case "north_america":
-            return '🌎'
+            return '🇺🇸'
         case "new_zeland":
             return '🇳🇿'
         case "japan":
