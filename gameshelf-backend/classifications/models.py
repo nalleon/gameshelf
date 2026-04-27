@@ -1,16 +1,15 @@
 import re
 
-from django.db import models
+from django.db import IntegrityError, models
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.text import slugify
-from django.db import IntegrityError
 
 from shared.models import SoftDeleteModel
 
 
 class Classification(SoftDeleteModel):
-    name = models.CharField(unique=True)
+    name = models.CharField()
     slug = models.SlugField()
 
     def __str__(self):
@@ -34,7 +33,7 @@ class Classification(SoftDeleteModel):
     def save(self, *args, **kwargs):
         if not self.slug:
             base_slug = slugify(self.name)
-            
+
             base_slug = base_slug.replace('(', '').replace(')', '')
 
             slug = base_slug
@@ -49,6 +48,7 @@ class Classification(SoftDeleteModel):
             self.slug = slug
 
         super().save(*args, **kwargs)
+
 
 class Edition(Classification):
     description = models.TextField(max_length=160)
@@ -67,12 +67,12 @@ class Region(Classification):
             ('GRAC', 'GRAC'),
             ('CLASS_IND', 'CLASS_IND'),
             ('ACB', 'ACB'),
-            ('IARC', 'IARC') 
+            ('IARC', 'IARC'),
         ],
         blank=True,
-        null=True
+        null=True,
     )
-    
+
     def save(self, *args, **kwargs):
         if not self.acronym:
             name_upper = self.name.upper()
@@ -137,9 +137,7 @@ class Platform(Classification):
 
         aliases = self.generate_aliases()
 
-        self.slug_aliases.filter(deleted_at__isnull=True).update(
-            deleted_at=timezone.now()
-        )
+        self.slug_aliases.filter(deleted_at__isnull=True).update(deleted_at=timezone.now())
 
         for alias in aliases:
             try:
@@ -149,6 +147,7 @@ class Platform(Classification):
                 )
             except IntegrityError:
                 continue
+
 
 class PlatformSlugAlias(SoftDeleteModel):
     platform = models.ForeignKey(
