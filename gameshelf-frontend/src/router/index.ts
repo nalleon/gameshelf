@@ -6,6 +6,7 @@ import RegisterView from '@/views/RegisterView.vue';
 import GameDetails from '@/views/GameDetails.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
+import EditProfile from '@/views/EditProfile.vue';
 
 const routes = [
   { path: '/', component: HomeView },
@@ -22,6 +23,11 @@ const routes = [
   { 
     path: '/profile', 
     component: ProfileView,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/profile/edit', 
+    component: EditProfile,
     meta: { requiresAuth: true }
   },
 ];

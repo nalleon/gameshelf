@@ -28,9 +28,13 @@
                     </div>
 
                     <!-- Action Button -->
-                    <button class="mb-2 px-6 py-2 border border-gsmenta text-gsmenta rounded-xl hover:bg-gsmenta hover:text-gsoscuro transition-all duration-300 font-semibold">
+                    <!-- <button class="mb-2 px-6 py-2 border border-gsmenta text-gsmenta rounded-xl hover:bg-gsmenta hover:text-gsoscuro transition-all duration-300 font-semibold">
                         Editar Perfil
-                    </button>
+                    </button> -->
+
+                    <router-link to="/profile/edit" class="mb-2 px-6 py-2 border border-gsmenta text-gsmenta rounded-xl hover:bg-gsmenta hover:text-gsoscuro transition-all duration-300 font-semibold">
+                        Editar Perfil
+                    </router-link>
                 </div>
             </div>
         </header>
