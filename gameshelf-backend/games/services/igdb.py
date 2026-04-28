@@ -275,7 +275,7 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             game = Game.objects.create(
                 title=title,
                 released_at=released_at,
-                edition=default_edition,
+                # edition=default_edition,
                 region=region_obj,
                 description=(g.get('summary') or '')[:500],
             )

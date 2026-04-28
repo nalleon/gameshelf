@@ -120,6 +120,7 @@ def create_collection(request):
             403: ErrorResponseSerializer,
             404: ErrorResponseSerializer,
         },
+        
         description='Delete a game from your collection',
         parameters=[
             OpenApiParameter(
@@ -134,7 +135,7 @@ def create_collection(request):
     ),
     patch=extend_schema(
         request=SaveListSchemaSerializer,
-        responses={200: CollectionSerializer},
+        responses={200: CollectionSchemaSerializer},
         description='Edit the name and/or is_private of a collection',
         operation_id='edit_collection',
     ),
@@ -309,6 +310,7 @@ def edit_collection(request, pk_collection: int):
     patch=extend_schema(
         request={
             'type': 'object',
+             
             'properties': {'is_private': {'type': 'boolean'}},
         },
         responses={200: CollectionItemSchemaSerializer},

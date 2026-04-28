@@ -1,6 +1,38 @@
 [
     {
         "model": "classifications.platform",
+        "pk": 3,
+        "fields": {
+            "name": "Linux",
+            "slug": "linux"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 6,
+        "fields": {
+            "name": "PC (Microsoft Windows)",
+            "slug": "pc-microsoft-windows"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 130,
+        "fields": {
+            "name": "Nintendo Switch",
+            "slug": "nintendo-switch"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 163,
+        "fields": {
+            "name": "SteamVR",
+            "slug": "steamvr"
+        }
+    },
+    {
+        "model": "classifications.platform",
         "pk": 58,
         "fields": {
             "name": "Super Famicom",
@@ -21,14 +53,6 @@
         "fields": {
             "name": "Legacy Mobile Device",
             "slug": "legacy-mobile-device"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 6,
-        "fields": {
-            "name": "PC (Microsoft Windows)",
-            "slug": "pc-microsoft-windows"
         }
     },
     {
@@ -73,10 +97,26 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 130,
+        "pk": 11,
         "fields": {
-            "name": "Nintendo Switch",
-            "slug": "nintendo-switch"
+            "name": "Xbox",
+            "slug": "xbox"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 21,
+        "fields": {
+            "name": "Nintendo GameCube",
+            "slug": "nintendo-gamecube"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 8,
+        "fields": {
+            "name": "PlayStation 2",
+            "slug": "playstation-2"
         }
     },
     {
@@ -97,10 +137,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 163,
+        "pk": 510,
         "fields": {
-            "name": "SteamVR",
-            "slug": "steamvr"
+            "name": "e-Reader / Card-e Reader",
+            "slug": "e-reader-card-e-reader"
         }
     },
     {
@@ -113,26 +153,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 3,
-        "fields": {
-            "name": "Linux",
-            "slug": "linux"
-        }
-    },
-    {
-        "model": "classifications.platform",
         "pk": 39,
         "fields": {
             "name": "iOS",
             "slug": "ios"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 510,
-        "fields": {
-            "name": "e-Reader / Card-e Reader",
-            "slug": "e-reader-card-e-reader"
         }
     },
     {
@@ -169,10 +193,26 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 381,
+        "pk": 37,
         "fields": {
-            "name": "Playdate",
-            "slug": "playdate"
+            "name": "Nintendo 3DS",
+            "slug": "nintendo-3ds"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 5,
+        "fields": {
+            "name": "Wii",
+            "slug": "wii"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 12,
+        "fields": {
+            "name": "Xbox 360",
+            "slug": "xbox-360"
         }
     },
     {
@@ -189,38 +229,6 @@
         "fields": {
             "name": "3DO Interactive Multiplayer",
             "slug": "3do-interactive-multiplayer"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 19,
-        "fields": {
-            "name": "Super Nintendo Entertainment System",
-            "slug": "super-nintendo-entertainment-system"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 5,
-        "fields": {
-            "name": "Wii",
-            "slug": "wii"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 41,
-        "fields": {
-            "name": "Wii U",
-            "slug": "wii-u"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 137,
-        "fields": {
-            "name": "New Nintendo 3DS",
-            "slug": "new-nintendo-3ds"
         }
     },
     {
@@ -257,6 +265,30 @@
     },
     {
         "model": "classifications.platform",
+        "pk": 386,
+        "fields": {
+            "name": "Meta Quest 2",
+            "slug": "meta-quest-2"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 390,
+        "fields": {
+            "name": "PlayStation VR2",
+            "slug": "playstation-vr2"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 471,
+        "fields": {
+            "name": "Meta Quest 3",
+            "slug": "meta-quest-3"
+        }
+    },
+    {
+        "model": "classifications.platform",
         "pk": 32,
         "fields": {
             "name": "Sega Saturn",
@@ -281,18 +313,26 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 12,
+        "pk": 162,
         "fields": {
-            "name": "Xbox 360",
-            "slug": "xbox-360"
+            "name": "Oculus VR",
+            "slug": "oculus-vr"
         }
     },
     {
         "model": "classifications.platform",
-        "pk": 37,
+        "pk": 165,
         "fields": {
-            "name": "Nintendo 3DS",
-            "slug": "nintendo-3ds"
+            "name": "PlayStation VR",
+            "slug": "playstation-vr"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 381,
+        "fields": {
+            "name": "Playdate",
+            "slug": "playdate"
         }
     },
     {
@@ -353,14 +393,6 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 165,
-        "fields": {
-            "name": "PlayStation VR",
-            "slug": "playstation-vr"
-        }
-    },
-    {
-        "model": "classifications.platform",
         "pk": 385,
         "fields": {
             "name": "Oculus Rift",
@@ -369,10 +401,26 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 11,
+        "pk": 19,
         "fields": {
-            "name": "Xbox",
-            "slug": "xbox"
+            "name": "Super Nintendo Entertainment System",
+            "slug": "super-nintendo-entertainment-system"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 41,
+        "fields": {
+            "name": "Wii U",
+            "slug": "wii-u"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 137,
+        "fields": {
+            "name": "New Nintendo 3DS",
+            "slug": "new-nintendo-3ds"
         }
     },
     {
@@ -409,26 +457,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 8,
+        "pk": 384,
         "fields": {
-            "name": "PlayStation 2",
-            "slug": "playstation-2"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 386,
-        "fields": {
-            "name": "Meta Quest 2",
-            "slug": "meta-quest-2"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 390,
-        "fields": {
-            "name": "PlayStation VR2",
-            "slug": "playstation-vr2"
+            "name": "Oculus Quest",
+            "slug": "oculus-quest"
         }
     },
     {
@@ -453,6 +485,14 @@
         "fields": {
             "name": "WonderSwan",
             "slug": "wonderswan"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 170,
+        "fields": {
+            "name": "Google Stadia",
+            "slug": "google-stadia"
         }
     },
     {
@@ -497,10 +537,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 405,
+        "pk": 115,
         "fields": {
-            "name": "Windows Mobile",
-            "slug": "windows-mobile"
+            "name": "Apple IIGS",
+            "slug": "apple-iigs"
         }
     },
     {
@@ -553,26 +593,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 170,
-        "fields": {
-            "name": "Google Stadia",
-            "slug": "google-stadia"
-        }
-    },
-    {
-        "model": "classifications.platform",
         "pk": 412,
         "fields": {
             "name": "Leapster",
             "slug": "leapster"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 51,
-        "fields": {
-            "name": "Family Computer Disk System",
-            "slug": "family-computer-disk-system"
         }
     },
     {
@@ -617,10 +641,26 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 162,
+        "pk": 71,
         "fields": {
-            "name": "Oculus VR",
-            "slug": "oculus-vr"
+            "name": "Commodore VIC-20",
+            "slug": "commodore-vic-20"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 90,
+        "fields": {
+            "name": "Commodore PET",
+            "slug": "commodore-pet"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 44,
+        "fields": {
+            "name": "Tapwave Zodiac",
+            "slug": "tapwave-zodiac"
         }
     },
     {
@@ -637,14 +677,6 @@
         "fields": {
             "name": "PC Engine SuperGrafx",
             "slug": "pc-engine-supergrafx"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 471,
-        "fields": {
-            "name": "Meta Quest 3",
-            "slug": "meta-quest-3"
         }
     },
     {
@@ -673,14 +705,6 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 21,
-        "fields": {
-            "name": "Nintendo GameCube",
-            "slug": "nintendo-gamecube"
-        }
-    },
-    {
-        "model": "classifications.platform",
         "pk": 133,
         "fields": {
             "name": "Odyssey 2 / Videopac G7000",
@@ -693,6 +717,14 @@
         "fields": {
             "name": "Neo Geo AES",
             "slug": "neo-geo-aes"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 132,
+        "fields": {
+            "name": "Amazon Fire TV",
+            "slug": "amazon-fire-tv"
         }
     },
     {
@@ -729,10 +761,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 416,
+        "pk": 51,
         "fields": {
-            "name": "64DD",
-            "slug": "64dd"
+            "name": "Family Computer Disk System",
+            "slug": "family-computer-disk-system"
         }
     },
     {
@@ -777,10 +809,18 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 384,
+        "pk": 73,
         "fields": {
-            "name": "Oculus Quest",
-            "slug": "oculus-quest"
+            "name": "BlackBerry OS",
+            "slug": "blackberry-os"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 413,
+        "fields": {
+            "name": "Leapster Explorer/LeadPad Explorer",
+            "slug": "leapster-explorerleadpad-explorer"
         }
     },
     {
@@ -797,14 +837,6 @@
         "fields": {
             "name": "Windows Mixed Reality",
             "slug": "windows-mixed-reality"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 73,
-        "fields": {
-            "name": "BlackBerry OS",
-            "slug": "blackberry-os"
         }
     },
     {
@@ -841,18 +873,18 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 84,
+        "pk": 156,
         "fields": {
-            "name": "SG-1000",
-            "slug": "sg-1000"
+            "name": "Thomson MO5",
+            "slug": "thomson-mo5"
         }
     },
     {
         "model": "classifications.platform",
-        "pk": 115,
+        "pk": 84,
         "fields": {
-            "name": "Apple IIGS",
-            "slug": "apple-iigs"
+            "name": "SG-1000",
+            "slug": "sg-1000"
         }
     },
     {
@@ -889,18 +921,18 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 72,
+        "pk": 42,
         "fields": {
-            "name": "Ouya",
-            "slug": "ouya"
+            "name": "N-Gage",
+            "slug": "n-gage"
         }
     },
     {
         "model": "classifications.platform",
-        "pk": 132,
+        "pk": 72,
         "fields": {
-            "name": "Amazon Fire TV",
-            "slug": "amazon-fire-tv"
+            "name": "Ouya",
+            "slug": "ouya"
         }
     },
     {
@@ -949,30 +981,6 @@
         "fields": {
             "name": "Apple Pippin",
             "slug": "apple-pippin"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 472,
-        "fields": {
-            "name": "visionOS",
-            "slug": "visionos"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 153,
-        "fields": {
-            "name": "Dragon 32/64",
-            "slug": "dragon-3264"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 240,
-        "fields": {
-            "name": "Zeebo",
-            "slug": "zeebo"
         }
     }
 ]

@@ -137,18 +137,14 @@ def game_list(request):
     mature_content = request.GET.get('mature_content')
 
     if mature_content is not None:
-        # Convertir string a booleano
         mature_content = mature_content.lower() == 'true'
 
         if mature_content:
-            # Mostrar todos (true + false)
             games = Game.objects.all()
         else:
-            # Solo los que NO son mature
             games = Game.objects.filter(mature_content=False)
     else:
-        # Si no viene el parámetro, puedes decidir comportamiento por defecto
-        games = Game.objects.all()
+        games = Game.objects.filter(mature_content=False)
 
     serializer = GameSerializer(games, request=request)
     return serializer.json_response()
