@@ -33,7 +33,6 @@ class GameSerializer(BaseSerializer):
             'publishers': PublisherSerializer(
                 instance.publishers.all(), request=self.request
             ).serialize(),
-            # 'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
             'region': RegionSerializer(instance.region, request=self.request).serialize(),
         }
 
@@ -72,7 +71,6 @@ class ReviewSerializer(BaseSerializer):
             'created_at': instance.created_at.isoformat(),
             'updated_at': instance.updated_at.isoformat(),
         }
-
     @staticmethod
     def get_fields_dict():
         return {
@@ -81,7 +79,7 @@ class ReviewSerializer(BaseSerializer):
             'recommend': serializers.BooleanField(),
             'game': GameSerializer.get_fields_dict(),
             'author': UserSerializer.get_fields_dict(),
-            'media': MediaSerializer.get_fields_dict(many=True),
+            'media': MediaSerializer.get_fields_schema(many=True),
             'created_at': serializers.DateTimeField(),
             'updated_at': serializers.DateTimeField(),
         }

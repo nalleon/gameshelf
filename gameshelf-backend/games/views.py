@@ -136,8 +136,8 @@ def igdb_wrapper(request):
             type=OpenApiTypes.INT,
             location=OpenApiParameter.QUERY,
             required=False,
-            description='Number of items per page (default = 10)',
-            examples=[OpenApiExample('10 items per page', value=10)],
+            description='Number of items per page (default = 15)',
+            examples=[OpenApiExample('15 items per page', value=15)],
         ),
     ],
     responses={200: GameSerializer.get_paginated_schema('Game')},
@@ -154,7 +154,7 @@ def game_wrapper(request):
 def game_list(request):
     mature_content = request.GET.get('mature_content')
     page = int(request.GET.get('page', 1))
-    page_size = int(request.GET.get('page_size', 10))
+    page_size = int(request.GET.get('page_size', 15))
     if mature_content is not None:
         mature_content = mature_content.lower() == 'true'
 
@@ -358,9 +358,28 @@ def delete_game(request, pk_game: int):
 
 
 @extend_schema(
-    responses={200: ReviewSchemaSerializer, 404: None},
+    methods=['GET'],
     description='Get all reviews',
     operation_id='get_reviews',
+    parameters=[
+        OpenApiParameter(
+            name='page',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Page number (default = 1)',
+            examples=[OpenApiExample('First page', value=1)],
+        ),
+        OpenApiParameter(
+            name='page_size',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Number of items per page (default = 15)',
+            examples=[OpenApiExample('15 items per page', value=15)],
+        ),
+    ],
+    responses={200: ReviewSerializer.get_paginated_schema('Review')},
 )
 @extend_schema(
     request=SaveReviewSchemaSerializer,
@@ -385,9 +404,30 @@ def review_wrapper(request):
 
 @csrf_exempt
 def review_list(request):
+    page = int(request.GET.get('page', 1))
+    page_size = int(request.GET.get('page_size', 15))
     reviews = Review.objects.all()
-    serializer = ReviewSerializer(reviews, request=request)
-    return serializer.json_response()
+    
+    total_count = reviews.count()
+    total_pages = ceil(total_count / page_size)
+
+    start = (page - 1) * page_size
+    end = start + page_size
+
+    paginated_games = reviews[start:end]
+
+    pagination_data = {
+        'results': paginated_games,
+        'count': total_count,
+        'total_pages': total_pages,
+        'current_page': page,
+        'has_next': page < total_pages,
+        'has_previous': page > 1,
+    }
+
+    serializer = ReviewSerializer([], request=request)
+
+    return JsonResponse(serializer.serialize_paginated(pagination_data))
 
 
 # Public Method
@@ -456,8 +496,8 @@ def add_review(request):
         404: None,
     },
     description='Delete an existing review',
-    operation_id='update_review',
-    methods=['PUT'],
+    operation_id='delete_review',
+    methods=['DELETE'],
     parameters=[
         OpenApiParameter(
             name='pk_review',
@@ -579,7 +619,6 @@ def delete_review(request, pk_review: int):
 @csrf_exempt
 @auth_required
 def add_review_media(request, pk_review: int):
-
     try:
         review = get_object_or_404(Review, pk=pk_review)
     except Http404:
@@ -635,184 +674,7 @@ def delete_review_media(request, pk_media: int):
     return JsonResponse({}, status=204)
 
 
-##############################
-# Media Methods
-##############################
-
-
-# @extend_schema(
-#     responses={200: MediaSchemaSerializer, 404: None},
-#     description='Get all medias',
-#     operation_id='get_medias',
-# )
-# @api_view(['GET'])
-# @csrf_exempt
-#
-# def media_list(request):
-#     medias = Media.objects.all()
-#     serializer = MediaSerializer(medias, request=request)
-#     return serializer.json_response()
-
-
-# @extend_schema(
-#     responses={200: MediaSchemaSerializer, 404: None},
-#     description='Get details of a specific media',
-#     operation_id='get_media_detail',
-#     parameters=[
-#         OpenApiParameter(
-#             name='pk_media',
-#             type=OpenApiTypes.INT,
-#             location=OpenApiParameter.PATH,
-#             description='ID of the media to view',
-#             required=True,
-#         ),
-#     ],
-# )
-# @api_view(['GET'])
-# @csrf_exempt
-#
-# def media_detail(request, pk_media: int):
-#     try:
-#         media = get_object_or_404(Media, pk=pk_media)
-#     except Http404:
-#         return JsonResponse({'error': 'Media not found'}, status=404)
-
-#     serializer = MediaSerializer(media, request=request)
-#     return serializer.json_response()
-
-
-# @extend_schema(
-#     request=SaveMediaSchemaSerializer,
-#     responses={200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}}, 400: None},
-#     description='Create a media',
-#     operation_id='add_media',
-#     methods=['POST'],
-# )
-# @api_view(['POST'])
-# @csrf_exempt
-#
-# @require_json_body
-# @require_fields('image', 'pk_review')
-# @auth_required
-# def add_media(request):
-#     payload = request.json
-#     image = payload['image']
-#     pk_review = payload['pk_review']
-
-#     try:
-#         review = get_object_or_404(Review, pk_review)
-#     except Http404:
-#         return JsonResponse({'error': 'Review associated not found'}, status=404)
-
-#     if request.user != review.author:
-#         if request.user.role != 'Admin':
-#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
-#     media = Media.objects.create(image=image, review=review)
-#     return JsonResponse({'id': media.pk}, status=200)
-
-
-# @extend_schema(
-#     request=SaveMediaSchemaSerializer,
-#     responses={
-#         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-#         400: None,
-#         403: None,
-#         404: None,
-#     },
-#     description='Update an existing media',
-#     operation_id='update_media',
-#     methods=['PUT'],
-#     parameters=[
-#         OpenApiParameter(
-#             name='pk_media',
-#             type=OpenApiTypes.INT,
-#             location=OpenApiParameter.PATH,
-#             description='ID of the media to update',
-#             required=True,
-#         ),
-#     ],
-# )
-# @api_view(['PUT'])
-# @csrf_exempt
-#
-# @require_json_body
-# @auth_required
-# @require_role(Profile.Role.ADMIN)
-# def edit_media(request, pk_media: int):
-#     payload = request.json
-#     image = payload['image']
-#     pk_review = payload['pk_review']
-
-#     try:
-#         media = get_object_or_404(Media, pk=pk_media)
-#     except Http404:
-#         return JsonResponse({'error': 'Media not found'}, status=404)
-
-#     if request.user != media.review.author:
-#         if request.user.role != 'Admin':
-#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
-#     if image:
-#         media.image = image
-
-#     if pk_review:
-#         if request.user.role != 'Admin':
-#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
-#         try:
-#             review = get_object_or_404(Review, pk_review)
-#         except Http404:
-#             return JsonResponse({'error': 'Review to associate not found'}, status=404)
-
-#         media.review = review
-
-#     media.save()
-#     return JsonResponse({'id': media.pk}, status=200)
-
-
-# @extend_schema(
-#     request=MediaSchemaSerializer,
-#     responses={
-#         200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
-#         400: None,
-#         403: None,
-#         404: None,
-#     },
-#     description='Delete an existing media',
-#     operation_id='delete_media',
-#     parameters=[
-#         OpenApiParameter(
-#             name='pk_media',
-#             type=OpenApiTypes.INT,
-#             location=OpenApiParameter.PATH,
-#             description='ID of the media to delete',
-#             required=True,
-#         ),
-#     ],
-# )
-# @api_view(['DELETE'])
-# @csrf_exempt
-#
-# @auth_required
-# def delete_media(request, pk_media: int):
-
-#     try:
-#         media = get_object_or_404(Media, pk=pk_media)
-#     except Http404:
-#         return JsonResponse({'error': 'Media not found'}, status=404)
-
-#     if request.user != media.review.author:
-#         if request.user.role != 'Admin':
-#             return JsonResponse({'error': 'Forbbiden Access'}, status=403)
-
-#     media.delete()
-#     return JsonResponse(status=200)
-
-
 # Favorite Methods
-
-
 @extend_schema_view(
     get=extend_schema(
         responses={200: FavoriteSchemaSerializer, 404: None},
