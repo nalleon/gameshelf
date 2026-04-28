@@ -1,10 +1,26 @@
 [
     {
         "model": "classifications.genre",
-        "pk": 14,
+        "pk": 8,
         "fields": {
-            "name": "Sport",
-            "slug": "sport"
+            "name": "Platform",
+            "slug": "platform"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 9,
+        "fields": {
+            "name": "Puzzle",
+            "slug": "puzzle"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 31,
+        "fields": {
+            "name": "Adventure",
+            "slug": "adventure"
         }
     },
     {
@@ -13,6 +29,14 @@
         "fields": {
             "name": "Indie",
             "slug": "indie"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 14,
+        "fields": {
+            "name": "Sport",
+            "slug": "sport"
         }
     },
     {
@@ -33,26 +57,18 @@
     },
     {
         "model": "classifications.genre",
-        "pk": 31,
-        "fields": {
-            "name": "Adventure",
-            "slug": "adventure"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 35,
-        "fields": {
-            "name": "Card & Board Game",
-            "slug": "card-board-game"
-        }
-    },
-    {
-        "model": "classifications.genre",
         "pk": 15,
         "fields": {
             "name": "Strategy",
             "slug": "strategy"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 25,
+        "fields": {
+            "name": "Hack and slash/Beat 'em up",
+            "slug": "hack-and-slashbeat-em-up"
         }
     },
     {
@@ -65,26 +81,10 @@
     },
     {
         "model": "classifications.genre",
-        "pk": 9,
-        "fields": {
-            "name": "Puzzle",
-            "slug": "puzzle"
-        }
-    },
-    {
-        "model": "classifications.genre",
         "pk": 5,
         "fields": {
             "name": "Shooter",
             "slug": "shooter"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 8,
-        "fields": {
-            "name": "Platform",
-            "slug": "platform"
         }
     },
     {
@@ -121,6 +121,14 @@
     },
     {
         "model": "classifications.genre",
+        "pk": 24,
+        "fields": {
+            "name": "Tactical",
+            "slug": "tactical"
+        }
+    },
+    {
+        "model": "classifications.genre",
         "pk": 4,
         "fields": {
             "name": "Fighting",
@@ -137,10 +145,10 @@
     },
     {
         "model": "classifications.genre",
-        "pk": 25,
+        "pk": 35,
         "fields": {
-            "name": "Hack and slash/Beat 'em up",
-            "slug": "hack-and-slashbeat-em-up"
+            "name": "Card & Board Game",
+            "slug": "card-board-game"
         }
     },
     {
@@ -165,22 +173,6 @@
         "fields": {
             "name": "Pinball",
             "slug": "pinball"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 24,
-        "fields": {
-            "name": "Tactical",
-            "slug": "tactical"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 36,
-        "fields": {
-            "name": "MOBA",
-            "slug": "moba"
         }
     }
 ]

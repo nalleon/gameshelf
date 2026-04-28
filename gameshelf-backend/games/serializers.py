@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from classifications.serializers import (
     DeveloperSerializer,
-    EditionSerializer,
     GenreSerializer,
     PlatformSerializer,
     PublisherSerializer,
@@ -50,11 +49,10 @@ class GameSerializer(BaseSerializer):
             'released_at': serializers.DateField(),
             'age_rating': serializers.CharField(allow_null=True, required=False),
             'mature_content': serializers.BooleanField(),
-            'platforms': PlatformSerializer.get_fields_dict(),
-            'genres': GenreSerializer.get_fields_dict(),
-            'developers': DeveloperSerializer.get_fields_dict(),
-            'publishers': PublisherSerializer.get_fields_dict(),
-            'edition': EditionSerializer.get_fields_dict(),
+            'platforms': PlatformSerializer.get_fields_schema(many=True),
+            'genres': GenreSerializer.get_fields_schema(many=True),
+            'developers': DeveloperSerializer.get_fields_schema(many=True),
+            'publishers': PublisherSerializer.get_fields_schema(many=True),
             'region': RegionSerializer.get_fields_dict(),
         }
 

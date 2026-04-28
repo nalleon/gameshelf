@@ -1,3 +1,5 @@
+from math import ceil
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Max
@@ -121,8 +123,24 @@ def igdb_wrapper(request):
                 OpenApiExample('Only non-mature games', value=False),
             ],
         ),
+        OpenApiParameter(
+            name='page',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Page number (default = 1)',
+            examples=[OpenApiExample('First page', value=1)],
+        ),
+        OpenApiParameter(
+            name='page_size',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Number of items per page (default = 10)',
+            examples=[OpenApiExample('10 items per page', value=10)],
+        ),
     ],
-    responses={200: GameSchemaSerializer},
+    responses={200: GameSerializer.get_paginated_schema('Game')},
 )
 @api_view(['GET'])
 @csrf_exempt
@@ -135,23 +153,38 @@ def game_wrapper(request):
 @csrf_exempt
 def game_list(request):
     mature_content = request.GET.get('mature_content')
-
+    page = int(request.GET.get('page', 1))
+    page_size = int(request.GET.get('page_size', 10))
     if mature_content is not None:
-        # Convertir string a booleano
         mature_content = mature_content.lower() == 'true'
 
         if mature_content:
-            # Mostrar todos (true + false)
             games = Game.objects.all()
         else:
-            # Solo los que NO son mature
             games = Game.objects.filter(mature_content=False)
     else:
-        # Si no viene el parámetro, puedes decidir comportamiento por defecto
-        games = Game.objects.all()
+        games = Game.objects.filter(mature_content=False)
 
-    serializer = GameSerializer(games, request=request)
-    return serializer.json_response()
+    total_count = games.count()
+    total_pages = ceil(total_count / page_size)
+
+    start = (page - 1) * page_size
+    end = start + page_size
+
+    paginated_games = games[start:end]
+
+    pagination_data = {
+        'results': paginated_games,
+        'count': total_count,
+        'total_pages': total_pages,
+        'current_page': page,
+        'has_next': page < total_pages,
+        'has_previous': page > 1,
+    }
+
+    serializer = GameSerializer([], request=request)
+
+    return JsonResponse(serializer.serialize_paginated(pagination_data))
 
 
 @extend_schema(

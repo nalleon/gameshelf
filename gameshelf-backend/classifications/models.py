@@ -10,7 +10,7 @@ from shared.models import SoftDeleteModel
 
 
 class Classification(SoftDeleteModel):
-    name = models.CharField(unique=True)
+    name = models.CharField()
     slug = models.SlugField()
 
     def __str__(self):
