@@ -9,7 +9,7 @@
                     <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
                         Catálogo de Juegos
                     </h2>
-                    <span class="text-gsgris text-sm">Mostrando {{ games.length }} resultados</span>
+                    <span class="text-gsgris text-sm">Mostrando {{ games?.length }} resultados</span>
                 </div>
 
                 <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
@@ -86,7 +86,7 @@ import { useGameStore } from '@/stores/gameStore';
 
 const gameStore = useGameStore()
 
-let games = ref<Game[]>([])
+let games = ref<Game[] | null>([])
 
 // Load Games
 onMounted(async () => {
@@ -123,14 +123,14 @@ const currentPage = ref(1);
 const itemsPerPage = 15; // Numero de items por página
 
 const totalPages = computed(() => {
-    return Math.ceil(games.value.length / itemsPerPage);
+    return Math.ceil(games.value?.length || 0 / itemsPerPage);
 });
 
 // Calcula qué juegos mostrar en la página actual
 const paginatedGames = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage;
     const end = start + itemsPerPage;
-    return games.value.slice(start, end);
+    return games.value?.slice(start, end);
 });
 
 // --- FUNCIONES DE NAVEGACIÓN ---
