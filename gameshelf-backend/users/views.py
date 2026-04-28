@@ -126,7 +126,7 @@ def profile_detail(request, pk_profile: int):
 
 
 @csrf_exempt
-@require_json_body
+# @require_json_body
 @auth_required
 def profile_edit(request, pk_profile: int):
     try:
@@ -135,35 +135,36 @@ def profile_edit(request, pk_profile: int):
         return JsonResponse({'error': 'Profile not found'}, status=404)
 
     if request.user != profile.user:
+        print("Estoy aquí")
         return JsonResponse({'error': 'Forbidden'}, status=403)
 
-    payload = request.json
+    data = request.data 
+    files = request.FILES
 
-    if 'bio' in payload:
-        profile.bio = payload['bio']
+    if 'bio' in data:
+        profile.bio = data['bio']
 
-    if 'avatar' in payload:
-        profile.avatar = payload['avatar']
+    # ¡Aquí está la magia! Django maneja el ImageField directamente
+    if 'avatar' in files:
+        profile.avatar = files['avatar']
 
-    if 'color_bg' in payload:
+    if 'color_bg' in data:
         if not profile.verified:
-            return JsonResponse(
-                {'error': 'Only verified users can change background color'}, status=403
-            )
-        profile.color_bg = payload['color_bg']
+            return JsonResponse({'error': 'Only verified users...'}, status=403)
+        profile.color_bg = data['color_bg']
 
     user = profile.user
 
-    if 'username' in payload:
-        if User.objects.filter(username=payload['username']).exclude(pk=user.pk).exists():
+    if 'username' in data:
+        if User.objects.filter(username=data['username']).exclude(pk=user.pk).exists():
             return JsonResponse({'error': 'Username already taken'}, status=400)
-        user.username = payload['username']
+        user.username = data['username']
 
-    if 'first_name' in payload:
-        user.first_name = payload['first_name']
+    if 'first_name' in data:
+        user.first_name = data['first_name']
 
-    if 'last_name' in payload:
-        user.last_name = payload['last_name']
+    if 'last_name' in data:
+        user.last_name = data['last_name']
 
     profile.save()
     user.save()
