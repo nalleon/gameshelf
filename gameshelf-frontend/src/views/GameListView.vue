@@ -13,7 +13,7 @@
                 </div>
 
                 <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
-                    <div v-for="game in paginatedGames" :key="game.id"
+                    <div v-for="game in games" :key="game.id"
                         class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
                     >
                         <GameCard :game="game"/>
@@ -23,7 +23,7 @@
                 <nav v-if="totalPages > 1" class="mt-16 flex justify-center items-center gap-2 text-gsblanco">
                     <button 
                         @click="prevPage" 
-                        :disabled="currentPage === 1"
+                        :disabled="!hasPrevious"
                         :class="[
                             'w-10 h-10 flex items-center justify-center rounded-lg border transition-colors',
                             currentPage === 1 ? 'border-gsgris/30 text-gsgris/30 cursor-not-allowed' : 'border-gsblanco hover:text-gsmenta hover:border-gsmenta'
@@ -35,22 +35,30 @@
                     </button>
 
                     <div class="flex items-center bg-[#161a21] rounded-lg border border-gsblanco p-1 gap-1">
-                        <button 
-                            v-for="page in totalPages" 
-                            :key="page"
-                            @click="goToPage(page)"
-                            :class="[
-                                'w-9 h-9 flex items-center justify-center rounded-md transition-colors',
-                                currentPage === page ? 'bg-gsmenta font-bold text-[#161a21]' : 'hover:bg-gsblanco/20'
-                            ]"
-                        >
-                            {{ page }}
-                        </button>
+                        <template v-for="page in visiblePages" :key="page">
+                            <button 
+                                v-if="typeof page === 'number'"
+                                @click="goToPage(page)"
+                                :class="[
+                                    'w-9 h-9 flex items-center justify-center rounded-md transition-colors',
+                                    currentPage === page ? 'bg-gsmenta font-bold text-[#161a21]' : 'hover:bg-gsblanco/20'
+                                ]"
+                            >
+                                {{ page }}
+                            </button>
+
+                            <span 
+                                v-else 
+                                class="w-9 h-9 flex items-center justify-center text-gsgris/60"
+                            >
+                                {{ page }}
+                            </span>
+                        </template>
                     </div>
 
                     <button 
                         @click="nextPage" 
-                        :disabled="currentPage === totalPages"
+                        :disabled="!hasNext"
                         :class="[
                             'w-10 h-10 flex items-center justify-center rounded-lg border transition-colors',
                             currentPage === totalPages ? 'border-gsgris/30 text-gsgris/30 cursor-not-allowed' : 'border-gsblanco hover:text-gsmenta hover:border-gsmenta'
@@ -82,69 +90,91 @@ import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import type { Game } from '@/types/gameListTypes';
 import { computed, onMounted, ref } from 'vue';
-import { useGameStore } from '@/stores/gameStore';
+import axios from 'axios';
 
-const gameStore = useGameStore()
 
-let games = ref<Game[] | null>([])
-
-// Load Games
-onMounted(async () => {
-
-    if(gameStore.gamesLoaded){
-        games.value = gameStore.games;
-    } else {
-        try {
-            const webhookUrl = 'http://127.0.0.1:8000/api/games/'
-
-            const response = await fetch(webhookUrl, 
-                {
-                    method: "GET",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }    
-                }
-            );
-
-            const data = await response.json();
-            games.value = data;
-            // console.log(data);
-            gameStore.setGamesCache(data);
-
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
-});
+const games = ref<Game[] | null>([])
+const loading = ref(true)
 
 // --- VARIABLES DE PAGINACIÓN ---
 const currentPage = ref(1);
-const itemsPerPage = 15; // Numero de items por página
+const totalPages = ref(1);
+const totalCount = ref(0);
+const hasNext = ref(false);
+const hasPrevious = ref(false);
 
-const totalPages = computed(() => {
-    return Math.ceil(games.value?.length || 0 / itemsPerPage);
+// Load Games
+onMounted(async () => {
+    await loadPage(1)
+    loading.value = false
 });
 
-// Calcula qué juegos mostrar en la página actual
-const paginatedGames = computed(() => {
-    const start = (currentPage.value - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return games.value?.slice(start, end);
-});
+const loadPage = async (page: number) => {
+    try {
+        const data = await getGames(page)
+
+        games.value = data.results
+        currentPage.value = data.current_page
+        totalPages.value = data.total_pages
+        hasNext.value = data.has_next
+        hasPrevious.value = data.has_previous
+        totalCount.value = data.count
+
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function getGames( page : number ) {
+    const webhookUrl = `http://127.0.0.1:8000/api/games/?page=${page}&page_size=15&mature_content=true`
+
+    const response = await axios.get(webhookUrl)
+    console.log(response)
+    return response.data
+}
 
 // --- FUNCIONES DE NAVEGACIÓN ---
 const nextPage = () => {
-    if (currentPage.value < totalPages.value) currentPage.value++;
+    if (hasNext.value) loadPage(currentPage.value + 1);
 };
 
 const prevPage = () => {
-    if (currentPage.value > 1) currentPage.value--;
+    if (hasPrevious.value) loadPage(currentPage.value - 1);
 };
 
 const goToPage = (page: number) => {
-    currentPage.value = page;
+    loadPage(page);
 };
+
+// Lógica para calcular qué números de página mostrar
+const visiblePages = computed(() => {
+    const total = totalPages.value;
+    const current = currentPage.value;
+    const delta = 2; // Páginas a mostrar a la izquierda y derecha de la actual
+    const range = [];
+    const rangeWithDots = [];
+    let l;
+
+    for (let i = 1; i <= total; i++) {
+        if (i === 1 || i === total || (i >= current - delta && i <= current + delta)) {
+            range.push(i);
+        }
+    }
+
+    for (let i of range) {
+        if (l) {
+            if (i - l === 2) {
+                rangeWithDots.push(l + 1);
+            } else if (i - l !== 1) {
+                rangeWithDots.push('...');
+            }
+        }
+        rangeWithDots.push(i);
+        l = i;
+    }
+
+    return rangeWithDots;
+});
 
 // Botón de scroll hasta arriba
 const scrollContainer = ref<HTMLElement | null>(null);
