@@ -153,8 +153,9 @@ def game_wrapper(request):
 @csrf_exempt
 def game_list(request):
     mature_content = request.GET.get('mature_content')
-    page = int(request.GET.get('page', 1))
-    page_size = int(request.GET.get('page_size', 15))
+    page = _get_int_param(request, 'page', 1)
+    page_size = _get_int_param(request, 'page_size', 15)
+    
     if mature_content is not None:
         mature_content = mature_content.lower() == 'true'
 
@@ -186,6 +187,11 @@ def game_list(request):
 
     return JsonResponse(serializer.serialize_paginated(pagination_data))
 
+def _get_int_param(request, name, default):
+    try:
+        return max(1, int(request.GET.get(name, default)))
+    except (TypeError, ValueError):
+        return default
 
 @extend_schema(
     methods=['GET'],
