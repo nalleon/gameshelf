@@ -7,7 +7,7 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiRequest, OpenApiTypes, extend_schema
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -94,7 +94,12 @@ def profile_list(request):
 )
 @extend_schema(
     tags=['profile'],
-    request=UpdateProfileSerializer,
+    request=OpenApiRequest(
+        request=UpdateProfileSerializer,
+        encoding={
+            'avatar': {'contentType': 'image/*'},
+        },
+    ),
     responses={
         200: ProfileSerializer,
         400: ErrorResponseSerializer,
@@ -129,28 +134,25 @@ def profile_detail(request, pk_profile: int):
 # @require_json_body
 @auth_required
 def profile_edit(request, pk_profile: int):
+
     try:
         profile = get_object_or_404(Profile, pk=pk_profile)
     except Http404:
         return JsonResponse({'error': 'Profile not found'}, status=404)
 
     if request.user != profile.user:
-        print("Estoy aquí")
         return JsonResponse({'error': 'Forbidden'}, status=403)
 
-    data = request.data 
+    data = request.data
     files = request.FILES
 
     if 'bio' in data:
         profile.bio = data['bio']
 
-    # ¡Aquí está la magia! Django maneja el ImageField directamente
     if 'avatar' in files:
         profile.avatar = files['avatar']
 
-    if 'color_bg' in data:
-        if not profile.verified:
-            return JsonResponse({'error': 'Only verified users...'}, status=403)
+    if 'color_bg' in data and profile.verified:
         profile.color_bg = data['color_bg']
 
     user = profile.user
