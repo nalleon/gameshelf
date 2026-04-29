@@ -54,10 +54,10 @@
                     <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ completed }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Completed</span>
                 </div>
-                <!-- <router-link to="/profile/wishlist" class="text-center">
+                <router-link :to="`/${profile.id}/wishlist`" class="text-center">
                     <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.wishlist.items?.length ?? 0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Wishlist</span>
-                </router-link> -->
+                </router-link>
             </div>
         </section>
 

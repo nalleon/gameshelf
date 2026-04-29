@@ -40,21 +40,45 @@ import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import { computed, onMounted, ref } from 'vue';
 import type { Wishlist, WishlistItem } from '@/types/profileTypes';
+import { useAuthStore } from '@/stores/authStore';
+import axios from 'axios';
 
 interface Props {
-    wishlist: Array<WishlistItem>
+    profile_pk: number
 }
 
 const props = defineProps<Props>()
+const wishlist = ref<Array<WishlistItem>>([]);
+const authStore = useAuthStore()
+
+// onMounted(async () => {
+//     try {
+//         const data = await getWishlist()
+//         wishlist.value = data
+//     } catch (error) {
+//         console.error('Error cargando el perfil:', error)
+//     }
+// });
+
+// async function getWishlist() {
+//     const webhookUrl = `http://127.0.0.1:8000/api/wishlist/me/`
+//     const headers = {
+//         'Authorization': `Bearer ${authStore.token}`, 
+//         'Content-Type': 'application/json'
+//     }
+
+//     const response = await axios.get(webhookUrl, { headers })
+//     return response.data
+// }
 
 // Botón de scroll hasta arriba
 const scrollContainer = ref<HTMLElement | null>(null);
 const showButton = ref(false);
 
 const handleScroll = () => {
-if (scrollContainer.value) {
-    showButton.value = scrollContainer.value.scrollTop > 300;
-}
+    if (scrollContainer.value) {
+        showButton.value = scrollContainer.value.scrollTop > 300;
+    }
 };
 
 function scrollTop() {

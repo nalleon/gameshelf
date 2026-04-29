@@ -7,6 +7,7 @@ import GameDetails from '@/views/GameDetails.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import EditProfile from '@/views/EditProfile.vue';
+import Wishlist from '@/views/Wishlist.vue';
 
 const routes = [
   { path: '/', component: HomeView },
@@ -29,6 +30,10 @@ const routes = [
     path: '/profile/edit', 
     component: EditProfile,
     meta: { requiresAuth: true }
+  },
+  { 
+    path: '/:user_id/wishlist', 
+    component: Wishlist,
   },
 ];
 
