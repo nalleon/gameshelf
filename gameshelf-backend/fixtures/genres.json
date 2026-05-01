@@ -49,29 +49,18 @@
     },
     {
         "model": "classifications.genre",
+        "pk": 13,
+        "fields": {
+            "name": "Simulator",
+            "slug": "simulator"
+        }
+    },
+    {
+        "model": "classifications.genre",
         "pk": 12,
         "fields": {
             "name": "Role-playing (RPG)",
             "slug": "role-playing-rpg"
-        }
-    },
-    {
-        "model": "classifications.genre",
-<<<<<<< HEAD
-        "pk": 35,
-        "fields": {
-            "name": "Card & Board Game",
-            "slug": "card-board-game"
-        }
-    },
-    {
-        "model": "classifications.genre",
-=======
->>>>>>> develop
-        "pk": 15,
-        "fields": {
-            "name": "Strategy",
-            "slug": "strategy"
         }
     },
     {
@@ -84,18 +73,18 @@
     },
     {
         "model": "classifications.genre",
-        "pk": 13,
-        "fields": {
-            "name": "Simulator",
-            "slug": "simulator"
-        }
-    },
-    {
-        "model": "classifications.genre",
         "pk": 5,
         "fields": {
             "name": "Shooter",
             "slug": "shooter"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 15,
+        "fields": {
+            "name": "Strategy",
+            "slug": "strategy"
         }
     },
     {
@@ -116,26 +105,10 @@
     },
     {
         "model": "classifications.genre",
-        "pk": 2,
-        "fields": {
-            "name": "Point-and-click",
-            "slug": "point-and-click"
-        }
-    },
-    {
-        "model": "classifications.genre",
         "pk": 16,
         "fields": {
             "name": "Turn-based strategy (TBS)",
             "slug": "turn-based-strategy-tbs"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 24,
-        "fields": {
-            "name": "Tactical",
-            "slug": "tactical"
         }
     },
     {
@@ -156,8 +129,14 @@
     },
     {
         "model": "classifications.genre",
-<<<<<<< HEAD
-=======
+        "pk": 2,
+        "fields": {
+            "name": "Point-and-click",
+            "slug": "point-and-click"
+        }
+    },
+    {
+        "model": "classifications.genre",
         "pk": 35,
         "fields": {
             "name": "Card & Board Game",
@@ -166,7 +145,6 @@
     },
     {
         "model": "classifications.genre",
->>>>>>> develop
         "pk": 11,
         "fields": {
             "name": "Real Time Strategy (RTS)",
@@ -188,16 +166,13 @@
             "name": "Pinball",
             "slug": "pinball"
         }
-<<<<<<< HEAD
     },
     {
         "model": "classifications.genre",
-        "pk": 36,
+        "pk": 24,
         "fields": {
-            "name": "MOBA",
-            "slug": "moba"
+            "name": "Tactical",
+            "slug": "tactical"
         }
-=======
->>>>>>> develop
     }
 ]
