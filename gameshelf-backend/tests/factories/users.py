@@ -1,40 +1,40 @@
-import factory
-from django.contrib.auth.models import User
-from django.utils import timezone
 from datetime import timedelta
+
+import factory
+from django.contrib.auth import get_user_model
+from django.utils import timezone
+
 from users.models import Profile, UserToken
+
+User = get_user_model()
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    username = factory.Faker('user_name')
-    email = factory.Faker('email')
-    first_name = factory.Faker('first_name')
-    last_name = factory.Faker('last_name')
-    is_active = True
-
-    profile = factory.RelatedFactory(
-        'apps.users.factories.ProfileFactory',
-        factory_related_name='user',
-    )
-
-    @classmethod
-    def _create(cls, model_class, *args, **kwargs):
-        manager = model_class._default_manager
-        return manager.create_user(*args, **kwargs)
+    username = factory.Sequence(lambda n: f'user{n}')
+    email = factory.LazyAttribute(lambda o: f'{o.username}@test.com')
+    password = factory.PostGenerationMethodCall('set_password', 'password123')
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Profile
 
-    user = factory.SubFactory(UserFactory, profile=None)
-    bio = factory.Faker('paragraph')
-    verified = factory.Faker('boolean')
-    color_bg = factory.Faker('hex_color')
+    user = factory.SubFactory(UserFactory)
+
+    avatar = 'avatars/default.png'
+    bio = factory.Faker('text', max_nb_chars=120)
+    verified = False
+
+    color_bg = '#79A998'
     role = Profile.Role.USER
-    avatar = factory.django.ImageField(color='green')
+
+
+class AdminProfileFactory(ProfileFactory):
+    role = Profile.Role.ADMIN
+    verified = True
 
 
 class UserTokenFactory(factory.django.DjangoModelFactory):
@@ -42,10 +42,10 @@ class UserTokenFactory(factory.django.DjangoModelFactory):
         model = UserToken
 
     user = factory.SubFactory(UserFactory)
-    type = factory.Iterator([
-        UserToken.TokenType.VERIFY_EMAIL,
-        UserToken.TokenType.CHANGE_PASSWORD,
-        UserToken.TokenType.ACTIVATE_ACCOUNT
-    ])
-    
-    expires_at = factory.LazyFunction(lambda: timezone.now() + timedelta(days=1))
+    type = UserToken.TokenType.VERIFY_EMAIL
+
+    expires_at = factory.LazyFunction(lambda: timezone.now() + timedelta(hours=1))
+
+
+class ExpiredUserTokenFactory(UserTokenFactory):
+    expires_at = factory.LazyFunction(lambda: timezone.now() - timedelta(hours=1))
