@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth import get_user_model
-from django.test import Client
+from rest_framework.test import APIClient
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from tests.factories.classifications import (
@@ -12,14 +13,14 @@ from tests.factories.classifications import (
     RegionFactory,
 )
 from users.models import Profile
-from rest_framework.test import APIClient
-from rest_framework_simplejwt.tokens import RefreshToken
+
 User = get_user_model()
 
 
 # =========================
 # FIXTURE ADMIN
 # =========================
+
 
 @pytest.fixture
 def client_admin(db):
@@ -33,9 +34,11 @@ def client_admin(db):
 
     return client
 
+
 @pytest.fixture
 def client():
     return APIClient()
+
 
 # =========================
 # PLATFORM
@@ -316,3 +319,42 @@ def test_region_delete(client_admin):
 
     assert response.status_code in (200, 204)
     assert not Region.objects.filter(pk=region.pk).exists()
+
+
+@pytest.mark.django_db
+def test_platform_detail_404(client_admin):
+    response = client_admin.get('/api/platforms/999999/')
+    assert response.status_code == 404
+    assert response.data['error'] == 'Platform not found'
+
+
+@pytest.mark.django_db
+def test_genre_detail_404(client_admin):
+    response = client_admin.get('/api/genres/999999/')
+    assert response.status_code == 404
+    assert response.data['error'] == 'Genre not found'
+
+
+@pytest.mark.django_db
+def test_region_detail_404(client_admin):
+    response = client_admin.get('/api/regions/999999/')
+    assert response.status_code == 404
+    assert response.data['error'] == 'Region not found'
+
+
+
+@pytest.mark.django_db
+def test_add_edition_missing_fields(client_admin):
+    response = client_admin.post(
+        '/api/editions/',
+        data={'name': 'Only name'},
+        content_type='application/json',
+    )
+
+    assert response.status_code == 400
+    assert response.data['error'] == 'Missing required fields'
+
+@pytest.mark.django_db
+def test_platform_method_not_allowed(client_admin):
+    response = client_admin.post('/api/platforms/')
+    assert response.status_code == 405
