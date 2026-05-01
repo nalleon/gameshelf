@@ -4,18 +4,11 @@ export interface Game {
     slug: string,
     description: string,
     cover_default: string,
+    cover_detail: string,
     released_at: Date,
-    platform: Platform,
     genres: Array<Genre>,
     edition: Edition,
     region: Region,
-}
-
-export interface Platform {
-    id: number,
-    name: string,
-    slug: string,
-    description: string,
 }
 
 export interface Genre {

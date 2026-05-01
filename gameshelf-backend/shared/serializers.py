@@ -3,6 +3,7 @@ from abc import ABC
 from typing import Iterable
 
 from django.http import HttpRequest, JsonResponse
+from drf_spectacular.utils import inline_serializer
 from rest_framework import serializers
 
 
@@ -39,7 +40,56 @@ class BaseSerializer(ABC):
 
     def json_response(self) -> JsonResponse:
         return JsonResponse(self.serialize(), safe=False)
-    
+
+    def serialize_paginated(self, pagination_data: dict) -> dict:
+        return {
+            'results': self.__class__(
+                pagination_data['results'], request=self.request, fields=self.fields
+            ).serialize(),
+            'count': pagination_data['count'],
+            'total_pages': pagination_data['total_pages'],
+            'current_page': pagination_data['current_page'],
+            'has_next': pagination_data['has_next'],
+            'has_previous': pagination_data['has_previous'],
+        }
+
+    @classmethod
+    def get_schema(cls, name: str = None, many=False):
+        if many:
+            return inline_serializer(
+                name=f'{name or cls.__name__}List',
+                fields={'results': cls.get_fields_schema(many=True)},
+            )
+        return inline_serializer(name=name or cls.__name__, fields=cls.get_fields_schema())
+
+    @classmethod
+    def get_fields_dict(cls) -> dict:
+        raise NotImplementedError
+
+    @classmethod
+    def get_fields_schema(cls, many=False) -> dict | serializers.ListSerializer:
+        fields = cls.get_fields_dict()
+        if many:
+            return serializers.ListSerializer(
+                child=inline_serializer(name=f'{cls.__name__}Item', fields=fields)
+            )
+        return fields
+
+    @classmethod
+    def get_paginated_schema(cls, name: str = None):
+        return inline_serializer(
+            name=f'Paginated{name or cls.__name__}',
+            fields={
+                'results': cls.get_fields_schema(many=True),
+                'total_pages': serializers.IntegerField(),
+                'count': serializers.IntegerField(),
+                'has_next': serializers.BooleanField(),
+                'has_previous': serializers.BooleanField(),
+                'current_page': serializers.IntegerField(),
+            },
+        )
+
+
 class ShowUsernameSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
@@ -51,7 +101,7 @@ class ShowUsernameSerializer(BaseSerializer):
         return {
             'username': serializers.CharField(),
         }
-        
+
 
 class MessageResponseSerializer(serializers.Serializer):
     message = serializers.CharField()

@@ -25,16 +25,17 @@
     },
     {
         "model": "classifications.publisher",
-        "pk": 47222,
+        "pk": 817,
         "fields": {
-            "name": "Flyin Dogs",
-            "slug": "flyin-dogs-1"
+            "name": "Taito",
+            "slug": "taito"
         }
     },
     {
         "model": "classifications.publisher",
-        "pk": 66368,
+        "pk": 66,
         "fields": {
+<<<<<<< HEAD
             "name": "Emberwave Studios",
             "slug": "emberwave-studios-1"
         }
@@ -51,6 +52,8 @@
         "model": "classifications.publisher",
         "pk": 66,
         "fields": {
+=======
+>>>>>>> develop
             "name": "Activision",
             "slug": "activision"
         }
@@ -65,6 +68,7 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
         "pk": 2238,
         "fields": {
             "name": "Eastasiasoft",
@@ -81,6 +85,8 @@
     },
     {
         "model": "classifications.publisher",
+=======
+>>>>>>> develop
         "pk": 73,
         "fields": {
             "name": "Aspyr Media",
@@ -233,6 +239,17 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
+=======
+        "pk": 5310,
+        "fields": {
+            "name": "Subaltern Games",
+            "slug": "subaltern-games-1"
+        }
+    },
+    {
+        "model": "classifications.publisher",
+>>>>>>> develop
         "pk": 39625,
         "fields": {
             "name": "Thunder Road Game Studios",
@@ -305,18 +322,10 @@
     },
     {
         "model": "classifications.publisher",
-        "pk": 22486,
+        "pk": 8224,
         "fields": {
-            "name": "Zetsubou",
-            "slug": "zetsubou-1"
-        }
-    },
-    {
-        "model": "classifications.publisher",
-        "pk": 33166,
-        "fields": {
-            "name": "Gamuzumi",
-            "slug": "gamuzumi"
+            "name": "Aerosoft",
+            "slug": "aerosoft"
         }
     },
     {
@@ -393,6 +402,14 @@
     },
     {
         "model": "classifications.publisher",
+        "pk": 76212,
+        "fields": {
+            "name": "Fdots Games",
+            "slug": "fdots-games-1"
+        }
+    },
+    {
+        "model": "classifications.publisher",
         "pk": 2795,
         "fields": {
             "name": "Sanyo",
@@ -425,6 +442,7 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
         "pk": 76212,
         "fields": {
             "name": "Fdots Games",
@@ -433,6 +451,8 @@
     },
     {
         "model": "classifications.publisher",
+=======
+>>>>>>> develop
         "pk": 49954,
         "fields": {
             "name": "Yellow Dog Man Studios",
@@ -693,6 +713,7 @@
         "fields": {
             "name": "Nintendo",
             "slug": "nintendo"
+<<<<<<< HEAD
         }
     },
     {
@@ -701,6 +722,8 @@
         "fields": {
             "name": "Sokpop Collective",
             "slug": "sokpop-collective-1"
+=======
+>>>>>>> develop
         }
     },
     {
@@ -809,10 +832,10 @@
     },
     {
         "model": "classifications.publisher",
-        "pk": 25229,
+        "pk": 74246,
         "fields": {
-            "name": "Specialbit Studio",
-            "slug": "specialbit-studio-1"
+            "name": "FunkyMouse",
+            "slug": "funkymouse-1"
         }
     },
     {
@@ -993,6 +1016,7 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
         "pk": 85,
         "fields": {
             "name": "Double Fine Productions",
@@ -1001,6 +1025,8 @@
     },
     {
         "model": "classifications.publisher",
+=======
+>>>>>>> develop
         "pk": 57128,
         "fields": {
             "name": "T0 Studio",
@@ -1041,6 +1067,7 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
         "pk": 24820,
         "fields": {
             "name": "CFK",
@@ -1049,6 +1076,8 @@
     },
     {
         "model": "classifications.publisher",
+=======
+>>>>>>> develop
         "pk": 30526,
         "fields": {
             "name": "koker_007",
@@ -1345,14 +1374,6 @@
     },
     {
         "model": "classifications.publisher",
-        "pk": 27828,
-        "fields": {
-            "name": "Future Friends Games",
-            "slug": "future-friends-games"
-        }
-    },
-    {
-        "model": "classifications.publisher",
         "pk": 25026,
         "fields": {
             "name": "npckc",
@@ -1561,14 +1582,6 @@
     },
     {
         "model": "classifications.publisher",
-        "pk": 52029,
-        "fields": {
-            "name": "Oneman Interactive Entertainment",
-            "slug": "oneman-interactive-entertainment-1"
-        }
-    },
-    {
-        "model": "classifications.publisher",
         "pk": 1803,
         "fields": {
             "name": "Bigben Interactive",
@@ -1753,6 +1766,7 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
         "pk": 7445,
         "fields": {
             "name": "Koei Tecmo Europe",
@@ -1777,6 +1791,8 @@
     },
     {
         "model": "classifications.publisher",
+=======
+>>>>>>> develop
         "pk": 3118,
         "fields": {
             "name": "MumboJumbo",
@@ -1869,6 +1885,7 @@
         "fields": {
             "name": "CAVYHOUSE",
             "slug": "cavyhouse-1"
+<<<<<<< HEAD
         }
     },
     {
@@ -1901,6 +1918,8 @@
         "fields": {
             "name": "Nippon Ichi Software",
             "slug": "nippon-ichi-software-1"
+=======
+>>>>>>> develop
         }
     },
     {
@@ -2042,6 +2061,7 @@
     {
         "model": "classifications.publisher",
         "pk": 1933,
+<<<<<<< HEAD
         "fields": {
             "name": "Neko Entertainment",
             "slug": "neko-entertainment"
@@ -2050,9 +2070,11 @@
     {
         "model": "classifications.publisher",
         "pk": 51389,
+=======
+>>>>>>> develop
         "fields": {
-            "name": "Treehouse Games",
-            "slug": "treehouse-games-1"
+            "name": "Neko Entertainment",
+            "slug": "neko-entertainment"
         }
     },
     {
@@ -2137,6 +2159,7 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
         "pk": 9524,
         "fields": {
             "name": "Grey Alien Games",
@@ -2145,6 +2168,8 @@
     },
     {
         "model": "classifications.publisher",
+=======
+>>>>>>> develop
         "pk": 43414,
         "fields": {
             "name": "616 GAMES",
@@ -2257,8 +2282,9 @@
     },
     {
         "model": "classifications.publisher",
-        "pk": 5048,
+        "pk": 57256,
         "fields": {
+<<<<<<< HEAD
             "name": "Curve Digital",
             "slug": "curve-digital"
         }
@@ -2267,6 +2293,8 @@
         "model": "classifications.publisher",
         "pk": 57256,
         "fields": {
+=======
+>>>>>>> develop
             "name": "Saikey Studios",
             "slug": "saikey-studios"
         }
@@ -2409,6 +2437,7 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
         "pk": 40338,
         "fields": {
             "name": "Mattrified Games",
@@ -2417,6 +2446,8 @@
     },
     {
         "model": "classifications.publisher",
+=======
+>>>>>>> develop
         "pk": 3958,
         "fields": {
             "name": "Bandai Namco Games",
@@ -2441,6 +2472,7 @@
     },
     {
         "model": "classifications.publisher",
+<<<<<<< HEAD
         "pk": 26291,
         "fields": {
             "name": "carrotcake.studio",
@@ -2449,6 +2481,8 @@
     },
     {
         "model": "classifications.publisher",
+=======
+>>>>>>> develop
         "pk": 9015,
         "fields": {
             "name": "Dogenzaka Lab",
@@ -2502,6 +2536,7 @@
             "name": "Broccoli",
             "slug": "broccoli"
         }
+<<<<<<< HEAD
     },
     {
         "model": "classifications.publisher",
@@ -18230,5 +18265,7 @@
             "name": "Black Tabby Games",
             "slug": "black-tabby-games-1"
         }
+=======
+>>>>>>> develop
     }
 ]

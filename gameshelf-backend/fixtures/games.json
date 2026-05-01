@@ -68,6 +68,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 183688,
             "title": "Doctor Kvorak's Obliteration Game",
             "slug": "doctor-kvoraks-obliteration-game",
@@ -97,6 +98,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 638445,
             "title": "Ace wo Nerae!",
             "slug": "ace-wo-nerae",
@@ -188,6 +191,7 @@
             "slug": "ultimate-frolf-chaos",
             "description": "Just an average multiplayer golfing game for up to eight players... with FROGS?",
             "released_at": "2024-10-01",
+<<<<<<< HEAD
             "region": 8,
             "parent_game_igdb": null,
             "age_rating": "TBA",
@@ -213,132 +217,23 @@
             "slug": "the-tales-of-bayun",
             "description": "Can a flat world resting on the backs of three demon bears live in peace? Of course not! Immerse yourself in the universe of the dark Slavic legends, explore the characters' stories and make difficult choices that affect the course of events. Bayun the Cat will help you. If you're lucky, that is.",
             "released_at": "2023-02-16",
+=======
+>>>>>>> develop
             "region": 8,
             "parent_game_igdb": null,
             "age_rating": "TBA",
             "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5nd8.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5nd8.jpg",
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobqtl.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/cobqtl.jpg",
             "genres": [
-                12,
-                31,
-                32,
-                35
+                14,
+                32
             ],
             "platforms": [
-                48,
-                6,
-                49,
-                130
+                6
             ],
-            "developers": [
-                47222
-            ],
-            "publishers": [
-                47222
-            ]
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
-            "igdb_id": 2001118,
-            "title": "The Tales of Bayun",
-            "slug": "the-tales-of-bayun-1",
-            "description": "Can a flat world resting on the backs of three demon bears live in peace? Of course not! Immerse yourself in the universe of the dark Slavic legends, explore the characters' stories and make difficult choices that affect the course of events. Bayun the Cat will help you. If you're lucky, that is.",
-            "released_at": "2024-02-09",
-            "region": 8,
-            "parent_game_igdb": 2001118,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5nd8.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5nd8.jpg",
-            "genres": [
-                12,
-                31,
-                32,
-                35
-            ],
-            "platforms": [
-                48,
-                6,
-                49,
-                130
-            ],
-            "developers": [
-                47222
-            ],
-            "publishers": [
-                47222
-            ]
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
-            "igdb_id": 2001112,
-            "title": "The Tales of Bayun",
-            "slug": "the-tales-of-bayun-2",
-            "description": "Can a flat world resting on the backs of three demon bears live in peace? Of course not! Immerse yourself in the universe of the dark Slavic legends, explore the characters' stories and make difficult choices that affect the course of events. Bayun the Cat will help you. If you're lucky, that is.",
-            "released_at": "2024-02-09",
-            "region": 2,
-            "parent_game_igdb": 2001118,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5nd8.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5nd8.jpg",
-            "genres": [
-                12,
-                31,
-                32,
-                35
-            ],
-            "platforms": [
-                48,
-                6,
-                49,
-                130
-            ],
-            "developers": [
-                47222
-            ],
-            "publishers": [
-                47222
-            ]
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
-            "igdb_id": 2001118,
-            "title": "The Tales of Bayun",
-            "slug": "the-tales-of-bayun-3",
-            "description": "Can a flat world resting on the backs of three demon bears live in peace? Of course not! Immerse yourself in the universe of the dark Slavic legends, explore the characters' stories and make difficult choices that affect the course of events. Bayun the Cat will help you. If you're lucky, that is.",
-            "released_at": "2024-02-23",
-            "region": 8,
-            "parent_game_igdb": 2001118,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5nd8.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5nd8.jpg",
-            "genres": [
-                12,
-                31,
-                32,
-                35
-            ],
-            "platforms": [
-                48,
-                6,
-                49,
-                130
-            ],
-            "developers": [
-                47222
-            ],
-            "publishers": [
-                47222
-            ]
+            "developers": [],
+            "publishers": []
         }
     },
     {
@@ -394,29 +289,132 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 2130108,
-            "title": "For What Will Come",
-            "slug": "for-what-will-come",
-            "description": "Return to your childhood home in hopes to see your family, uncover the secrets behind your family's disappearance. What will you uncover? Will the family mystery end with you, or never be thought of again..",
-            "released_at": "2022-10-29",
-            "region": 8,
+            "igdb_id": 42255,
+            "title": "Ultimate Spider-Man",
+            "slug": "ultimate-spider-man",
+            "description": "Based on the comic book of the same name, Ultimate Spider-Man lets you play as either the hero Spider-Man or his arch-nemesis, Venom. Use the unique combat techniques of either Spider-Man or Venom to battle a host of Spider-Man characters. Artistic contributions by the creators of the series make for an authentic Spider-Man experience.",
+            "released_at": "2006-08-24",
+            "region": 5,
             "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5obz.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5obz.jpg",
+            "age_rating": "18",
+            "mature_content": false,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2rry.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2rry.jpg",
             "genres": [
-                31,
-                32
+                25
             ],
             "platforms": [
-                6
+                11,
+                21,
+                6,
+                8
             ],
             "developers": [
-                66368
+                432,
+                428
             ],
             "publishers": [
-                66368
+                817,
+                66
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 42255,
+            "title": "Ultimate Spider-Man",
+            "slug": "ultimate-spider-man-1",
+            "description": "Based on the comic book of the same name, Ultimate Spider-Man lets you play as either the hero Spider-Man or his arch-nemesis, Venom. Use the unique combat techniques of either Spider-Man or Venom to battle a host of Spider-Man characters. Artistic contributions by the creators of the series make for an authentic Spider-Man experience.",
+            "released_at": "2006-06-29",
+            "region": 5,
+            "parent_game_igdb": 42255,
+            "age_rating": "18",
+            "mature_content": false,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2rry.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2rry.jpg",
+            "genres": [
+                25
+            ],
+            "platforms": [
+                11,
+                21,
+                6,
+                8
+            ],
+            "developers": [
+                432,
+                428
+            ],
+            "publishers": [
+                817,
+                66
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 42258,
+            "title": "Ultimate Spider-Man",
+            "slug": "ultimate-spider-man-2",
+            "description": "Based on the comic book of the same name, Ultimate Spider-Man lets you play as either the hero Spider-Man or his arch-nemesis, Venom. Use the unique combat techniques of either Spider-Man or Venom to battle a host of Spider-Man characters. Artistic contributions by the creators of the series make for an authentic Spider-Man experience.",
+            "released_at": "2005-09-22",
+            "region": 8,
+            "parent_game_igdb": 42255,
+            "age_rating": "18",
+            "mature_content": false,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2rry.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2rry.jpg",
+            "genres": [
+                25
+            ],
+            "platforms": [
+                11,
+                21,
+                6,
+                8
+            ],
+            "developers": [
+                432,
+                428
+            ],
+            "publishers": [
+                817,
+                66
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 42258,
+            "title": "Ultimate Spider-Man",
+            "slug": "ultimate-spider-man-3",
+            "description": "Based on the comic book of the same name, Ultimate Spider-Man lets you play as either the hero Spider-Man or his arch-nemesis, Venom. Use the unique combat techniques of either Spider-Man or Venom to battle a host of Spider-Man characters. Artistic contributions by the creators of the series make for an authentic Spider-Man experience.",
+            "released_at": "2005-09-21",
+            "region": 8,
+            "parent_game_igdb": 42255,
+            "age_rating": "18",
+            "mature_content": false,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2rry.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2rry.jpg",
+            "genres": [
+                25
+            ],
+            "platforms": [
+                11,
+                21,
+                6,
+                8
+            ],
+            "developers": [
+                432,
+                428
+            ],
+            "publishers": [
+                817,
+                66
             ]
         }
     },
@@ -635,6 +633,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 2371028,
             "title": "Alive Paint",
             "slug": "alive-paint",
@@ -668,6 +667,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 39411,
             "title": "Harry Potter and the Chamber of Secrets",
             "slug": "harry-potter-and-the-chamber-of-secrets",
@@ -1726,31 +1727,6 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 3466068,
-            "title": "IT Specialist Simulator",
-            "slug": "it-specialist-simulator",
-            "description": "Step into the world of IT! Diagnose network issues, manage servers, and repair devices while handling tasks under strict SLAs. Choose your career path, from HelpDesk to IT Project Manager. Develop real IT knowledge and climb the ranks in this realistic IT simulation!",
-            "released_at": "2025-11-20",
-            "region": 8,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coavpc.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coavpc.jpg",
-            "genres": [
-                13,
-                32
-            ],
-            "platforms": [
-                6
-            ],
-            "developers": [],
-            "publishers": []
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
             "igdb_id": 3507078,
             "title": "Vacuous Sugar Quest",
             "slug": "vacuous-sugar-quest",
@@ -1971,6 +1947,38 @@
             ],
             "developers": [],
             "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 114198,
+            "title": "No Pineapple Left Behind",
+            "slug": "no-pineapple-left-behind",
+            "description": "In No Pineapple Left Behind, an evil wizard shows up to a school and turns all of the children into pineapples. Pineapples are very simple. All they do is take tests and get grades. If they get good grades, the school makes more money. But, if left unattended, pineapples can turn back into children. (Oh no!) Children are far more complex and expensive than pineapples. You are the principal. Your job is to run the school.",
+            "released_at": "2016-02-18",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/yqqapruukidozziosrfm.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/yqqapruukidozziosrfm.jpg",
+            "genres": [
+                13,
+                15,
+                32
+            ],
+            "platforms": [
+                3,
+                6,
+                14
+            ],
+            "developers": [
+                5310
+            ],
+            "publishers": [
+                5310
+            ]
         }
     },
     {
@@ -2486,45 +2494,6 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 877702,
-            "title": "Sable's Grimoire",
-            "slug": "sables-grimoire",
-            "description": "Sable's Grimoire is a visual novel / dating sim featuring monster girls in a magic academy setting.\n\nPlay as Sable, an aspiring magic researcher, as he get sucked into the daily lives and troubles of his demi-human classmates.",
-            "released_at": "2021-06-10",
-            "region": 2,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co274w.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co274w.jpg",
-            "genres": [
-                13,
-                31,
-                32,
-                34
-            ],
-            "platforms": [
-                169,
-                48,
-                3,
-                6,
-                167,
-                14,
-                49,
-                130
-            ],
-            "developers": [
-                22486
-            ],
-            "publishers": [
-                22486,
-                33166
-            ]
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
             "igdb_id": 3407208,
             "title": "The Pool Invasion",
             "slug": "the-pool-invasion",
@@ -2549,6 +2518,35 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
+=======
+            "igdb_id": 3445048,
+            "title": "Supersize My Heart",
+            "slug": "supersize-my-heart",
+            "description": "Welcome to Flavor City, Crew Member! Slip into some non-slips, cozy up to one of four deliciously dateable mascots and flame broil your way into their heart in the premier fast food mascot dating sim! Because in this crazy town, the most craveable item on the menu...is love.",
+            "released_at": "2025-03-10",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9u4l.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9u4l.jpg",
+            "genres": [
+                13,
+                32,
+                34
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+>>>>>>> develop
             "igdb_id": 2923498,
             "title": "Highway Police Simulator",
             "slug": "highway-police-simulator",
@@ -3244,6 +3242,40 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
+=======
+            "igdb_id": 3993798,
+            "title": "Vivid Intrusion",
+            "slug": "vivid-intrusion",
+            "description": "Survive as long as you can in this retro-styled movement shooter roguelike. Imbue your weapon with unique effects as you fight against a never-ending onslaught of enemies.",
+            "released_at": "2026-07-01",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobz48.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/cobz48.jpg",
+            "genres": [
+                5,
+                32
+            ],
+            "platforms": [
+                3,
+                6,
+                14
+            ],
+            "developers": [
+                76212
+            ],
+            "publishers": [
+                76212
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+>>>>>>> develop
             "igdb_id": 973215,
             "title": "Dragon Tycoon Edge",
             "slug": "dragon-tycoon-edge",
@@ -3392,6 +3424,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 3993798,
             "title": "Vivid Intrusion",
             "slug": "vivid-intrusion",
@@ -3423,6 +3456,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 2694738,
             "title": "Resonite",
             "slug": "resonite",
@@ -4724,6 +4759,59 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
+=======
+            "igdb_id": 1142528,
+            "title": "PsyOps Solutions",
+            "slug": "psyops-solutions",
+            "description": "This JRPG was made for true JRPG fans. As an employee of PsyOps Solutions, you will need to complete the Contract given to you: Kill General Swanson. You are going to need to explore, fight, and help people out to become strong enough to complete your mission.",
+            "released_at": "2019-01-04",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": null,
+            "cover_detail": null,
+            "genres": [
+                12,
+                31,
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 1174498,
+            "title": "The Garden Pub",
+            "slug": "the-garden-pub",
+            "description": "You have just acquired an old pub in a small gnomish village, and now all you have to do is get it cleaned up and ready to serve the whole village! You barely have enough room to serve a handful of customers, so you must build up your reputation and gold in order to stock your pub and expand your dining area.",
+            "released_at": "2019-04-28",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": null,
+            "cover_detail": null,
+            "genres": [
+                13
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+>>>>>>> develop
             "igdb_id": 3178908,
             "title": "Macho Shot",
             "slug": "macho-shot",
@@ -5557,8 +5645,8 @@
             "released_at": "2016-12-21",
             "region": 8,
             "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
+            "age_rating": "T",
+            "mature_content": false,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2bsu.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2bsu.jpg",
             "genres": [
@@ -5698,35 +5786,6 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 1295788,
-            "title": "Jut",
-            "slug": "jut",
-            "description": "A game about beach hunting. Help a trash monster complete its checklist. Transport trash in your belly or on your head, and throw it away to make more items wash up. More things wash up while the game is closed. Find all the different items to complete the game!",
-            "released_at": "2018-01-17",
-            "region": 8,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co228p.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co228p.jpg",
-            "genres": [
-                32
-            ],
-            "platforms": [
-                6,
-                14
-            ],
-            "developers": [
-                17029
-            ],
-            "publishers": [
-                17029
-            ]
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
             "igdb_id": 2360098,
             "title": "Mystery Case Files: The Last Resort - Collector's Edition",
             "slug": "mystery-case-files-the-last-resort-collectors-edition",
@@ -5750,6 +5809,56 @@
             "publishers": [
                 2245
             ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+<<<<<<< HEAD
+            "igdb_id": 2360098,
+            "title": "Mystery Case Files: The Last Resort - Collector's Edition",
+            "slug": "mystery-case-files-the-last-resort-collectors-edition",
+            "description": "A mission to find a group of missing skiers goes downhill fast when a town’s secrets hit the fresh mountain air!",
+            "released_at": "2022-12-08",
+=======
+            "igdb_id": 2884238,
+            "title": "Island Uncanny Story",
+            "slug": "island-uncanny-story",
+            "description": "‘Island Uncanny Story’ is a narrative-driven simulation and survival game where you play as a young graduate who boards a flight to Vesia Bay with five women of different professional backgrounds and personalities. However, the flight is forced to make an emergency landing on an island。",
+            "released_at": "2024-06-11",
+>>>>>>> develop
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+<<<<<<< HEAD
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coagqd.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coagqd.jpg",
+            "genres": [
+                31
+=======
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8g2o.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co8g2o.jpg",
+            "genres": [
+                12,
+                13,
+                32
+>>>>>>> develop
+            ],
+            "platforms": [
+                6
+            ],
+<<<<<<< HEAD
+            "developers": [
+                40409
+            ],
+            "publishers": [
+                2245
+            ]
+=======
+            "developers": [],
+            "publishers": []
+>>>>>>> develop
         }
     },
     {
@@ -6384,6 +6493,31 @@
     {
         "model": "games.game",
         "fields": {
+            "igdb_id": 3993788,
+            "title": "Hellforged",
+            "slug": "hellforged",
+            "description": "Hellforged is a loot-driven, extraction bullet-heaven game. Fight through demon-infested maps, pre-craft your build, hunt powerful gear, and combine abilities into epic synergies. Every run is a tense heist. Safely extract epic gear mid-battle or risk it all for greater rewards!",
+            "released_at": "2026-12-31",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobz49.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/cobz49.jpg",
+            "genres": [
+                12,
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
             "igdb_id": 3881538,
             "title": "Santa's Hunt",
             "slug": "santas-hunt",
@@ -6647,96 +6781,60 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 1170842,
-            "title": "Angelo and Deemon: One Hell of a Quest",
-            "slug": "angelo-and-deemon-one-hell-of-a-quest",
-            "description": "Once upon a time, somewhere and somehow, Grim Reaper choose the wrong door. Angelo – young lazy bum, oh sorry - a blogger, powered by his blogger skills, must turn on “point-n-click adventure” mode, go around the whole inferno, meet locals, and get back. We made this Hell for you to enjoy.",
-            "released_at": "2022-01-25",
-            "region": 2,
+            "igdb_id": 3402718,
+            "title": "FunkyMouse's ISO",
+            "slug": "funkymouses-iso",
+            "description": "ISO is an indie built one shot–one kill airsoft first person shooter. Fight alongside your friends in intense 5v5 battles or fight solo in 10 player free for all matches. Immerse yourself in the stunning visuals created in Unreal Engine 5 and dive into fast paced gameplay where every BB counts.",
+            "released_at": "2024-09-14",
+            "region": 8,
             "parent_game_igdb": null,
             "age_rating": "TBA",
             "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3lhy.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co3lhy.jpg",
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaghs.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coaghs.jpg",
             "genres": [
-                9,
-                31,
+                5,
+                15,
                 32
             ],
             "platforms": [
-                34,
-                6,
-                130
+                6
             ],
             "developers": [
-                25229
+                74246
             ],
             "publishers": [
-                25229
+                74246
             ]
         }
     },
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 1170848,
-            "title": "Angelo and Deemon: One Hell of a Quest",
-            "slug": "angelo-and-deemon-one-hell-of-a-quest-1",
-            "description": "Once upon a time, somewhere and somehow, Grim Reaper choose the wrong door. Angelo – young lazy bum, oh sorry - a blogger, powered by his blogger skills, must turn on “point-n-click adventure” mode, go around the whole inferno, meet locals, and get back. We made this Hell for you to enjoy.",
-            "released_at": "2019-09-27",
+            "igdb_id": 3402718,
+            "title": "FunkyMouse's ISO",
+            "slug": "funkymouses-iso-1",
+            "description": "ISO is an indie built one shot–one kill airsoft first person shooter. Fight alongside your friends in intense 5v5 battles or fight solo in 10 player free for all matches. Immerse yourself in the stunning visuals created in Unreal Engine 5 and dive into fast paced gameplay where every BB counts.",
+            "released_at": "2026-02-19",
             "region": 8,
-            "parent_game_igdb": 1170842,
+            "parent_game_igdb": 3402718,
             "age_rating": "TBA",
             "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3lhy.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co3lhy.jpg",
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coaghs.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coaghs.jpg",
             "genres": [
-                9,
-                31,
+                5,
+                15,
                 32
             ],
             "platforms": [
-                34,
-                6,
-                130
+                6
             ],
             "developers": [
-                25229
+                74246
             ],
             "publishers": [
-                25229
-            ]
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
-            "igdb_id": 1170848,
-            "title": "Angelo and Deemon: One Hell of a Quest",
-            "slug": "angelo-and-deemon-one-hell-of-a-quest-2",
-            "description": "Once upon a time, somewhere and somehow, Grim Reaper choose the wrong door. Angelo – young lazy bum, oh sorry - a blogger, powered by his blogger skills, must turn on “point-n-click adventure” mode, go around the whole inferno, meet locals, and get back. We made this Hell for you to enjoy.",
-            "released_at": "2020-06-01",
-            "region": 8,
-            "parent_game_igdb": 1170842,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3lhy.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co3lhy.jpg",
-            "genres": [
-                9,
-                31,
-                32
-            ],
-            "platforms": [
-                34,
-                6,
-                130
-            ],
-            "developers": [
-                25229
-            ],
-            "publishers": [
-                25229
+                74246
             ]
         }
     },
@@ -8003,8 +8101,13 @@
             "released_at": "2016-07-20",
             "region": 8,
             "parent_game_igdb": null,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8043,8 +8146,13 @@
             "released_at": "2012-12-19",
             "region": 8,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8083,8 +8191,13 @@
             "released_at": "2014-05-28",
             "region": 1,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8123,8 +8236,13 @@
             "released_at": "2012-09-21",
             "region": 7,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8163,8 +8281,13 @@
             "released_at": "2012-09-21",
             "region": 1,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8203,8 +8326,13 @@
             "released_at": "2020-05-29",
             "region": 8,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8243,8 +8371,13 @@
             "released_at": "2014-05-28",
             "region": 3,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8283,8 +8416,13 @@
             "released_at": "2014-03-24",
             "region": 2,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8323,8 +8461,13 @@
             "released_at": "2015-03-27",
             "region": 8,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -8363,8 +8506,13 @@
             "released_at": "2012-09-18",
             "region": 2,
             "parent_game_igdb": 10118,
+<<<<<<< HEAD
             "age_rating": "USK_12",
             "mature_content": false,
+=======
+            "age_rating": "TBA",
+            "mature_content": true,
+>>>>>>> develop
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9ba3.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9ba3.jpg",
             "genres": [
@@ -9000,6 +9148,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 1331041,
             "title": "Monochrome World",
             "slug": "monochrome-world",
@@ -9090,6 +9239,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 1259318,
             "title": "PiiSim",
             "slug": "piisim",
@@ -10513,31 +10664,6 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 1952928,
-            "title": "Kaos Survival",
-            "slug": "kaos-survival",
-            "description": "KAOS SurVival is a survival game in an open world, where the player can explore and find items that will make his life easier. The player can build a shelter or a large fortress to keep his possessions and defend himself from other players.",
-            "released_at": "2022-08-01",
-            "region": 8,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5iho.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5iho.jpg",
-            "genres": [
-                31,
-                32
-            ],
-            "platforms": [
-                6
-            ],
-            "developers": [],
-            "publishers": []
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
             "igdb_id": 3727058,
             "title": "The Doppel",
             "slug": "the-doppel",
@@ -10583,6 +10709,86 @@
             ],
             "developers": [],
             "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 1585318,
+            "title": "Beyond Dawn",
+            "slug": "beyond-dawn",
+            "description": "In a world where time is the most precious commodity of them all. You must guide your team of D.A.W.N agents in the epic struggle against the band of rebels led by their charismatic leader Manes. It’s up to you, will world order prevail or slip into the chaos that awaits…Beyond Dawn?",
+            "released_at": "2020-06-15",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co45vr.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co45vr.jpg",
+            "genres": [
+                31
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 3995978,
+            "title": "Courier Beware",
+            "slug": "courier-beware",
+            "description": "Deliver to haunted places, solve paranormal mysteries, and struggle through the daily grind in this horror life sim adventure.",
+            "released_at": "2026-12-31",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobzga.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/cobzga.jpg",
+            "genres": [
+                13,
+                31,
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                67285
+            ],
+            "publishers": [
+                67285
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 484615,
+            "title": "Indra no Hikari",
+            "slug": "indra-no-hikari",
+            "description": "Around the year 2000, mankind departs a depleted earth and travels through space to the plant Ibaru some 8,500 light years away. There, people live peacefully under the protection of a god whose power source is the Light of Indora. However, a demon siphons the light away from the planet and the god begins to slumber. The surface of the planet transforms into a vast desert and monsters begin to appear. The player must quest to put an end to the demon and restore the Light of Indora to the god tha",
+            "released_at": "1987-11-20",
+            "region": 5,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/p7czveciwriq2r252byy.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/p7czveciwriq2r252byy.jpg",
+            "genres": [
+                12
+            ],
+            "platforms": [
+                99
+            ],
+            "developers": [],
+            "publishers": [
+                1281
+            ]
         }
     },
     {
@@ -10675,6 +10881,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 1585318,
             "title": "Beyond Dawn",
             "slug": "beyond-dawn",
@@ -10755,6 +10962,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 142881,
             "title": "Batman",
             "slug": "batman",
@@ -11335,8 +11544,8 @@
             "released_at": "2003-09-23",
             "region": 8,
             "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
+            "age_rating": "E",
+            "mature_content": false,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6sd1.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co6sd1.jpg",
             "genres": [
@@ -11663,6 +11872,7 @@
             "slug": "pocket-shooter-hardcore",
             "description": "Pocket Shooter Hardcore, a new 2017 free 3D action shooting game comes to mobile and tablets!\n\nMad Emoji arrive and prepare to invade earth. Machine Gun Boy is the only Hero who can resist and protect the planet. Grab the gun and stop this madness now! What are you waiting for, Machine Gun Boy?\n\nFeatures:\nUse machine gun, meteor rain, bombs or shield to defend yourself against Mad Emoji.\n\nFight against army of Angry Emoji.\n\nShoot enemies as quickly as possible and don’t let them to reach you.\n\nS",
             "released_at": "2017-09-09",
+<<<<<<< HEAD
             "region": 8,
             "parent_game_igdb": null,
             "age_rating": "TBA",
@@ -11689,33 +11899,24 @@
             "slug": "cloverpit",
             "description": "You wake up in a rusty, narrow cell, standing over a dangerously unstable grate.\n\nSomeone has kidnapped you, demanding payment, and your only way out is to play the Slot Machine and pay off your debt.\n\nDon’t let yourself fall —literally— into ruin!",
             "released_at": "2025-12-17",
+=======
+>>>>>>> develop
             "region": 8,
             "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coave4.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coave4.jpg",
+            "age_rating": "12",
+            "mature_content": false,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/wtibhkt6mnwt9fyjvdki.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/wtibhkt6mnwt9fyjvdki.jpg",
             "genres": [
-                13,
-                15,
-                32,
-                33,
-                35
+                5
             ],
             "platforms": [
-                169,
-                11,
-                34,
-                6,
-                39,
-                49
+                34
             ],
             "developers": [
-                45573
+                13404
             ],
-            "publishers": [
-                27828
-            ]
+            "publishers": []
         }
     },
     {
@@ -11913,6 +12114,33 @@
     {
         "model": "games.game",
         "fields": {
+            "igdb_id": 2421648,
+            "title": "Exmortis 2",
+            "slug": "exmortis-2",
+            "description": "Exmortis II follows one of the last survivors, Mr. Hannay, who, following the words of an unknown entity at the resistance safe house, attempts to destroy the Cult of Exmortis once and for all.",
+            "released_at": "2006-03-27",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7put.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co7put.jpg",
+            "genres": [
+                2,
+                9
+            ],
+            "platforms": [
+                82
+            ],
+            "developers": [],
+            "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+<<<<<<< HEAD
+=======
             "igdb_id": 3869338,
             "title": "Worming from Home",
             "slug": "worming-from-home",
@@ -11939,31 +12167,7 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 2421648,
-            "title": "Exmortis 2",
-            "slug": "exmortis-2",
-            "description": "Exmortis II follows one of the last survivors, Mr. Hannay, who, following the words of an unknown entity at the resistance safe house, attempts to destroy the Cult of Exmortis once and for all.",
-            "released_at": "2006-03-27",
-            "region": 8,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7put.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co7put.jpg",
-            "genres": [
-                2,
-                9
-            ],
-            "platforms": [
-                82
-            ],
-            "developers": [],
-            "publishers": []
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
+>>>>>>> develop
             "igdb_id": 3782128,
             "title": "To Swat A Fly",
             "slug": "to-swat-a-fly",
@@ -13410,32 +13614,6 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 3650978,
-            "title": "Jumpbound",
-            "slug": "jumpbound",
-            "description": "Jump and dash your way to the top in this challenging first-person platformer. Embark on an adventure through a mysterious world, unlock more mechanics as you progress, and make every jump count while enjoying the view and relaxing atmosphere.",
-            "released_at": "2025-09-24",
-            "region": 8,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/coag3y.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/coag3y.jpg",
-            "genres": [
-                8,
-                31,
-                32
-            ],
-            "platforms": [
-                6
-            ],
-            "developers": [],
-            "publishers": []
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
             "igdb_id": 3731198,
             "title": "Gridfall",
             "slug": "gridfall",
@@ -13640,7 +13818,7 @@
             "released_at": "2013-01-15",
             "region": 7,
             "parent_game_igdb": null,
-            "age_rating": "TBA",
+            "age_rating": "Eighteen",
             "mature_content": true,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5w7l.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5w7l.jpg",
@@ -13671,7 +13849,7 @@
             "released_at": "2014-09-16",
             "region": 2,
             "parent_game_igdb": 64517,
-            "age_rating": "TBA",
+            "age_rating": "Eighteen",
             "mature_content": true,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5w7l.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5w7l.jpg",
@@ -13702,7 +13880,7 @@
             "released_at": "2014-09-16",
             "region": 1,
             "parent_game_igdb": 64517,
-            "age_rating": "TBA",
+            "age_rating": "Eighteen",
             "mature_content": true,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5w7l.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5w7l.jpg",
@@ -13733,7 +13911,7 @@
             "released_at": "2019-10-17",
             "region": 2,
             "parent_game_igdb": 64517,
-            "age_rating": "TBA",
+            "age_rating": "Eighteen",
             "mature_content": true,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co5w7l.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co5w7l.jpg",
@@ -14026,37 +14204,6 @@
             ],
             "developers": [],
             "publishers": []
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
-            "igdb_id": 2819778,
-            "title": "ByteBurst",
-            "slug": "byteburst",
-            "description": "Welcome to the cutting edge of virtual mayhem in \"ByteBurst\" - the ultimate hacker's playground. Immerse yourself in a thrilling journey through the digital realm, where your skills will be pushed to the limit, and every line of code is a potential weapon.",
-            "released_at": "2024-01-15",
-            "region": 8,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co7lk8.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co7lk8.jpg",
-            "genres": [
-                9,
-                13,
-                15,
-                32
-            ],
-            "platforms": [
-                6
-            ],
-            "developers": [
-                52029
-            ],
-            "publishers": [
-                52029
-            ]
         }
     },
     {
@@ -14788,8 +14935,8 @@
             "released_at": "2004-09-24",
             "region": 1,
             "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
+            "age_rating": "E",
+            "mature_content": false,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3gc6.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co3gc6.jpg",
             "genres": [
@@ -15399,6 +15546,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 1177381,
             "title": "Legend of the Tetrarchs",
             "slug": "legend-of-the-tetrarchs",
@@ -15615,6 +15763,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 2435838,
             "title": "Deep Dark Dungeon of Anglaus",
             "slug": "deep-dark-dungeon-of-anglaus",
@@ -15645,6 +15795,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 257088,
             "title": "Blue Reflection",
             "slug": "blue-reflection",
@@ -15671,12 +15822,45 @@
                 7445,
                 18532,
                 6066
+=======
+            "igdb_id": 1177381,
+            "title": "Legend of the Tetrarchs",
+            "slug": "legend-of-the-tetrarchs",
+            "description": "The holy sword that sealed away an ominous power has been drawn out and darkness starts to spill out across the land, mutating people into monsters. The four Tetrarch heroes of ancient times will meet a new band of brave warriors to slash through the darkness with the light of courage! What will they find beyond the chaos? This is a full-fledged fantasy RPG with thrilling turn-based battles. Throw yourself into command battles with up to 10 allies and your own strategy using skill sets. The beau",
+            "released_at": "2020-10-14",
+            "region": 1,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co249s.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co249s.jpg",
+            "genres": [
+                12,
+                13,
+                15,
+                31
+            ],
+            "platforms": [
+                48,
+                34,
+                6,
+                39,
+                49,
+                130
+            ],
+            "developers": [
+                13655
+            ],
+            "publishers": [
+                1281
+>>>>>>> develop
             ]
         }
     },
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 257081,
             "title": "Blue Reflection",
             "slug": "blue-reflection-1",
@@ -15703,12 +15887,153 @@
                 7445,
                 18532,
                 6066
+=======
+            "igdb_id": 1177388,
+            "title": "Legend of the Tetrarchs",
+            "slug": "legend-of-the-tetrarchs-1",
+            "description": "The holy sword that sealed away an ominous power has been drawn out and darkness starts to spill out across the land, mutating people into monsters. The four Tetrarch heroes of ancient times will meet a new band of brave warriors to slash through the darkness with the light of courage! What will they find beyond the chaos? This is a full-fledged fantasy RPG with thrilling turn-based battles. Throw yourself into command battles with up to 10 allies and your own strategy using skill sets. The beau",
+            "released_at": "2018-11-07",
+            "region": 8,
+            "parent_game_igdb": 1177381,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co249s.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co249s.jpg",
+            "genres": [
+                12,
+                13,
+                15,
+                31
+            ],
+            "platforms": [
+                48,
+                34,
+                6,
+                39,
+                49,
+                130
+            ],
+            "developers": [
+                13655
+            ],
+            "publishers": [
+                1281
             ]
         }
     },
     {
         "model": "games.game",
         "fields": {
+            "igdb_id": 1177388,
+            "title": "Legend of the Tetrarchs",
+            "slug": "legend-of-the-tetrarchs-2",
+            "description": "The holy sword that sealed away an ominous power has been drawn out and darkness starts to spill out across the land, mutating people into monsters. The four Tetrarch heroes of ancient times will meet a new band of brave warriors to slash through the darkness with the light of courage! What will they find beyond the chaos? This is a full-fledged fantasy RPG with thrilling turn-based battles. Throw yourself into command battles with up to 10 allies and your own strategy using skill sets. The beau",
+            "released_at": "2019-07-25",
+            "region": 8,
+            "parent_game_igdb": 1177381,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co249s.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co249s.jpg",
+            "genres": [
+                12,
+                13,
+                15,
+                31
+            ],
+            "platforms": [
+                48,
+                34,
+                6,
+                39,
+                49,
+                130
+            ],
+            "developers": [
+                13655
+            ],
+            "publishers": [
+                1281
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 1177388,
+            "title": "Legend of the Tetrarchs",
+            "slug": "legend-of-the-tetrarchs-3",
+            "description": "The holy sword that sealed away an ominous power has been drawn out and darkness starts to spill out across the land, mutating people into monsters. The four Tetrarch heroes of ancient times will meet a new band of brave warriors to slash through the darkness with the light of courage! What will they find beyond the chaos? This is a full-fledged fantasy RPG with thrilling turn-based battles. Throw yourself into command battles with up to 10 allies and your own strategy using skill sets. The beau",
+            "released_at": "2019-05-08",
+            "region": 8,
+            "parent_game_igdb": 1177381,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co249s.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co249s.jpg",
+            "genres": [
+                12,
+                13,
+                15,
+                31
+            ],
+            "platforms": [
+                48,
+                34,
+                6,
+                39,
+                49,
+                130
+            ],
+            "developers": [
+                13655
+            ],
+            "publishers": [
+                1281
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 1177381,
+            "title": "Legend of the Tetrarchs",
+            "slug": "legend-of-the-tetrarchs-4",
+            "description": "The holy sword that sealed away an ominous power has been drawn out and darkness starts to spill out across the land, mutating people into monsters. The four Tetrarch heroes of ancient times will meet a new band of brave warriors to slash through the darkness with the light of courage! What will they find beyond the chaos? This is a full-fledged fantasy RPG with thrilling turn-based battles. Throw yourself into command battles with up to 10 allies and your own strategy using skill sets. The beau",
+            "released_at": "2019-06-06",
+            "region": 1,
+            "parent_game_igdb": 1177381,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co249s.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co249s.jpg",
+            "genres": [
+                12,
+                13,
+                15,
+                31
+            ],
+            "platforms": [
+                48,
+                34,
+                6,
+                39,
+                49,
+                130
+            ],
+            "developers": [
+                13655
+            ],
+            "publishers": [
+                1281
+>>>>>>> develop
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+<<<<<<< HEAD
             "igdb_id": 257082,
             "title": "Blue Reflection",
             "slug": "blue-reflection-2",
@@ -15767,6 +16092,38 @@
                 7445,
                 18532,
                 6066
+=======
+            "igdb_id": 1177385,
+            "title": "Legend of the Tetrarchs",
+            "slug": "legend-of-the-tetrarchs-5",
+            "description": "The holy sword that sealed away an ominous power has been drawn out and darkness starts to spill out across the land, mutating people into monsters. The four Tetrarch heroes of ancient times will meet a new band of brave warriors to slash through the darkness with the light of courage! What will they find beyond the chaos? This is a full-fledged fantasy RPG with thrilling turn-based battles. Throw yourself into command battles with up to 10 allies and your own strategy using skill sets. The beau",
+            "released_at": "2019-05-07",
+            "region": 5,
+            "parent_game_igdb": 1177381,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co249s.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co249s.jpg",
+            "genres": [
+                12,
+                13,
+                15,
+                31
+            ],
+            "platforms": [
+                48,
+                34,
+                6,
+                39,
+                49,
+                130
+            ],
+            "developers": [
+                13655
+            ],
+            "publishers": [
+                1281
+>>>>>>> develop
             ]
         }
     },
@@ -16271,6 +16628,39 @@
             "publishers": [
                 15190,
                 18768
+<<<<<<< HEAD
+=======
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 1184398,
+            "title": "Sapper: Defuse the Bomb Simulator",
+            "slug": "sapper-defuse-the-bomb-simulator-1",
+            "description": "Learn the ins and outs of one of the world's most dangerous professions. Searching, lockpicking, hacking, disarming, operating under pressure. Welcome to the typical day of Sapper. Courage is forged in the sounds of ticking bombs and the feeling of cold sweat on your back.",
+            "released_at": "2023-01-23",
+            "region": 8,
+            "parent_game_igdb": 1184398,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2ty5.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2ty5.jpg",
+            "genres": [
+                13,
+                31
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [
+                21383
+            ],
+            "publishers": [
+                15190,
+                18768
+>>>>>>> develop
             ]
         }
     },
@@ -16577,6 +16967,7 @@
             "platforms": [
                 6
             ],
+<<<<<<< HEAD
             "developers": [
                 9003
             ],
@@ -16652,6 +17043,14 @@
             "publishers": [
                 2262,
                 1405
+=======
+            "developers": [
+                9003
+            ],
+            "publishers": [
+                6554,
+                9003
+>>>>>>> develop
             ]
         }
     },
@@ -17514,30 +17913,6 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 2486658,
-            "title": "Poly Jigsaw: Dogs",
-            "slug": "poly-jigsaw-dogs",
-            "description": "Poly Jigsaw: Dogs is a traditional style jigsaw puzzle game, with a doggy.",
-            "released_at": "2023-05-18",
-            "region": 8,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6rlu.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co6rlu.jpg",
-            "genres": [
-                32
-            ],
-            "platforms": [
-                6
-            ],
-            "developers": [],
-            "publishers": []
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
             "igdb_id": 498558,
             "title": "Wendy: Every Witch Way",
             "slug": "wendy-every-witch-way",
@@ -17632,6 +18007,7 @@
             "slug": "heartz-co-hope-puzzles",
             "description": "HeartZ offers you a hearty combination of platform, action, puzzle and local co-op gaming. Outsmart traps and solve mysteries in each room and level while getting rid of Dr. Nylus' soldiers and machines!\nKick, jump, fart, scare, bite... your way through mischievously designed levels!",
             "released_at": "2016-06-07",
+<<<<<<< HEAD
             "region": 8,
             "parent_game_igdb": null,
             "age_rating": "TBA",
@@ -17686,26 +18062,52 @@
             "slug": "voyagers-of-nera",
             "description": "Voyagers of Nera is a cooperative seafaring survival-crafting game for up to 10 players. Sail across a magical ocean world, skim along the waves, and protect lost nature spirits from monsters emerging from the depths.",
             "released_at": "2025-09-16",
+=======
+>>>>>>> develop
             "region": 8,
             "parent_game_igdb": null,
             "age_rating": "TBA",
             "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9who.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9who.jpg",
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9n0e.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9n0e.jpg",
             "genres": [
-                12,
                 31,
+                32
+            ],
+            "platforms": [
+                3,
+                6,
+                14,
+                49
+            ],
+            "developers": [],
+            "publishers": [
+                1933
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 3332678,
+            "title": "Horde Together",
+            "slug": "horde-together",
+            "description": "Strategize, scavenge, and survive as you battle through relentless hordes, upgrade your arsenal, and gear up for the ultimate fight for survival. How long can you last before the apocalypse claims you?",
+            "released_at": "2025-05-22",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co9l3r.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co9l3r.jpg",
+            "genres": [
                 32
             ],
             "platforms": [
                 6
             ],
-            "developers": [
-                51389
-            ],
-            "publishers": [
-                51389
-            ]
+            "developers": [],
+            "publishers": []
         }
     },
     {
@@ -19274,6 +19676,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 595688,
             "title": "Dr. Cares: Pet Rescue 911",
             "slug": "dr-cares-pet-rescue-911",
@@ -19373,6 +19776,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 1460798,
             "title": "Disposable Heroes",
             "slug": "disposable-heroes",
@@ -19532,18 +19937,19 @@
     {
         "model": "games.game",
         "fields": {
-            "igdb_id": 102918,
-            "title": "Explodemon!",
-            "slug": "explodemon",
-            "description": "An explosive homage to SNES-era platformers mixed with a modern physics-puzzle twist, Explodemon is non-stop action mayhem like you've never seen before. Players use Explodemon's self-destructive nature to combat enemies and fly through the air, all the while solving a huge variety of physics-based puzzles (and, naturally, causing incalculable collateral damage).\n\nWhen the peaceful planet of Nibia is attacked by the malicious Vortex forces, the fate of the star system is thrust into the one pair",
-            "released_at": "2011-11-03",
+            "igdb_id": 3116238,
+            "title": "Dropped into the Modern World: Surviving the Red-Light District",
+            "slug": "dropped-into-the-modern-world-surviving-the-red-light-district",
+            "description": "After an attack by a monster, the sorceress Daiya suddenly gets teleported to modern-world Kabukicho! Without a home and all alone, she gets offered shelter by a person named XiaoHong. With their help, Daiya is able to start a new life, but can she return to her home world…?",
+            "released_at": "2024-08-15",
             "region": 8,
             "parent_game_igdb": null,
             "age_rating": "TBA",
             "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co3qhi.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co3qhi.jpg",
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8lys.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co8lys.jpg",
             "genres": [
+<<<<<<< HEAD
                 8,
                 9,
                 15,
@@ -19646,6 +20052,8 @@
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co8lys.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co8lys.jpg",
             "genres": [
+=======
+>>>>>>> develop
                 12
             ],
             "platforms": [
@@ -19691,8 +20099,8 @@
             "released_at": "2017-06-21",
             "region": 8,
             "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
+            "age_rating": "E10",
+            "mature_content": false,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6q7b.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co6q7b.jpg",
             "genres": [
@@ -19729,8 +20137,8 @@
             "released_at": "2007-05-28",
             "region": 2,
             "parent_game_igdb": 160358,
-            "age_rating": "TBA",
-            "mature_content": true,
+            "age_rating": "E10",
+            "mature_content": false,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6q7b.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co6q7b.jpg",
             "genres": [
@@ -19767,8 +20175,8 @@
             "released_at": "2007-06-01",
             "region": 1,
             "parent_game_igdb": 160358,
-            "age_rating": "TBA",
-            "mature_content": true,
+            "age_rating": "E10",
+            "mature_content": false,
             "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co6q7b.jpg",
             "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co6q7b.jpg",
             "genres": [
@@ -20556,11 +20964,98 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 1918628,
             "title": "MerFight",
             "slug": "merfight",
             "description": "MerFight is a 2.5D fighting game involving 12 fishy fighters influenced by a variety of sea life such as angler fish, sharks, and the Yellowtail Fang Blenny with more of an emphasis on flexibility and leniency.",
             "released_at": "2022-03-30",
+=======
+            "igdb_id": 1443205,
+            "title": "Little Tail Story",
+            "slug": "little-tail-story",
+            "description": "A free-to-play puzzle RPG game for mobile platforms in the Little Tail Bronx setting.",
+            "released_at": "2014-03-25",
+            "region": 5,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2uim.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2uim.jpg",
+            "genres": [
+                9,
+                12
+            ],
+            "platforms": [
+                34,
+                39
+            ],
+            "developers": [
+                2438
+            ],
+            "publishers": [
+                6330,
+                3958
+            ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 1753208,
+            "title": "Beat Legend: Avicii",
+            "slug": "beat-legend-avicii",
+            "description": "Soar through vocal melodies, sweep each fade and attack every beat in 15 of Avicii’s biggest hits, in this enthralling futuristic rhythm-action experience. From the developers of the acclaimed Avicii Invector, Beat Legend: AVICII brings the frenetic rhythm-action experience to mobile, and features mega-hits like Without You, Wake Me Up and Levels.",
+            "released_at": "2020-07-23",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": null,
+            "cover_detail": null,
+            "genres": [],
+            "platforms": [
+                39
+            ],
+            "developers": [],
+            "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 1104978,
+            "title": "Monster League",
+            "slug": "monster-league",
+            "description": "Choose your favorite monster and take part in furious driving challenges behind the wheels of the most wacky vehicles. Sit back comfortably with your friends and family, connect and win insane races, score goals and fire up explosive pumpkins.",
+            "released_at": "2018-10-26",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2qqa.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2qqa.jpg",
+            "genres": [
+                10,
+                14,
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": []
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 3166818,
+            "title": "Carmen Sandiego",
+            "slug": "carmen-sandiego",
+            "description": "The scarlet super thief Carmen Sandiego is back! Adorn Carmen’s signature red hat and play as the vigilante herself to navigate a world of espionage, utilizing high-tech gadgets, and ultimately capturing VILE. Rookie gumshoes and seasoned detectives are invited to put their sleuthing skills to the test whether it’s in the narrative driven main campaign or the classic mode ‘The Acme Files’.",
+            "released_at": "2025-01-28",
+>>>>>>> develop
             "region": 8,
             "parent_game_igdb": null,
             "age_rating": "TBA",
@@ -20614,6 +21109,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 3341388,
             "title": "Kalia",
             "slug": "kalia",
@@ -20855,6 +21351,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 323188,
             "title": "The Amazing Shinsengumi: Heroes in Love",
             "slug": "the-amazing-shinsengumi-heroes-in-love",
@@ -20982,6 +21480,32 @@
                 9015,
                 449
             ]
+        }
+    },
+    {
+        "model": "games.game",
+        "fields": {
+            "igdb_id": 896798,
+            "title": "Cyber Surf",
+            "slug": "cyber-surf",
+            "description": "Cyber Surf allows you to race through the air and explore different worlds using your favorite VR headset.",
+            "released_at": "2018-02-27",
+            "region": 8,
+            "parent_game_igdb": null,
+            "age_rating": "TBA",
+            "mature_content": true,
+            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/cobe65.jpg",
+            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/cobe65.jpg",
+            "genres": [
+                10,
+                13,
+                32
+            ],
+            "platforms": [
+                6
+            ],
+            "developers": [],
+            "publishers": []
         }
     },
     {
@@ -21170,6 +21694,7 @@
     {
         "model": "games.game",
         "fields": {
+<<<<<<< HEAD
             "igdb_id": 256362,
             "title": "Nights of Azure 2: Bride of the New Moon",
             "slug": "nights-of-azure-2-bride-of-the-new-moon",
@@ -21201,6 +21726,8 @@
     {
         "model": "games.game",
         "fields": {
+=======
+>>>>>>> develop
             "igdb_id": 98778,
             "title": "Anoxemia",
             "slug": "anoxemia",
@@ -21283,35 +21810,6 @@
             ],
             "developers": [
                 63269
-            ],
-            "publishers": []
-        }
-    },
-    {
-        "model": "games.game",
-        "fields": {
-            "igdb_id": 902628,
-            "title": "The Snowboard Game",
-            "slug": "the-snowboard-game",
-            "description": "The snowboard game is a realistic skill based snowboard game with natural physics set in multiple immersive mountain locations and snow parks.",
-            "released_at": "2018-04-24",
-            "region": 8,
-            "parent_game_igdb": null,
-            "age_rating": "TBA",
-            "mature_content": true,
-            "cover_default": "https://images.igdb.com/igdb/image/upload/t_cover_big/co2mex.jpg",
-            "cover_detail": "https://images.igdb.com/igdb/image/upload/t_original/co2mex.jpg",
-            "genres": [
-                10,
-                13,
-                14,
-                32
-            ],
-            "platforms": [
-                6
-            ],
-            "developers": [
-                27311
             ],
             "publishers": []
         }
@@ -21470,6 +21968,7 @@
             "developers": [],
             "publishers": []
         }
+<<<<<<< HEAD
     },
     {
         "model": "games.game",
@@ -201868,5 +202367,7 @@
             "developers": [],
             "publishers": []
         }
+=======
+>>>>>>> develop
     }
 ]

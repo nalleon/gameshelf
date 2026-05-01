@@ -68,8 +68,8 @@
                     <StepPanel v-slot="{ activateCallback }" :value="2">
                         <div class="flex flex-col gap-4 mx-auto" style="min-height: 16rem; max-width: 24rem">
                             <div class="text-center mt-4 mb-4 text-xl font-semibold">Personal Information</div>
-                            <input v-model="firstName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="First Name">
-                            <input v-model="lastName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="Last Name">
+                            <input v-model="firstName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="First Name (Optional)">
+                            <input v-model="lastName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="Last Name (Optional">
                             
                             <div class="flex flex-col gap-2 mt-4 text-center">
                                 <router-link to="/login" class="text-gsgris hover:text-gsblanco text-sm">Already have an account? Login</router-link>
@@ -111,6 +111,7 @@ import StepPanels from 'primevue/steppanels';
 import StepItem from 'primevue/stepitem';
 import Step from 'primevue/step';
 import StepPanel from 'primevue/steppanel';
+import axios from 'axios';
 
 
 const auth = useAuthStore()
@@ -136,11 +137,11 @@ const isHiddenPasswordError = ref('invisible')
 const numberDictionary = NumberDictionary.generate({ min: 100, max: 9999 });
 
 const generateRandomFirstName = () => {
-  return uniqueNamesGenerator({
-    dictionaries: [adjectives, animals], // Adjetivo + Nombre
-    separator: '',
-    style: 'capital', // Para que sea AdjetivoNombre123
-  });
+    return uniqueNamesGenerator({
+        dictionaries: [adjectives, animals], // Adjetivo + Nombre
+        separator: '',
+        style: 'capital', // Para que sea AdjetivoNombre123
+    });
 };
 
 
@@ -163,30 +164,28 @@ async function apiRegister(){
         password: password.value
     }
 
-    const response = await fetch(webhookUrl, 
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        }
-    );
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error en registro:", errorData);
-        return;
+    const headers = {
+        'Content-Type': 'application/json'
     }
 
-    const data = await response.json();
-    
-    // console.log(data.token)
-    username.value = "";
-    email.value = "";
-    password.value = "";
+    try {
+        const response = await axios.post(webhookUrl, payload, { headers })
+        const data = response.data;
 
-    return data;
+        // console.log(data.token)
+        username.value = "";
+        email.value = "";
+        password.value = "";
+
+        return data;
+    } catch (error) {
+        if (error.response) {
+            console.error("Error en registro:", error.response.data);
+        } else {
+            console.error("Error de red o configuración:", error.message);
+        }
+        return null;
+    }
 }
 
 function checkFields(){

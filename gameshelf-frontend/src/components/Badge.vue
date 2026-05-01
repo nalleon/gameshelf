@@ -6,11 +6,11 @@
 import { computed, onMounted } from 'vue';
 
 type Props =
-  | { nombre: 'collectionist'; collectionsQuantity: number }
-  | { nombre: 'wisher'; wishlistQuantity: number }
-  | { nombre: 'player'; libraryQuantity: number }
-  | { nombre: 'completionist'; completedQuantity: number }
-  | { nombre: 'role'; role: string }
+  | { nombre: 'collectionist'; collectionsQuantity?: number }
+  | { nombre: 'wisher'; wishlistQuantity?: number }
+  | { nombre: 'player'; libraryQuantity?: number }
+  | { nombre: 'completionist'; completedQuantity?: number }
+  | { nombre: 'role'; role?: string }
 
 const props = defineProps<Props>()
 

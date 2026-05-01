@@ -7,7 +7,7 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiRequest, OpenApiTypes, extend_schema
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -94,7 +94,12 @@ def profile_list(request):
 )
 @extend_schema(
     tags=['profile'],
-    request=UpdateProfileSerializer,
+    request=OpenApiRequest(
+        request=UpdateProfileSerializer,
+        encoding={
+            'avatar': {'contentType': 'image/*'},
+        },
+    ),
     responses={
         200: ProfileSerializer,
         400: ErrorResponseSerializer,
@@ -126,9 +131,10 @@ def profile_detail(request, pk_profile: int):
 
 
 @csrf_exempt
-@require_json_body
+# @require_json_body
 @auth_required
 def profile_edit(request, pk_profile: int):
+
     try:
         profile = get_object_or_404(Profile, pk=pk_profile)
     except Http404:
@@ -137,33 +143,30 @@ def profile_edit(request, pk_profile: int):
     if request.user != profile.user:
         return JsonResponse({'error': 'Forbidden'}, status=403)
 
-    payload = request.json
+    data = request.data
+    files = request.FILES
 
-    if 'bio' in payload:
-        profile.bio = payload['bio']
+    if 'bio' in data:
+        profile.bio = data['bio']
 
-    if 'avatar' in payload:
-        profile.avatar = payload['avatar']
+    if 'avatar' in files:
+        profile.avatar = files['avatar']
 
-    if 'color_bg' in payload:
-        if not profile.verified:
-            return JsonResponse(
-                {'error': 'Only verified users can change background color'}, status=403
-            )
-        profile.color_bg = payload['color_bg']
+    if 'color_bg' in data and profile.verified:
+        profile.color_bg = data['color_bg']
 
     user = profile.user
 
-    if 'username' in payload:
-        if User.objects.filter(username=payload['username']).exclude(pk=user.pk).exists():
+    if 'username' in data:
+        if User.objects.filter(username=data['username']).exclude(pk=user.pk).exists():
             return JsonResponse({'error': 'Username already taken'}, status=400)
-        user.username = payload['username']
+        user.username = data['username']
 
-    if 'first_name' in payload:
-        user.first_name = payload['first_name']
+    if 'first_name' in data:
+        user.first_name = data['first_name']
 
-    if 'last_name' in payload:
-        user.last_name = payload['last_name']
+    if 'last_name' in data:
+        user.last_name = data['last_name']
 
     profile.save()
     user.save()

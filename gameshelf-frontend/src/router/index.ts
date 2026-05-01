@@ -3,18 +3,37 @@ import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
 import ProfileView from '@/views/ProfileView.vue';
 import RegisterView from '@/views/RegisterView.vue';
+import GameDetails from '@/views/GameDetails.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
+import EditProfile from '@/views/EditProfile.vue';
+import Wishlist from '@/views/Wishlist.vue';
 
 const routes = [
   { path: '/', component: HomeView },
   { path: '/login', component: LoginView },
   { path: '/register', component: RegisterView },
-  { path: '/gamelist', component: GameListView },
+  { 
+    path: '/game-list', 
+    component: GameListView
+  },
+  {
+    path: '/game-list/detail/:slug',
+    component: GameDetails
+  },
   { 
     path: '/profile', 
     component: ProfileView,
-    meta: { requiresAuth: true } // Indica que esta ruta es privada
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/profile/edit', 
+    component: EditProfile,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/:user_id/wishlist', 
+    component: Wishlist,
   },
 ];
 
@@ -23,15 +42,15 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const authStore = useAuthStore();
-  const isProtected = to.matched.some(record => record.meta.requiresAuth); // Si la ruta contiene el meta.requiresAuth o alguno de sus anidados
+  const isProtected = to.matched.some(record => record.meta.requiresAuth);
 
+  // Vue 3 prefiere retornar la ruta en vez de invocar next()
   if (isProtected && !authStore.isLogged) {
-    next('/login'); // Bloquea y manda al login
-  } else {
-    next(); // Permite el paso
+    return '/login'; 
   }
+  // Si no se retorna nada, la navegación continúa normalmente
 });
 
 export default router

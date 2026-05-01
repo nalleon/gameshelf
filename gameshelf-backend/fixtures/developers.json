@@ -9,6 +9,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 9415,
         "fields": {
             "name": "Freekstorm",
@@ -17,6 +18,8 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 30131,
         "fields": {
             "name": "Nippon Telenet",
@@ -41,16 +44,17 @@
     },
     {
         "model": "classifications.developer",
-        "pk": 47222,
+        "pk": 432,
         "fields": {
-            "name": "Flyin Dogs",
-            "slug": "flyin-dogs"
+            "name": "Beenox",
+            "slug": "beenox"
         }
     },
     {
         "model": "classifications.developer",
-        "pk": 66368,
+        "pk": 428,
         "fields": {
+<<<<<<< HEAD
             "name": "Emberwave Studios",
             "slug": "emberwave-studios"
         }
@@ -67,6 +71,8 @@
         "model": "classifications.developer",
         "pk": 428,
         "fields": {
+=======
+>>>>>>> develop
             "name": "Treyarch",
             "slug": "treyarch"
         }
@@ -81,6 +87,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 24445,
         "fields": {
             "name": "Khud0",
@@ -89,6 +96,8 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 258,
         "fields": {
             "name": "KnowWonder",
@@ -241,6 +250,17 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
+=======
+        "pk": 5310,
+        "fields": {
+            "name": "Subaltern Games",
+            "slug": "subaltern-games"
+        }
+    },
+    {
+        "model": "classifications.developer",
+>>>>>>> develop
         "pk": 39625,
         "fields": {
             "name": "Thunder Road Game Studios",
@@ -298,6 +318,7 @@
     {
         "model": "classifications.developer",
         "pk": 12046,
+<<<<<<< HEAD
         "fields": {
             "name": "Romero Games Ltd.",
             "slug": "romero-games-ltd"
@@ -306,9 +327,19 @@
     {
         "model": "classifications.developer",
         "pk": 22486,
+=======
+>>>>>>> develop
         "fields": {
-            "name": "Zetsubou",
-            "slug": "zetsubou"
+            "name": "Romero Games Ltd.",
+            "slug": "romero-games-ltd"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 9185,
+        "fields": {
+            "name": "Z-Software",
+            "slug": "z-software"
         }
     },
     {
@@ -409,6 +440,14 @@
     },
     {
         "model": "classifications.developer",
+        "pk": 76212,
+        "fields": {
+            "name": "Fdots Games",
+            "slug": "fdots-games"
+        }
+    },
+    {
+        "model": "classifications.developer",
         "pk": 55165,
         "fields": {
             "name": "4 Hands Games",
@@ -425,6 +464,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 76212,
         "fields": {
             "name": "Fdots Games",
@@ -433,6 +473,8 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 49954,
         "fields": {
             "name": "Yellow Dog Man Studios",
@@ -649,8 +691,9 @@
     },
     {
         "model": "classifications.developer",
-        "pk": 17029,
+        "pk": 40409,
         "fields": {
+<<<<<<< HEAD
             "name": "Sokpop Collective",
             "slug": "sokpop-collective"
         }
@@ -659,6 +702,8 @@
         "model": "classifications.developer",
         "pk": 40409,
         "fields": {
+=======
+>>>>>>> develop
             "name": "GrandMA Studios",
             "slug": "grandma-studios"
         }
@@ -745,10 +790,10 @@
     },
     {
         "model": "classifications.developer",
-        "pk": 25229,
+        "pk": 74246,
         "fields": {
-            "name": "Specialbit Studio",
-            "slug": "specialbit-studio"
+            "name": "FunkyMouse",
+            "slug": "funkymouse"
         }
     },
     {
@@ -937,6 +982,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 85,
         "fields": {
             "name": "Double Fine Productions",
@@ -945,6 +991,8 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 57128,
         "fields": {
             "name": "T0 Studio",
@@ -1274,6 +1322,7 @@
     {
         "model": "classifications.developer",
         "pk": 13404,
+<<<<<<< HEAD
         "fields": {
             "name": "Sysreb",
             "slug": "sysreb"
@@ -1282,9 +1331,11 @@
     {
         "model": "classifications.developer",
         "pk": 45573,
+=======
+>>>>>>> develop
         "fields": {
-            "name": "Panik Arcade",
-            "slug": "panik-arcade"
+            "name": "Sysreb",
+            "slug": "sysreb"
         }
     },
     {
@@ -1417,6 +1468,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 39776,
         "fields": {
             "name": "Colossus Game Studio",
@@ -1425,6 +1477,8 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 26905,
         "fields": {
             "name": "Coldwild Games",
@@ -1469,14 +1523,6 @@
         "fields": {
             "name": "Scarlet String Studios",
             "slug": "scarlet-string-studios"
-        }
-    },
-    {
-        "model": "classifications.developer",
-        "pk": 52029,
-        "fields": {
-            "name": "Oneman Interactive Entertainment",
-            "slug": "oneman-interactive-entertainment"
         }
     },
     {
@@ -1657,6 +1703,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 13655,
         "fields": {
             "name": "Exe-Create Inc.",
@@ -1665,6 +1712,8 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 48056,
         "fields": {
             "name": "PanfilovDev",
@@ -1673,10 +1722,17 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 3046,
         "fields": {
             "name": "Gust",
             "slug": "gust"
+=======
+        "pk": 13655,
+        "fields": {
+            "name": "Exe-Create Inc.",
+            "slug": "exe-create-inc"
+>>>>>>> develop
         }
     },
     {
@@ -1773,6 +1829,7 @@
         "fields": {
             "name": "CAVYHOUSE",
             "slug": "cavyhouse"
+<<<<<<< HEAD
         }
     },
     {
@@ -1797,6 +1854,8 @@
         "fields": {
             "name": "SYUPRO-DX",
             "slug": "syupro-dx"
+=======
+>>>>>>> develop
         }
     },
     {
@@ -1921,14 +1980,6 @@
     },
     {
         "model": "classifications.developer",
-        "pk": 51389,
-        "fields": {
-            "name": "Treehouse Games",
-            "slug": "treehouse-games"
-        }
-    },
-    {
-        "model": "classifications.developer",
         "pk": 8630,
         "fields": {
             "name": "Game in a Bottle",
@@ -2033,6 +2084,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 12126,
         "fields": {
             "name": "Suricate Software",
@@ -2041,6 +2093,8 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 43414,
         "fields": {
             "name": "616 GAMES",
@@ -2097,6 +2151,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 20811,
         "fields": {
             "name": "Light Road Games",
@@ -2105,10 +2160,20 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 5321,
         "fields": {
             "name": "Megadev",
             "slug": "megadev"
+        }
+    },
+    {
+        "model": "classifications.developer",
+        "pk": 25229,
+        "fields": {
+            "name": "Specialbit Studio",
+            "slug": "specialbit-studio"
         }
     },
     {
@@ -2169,6 +2234,7 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 4065,
         "fields": {
             "name": "Curve Studios",
@@ -2177,6 +2243,8 @@
     },
     {
         "model": "classifications.developer",
+=======
+>>>>>>> develop
         "pk": 1444,
         "fields": {
             "name": "Sega Technical Institute",
@@ -2353,10 +2421,17 @@
     },
     {
         "model": "classifications.developer",
+<<<<<<< HEAD
         "pk": 27311,
         "fields": {
             "name": "Let It Roll",
             "slug": "let-it-roll"
+=======
+        "pk": 1405,
+        "fields": {
+            "name": "Nippon Ichi Software",
+            "slug": "nippon-ichi-software"
+>>>>>>> develop
         }
     },
     {
@@ -2366,6 +2441,7 @@
             "name": "HorseFish Games",
             "slug": "horsefish-games"
         }
+<<<<<<< HEAD
     },
     {
         "model": "classifications.developer",
@@ -20966,5 +21042,7 @@
             "name": "Black Tabby Games",
             "slug": "black-tabby-games"
         }
+=======
+>>>>>>> develop
     }
 ]

@@ -263,3 +263,8 @@ compilemessages:
 
 rq:
     uv run manage.py rqworker
+
+demo-profiles:
+    #!/usr/bin/env bash
+    sqlite3 db.sqlite3 < demo_profiles.sql
+    echo "✔ Demo Users password is 1234"

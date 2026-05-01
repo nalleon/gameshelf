@@ -25,6 +25,7 @@
     },
     {
         "model": "classifications.platform",
+<<<<<<< HEAD
         "pk": 163,
         "fields": {
             "name": "SteamVR",
@@ -33,6 +34,8 @@
     },
     {
         "model": "classifications.platform",
+=======
+>>>>>>> develop
         "pk": 58,
         "fields": {
             "name": "Super Famicom",
@@ -81,22 +84,23 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 48,
+        "pk": 11,
         "fields": {
-            "name": "PlayStation 4",
-            "slug": "playstation-4"
+            "name": "Xbox",
+            "slug": "xbox"
         }
     },
     {
         "model": "classifications.platform",
-        "pk": 49,
+        "pk": 21,
         "fields": {
-            "name": "Xbox One",
-            "slug": "xbox-one"
+            "name": "Nintendo GameCube",
+            "slug": "nintendo-gamecube"
         }
     },
     {
         "model": "classifications.platform",
+<<<<<<< HEAD
         "pk": 11,
         "fields": {
             "name": "Xbox",
@@ -133,10 +137,47 @@
         "fields": {
             "name": "Mac",
             "slug": "mac"
+=======
+        "pk": 8,
+        "fields": {
+            "name": "PlayStation 2",
+            "slug": "playstation-2"
+>>>>>>> develop
         }
     },
     {
         "model": "classifications.platform",
+        "pk": 510,
+        "fields": {
+            "name": "e-Reader / Card-e Reader",
+            "slug": "e-reader-card-e-reader"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 14,
+        "fields": {
+<<<<<<< HEAD
+            "name": "Web browser",
+            "slug": "web-browser"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 39,
+        "fields": {
+            "name": "iOS",
+            "slug": "ios"
+=======
+            "name": "Mac",
+            "slug": "mac"
+>>>>>>> develop
+        }
+    },
+    {
+        "model": "classifications.platform",
+<<<<<<< HEAD
+=======
         "pk": 510,
         "fields": {
             "name": "e-Reader / Card-e Reader",
@@ -161,10 +202,19 @@
     },
     {
         "model": "classifications.platform",
+>>>>>>> develop
         "pk": 15,
         "fields": {
             "name": "Commodore C64/128/MAX",
             "slug": "commodore-c64128max"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 48,
+        "fields": {
+            "name": "PlayStation 4",
+            "slug": "playstation-4"
         }
     },
     {
@@ -185,6 +235,14 @@
     },
     {
         "model": "classifications.platform",
+        "pk": 49,
+        "fields": {
+            "name": "Xbox One",
+            "slug": "xbox-one"
+        }
+    },
+    {
+        "model": "classifications.platform",
         "pk": 169,
         "fields": {
             "name": "Xbox Series X|S",
@@ -193,8 +251,21 @@
     },
     {
         "model": "classifications.platform",
+<<<<<<< HEAD
         "pk": 37,
         "fields": {
+=======
+        "pk": 167,
+        "fields": {
+            "name": "PlayStation 5",
+            "slug": "playstation-5"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 37,
+        "fields": {
+>>>>>>> develop
             "name": "Nintendo 3DS",
             "slug": "nintendo-3ds"
         }
@@ -454,6 +525,7 @@
             "name": "TurboGrafx-16/PC Engine",
             "slug": "turbografx-16pc-engine"
         }
+<<<<<<< HEAD
     },
     {
         "model": "classifications.platform",
@@ -982,5 +1054,7 @@
             "name": "Apple Pippin",
             "slug": "apple-pippin"
         }
+=======
+>>>>>>> develop
     }
 ]
