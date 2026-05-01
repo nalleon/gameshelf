@@ -3,12 +3,13 @@ from datetime import timedelta
 from django.contrib.auth import authenticate, get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import Http404, JsonResponse
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, OpenApiRequest, OpenApiTypes, extend_schema
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from shared.decorators import require_fields, require_json_body
@@ -124,7 +125,7 @@ def profile_detail(request, pk_profile: int):
     try:
         profile = get_object_or_404(Profile, pk=pk_profile)
     except Http404:
-        return JsonResponse({'error': 'Profile not found'}, status=404)
+        return Response({'error': 'Profile not found'}, status=404)
 
     serializer = ProfileSerializer(profile, request=request)
     return serializer.json_response()
@@ -138,10 +139,10 @@ def profile_edit(request, pk_profile: int):
     try:
         profile = get_object_or_404(Profile, pk=pk_profile)
     except Http404:
-        return JsonResponse({'error': 'Profile not found'}, status=404)
+        return Response({'error': 'Profile not found'}, status=404)
 
     if request.user != profile.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        return Response({'error': 'Forbidden'}, status=403)
 
     data = request.data
     files = request.FILES
@@ -159,7 +160,7 @@ def profile_edit(request, pk_profile: int):
 
     if 'username' in data:
         if User.objects.filter(username=data['username']).exclude(pk=user.pk).exists():
-            return JsonResponse({'error': 'Username already taken'}, status=400)
+            return Response({'error': 'Username already taken'}, status=400)
         user.username = data['username']
 
     if 'first_name' in data:
@@ -195,7 +196,7 @@ def search_by_name(request):
     query = request.GET.get('q', '').strip()
 
     if not query:
-        return JsonResponse({'error': 'Query parameter "q" is required'}, status=400)
+        return Response({'error': 'Query parameter "q" is required'}, status=400)
 
     profiles = Profile.objects.select_related('user').filter(
         Q(user__username__icontains=query)
@@ -234,10 +235,10 @@ def user_register(request):
     last_name = payload.get('last_name')
 
     if User.objects.filter(username=username).exists():
-        return JsonResponse({'error': 'Username already exists'}, status=400)
+        return Response({'error': 'Username already exists'}, status=400)
 
     if email and User.objects.filter(email=email).exists():
-        return JsonResponse({'error': 'Email already exists'}, status=400)
+        return Response({'error': 'Email already exists'}, status=400)
 
     user = User.objects.create_user(
         username=username,
@@ -250,7 +251,7 @@ def user_register(request):
     Profile.objects.create(user=user)
     refresh = RefreshToken.for_user(user)
 
-    return JsonResponse({'token': str(refresh.access_token)}, status=201)
+    return Response({'token': str(refresh.access_token)}, status=201)
 
 
 @extend_schema(
@@ -285,14 +286,14 @@ def user_login(request):
         user = authenticate(username=login, password=password)
 
     if not user:
-        return JsonResponse({'error': 'Invalid credentials'}, status=401)
+        return Response({'error': 'Invalid credentials'}, status=401)
 
     if hasattr(user, 'profile') and user.profile.deleted_at is not None:
-        return JsonResponse({'error': 'Account is deactivated'}, status=403)
+        return Response({'error': 'Account is deactivated'}, status=403)
 
     refresh = RefreshToken.for_user(user)
 
-    return JsonResponse({'token': str(refresh.access_token)}, status=201)
+    return Response({'token': str(refresh.access_token)}, status=201)
 
 
 @extend_schema(
@@ -325,7 +326,7 @@ def request_password_reset(request):
             base_url=request.build_absolute_uri(), user=user, token=str(token.token)
         )
 
-    return JsonResponse({'message': 'If account exists, email sent'})
+    return Response({'message': 'If account exists, email sent'})
 
 
 @extend_schema(
@@ -349,13 +350,13 @@ def change_password(request):
     payload = request.json
 
     if not user.check_password(payload['old_password']):
-        return JsonResponse({'error': 'Invalid old password'}, status=400)
+        return Response({'error': 'Invalid old password'}, status=400)
 
     user.set_password(payload['new_password'])
     user.save()
     UserToken.objects.filter(user=user, type=UserToken.TokenType.CHANGE_PASSWORD).delete()
 
-    return JsonResponse({'message': 'Password updated successfully'}, status=200)
+    return Response({'message': 'Password updated successfully'}, status=200)
 
 
 @extend_schema(
@@ -383,7 +384,7 @@ def send_verification_email(request):
         base_url=request.build_absolute_uri(), user=user, token=str(token.token)
     )
 
-    return JsonResponse({'message': 'Verification email sent'})
+    return Response({'message': 'Verification email sent'})
 
 
 @csrf_exempt
@@ -391,10 +392,10 @@ def verify_email(request, token):
     try:
         token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.VERIFY_EMAIL)
     except UserToken.DoesNotExist:
-        return JsonResponse({'error': 'Invalid token'}, status=400)
+        return Response({'error': 'Invalid token'}, status=400)
 
     if not token_obj.is_valid():
-        return JsonResponse({'error': 'Token expired'}, status=400)
+        return Response({'error': 'Token expired'}, status=400)
 
     profile = token_obj.user.profile
     profile.verified = True
@@ -402,7 +403,7 @@ def verify_email(request, token):
 
     token_obj.delete()
 
-    return JsonResponse({'message': 'Email verified'})
+    return Response({'message': 'Email verified'})
 
 
 @extend_schema(
@@ -423,11 +424,11 @@ def deactivate_account(request):
     try:
         profile = user.profile
     except ObjectDoesNotExist:
-        return JsonResponse({'error': 'Profile not found'}, status=404)
+        return Response({'error': 'Profile not found'}, status=404)
 
     profile.delete()
 
-    return JsonResponse({'message': 'Account deactivated'}, status=200)
+    return Response({'message': 'Account deactivated'}, status=200)
 
 
 @extend_schema(
@@ -460,7 +461,7 @@ def send_activation_email(request):
             base_url=request.build_absolute_uri(), user=user, token=str(token.token)
         )
 
-    return JsonResponse({'message': 'If account exists, email sent'})
+    return Response({'message': 'If account exists, email sent'})
 
 
 @csrf_exempt
@@ -468,18 +469,18 @@ def restore_account(request, token):
     try:
         token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.VERIFY_EMAIL)
     except UserToken.DoesNotExist:
-        return JsonResponse({'error': 'Invalid token'}, status=400)
+        return Response({'error': 'Invalid token'}, status=400)
 
     if not token_obj.is_valid():
-        return JsonResponse({'error': 'Token expired'}, status=400)
+        return Response({'error': 'Token expired'}, status=400)
 
     profile = token_obj.user.profile
     token_obj.delete()
 
     if profile.deleted_at is None:
-        return JsonResponse({'message': 'Account already active'}, status=200)
+        return Response({'message': 'Account already active'}, status=200)
 
     profile.restore()
     token_obj.delete()
 
-    return JsonResponse({'message': 'Account restored'}, status=200)
+    return Response({'message': 'Account restored'}, status=200)

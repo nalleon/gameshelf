@@ -4,16 +4,13 @@ from datetime import datetime
 import requests
 from django.conf import settings
 from django.db.models.functions import ExtractMonth, ExtractYear
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 
 from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from games.models import Game
 from games.tasks import deliver_new_games_notification
-from shared.decorators import require_fields, require_json_body, require_role
-from users.decorators import auth_required
-from users.models import Profile
+from shared.decorators import require_fields, require_json_body
 
 from .utils import Utils
 
@@ -21,9 +18,7 @@ from .utils import Utils
 # Method to import a list of games from IGDB to database.
 @csrf_exempt
 @require_json_body
-@require_fields(
-    'quantity'
-)
+@require_fields('quantity')
 # @auth_required
 # @require_role(Profile.Role.ADMIN)
 def import_games(request):
@@ -68,7 +63,7 @@ def import_games(request):
 
         response = requests.post('https://api.igdb.com/v4/games', data=query, headers=headers)
         if response.status_code == 403:
-            return JsonResponse(
+            return Response(
                 {'error': '403 Forbidden: posible rate limit o token expirado'}, status=403
             )
         response.raise_for_status()
@@ -100,7 +95,7 @@ def import_games(request):
 
         deliver_new_games_notification.delay(request.build_absolute_uri(), filtered_games)
 
-    return JsonResponse(
+    return Response(
         {
             'created': total_created,
             'skipped': total_skipped,
@@ -294,7 +289,6 @@ def save_games_to_db(games_data, default_region, default_edition, token):
             if cover_url_detail:
                 game.cover_detail = cover_url_detail
 
-            
             for genre in g.get('genres', []):
                 if 'name' in genre:
                     obj, _ = Genre.objects.get_or_create(name=genre['name'])

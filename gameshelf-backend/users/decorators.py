@@ -1,6 +1,7 @@
-from django.http import JsonResponse
+from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework_simplejwt.exceptions import InvalidToken, AuthenticationFailed
+from rest_framework_simplejwt.exceptions import AuthenticationFailed, InvalidToken
+
 
 def auth_required(func):
     def wrapper(request, *args, **kwargs):
@@ -9,12 +10,12 @@ def auth_required(func):
             user_auth_tuple = jwt_auth.authenticate(request)
 
             if user_auth_tuple is None:
-                return JsonResponse({'error': 'Invalid authentication token'}, status=401)
+                return Response({'error': 'Invalid authentication token'}, status=401)
 
             request.user, _ = user_auth_tuple
 
         except (InvalidToken, AuthenticationFailed):
-            return JsonResponse({'error': 'Invalid authentication token'}, status=401)
+            return Response({'error': 'Invalid authentication token'}, status=401)
 
         return func(request, *args, **kwargs)
 

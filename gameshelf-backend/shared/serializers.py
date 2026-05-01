@@ -2,10 +2,10 @@ import json
 from abc import ABC
 from typing import Iterable
 
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from drf_spectacular.utils import inline_serializer
 from rest_framework import serializers
-
+from rest_framework.response import Response
 
 class BaseSerializer(ABC):
     def __init__(
@@ -38,8 +38,8 @@ class BaseSerializer(ABC):
     def to_json(self) -> str:
         return json.dumps(self.serialize())
 
-    def json_response(self) -> JsonResponse:
-        return JsonResponse(self.serialize(), safe=False)
+    def json_response(self) -> Response:
+        return Response(self.serialize())
 
     def serialize_paginated(self, pagination_data: dict) -> dict:
         return {

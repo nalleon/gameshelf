@@ -3,7 +3,7 @@ from math import ceil
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Max
-from django.http import Http404, JsonResponse
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import (
@@ -15,6 +15,7 @@ from drf_spectacular.utils import (
 )
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.response import Response
 
 from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from shared.decorators import require_fields, require_json_body, require_role
@@ -185,7 +186,7 @@ def game_list(request):
 
     serializer = GameSerializer([], request=request)
 
-    return JsonResponse(serializer.serialize_paginated(pagination_data))
+    return Response(serializer.serialize_paginated(pagination_data))
 
 
 def _get_int_param(request, name, default):
@@ -239,7 +240,7 @@ def game_detail(request, pk_game: int):
     try:
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
-        return JsonResponse({'error': 'Game not found'}, status=404)
+        return Response({'error': 'Game not found'}, status=404)
 
     serializer = GameSerializer(game, request=request)
     return serializer.json_response()
@@ -266,7 +267,7 @@ def edit_game(request, pk_game: int):
     try:
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
-        return JsonResponse({'error': 'Game not found'}, status=404)
+        return Response({'error': 'Game not found'}, status=404)
 
     if title:
         game.title = title
@@ -289,7 +290,7 @@ def edit_game(request, pk_game: int):
             try:
                 platform = get_object_or_404(Platform, pk_platform)
             except Http404:
-                return JsonResponse({'error': 'Platform to associate not found'}, status=404)
+                return Response({'error': 'Platform to associate not found'}, status=404)
             platforms.append(platform)
 
         game.platforms = platforms
@@ -300,7 +301,7 @@ def edit_game(request, pk_game: int):
             try:
                 genre = get_object_or_404(Genre, pk_genre)
             except Http404:
-                return JsonResponse({'error': 'Genre to associate not found'}, status=404)
+                return Response({'error': 'Genre to associate not found'}, status=404)
             genres.append(genre)
 
         game.genres = genres
@@ -311,7 +312,7 @@ def edit_game(request, pk_game: int):
             try:
                 developer = get_object_or_404(Developer, pk_developer)
             except Http404:
-                return JsonResponse({'error': 'Developer to associate not found'}, status=404)
+                return Response({'error': 'Developer to associate not found'}, status=404)
             developers.append(developer)
 
         game.developers = developers
@@ -322,7 +323,7 @@ def edit_game(request, pk_game: int):
             try:
                 publisher = get_object_or_404(Publisher, pk_publisher)
             except Http404:
-                return JsonResponse({'error': 'Publisher to associate not found'}, status=404)
+                return Response({'error': 'Publisher to associate not found'}, status=404)
 
             publishers.append(publisher)
 
@@ -332,7 +333,7 @@ def edit_game(request, pk_game: int):
         try:
             edition = get_object_or_404(Edition, pk_edition)
         except Http404:
-            return JsonResponse({'error': 'Edition to associate not found'}, status=404)
+            return Response({'error': 'Edition to associate not found'}, status=404)
 
         game.edition = edition
 
@@ -340,12 +341,12 @@ def edit_game(request, pk_game: int):
         try:
             region = get_object_or_404(Region, pk_region)
         except Http404:
-            return JsonResponse({'error': 'Region to associate not found'}, status=404)
+            return Response({'error': 'Region to associate not found'}, status=404)
 
         game.region = region
 
     game.save()
-    return JsonResponse({'id': game.pk}, status=200)
+    return Response({'id': game.pk}, status=200)
 
 
 @csrf_exempt
@@ -356,10 +357,10 @@ def delete_game(request, pk_game: int):
     try:
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
-        return JsonResponse({'error': 'Game not found'}, status=404)
+        return Response({'error': 'Game not found'}, status=404)
 
     game.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)
 
 
 # Reviews Methods
@@ -435,7 +436,7 @@ def review_list(request):
 
     serializer = ReviewSerializer([], request=request)
 
-    return JsonResponse(serializer.serialize_paginated(pagination_data))
+    return Response(serializer.serialize_paginated(pagination_data))
 
 
 # Public Method
@@ -452,12 +453,12 @@ def add_review(request):
     try:
         game = get_object_or_404(Game, pk=game_id)
     except Http404:
-        return JsonResponse({'error': 'Game associated not found'}, status=404)
+        return Response({'error': 'Game associated not found'}, status=404)
 
     user = request.user
 
     review = Review.objects.create(content=content, recommend=recommend, game=game, author=user)
-    return JsonResponse({'id': review.pk}, status=200)
+    return Response({'id': review.pk}, status=200)
 
 
 @extend_schema(
@@ -533,7 +534,7 @@ def review_detail(request, pk_review: int):
     try:
         review = get_object_or_404(Review, pk=pk_review)
     except Http404:
-        return JsonResponse({'error': 'Review not found'}, status=404)
+        return Response({'error': 'Review not found'}, status=404)
 
     serializer = ReviewSerializer(review, request=request)
     return serializer.json_response()
@@ -553,11 +554,11 @@ def edit_review(request, pk_review: int):
     try:
         review = get_object_or_404(Review, pk=pk_review)
     except Http404:
-        return JsonResponse({'error': 'Review not found'}, status=404)
+        return Response({'error': 'Review not found'}, status=404)
 
     if request.user != review.author:
         if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+            return Response({'error': 'Forbbiden Access'}, status=403)
 
     if content:
         review.content = content
@@ -569,23 +570,23 @@ def edit_review(request, pk_review: int):
         try:
             game = get_object_or_404(Game, pk_game)
         except Http404:
-            return JsonResponse({'error': 'Game to associate not found'}, status=404)
+            return Response({'error': 'Game to associate not found'}, status=404)
 
         review.game = game
 
     if pk_author:
         if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+            return Response({'error': 'Forbbiden Access'}, status=403)
 
         try:
             author = get_object_or_404(User, pk_author)
         except Http404:
-            return JsonResponse({'error': 'Author to associate not found'}, status=404)
+            return Response({'error': 'Author to associate not found'}, status=404)
 
         review.author = author
 
     review.save()
-    return JsonResponse({'id': review.pk}, status=200)
+    return Response({'id': review.pk}, status=200)
 
 
 # Public method
@@ -598,14 +599,14 @@ def delete_review(request, pk_review: int):
     try:
         review = get_object_or_404(Review, pk=pk_review)
     except Http404:
-        return JsonResponse({'error': 'Review not found'}, status=404)
+        return Response({'error': 'Review not found'}, status=404)
 
     if request.user != review.author:
         if request.user.role != 'Admin':
-            return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+            return Response({'error': 'Forbbiden Access'}, status=403)
 
     review.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)
 
 
 @extend_schema(
@@ -630,15 +631,15 @@ def add_review_media(request, pk_review: int):
     try:
         review = get_object_or_404(Review, pk=pk_review)
     except Http404:
-        return JsonResponse({'error': 'Review not found'}, status=404)
+        return Response({'error': 'Review not found'}, status=404)
 
     if request.user != review.author:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        return Response({'error': 'Forbidden'}, status=403)
 
     files = request.FILES.getlist('images')
 
     if not files:
-        return JsonResponse({'error': 'At least one image is required'}, status=400)
+        return Response({'error': 'At least one image is required'}, status=400)
 
     media_ids = []
 
@@ -646,7 +647,7 @@ def add_review_media(request, pk_review: int):
         media = Media.objects.create(review=review, image=file)
         media_ids.append(media.pk)
 
-    return JsonResponse({'ids': media_ids}, status=200)
+    return Response({'ids': media_ids}, status=200)
 
 
 @extend_schema_view(
@@ -673,13 +674,13 @@ def delete_review_media(request, pk_media: int):
     try:
         media = get_object_or_404(Media, pk=pk_media)
     except Http404:
-        return JsonResponse({'error': 'Media not found'}, status=404)
+        return Response({'error': 'Media not found'}, status=404)
 
     if request.user != media.review.author:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        return Response({'error': 'Forbidden'}, status=403)
 
     media.delete()
-    return JsonResponse({}, status=204)
+    return Response({}, status=204)
 
 
 # Favorite Methods
@@ -732,10 +733,10 @@ def add_favorite_item(request):
     try:
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
-        return JsonResponse({'error': 'Game asociated not found'}, status=404)
+        return Response({'error': 'Game asociated not found'}, status=404)
 
     if FavoriteItem.objects.filter(user=user, game=game).exists():
-        return JsonResponse({'error': 'Game already in favorites'}, status=400)
+        return Response({'error': 'Game already in favorites'}, status=400)
 
     last_order = FavoriteItem.objects.filter(user=user).aggregate(max_order=Max('order'))[
         'max_order'
@@ -743,7 +744,7 @@ def add_favorite_item(request):
 
     favorite_item = FavoriteItem.objects.create(game=game, user=user, order=(last_order or 0) + 1)
 
-    return JsonResponse({'id': favorite_item.pk}, status=200)
+    return Response({'id': favorite_item.pk}, status=200)
 
 
 @extend_schema_view(
@@ -810,15 +811,15 @@ def edit_favorite_item(request, pk_favorite: int):
     try:
         favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite)
     except Http404:
-        return JsonResponse({'error': 'Favorite not found'}, status=404)
+        return Response({'error': 'Favorite not found'}, status=404)
 
     if request.user != favorite_item.user:
-        return JsonResponse({'error': 'Unable to edit another user favorites'}, status=403)
+        return Response({'error': 'Unable to edit another user favorites'}, status=403)
 
     old_order = favorite_item.order
 
     if new_order == old_order:
-        return JsonResponse({'id': favorite_item.pk}, status=200)
+        return Response({'id': favorite_item.pk}, status=200)
 
     user_favorites = FavoriteItem.objects.filter(user=request.user)
 
@@ -834,7 +835,7 @@ def edit_favorite_item(request, pk_favorite: int):
     favorite_item.order = new_order
     favorite_item.save()
 
-    return JsonResponse({'id': favorite_item.pk}, status=200)
+    return Response({'id': favorite_item.pk}, status=200)
 
 
 @csrf_exempt
@@ -843,10 +844,10 @@ def delete_favorite_item(request, pk_favorite_item: int):
     try:
         favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite_item)
     except Http404:
-        return JsonResponse({'error': 'Favorite not found'}, status=404)
+        return Response({'error': 'Favorite not found'}, status=404)
 
     if request.user != favorite_item.user:
-        return JsonResponse({'error': 'Forbbiden Access'}, status=403)
+        return Response({'error': 'Forbbiden Access'}, status=403)
 
     favorite_item.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)

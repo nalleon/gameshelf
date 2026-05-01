@@ -1,17 +1,21 @@
 from django.contrib.auth import get_user_model
-from django.http import Http404, JsonResponse
+from django.core.exceptions import PermissionDenied
+from django.db.models import Count, Prefetch, Q
+from django.http import Http404, HttpResponse
+from rest_framework.response import Response
+
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework.decorators import api_view
-from django.http import HttpResponse
+
+from classifications.models import Platform
 from games.models import Game
 from shared.decorators import require_fields, require_json_body
 from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
-from django.core.exceptions import PermissionDenied
-from .models import Collection, CollectionItem, Wishlist, WishListItem, Item
-from classifications.models import Platform
+
+from .models import Collection, CollectionItem, Item, Wishlist, WishListItem
 from .serializers import (
     CollectionItemSchemaSerializer,
     CollectionItemSerializer,
@@ -26,9 +30,6 @@ from .serializers import (
     WishlistSchemaSerializer,
     WishlistSerializer,
 )
-
-from django.db.models import Prefetch
-from django.db.models import Count, Q
 
 User = get_user_model()
 
@@ -81,7 +82,7 @@ def create_collection(request):
     collection = Collection.objects.create(user=request.user, name=name, is_private=is_private)
 
     serializer = CollectionSerializer(collection, request=request)
-    return JsonResponse(serializer.serialize(), status=201)
+    return Response(serializer.serialize(), status=201)
 
 
 # Method for making the API restful
@@ -120,7 +121,6 @@ def create_collection(request):
             403: ErrorResponseSerializer,
             404: ErrorResponseSerializer,
         },
-        
         description='Delete a game from your collection',
         parameters=[
             OpenApiParameter(
@@ -159,10 +159,7 @@ def collection_items_wrapper(request, pk_collection):
 def collection_item_list(request, pk_collection):
     collection = get_collection_with_items(pk_collection, request.user)
 
-    serializer = CollectionSerializer(
-        collection,
-        request=request
-    )
+    serializer = CollectionSerializer(collection, request=request)
 
     return serializer.json_response()
 
@@ -170,7 +167,7 @@ def collection_item_list(request, pk_collection):
 # This method is public to add to its own collection
 @csrf_exempt
 @require_json_body
-@require_fields('game_id', 'platform_id','is_private', 'type')
+@require_fields('game_id', 'platform_id', 'is_private', 'type')
 @auth_required
 def add_self_collection_item(request, pk_collection):
     payload = request.json
@@ -181,43 +178,34 @@ def add_self_collection_item(request, pk_collection):
     collection = get_object_or_404(Collection, pk=pk_collection)
 
     if collection.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
-
+        return Response({'error': 'Forbidden'}, status=403)
 
     game = get_object_or_404(Game, pk=pk_game)
 
-
     if not game.platforms.filter(id=platform_id).exists():
-        return JsonResponse(
-            {'error': 'This game is not available on the selected platform'},
-            status=400
-    )
-        
+        return Response(
+            {'error': 'This game is not available on the selected platform'}, status=400
+        )
+
     platform = get_object_or_404(Platform, pk=platform_id)
-    
+
     try:
         validate_item_type_for_game(game, item_type)
     except ValueError as e:
-        return JsonResponse({'error': str(e)}, status=400)
-
-
+        return Response({'error': str(e)}, status=400)
 
     exists = CollectionItem.objects.filter(
-        collection=collection,
-        game=game,
-        platform=platform,
-        type=item_type,
-        deleted_at__isnull=True
+        collection=collection, game=game, platform=platform, type=item_type, deleted_at__isnull=True
     ).exists()
 
     if exists:
-        return JsonResponse({'error': 'Game already exists in collection'}, status=400)
+        return Response({'error': 'Game already exists in collection'}, status=400)
 
     collection_item = CollectionItem.objects.create(
         game=game, collection=collection, platform=platform, is_private=is_private, type=item_type
     )
 
-    return JsonResponse({'id': collection_item.pk}, status=201)
+    return Response({'id': collection_item.pk}, status=201)
 
 
 # This method is public to delete a collection
@@ -227,10 +215,10 @@ def delete_collection(request, pk_collection: int):
     try:
         collection = get_object_or_404(Collection, pk=pk_collection)
     except Http404:
-        return JsonResponse({'error': 'Collection not found'}, status=404)
+        return Response({'error': 'Collection not found'}, status=404)
 
     if collection.user != request.user:
-        return JsonResponse({'error': 'Forbidden access'}, status=403)
+        return Response({'error': 'Forbidden access'}, status=403)
 
     collection.delete()
     return HttpResponse(status=204)
@@ -243,7 +231,7 @@ def edit_collection(request, pk_collection: int):
     collection = get_object_or_404(Collection, pk=pk_collection)
 
     if collection.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        return Response({'error': 'Forbidden'}, status=403)
 
     payload = request.json
     name = payload['name']
@@ -255,7 +243,7 @@ def edit_collection(request, pk_collection: int):
     collection.save()
 
     serializer = CollectionSerializer(collection, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 # Method for making the API restful
@@ -310,7 +298,6 @@ def edit_collection(request, pk_collection: int):
     patch=extend_schema(
         request={
             'type': 'object',
-             
             'properties': {'is_private': {'type': 'boolean'}},
         },
         responses={200: CollectionItemSchemaSerializer},
@@ -338,8 +325,8 @@ def collection_item_detail(request, pk_collection: int, pk_collection_item: int)
     is_owner = request.user.is_authenticated and request.user == collection.user
 
     if collection.is_private and not is_owner:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
-    
+        return Response({'error': 'Forbidden'}, status=403)
+
     collection_item = get_object_or_404(
         CollectionItem,
         pk=pk_collection_item,
@@ -360,10 +347,10 @@ def delete_collection_item(request, pk_collection: int, pk_collection_item: int)
             CollectionItem, pk=pk_collection_item, collection_id=pk_collection
         )
     except Http404:
-        return JsonResponse({'error': 'CollectionItem not found'}, status=404)
+        return Response({'error': 'CollectionItem not found'}, status=404)
 
     if collection_item.collection.user != request.user:
-        return JsonResponse({'error': 'Forbidden access'}, status=403)
+        return Response({'error': 'Forbidden access'}, status=403)
 
     collection_item.delete()
     return HttpResponse(status=204)
@@ -380,46 +367,44 @@ def edit_collection_item(request, pk_collection: int, pk_collection_item: int):
     collection = collection_item.collection
 
     if collection.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        return Response({'error': 'Forbidden'}, status=403)
 
     payload = request.json
     is_private = payload['is_private']
     item_type = payload['type']
     platform_id = payload['platform_id']
-    
 
     game = get_object_or_404(Game, pk=collection_item.game.pk)
 
     if not game.platforms.filter(id=platform_id).exists():
-            return JsonResponse(
-                {'error': 'This game is not available on the selected platform'},
-                status=400
+        return Response(
+            {'error': 'This game is not available on the selected platform'}, status=400
         )
-            
+
     platform = get_object_or_404(Platform, pk=platform_id)
-    
+
     try:
         validate_item_type_for_game(game, item_type)
     except ValueError as e:
-        return JsonResponse({'error': str(e)}, status=400)
-    
-    updated=False
+        return Response({'error': str(e)}, status=400)
+
+    updated = False
 
     if is_private != collection_item.is_private:
         collection_item.is_private = is_private
-        updated=True 
-           
+        updated = True
+
     if item_type != collection_item.type:
         collection_item.type = item_type
-        updated=True
-        
+        updated = True
+
     if platform != collection_item.platform:
         collection_item.platform = platform
-        updated=True
+        updated = True
 
     if updated:
         collection_item.save()
-    
+
     serializer = CollectionItemSerializer(collection_item, request=request)
     return serializer.json_response()
 
@@ -449,7 +434,7 @@ def own_wishlist_detail(request):
     wishlist = get_wishlist_with_items(request.user.wishlist.pk, request.user)
 
     serializer = WishlistSerializer(wishlist, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 # Method for making the API restful
@@ -498,13 +483,15 @@ def wishlist_items_wrapper(request, pk_wishlist: int):
         case 'PATCH':
             return edit_wishlist(request, pk_wishlist)
 
+
 @csrf_exempt
 @auth_required
 def get_wishlist(request, pk_wishlist: int):
     wishlist = get_wishlist_with_items(pk_wishlist, request.user)
 
     serializer = WishlistSerializer(wishlist, request=request)
-    return JsonResponse(serializer.serialize(), status=200)
+    return Response(serializer.serialize(), status=200)
+
 
 @csrf_exempt
 @require_json_body
@@ -520,32 +507,26 @@ def add_self_wishlist_item(request, pk_wishlist: int):
     is_private = payload['is_private']
     item_type = payload['type']
     platform_id = payload['platform_id']
-    
+
     game = get_object_or_404(Game, pk=pk_game)
 
-
     if not game.platforms.filter(id=platform_id).exists():
-            return JsonResponse(
-                {'error': 'This game is not available on the selected platform'},
-                status=400
+        return Response(
+            {'error': 'This game is not available on the selected platform'}, status=400
         )
-            
+
     platform = get_object_or_404(Platform, pk=platform_id)
-    
-    
+
     try:
         validate_item_type_for_game(game, item_type)
     except ValueError as e:
-        return JsonResponse({'error': str(e)}, status=400)
-    
+        return Response({'error': str(e)}, status=400)
+
     if WishListItem.objects.filter(
-        wishlist=wishlist,
-        game=game,
-        type=item_type,
-        deleted_at__isnull=True
+        wishlist=wishlist, game=game, type=item_type, deleted_at__isnull=True
     ).exists():
-        return JsonResponse({'error': 'Game already exists in wishlist'}, status=400)
-    
+        return Response({'error': 'Game already exists in wishlist'}, status=400)
+
     wishlist_item = WishListItem.objects.create(
         wishlist=wishlist,
         game=game,
@@ -553,10 +534,10 @@ def add_self_wishlist_item(request, pk_wishlist: int):
         priority=priority,
         annotation=annotation,
         is_private=is_private,
-        type=item_type
+        type=item_type,
     )
     serializer = WishlistItemSerializer(wishlist_item, request=request)
-    return JsonResponse(serializer.serialize(), status=201)
+    return Response(serializer.serialize(), status=201)
 
 
 @require_json_body
@@ -577,11 +558,12 @@ def edit_wishlist(request, pk_wishlist: int):
 
     if updated:
         wishlist.save()
-        
+
     wishlist = get_wishlist_with_items(pk_wishlist, request.user)
 
     serializer = WishlistSerializer(wishlist, request=request)
-    return JsonResponse(serializer.serialize(), status=200)
+    return Response(serializer.serialize(), status=200)
+
 
 @extend_schema(
     methods=['GET'],
@@ -631,7 +613,7 @@ def wishlist_item_detail(request, pk_wishlist_item: int):
         raise PermissionDenied('Forbidden')
 
     serializer = WishlistItemSerializer(wishlist_item, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 @csrf_exempt
@@ -652,25 +634,20 @@ def edit_wishlist_item(request, pk_wishlist_item: int):
 
     payload = request.json
     updated = False
-    
-    
-    
 
     game = get_object_or_404(Game, pk=wishlist_item.game.pk)
     if not game.platforms.filter(id=payload['platform_id']).exists():
-            return JsonResponse(
-                {'error': 'This game is not available on the selected platform'},
-                status=400
+        return Response(
+            {'error': 'This game is not available on the selected platform'}, status=400
         )
-            
+
     platform = get_object_or_404(Platform, pk=payload['platform_id'])
-    
+
     try:
         validate_item_type_for_game(game, payload['type'])
     except ValueError as e:
-        return JsonResponse({'error': str(e)}, status=400)
-    
-    
+        return Response({'error': str(e)}, status=400)
+
     if 'priority' in payload:
         wishlist_item.priority = payload['priority']
         updated = True
@@ -688,7 +665,7 @@ def edit_wishlist_item(request, pk_wishlist_item: int):
         wishlist_item.save()
 
     serializer = WishlistItemSerializer(wishlist_item, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 ######################################
@@ -700,15 +677,15 @@ def check_wishlist_ownership(user, pk_wishlist):
     wishlist = get_object_or_404(Wishlist, pk=pk_wishlist)
 
     if wishlist.user != user:
-        raise PermissionDenied('Forbidden')    
-    
+        raise PermissionDenied('Forbidden')
+
     return wishlist
 
 
 def check_wishlistitem_ownership(user, pk_wishlist_item):
     wishlist_item = get_object_or_404(WishListItem, pk=pk_wishlist_item)
     if wishlist_item.wishlist.user != user:
-        raise PermissionDenied('Forbidden')    
+        raise PermissionDenied('Forbidden')
     return wishlist_item
 
 
@@ -717,27 +694,23 @@ def get_collections_queryset(user):
 
     if not user.is_authenticated:
         qs = qs.filter(is_private=False)
-        items_qs = CollectionItem.objects.filter(
-            deleted_at__isnull=True,
-            is_private=False
-        )
+        items_qs = CollectionItem.objects.filter(deleted_at__isnull=True, is_private=False)
     else:
-        qs = qs.filter(
-            Q(is_private=False) | Q(user=user)
-        )
+        qs = qs.filter(Q(is_private=False) | Q(user=user))
 
-        items_qs = CollectionItem.objects.filter(
-            deleted_at__isnull=True
-        )
+        items_qs = CollectionItem.objects.filter(deleted_at__isnull=True)
 
     return qs.annotate(
         total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
-        total_public=Count('items', filter=Q(items__deleted_at__isnull=True, items__is_private=False)),
-        total_private=Count('items', filter=Q(items__deleted_at__isnull=True, items__is_private=True)),
-    ).prefetch_related(
-        Prefetch('items', queryset=items_qs)
-    )
-    
+        total_public=Count(
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+        ),
+        total_private=Count(
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+        ),
+    ).prefetch_related(Prefetch('items', queryset=items_qs))
+
+
 def get_collection_with_items(pk_collection, user):
     collection_qs = Collection.objects.filter(pk=pk_collection)
 
@@ -749,64 +722,48 @@ def get_collection_with_items(pk_collection, user):
     collection_qs = collection_qs.annotate(
         total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
         total_public=Count(
-            'items',
-            filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=False)
         ),
         total_private=Count(
-            'items',
-            filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=True)
         ),
     )
 
     if is_owner:
         items_qs = CollectionItem.objects.filter(deleted_at__isnull=True)
     else:
-        items_qs = CollectionItem.objects.filter(
-            deleted_at__isnull=True,
-            is_private=False
-        )
+        items_qs = CollectionItem.objects.filter(deleted_at__isnull=True, is_private=False)
 
-    collection = collection_qs.prefetch_related(
-        Prefetch('items', queryset=items_qs)
-    ).first()
+    collection = collection_qs.prefetch_related(Prefetch('items', queryset=items_qs)).first()
 
     if not collection:
         raise PermissionDenied()
 
     return collection
 
+
 def get_wishlist_queryset(user):
     qs = Wishlist.objects.filter(user=user)
 
     if not user.is_authenticated:
         qs = qs.filter(is_private=False)
-        items_qs = WishListItem.objects.filter(
-            deleted_at__isnull=True,
-            is_private=False
-        )
+        items_qs = WishListItem.objects.filter(deleted_at__isnull=True, is_private=False)
     else:
-        qs = qs.filter(
-            Q(is_private=False) | Q(user=user)
-        )
+        qs = qs.filter(Q(is_private=False) | Q(user=user))
 
-        items_qs = WishListItem.objects.filter(
-            deleted_at__isnull=True
-        )
+        items_qs = WishListItem.objects.filter(deleted_at__isnull=True)
 
     return qs.annotate(
         total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
         total_public=Count(
-            'items',
-            filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=False)
         ),
         total_private=Count(
-            'items',
-            filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=True)
         ),
-    ).prefetch_related(
-        Prefetch('items', queryset=items_qs)
-    )
-    
+    ).prefetch_related(Prefetch('items', queryset=items_qs))
+
+
 def get_wishlist_with_items(pk_wishlist, user):
     wishlist_qs = Wishlist.objects.filter(pk=pk_wishlist)
 
@@ -818,26 +775,19 @@ def get_wishlist_with_items(pk_wishlist, user):
     wishlist_qs = wishlist_qs.annotate(
         total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
         total_public=Count(
-            'items',
-            filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=False)
         ),
         total_private=Count(
-            'items',
-            filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+            'items', filter=Q(items__deleted_at__isnull=True, items__is_private=True)
         ),
     )
 
     if is_owner:
         items_qs = WishListItem.objects.filter(deleted_at__isnull=True)
     else:
-        items_qs = WishListItem.objects.filter(
-            deleted_at__isnull=True,
-            is_private=False
-        )
+        items_qs = WishListItem.objects.filter(deleted_at__isnull=True, is_private=False)
 
-    wishlist = wishlist_qs.prefetch_related(
-        Prefetch('items', queryset=items_qs)
-    ).first()
+    wishlist = wishlist_qs.prefetch_related(Prefetch('items', queryset=items_qs)).first()
 
     if not wishlist:
         raise PermissionDenied()
@@ -848,9 +798,7 @@ def get_wishlist_with_items(pk_wishlist, user):
 def validate_item_type_for_game(game, item_type):
     only_digital_keywords = {'pc', 'mobile'}
 
-    platform_names = [
-        p.name.lower() for p in game.platforms.all()
-    ]
+    platform_names = [p.name.lower() for p in game.platforms.all()]
 
     def is_only_digital(name: str) -> bool:
         return any(keyword in name for keyword in only_digital_keywords)

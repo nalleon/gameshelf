@@ -1,8 +1,9 @@
-from django.http import Http404, JsonResponse
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema, extend_schema_view
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from shared.decorators import require_fields, require_json_body, require_role
 from users.decorators import auth_required
@@ -12,6 +13,7 @@ from .models import Developer, Edition, Genre, Platform, Publisher, Region
 from .serializers import (
     ClassificationSchemaSerializer,
     DeveloperSerializer,
+    EditionSchemaSerializer,
     EditionSerializer,
     GenreSchemaSerializer,
     GenreSerializer,
@@ -21,11 +23,10 @@ from .serializers import (
     RegionSchemaSerializer,
     RegionSerializer,
     SaveClassificationSchemaSerializer,
+    SaveEditionSchemaSerializer,
     SaveGenreSchemaSerializer,
     SavePlatformSchemaSerializer,
     SaveRegionSchemaSerializer,
-    EditionSchemaSerializer,
-    SaveEditionSchemaSerializer
 )
 
 
@@ -128,7 +129,7 @@ def platform_detail(request, pk_platform: int):
     try:
         platform = get_object_or_404(Platform, pk=pk_platform)
     except Http404:
-        return JsonResponse({'error': 'Platform not found'}, status=404)
+        return Response({'error': 'Platform not found'}, status=404)
 
     serializer = PlatformSerializer(platform, request=request)
     return serializer.json_response()
@@ -145,13 +146,13 @@ def edit_platform(request, pk_platform: int):
     try:
         platform = get_object_or_404(Platform, pk=pk_platform)
     except Http404:
-        return JsonResponse({'error': 'Platform not found'}, status=404)
+        return Response({'error': 'Platform not found'}, status=404)
 
     if name:
         platform.name = name
 
     platform.save()
-    return JsonResponse({'id': platform.pk}, status=200)
+    return Response({'id': platform.pk}, status=200)
 
 
 @csrf_exempt
@@ -162,10 +163,10 @@ def delete_platform(request, pk_platform: int):
     try:
         platform = get_object_or_404(Platform, pk=pk_platform)
     except Http404:
-        return JsonResponse({'error': 'Platform not found'}, status=404)
+        return Response({'error': 'Platform not found'}, status=404)
 
     platform.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)
 
 
 # Genre methods
@@ -180,7 +181,6 @@ def delete_platform(request, pk_platform: int):
 )
 @api_view(['GET'])
 @csrf_exempt
-@auth_required
 def genre_wrapper(request):
 
     match request.method:
@@ -260,7 +260,7 @@ def genre_detail(request, pk_genre: int):
     try:
         genre = get_object_or_404(Genre, pk=pk_genre)
     except Http404:
-        return JsonResponse({'error': 'Genre not found'}, status=404)
+        return Response({'error': 'Genre not found'}, status=404)
 
     serializer = GenreSerializer(genre, request=request)
     return serializer.json_response()
@@ -277,13 +277,13 @@ def edit_genre(request, pk_genre: int):
     try:
         genre = get_object_or_404(Genre, pk=pk_genre)
     except Http404:
-        return JsonResponse({'error': 'Genre not found'}, status=404)
+        return Response({'error': 'Genre not found'}, status=404)
 
     if name:
         genre.name = name
 
     genre.save()
-    return JsonResponse({'id': genre.pk}, status=200)
+    return Response({'id': genre.pk}, status=200)
 
 
 @csrf_exempt
@@ -293,10 +293,10 @@ def delete_genre(request, pk_genre: int):
     try:
         genre = get_object_or_404(Genre, pk=pk_genre)
     except Http404:
-        return JsonResponse({'error': 'Genre not found'}, status=404)
+        return Response({'error': 'Genre not found'}, status=404)
 
     genre.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)
 
 
 # Developer methods
@@ -389,7 +389,7 @@ def developer_detail(request, pk_developer: int):
     try:
         developer = get_object_or_404(Developer, pk=pk_developer)
     except Http404:
-        return JsonResponse({'error': 'Developer not found'}, status=404)
+        return Response({'error': 'Developer not found'}, status=404)
 
     serializer = DeveloperSerializer(developer, request=request)
     return serializer.json_response()
@@ -406,14 +406,13 @@ def edit_developer(request, pk_developer: int):
     try:
         developer = get_object_or_404(Developer, pk=pk_developer)
     except Http404:
-        return JsonResponse({'error': 'Developer not found'}, status=404)
+        return Response({'error': 'Developer not found'}, status=404)
 
     if name:
         developer.name = name
 
-
     developer.save()
-    return JsonResponse({'id': developer.pk}, status=200)
+    return Response({'id': developer.pk}, status=200)
 
 
 @csrf_exempt
@@ -423,10 +422,10 @@ def delete_developer(request, pk_developer: int):
     try:
         developer = get_object_or_404(Developer, pk=pk_developer)
     except Http404:
-        return JsonResponse({'error': 'Developer not found'}, status=404)
+        return Response({'error': 'Developer not found'}, status=404)
 
     developer.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)
 
 
 # Publisher methods
@@ -521,7 +520,7 @@ def publisher_detail(request, pk_publisher: int):
     try:
         publisher = get_object_or_404(Publisher, pk=pk_publisher)
     except Http404:
-        return JsonResponse({'error': 'Publisher not found'}, status=404)
+        return Response({'error': 'Publisher not found'}, status=404)
 
     serializer = PublisherSerializer(publisher, request=request)
     return serializer.json_response()
@@ -538,14 +537,13 @@ def edit_publisher(request, pk_publisher: int):
     try:
         publisher = get_object_or_404(Publisher, pk=pk_publisher)
     except Http404:
-        return JsonResponse({'error': 'Publisher not found'}, status=404)
+        return Response({'error': 'Publisher not found'}, status=404)
 
     if name:
         publisher.name = name
 
-
     publisher.save()
-    return JsonResponse({'id': publisher.pk}, status=200)
+    return Response({'id': publisher.pk}, status=200)
 
 
 @csrf_exempt
@@ -555,10 +553,10 @@ def delete_publisher(request, pk_publisher: int):
     try:
         publisher = get_object_or_404(Publisher, pk=pk_publisher)
     except Http404:
-        return JsonResponse({'error': 'Publisher not found'}, status=404)
+        return Response({'error': 'Publisher not found'}, status=404)
 
     publisher.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)
 
 
 # Edition methods
@@ -611,7 +609,7 @@ def add_edition(request):
     description = payload['description']
 
     edition = Edition.objects.create(name=name, description=description)
-    return JsonResponse({'id': edition.pk}, status=200)
+    return Response({'id': edition.pk}, status=200)
 
 
 @extend_schema_view(
@@ -683,7 +681,7 @@ def edition_detail(request, pk_edition: int):
     try:
         edition = get_object_or_404(Edition, pk=pk_edition)
     except Http404:
-        return JsonResponse({'error': 'Edition not found'}, status=404)
+        return Response({'error': 'Edition not found'}, status=404)
 
     serializer = EditionSerializer(edition, request=request)
     return serializer.json_response()
@@ -701,7 +699,7 @@ def edit_edition(request, pk_edition: int):
     try:
         edition = get_object_or_404(Edition, pk=pk_edition)
     except Http404:
-        return JsonResponse({'error': 'Edition not found'}, status=404)
+        return Response({'error': 'Edition not found'}, status=404)
 
     if name:
         edition.name = name
@@ -710,7 +708,7 @@ def edit_edition(request, pk_edition: int):
         edition.description = description
 
     edition.save()
-    return JsonResponse({'id': edition.pk}, status=200)
+    return Response({'id': edition.pk}, status=200)
 
 
 @csrf_exempt
@@ -720,10 +718,10 @@ def delete_edition(request, pk_edition: int):
     try:
         edition = get_object_or_404(Edition, pk=pk_edition)
     except Http404:
-        return JsonResponse({'error': 'Edition not found'}, status=404)
+        return Response({'error': 'Edition not found'}, status=404)
 
     edition.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)
 
 
 # Region methods
@@ -817,7 +815,7 @@ def region_detail(request, pk_region: int):
     try:
         region = get_object_or_404(Region, pk=pk_region)
     except Http404:
-        return JsonResponse({'error': 'Region not found'}, status=404)
+        return Response({'error': 'Region not found'}, status=404)
 
     serializer = RegionSerializer(region, request=request)
     return serializer.json_response()
@@ -831,11 +829,11 @@ def edit_region(request, pk_region: int):
     payload = request.json
     name = payload['name']
     acronym = payload['acronym']
-   
+
     try:
         region = get_object_or_404(Region, pk=pk_region)
     except Http404:
-        return JsonResponse({'error': 'Region not found'}, status=404)
+        return Response({'error': 'Region not found'}, status=404)
 
     if name:
         region.name = name
@@ -844,7 +842,7 @@ def edit_region(request, pk_region: int):
         region.acronym = acronym
 
     region.save()
-    return JsonResponse({'id': region.pk}, status=200)
+    return Response({'id': region.pk}, status=200)
 
 
 @csrf_exempt
@@ -854,7 +852,7 @@ def delete_region(request, pk_region: int):
     try:
         region = get_object_or_404(Region, pk=pk_region)
     except Http404:
-        return JsonResponse({'error': 'Region not found'}, status=404)
+        return Response({'error': 'Region not found'}, status=404)
 
     region.delete()
-    return JsonResponse(status=200)
+    return Response(status=200)

@@ -1,25 +1,27 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Prefetch, Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
+from classifications.models import Platform
 from games.models import Game
 from shared.decorators import require_fields, require_json_body
 from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
-from classifications.models import Platform
+
 from .models import Library, LibraryItem
 from .serializers import (
     AddLibraryItemSchemaSerializer,
     LibraryItemSerializer,
     LibrarySchemaSerializer,
     LibrarySerializer,
-    UpdateLibraryItemSchemaSerializer
+    UpdateLibraryItemSchemaSerializer,
 )
 
 User = get_user_model()
@@ -67,7 +69,7 @@ def get_own_library(request):
     library = get_library_with_items(request.user, request.user)
 
     serializer = LibrarySerializer(library, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 @csrf_exempt
@@ -81,7 +83,7 @@ def edit_own_library(request):
     library.save()
 
     serializer = LibrarySerializer(library, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 @csrf_exempt
@@ -94,15 +96,16 @@ def add_library_item(request):
     game = get_object_or_404(Game, pk=request.json['game_id'])
 
     if not game.platforms.filter(id=request.json['platform_id']).exists():
-        return JsonResponse(
-            {'error': 'This game is not available on the selected platform'},
-            status=400
-    )
-        
+        return Response(
+            {'error': 'This game is not available on the selected platform'}, status=400
+        )
+
     platform = get_object_or_404(Platform, pk=request.json['platform_id'])
 
-    if LibraryItem.objects.filter(library=library, game=game, platform=platform, deleted_at__isnull=True).exists():
-        return JsonResponse({'error': 'Game already in library'}, status=400)
+    if LibraryItem.objects.filter(
+        library=library, game=game, platform=platform, deleted_at__isnull=True
+    ).exists():
+        return Response({'error': 'Game already in library'}, status=400)
 
     item = LibraryItem.objects.create(
         library=library,
@@ -113,7 +116,7 @@ def add_library_item(request):
         hours_played=request.json.get('hours_played', 0),
     )
 
-    return JsonResponse({'id': item.pk}, status=201)
+    return Response({'id': item.pk}, status=201)
 
 
 @extend_schema_view(
@@ -167,7 +170,7 @@ def get_library_item(request, pk_item):
         raise PermissionDenied()
 
     serializer = LibraryItemSerializer(item, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 @csrf_exempt
@@ -177,19 +180,18 @@ def edit_library_item(request, pk_item: int):
     item = get_object_or_404(LibraryItem, pk=pk_item)
 
     if item.library.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        return Response({'error': 'Forbidden'}, status=403)
 
     payload = request.json
     updated = False
 
     if not item.game.platforms.filter(id=request.json['platform_id']).exists():
-            return JsonResponse(
-                {'error': 'This game is not available on the selected platform'},
-                status=400
+        return Response(
+            {'error': 'This game is not available on the selected platform'}, status=400
         )
-    
+
     platform = get_object_or_404(Platform, pk=payload['platform_id'])
-    
+
     if 'platform_id' in payload and payload['platform_id'] != item.platform.pk:
         item.platform = platform
         updated = True
@@ -210,7 +212,7 @@ def edit_library_item(request, pk_item: int):
         item.save()
 
     serializer = LibraryItemSerializer(item, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 @csrf_exempt
@@ -218,7 +220,7 @@ def delete_library_item(request, pk_item):
     item = get_object_or_404(LibraryItem, pk=pk_item)
 
     if item.library.user != request.user:
-        return JsonResponse({'error': 'Forbidden'}, status=403)
+        return Response({'error': 'Forbidden'}, status=403)
 
     item.delete()
     return HttpResponse(status=204)
@@ -247,10 +249,10 @@ def get_library(request, pk_user):
     library = get_library_with_items(user, request.user)
 
     if not library:
-        return JsonResponse({'error': 'Library not accessible'}, status=404)
+        return Response({'error': 'Library not accessible'}, status=404)
 
     serializer = LibrarySerializer(library, request=request)
-    return JsonResponse(serializer.serialize())
+    return Response(serializer.serialize())
 
 
 # Aux methods
