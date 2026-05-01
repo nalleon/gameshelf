@@ -1,6 +1,4 @@
-import re
-
-from django.db import IntegrityError, models
+from django.db import models
 from django.db.models import Q
 from django.utils.text import slugify
 
@@ -30,22 +28,18 @@ class Classification(SoftDeleteModel):
         ]
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            base_slug = slugify(self.name)
+        base_slug = slugify(self.name).replace('(', '').replace(')', '')
 
-            base_slug = base_slug.replace('(', '').replace(')', '')
+        slug = base_slug
+        counter = 1
+        Model = self.__class__
 
-            slug = base_slug
-            counter = 1
+        while Model.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+            slug = f'{base_slug}-{counter}'
+            counter += 1
 
-            Model = self.__class__
+        self.slug = slug
 
-            while Model.objects.filter(slug=slug).exclude(pk=self.pk).exists():
-                slug = f'{base_slug}-{counter}'
-                counter += 1
-
-            self.slug = slug
-            
         super().save(*args, **kwargs)
 
 
@@ -72,6 +66,7 @@ class Region(Classification):
         null=True,
     )
 
+
 class Genre(Classification):
     acronym = models.CharField(max_length=10, null=True, blank=True)
 
@@ -86,7 +81,6 @@ class Publisher(Classification):
 
 class Platform(Classification):
     pass
-
 
 
 class PlatformSlugAlias(SoftDeleteModel):

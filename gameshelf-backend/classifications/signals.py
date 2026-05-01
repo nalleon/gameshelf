@@ -1,10 +1,10 @@
 import re
 
-from django.db.models.signals import post_save, pre_save
+from django.utils import timezone
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.text import slugify
 
-from .models import Classification, Genre, Platform, PlatformSlugAlias, Region
+from .models import Genre, Platform, PlatformSlugAlias, Region
 
 
 def generate_genre_acronym(name: str) -> str:
@@ -45,28 +45,27 @@ def generate_aliases(name: str) -> set:
     return aliases
 
 
-@receiver(pre_save, sender=Classification)
-def set_slug(sender, instance, **kwargs):
-    if not instance.slug:
-        base_slug = slugify(instance.name)
-        slug = base_slug
+# @receiver(pre_save, sender=Classification)
+# def set_slug(sender, instance, **kwargs):
+#     if not instance.slug:
+#         base_slug = slugify(instance.name)
+#         slug = base_slug
 
-        counter = 1
-        Model = sender
+#         counter = 1
+#         Model = sender
 
-        while Model.objects.filter(slug=slug).exclude(pk=instance.pk).exists():
-            slug = f'{base_slug}-{counter}'
-            counter += 1
+#         while Model.objects.filter(slug=slug).exclude(pk=instance.pk).exists():
+#             slug = f'{base_slug}-{counter}'
+#             counter += 1
 
-        instance.slug = slug
+#         instance.slug = slug
 
 
 @receiver(post_save, sender=Platform)
 def create_platform_aliases(sender, instance, created, **kwargs):
-    if not created:
-        return
-
     aliases = generate_aliases(instance.name)
+
+    instance.slug_aliases.filter(deleted_at__isnull=True).update(deleted_at=timezone.now())
 
     existing = set(
         PlatformSlugAlias.objects.filter(slug__in=aliases).values_list('slug', flat=True)
@@ -97,7 +96,6 @@ def set_region_acronym(sender, instance, created, **kwargs):
     Region.objects.filter(pk=instance.pk).update(acronym=acronym)
 
 
-
 @receiver(post_save, sender=Genre)
 def set_genre_acronym(sender, instance, created, **kwargs):
     if instance.acronym:
@@ -105,6 +103,5 @@ def set_genre_acronym(sender, instance, created, **kwargs):
 
     acronym = generate_genre_acronym(instance.name)
 
-    Genre.objects.filter(pk=instance.pk).update(
-        acronym=acronym
-    )
+    instance.acronym = acronym
+    instance.save(update_fields=['acronym'])
