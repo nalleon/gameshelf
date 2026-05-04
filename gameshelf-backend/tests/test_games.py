@@ -10,6 +10,7 @@ from tests.factories.games import (
     MediaFactory,
     ReviewFactory,
     UserFactory,
+    PlatformFactory    
 )
 
 # -------------------------
@@ -143,25 +144,27 @@ def test_favorite_item_creation():
     assert fav.pk is not None
     assert fav.user is not None
     assert fav.game is not None
-
+    assert fav.platform is not None  
 
 @pytest.mark.django_db
 def test_favorite_unique_constraint():
     user = UserFactory()
     game = GameFactory()
+    platform = PlatformFactory()
 
-    FavoriteItemFactory(user=user, game=game)
+    FavoriteItemFactory(user=user, game=game, platform=platform)
 
     with pytest.raises(IntegrityError):
-        FavoriteItemFactory(user=user, game=game)
+        FavoriteItemFactory(user=user, game=game, platform=platform)
 
 
 @pytest.mark.django_db
 def test_favorite_ordering():
     user = UserFactory()
+    platform = PlatformFactory()
 
-    f1 = FavoriteItemFactory(user=user, order=2)
-    f2 = FavoriteItemFactory(user=user, order=1)
+    f1 = FavoriteItemFactory(user=user, platform=platform, order=2)
+    f2 = FavoriteItemFactory(user=user, platform=platform, order=1)
 
     favorites = list(user.favorites.all())
 
@@ -176,5 +179,6 @@ def test_favorite_str():
     s = str(fav)
 
     assert str(fav.pk) in s
-    assert str(fav.game.pk) in s
-    assert str(fav.user.pk) in s
+    assert str(fav.game) in s      
+    assert str(fav.platform) in s    
+    assert str(fav.user) in s

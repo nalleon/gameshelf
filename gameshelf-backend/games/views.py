@@ -721,13 +721,13 @@ def favorite_item_list(request):
 
 @csrf_exempt
 @require_json_body
-@require_fields('pk_game')
+@require_fields('pk_game', 'pk_platform')
 @auth_required
 def add_favorite_item(request):
 
     payload = request.json
     pk_game = payload['pk_game']
-
+    pk_platform = payload['pk_platform']
     user = request.user
 
     try:
@@ -735,14 +735,20 @@ def add_favorite_item(request):
     except Http404:
         return Response({'error': 'Game asociated not found'}, status=404)
 
-    if FavoriteItem.objects.filter(user=user, game=game).exists():
-        return Response({'error': 'Game already in favorites'}, status=400)
+    try:
+        platform = get_object_or_404(Platform, pk=pk_platform)
+    except Http404:
+        return Response({'error': 'Platform asociated not found'}, status=404)
+    
+    if FavoriteItem.objects.filter(user=user, game=game, platform=platform).exists():
+        return Response({'error': 'Game with platform already in favorites'}, status=400)
+
 
     last_order = FavoriteItem.objects.filter(user=user).aggregate(max_order=Max('order'))[
         'max_order'
     ]
 
-    favorite_item = FavoriteItem.objects.create(game=game, user=user, order=(last_order or 0) + 1)
+    favorite_item = FavoriteItem.objects.create(game=game, platform=platform, user=user, order=(last_order or 0) + 1)
 
     return Response({'id': favorite_item.pk}, status=200)
 
@@ -768,7 +774,6 @@ def add_favorite_item(request):
         ],
     ),
     delete=extend_schema(
-        request=FavoriteSchemaSerializer,
         responses={
             200: None,
             403: ErrorResponseSerializer,
@@ -795,13 +800,12 @@ def favorites_detail_wrapper(request, pk_favorite: int):
         case 'PATCH':
             return edit_favorite_item(request, pk_favorite)
 
-        case 'DELETE':
+        case 'DELETE': 
             return delete_favorite_item(request, pk_favorite)
 
 
 @csrf_exempt
 @require_json_body
-@require_fields('order')
 @auth_required
 def edit_favorite_item(request, pk_favorite: int):
 
@@ -833,6 +837,14 @@ def edit_favorite_item(request, pk_favorite: int):
         )
 
     favorite_item.order = new_order
+    
+    new_pk_platform = payload['pk_platform']
+    new_platform = get_object_or_404(Platform, pk=new_pk_platform)
+    
+    
+    if new_platform and new_platform != favorite_item.platform:
+        favorite_item.platform = new_platform
+
     favorite_item.save()
 
     return Response({'id': favorite_item.pk}, status=200)

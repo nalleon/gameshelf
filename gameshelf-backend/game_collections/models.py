@@ -50,8 +50,6 @@ class Collection(SoftDeleteModel):
 
 
 class CollectionItem(Item):
-    is_private = models.BooleanField(default=False)
-
     collection = models.ForeignKey(
         Collection,
         related_name='items',
@@ -95,8 +93,6 @@ class WishListItem(Item):
     
     annotation = models.CharField(max_length=100, null=True, blank=True)
     
-    is_private = models.BooleanField(default=False)
-
     game = models.ForeignKey(
         'games.Game',
         related_name='wishlist_items',

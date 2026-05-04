@@ -128,6 +128,7 @@ class FavoriteItemFactory(factory.django.DjangoModelFactory):
         model = FavoriteItem
 
     game = factory.SubFactory(GameFactory)
+    platform = factory.SubFactory(PlatformFactory)
     user = factory.SubFactory(UserFactory)
 
     order = factory.Sequence(lambda n: n)
