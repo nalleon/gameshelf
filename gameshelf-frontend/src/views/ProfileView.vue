@@ -75,15 +75,15 @@
             </section>
 
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold border-l-4 border-gsmenta pl-4">Mi Estantería Reciente</h2>
-                <a href="#" class="text-gsmenta hover:text-gsbosque text-sm font-medium transition-colors">Ver toda la colección →</a>
+                <h2 class="text-2xl font-bold border-l-4 border-gsmenta pl-4">Favoritos</h2>
+                <a href="#" class="text-gsmenta hover:text-gsbosque text-sm font-medium transition-colors">Ver todos los favoritos →</a>
             </div>
             
             <!-- Game Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                <template v-if="profile && profile.user.library.items?.length > 0">
-                    <div v-for="item in profile.user.library.items" :key="item.id" class="group cursor-pointer">
-                        <GameCard :game="item.game" :platform="item.platform"/>
+                <template v-if="profile && profile.user.favorites?.length > 0">
+                    <div v-for="game in profile.user.favorites" :key="game.id" class="group cursor-pointer">
+                        <GameCard :game="game.game" />
                     </div>
                 </template>
                 <div v-else class="col-span-full flex justify-center items-center">

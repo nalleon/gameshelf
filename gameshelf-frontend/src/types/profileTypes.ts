@@ -17,9 +17,15 @@ export interface User {
     first_name: string,
     last_name: string,
     email: string,
+    favorites: Array<FavoriteItem>,
     collections: Array<Collection>
     library: Library
     wishlist: Wishlist
+}
+
+export interface FavoriteItem {
+    id: number,
+    game: Game
 }
 
 export interface Collection {
