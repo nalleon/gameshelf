@@ -59,6 +59,7 @@ class LoggedUserSerializer(BaseSerializer):
             'first_name': instance.first_name,
             'last_name': instance.last_name,
             'email': instance.email,
+            'favorites': LoggedFavoriteItemSerializer(instance.favorites.all(), request=self.request).serialize(),
             'collections': LoggedCollectionSerializer(instance.collections.all(), request=self.request).serialize(),
             'library': LoggedLibrarySerializer(instance.library, request=self.request).serialize(),
             'wishlist': LoggedWishlistSerializer(instance.wishlist, request=self.request).serialize(),
@@ -97,6 +98,13 @@ class LoggedProfileSerializer(BaseSerializer):
             'bio': serializers.CharField(),
             'verified': serializers.BooleanField(),
             'role': serializers.CharField(),
+        }
+        
+class LoggedFavoriteItemSerializer(BaseSerializer):
+    def serialize_instance(self, instance) -> dict:
+        return {
+            'id': instance.pk,
+            'game': LoggedGameSerializer(instance.game, request=self.request).serialize(),
         }
 
 class LoggedCollectionSerializer(BaseSerializer):
@@ -226,13 +234,13 @@ class LoggedGameSerializer(BaseSerializer):
             'title': instance.title,
             'slug': instance.slug,
             'description': instance.description,
-            'cover_default': self.build_url(instance.cover_default.url),
-            'cover_detail': self.build_url(instance.cover_detail.url),
+            'cover_default': self.build_url(instance.cover_default),
+            'cover_detail': self.build_url(instance.cover_detail),
             'released_at': instance.released_at.isoformat(),
             # 'platforms': PlatformSerializer(
             #     instance.platforms.all(), request=self.request
             # ).serialize(),
-            'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
+            # 'edition': EditionSerializer(instance.edition, request=self.request).serialize(),
             'region': RegionSerializer(instance.region, request=self.request).serialize(),
             'mature_content': instance.mature_content,
         }
