@@ -82,7 +82,7 @@
             <!-- Game Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
                 <template v-if="profile && profile.user.favorites?.length > 0">
-                    <div v-for="game in profile.user.favorites" :key="game.id" class="group cursor-pointer">
+                    <div v-for="game in profile.user.favorites" :key="game.id" class="group cursor-pointer flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg">
                         <GameCard :game="game.game" />
                     </div>
                 </template>
