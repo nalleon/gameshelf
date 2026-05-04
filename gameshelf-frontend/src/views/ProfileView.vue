@@ -81,8 +81,8 @@
             
             <!-- Game Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                <template v-if="profile && profile.user.favorites?.length > 0">
-                    <div v-for="game in profile.user.favorites" :key="game.id" class="group cursor-pointer flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg">
+                <template v-if="profile && limitedFavorites.length > 0">
+                    <div v-for="game in limitedFavorites" :key="game.id" class="group cursor-pointer flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg">
                         <GameCard :game="game.game" />
                     </div>
                 </template>
@@ -131,6 +131,10 @@ const completed = computed(() => {
     
     // Devuelve la longitud de un array creado a partir de los items completed
     return profile.value.user.library.items.filter(item => item.status === "Completed").length
+})
+
+const limitedFavorites = computed(() => {
+    return profile.value?.user.favorites?.slice(0, 4) || []
 })
 
 async function apiProfileMe() {
