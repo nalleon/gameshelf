@@ -60,9 +60,7 @@ class Game(SoftDeleteModel):
     class Meta:
         unique_together = ['title', 'released_at', 'region']
 
-        
 
-    
 class Review(SoftDeleteModel):
     content = models.TextField()
 
