@@ -159,7 +159,7 @@ class MediaSchemaSerializer(serializers.Serializer):
 
 class FavoriteSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    game = id = serializers.IntegerField()
+    game = serializers.IntegerField()
     user = serializers.DictField()
 
 
