@@ -88,7 +88,22 @@ def test_delete_game(client_admin):
 
     assert response.status_code == 204
 
+@pytest.mark.django_db
+def test_add_favorite_limit(client_admin, admin_user):
+    FavoriteItemFactory.create_batch(10, user=admin_user)
 
+    game = GameFactory()
+    platform = PlatformFactory()
+
+    response = client_admin.post(
+        '/api/favorites/',
+        {'pk_game': game.pk, 'pk_platform': platform.pk},
+        format='json'
+    )
+
+    assert response.status_code == 400
+    assert response.json()['error'] == 'Maximum number of favorites reached'
+    
 # -------------------------
 # FAVORITES
 # -------------------------
