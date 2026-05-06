@@ -10,6 +10,7 @@ from tests.factories.classifications import (
     PublisherFactory,
     RegionFactory,
 )
+from users.models import Profile
 
 fake = Faker()
 User = get_user_model()
@@ -25,7 +26,13 @@ class UserFactory(factory.django.DjangoModelFactory):
     username = factory.Sequence(lambda n: f'user{n}')
     email = factory.LazyAttribute(lambda o: f'{o.username}@test.com')
     password = factory.PostGenerationMethodCall('set_password', 'password123')
+    
+    @factory.post_generation
+    def profile(self, create, extracted, **kwargs):
+        if not create:
+            return
 
+        Profile.objects.create(user=self)
 
 # -------------------------
 # GAME
@@ -116,7 +123,6 @@ class MediaFactory(factory.django.DjangoModelFactory):
 
     review = factory.SubFactory(ReviewFactory)
 
-    # evita problemas con ImageField en tests
     image = factory.django.ImageField(color='blue')
 
 
@@ -128,6 +134,7 @@ class FavoriteItemFactory(factory.django.DjangoModelFactory):
         model = FavoriteItem
 
     game = factory.SubFactory(GameFactory)
+    platform = factory.SubFactory(PlatformFactory)
     user = factory.SubFactory(UserFactory)
 
     order = factory.Sequence(lambda n: n)

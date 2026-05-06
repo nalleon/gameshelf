@@ -220,7 +220,7 @@ def _get_int_param(request, name, default):
 )
 @extend_schema(
     methods=['DELETE'],
-    responses={200: None, 404: None},
+    responses={204: None, 404: None},
     description='Delete an existing game',
 )
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -251,6 +251,13 @@ def game_detail(request, pk_game: int):
 @auth_required
 @require_role(Profile.Role.ADMIN)
 def edit_game(request, pk_game: int):
+
+
+    try:
+        game = get_object_or_404(Game, pk=pk_game)
+    except Http404:
+        return Response({'error': 'Game not found'}, status=404)
+
     payload = request.json
     title = payload['title']
     slug = payload['slug']
@@ -263,12 +270,7 @@ def edit_game(request, pk_game: int):
     pk_publishers_list = payload['pk_publishers_list']
     pk_edition = payload['pk_edition']
     pk_region = payload['pk_region']
-
-    try:
-        game = get_object_or_404(Game, pk=pk_game)
-    except Http404:
-        return Response({'error': 'Game not found'}, status=404)
-
+    
     if title:
         game.title = title
 
@@ -360,7 +362,7 @@ def delete_game(request, pk_game: int):
         return Response({'error': 'Game not found'}, status=404)
 
     game.delete()
-    return Response(status=200)
+    return Response(status=204)
 
 
 # Reviews Methods
@@ -499,7 +501,7 @@ def add_review(request):
 @extend_schema(
     request=ReviewSchemaSerializer,
     responses={
-        200: {'type': 'object', 'properties': {'id': {'type': 'integer'}}},
+        204: None,
         400: None,
         403: None,
         404: None,
@@ -606,7 +608,7 @@ def delete_review(request, pk_review: int):
             return Response({'error': 'Forbbiden Access'}, status=403)
 
     review.delete()
-    return Response(status=200)
+    return Response(status=204)
 
 
 @extend_schema(
@@ -714,35 +716,46 @@ def favorites_wrapper(request):
 
 @csrf_exempt
 def favorite_item_list(request):
-    favorite_items = request.user.favorites
+    favorite_items = request.user.favorites.all()
     serializer = FavoriteItemSerializer(favorite_items, request=request)
     return serializer.json_response()
 
 
 @csrf_exempt
 @require_json_body
-@require_fields('pk_game')
+@require_fields('pk_game', 'pk_platform')
 @auth_required
 def add_favorite_item(request):
 
     payload = request.json
     pk_game = payload['pk_game']
-
+    pk_platform = payload['pk_platform']
     user = request.user
 
+    if FavoriteItem.objects.filter(user=user).count() >= 10:
+        return Response(
+            {'error': 'Maximum number of favorites reached'},
+            status=400
+        )
     try:
         game = get_object_or_404(Game, pk=pk_game)
     except Http404:
         return Response({'error': 'Game asociated not found'}, status=404)
 
-    if FavoriteItem.objects.filter(user=user, game=game).exists():
-        return Response({'error': 'Game already in favorites'}, status=400)
+    try:
+        platform = get_object_or_404(Platform, pk=pk_platform)
+    except Http404:
+        return Response({'error': 'Platform asociated not found'}, status=404)
+    
+    if FavoriteItem.objects.filter(user=user, game=game, platform=platform).exists():
+        return Response({'error': 'Game with platform already in favorites'}, status=400)
+
 
     last_order = FavoriteItem.objects.filter(user=user).aggregate(max_order=Max('order'))[
         'max_order'
     ]
 
-    favorite_item = FavoriteItem.objects.create(game=game, user=user, order=(last_order or 0) + 1)
+    favorite_item = FavoriteItem.objects.create(game=game, platform=platform, user=user, order=(last_order or 0) + 1)
 
     return Response({'id': favorite_item.pk}, status=200)
 
@@ -768,9 +781,8 @@ def add_favorite_item(request):
         ],
     ),
     delete=extend_schema(
-        request=FavoriteSchemaSerializer,
         responses={
-            200: None,
+            204: None,
             403: ErrorResponseSerializer,
             404: ErrorResponseSerializer,
         },
@@ -795,13 +807,12 @@ def favorites_detail_wrapper(request, pk_favorite: int):
         case 'PATCH':
             return edit_favorite_item(request, pk_favorite)
 
-        case 'DELETE':
+        case 'DELETE': 
             return delete_favorite_item(request, pk_favorite)
 
 
 @csrf_exempt
 @require_json_body
-@require_fields('order')
 @auth_required
 def edit_favorite_item(request, pk_favorite: int):
 
@@ -833,6 +844,15 @@ def edit_favorite_item(request, pk_favorite: int):
         )
 
     favorite_item.order = new_order
+    
+    new_pk_platform = payload['pk_platform']
+    
+    if new_pk_platform:
+        new_platform = get_object_or_404(Platform, pk=new_pk_platform)
+
+        if new_platform != favorite_item.platform:
+            favorite_item.platform = new_platform
+            
     favorite_item.save()
 
     return Response({'id': favorite_item.pk}, status=200)
@@ -850,4 +870,4 @@ def delete_favorite_item(request, pk_favorite_item: int):
         return Response({'error': 'Forbbiden Access'}, status=403)
 
     favorite_item.delete()
-    return Response(status=200)
+    return Response(status=204)

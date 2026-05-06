@@ -31,7 +31,7 @@ urlpatterns = [
     path('api/games/', include('games.games_urls')),
     path('api/reviews/', include('games.reviews_urls')),
     # path('api/medias/', include('games.medias_urls')),
-    path('api/favorite/', include('games.favorite_items_urls')),
+    path('api/favorites/', include('games.favorite_items_urls')),
     path('api/platforms/', include('classifications.platforms_urls')),
     path('api/genres/', include('classifications.genres_urls')),
     path('api/developers/', include('classifications.developers_urls')),

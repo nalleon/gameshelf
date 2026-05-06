@@ -109,6 +109,7 @@ class FavoriteItemSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'game': GameSerializer(instance.game, request=self.request).serialize(),
+            'platform': PlatformSerializer(instance.platform, request=self.request).serialize(),
             'user': UserSerializer(instance.user, request=self.request).serialize(),
         }
 
@@ -117,6 +118,7 @@ class FavoriteItemSerializer(BaseSerializer):
         return {
             'id': serializers.IntegerField(),
             'game': GameSerializer.get_fields_dict(),
+            'platform': PlatformSerializer.get_fields_dict(),
             'user': UserSerializer.get_fields_dict(),
         }
 
@@ -157,7 +159,7 @@ class MediaSchemaSerializer(serializers.Serializer):
 
 class FavoriteSchemaSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    game = id = serializers.IntegerField()
+    game = serializers.IntegerField()
     user = serializers.DictField()
 
 
@@ -191,11 +193,13 @@ class SaveReviewSchemaSerializer(serializers.Serializer):
 
 
 class SaveFavoriteSchemaSerializer(serializers.Serializer):
-    game = id = serializers.IntegerField()
+    pk_game = serializers.IntegerField(default=1)
+    pk_platform = serializers.IntegerField(default=1)
     user = serializers.DictField()
 
 
 class UpdateFavoriteSchemaSerializer(serializers.Serializer):
+    pk_platform = serializers.IntegerField(default=1)
     order = serializers.IntegerField(default=1)
 
 

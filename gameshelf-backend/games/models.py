@@ -96,6 +96,11 @@ class Media(SoftDeleteModel):
 class FavoriteItem(SoftDeleteModel):
     game = models.ForeignKey('games.Game', related_name='favorites', on_delete=models.CASCADE)
 
+    platform = models.ForeignKey(
+        'classifications.Platform',
+        on_delete=models.CASCADE
+    )
+    
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='favorites', on_delete=models.CASCADE
     )
@@ -103,10 +108,10 @@ class FavoriteItem(SoftDeleteModel):
     order = models.PositiveIntegerField(default=0)
     
     def __str__(self):
-        return f'FavoriteItem(id={self.pk}, game="{self.game}", user="{self.user}")'
+        return f'FavoriteItem(id={self.pk}, game="{self.game}", platform="{self.platform}", order="{self.order}", user="{self.user}")'
     
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['user', 'game'], name='unique_user_game_favorite')
+            models.UniqueConstraint(fields=['user', 'game', 'platform'], name='unique_user_game_platform_favorite')
         ]
         ordering = ['order']

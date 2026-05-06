@@ -1,7 +1,5 @@
 import pytest
 from django.contrib.auth import get_user_model
-from rest_framework.test import APIClient
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from tests.factories.classifications import (
@@ -12,32 +10,8 @@ from tests.factories.classifications import (
     PublisherFactory,
     RegionFactory,
 )
-from users.models import Profile
 
 User = get_user_model()
-
-
-# =========================
-# FIXTURE ADMIN
-# =========================
-
-
-@pytest.fixture
-def client_admin(db):
-    user = User.objects.create_user(username='admin', password='pass')
-    Profile.objects.create(user=user, role=Profile.Role.ADMIN)
-
-    refresh = RefreshToken.for_user(user)
-
-    client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
-
-    return client
-
-
-@pytest.fixture
-def client():
-    return APIClient()
 
 
 # =========================
@@ -342,7 +316,6 @@ def test_region_detail_404(client_admin):
     assert response.data['error'] == 'Region not found'
 
 
-
 @pytest.mark.django_db
 def test_add_edition_missing_fields(client_admin):
     response = client_admin.post(
@@ -353,6 +326,7 @@ def test_add_edition_missing_fields(client_admin):
 
     assert response.status_code == 400
     assert response.data['error'] == 'Missing required fields'
+
 
 @pytest.mark.django_db
 def test_platform_method_not_allowed(client_admin):
