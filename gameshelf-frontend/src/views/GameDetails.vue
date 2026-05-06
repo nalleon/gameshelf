@@ -17,14 +17,9 @@
 
 <script setup lang="ts">
 import Navbar from '@/components/Navbar.vue';
-import type { Game } from '@/types/gameListTypes';
 
 
-interface Props {
-    game: Game
-}
 
-const props = defineProps<Props>()
 </script>
 
 <style scoped>
