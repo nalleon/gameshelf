@@ -59,7 +59,7 @@ def test_get_collection_item(client_admin):
     collection = CollectionFactory(user=client_admin.user)
     item = CollectionItemFactory(collection=collection)
 
-    response = client_admin.get(f'/api/collections/{collection.pk}/{item.pk}/')
+    response = client_admin.get(f'/api/collections/{collection.pk}/items/{item.pk}/')
 
     assert response.status_code == 200
 
@@ -74,6 +74,7 @@ def test_add_collection_item(client_admin):
         'game_id': game.pk,
         'platform_id': platform.pk,
         'type': 'P',
+        'is_private': True
     }
 
     response = client_admin.post(
@@ -90,9 +91,11 @@ def test_add_collection_item_forbidden(client):
     user = UserFactory()
     collection = CollectionFactory(user=user)
     game = GameFactory()
+    platform = Platform.objects.first() or Platform.objects.create(name='PC')
 
     payload = {
         'game_id': game.pk,
+        'platform_id': platform.pk,
         'is_private': False,
         'type': 'P',
     }
@@ -103,15 +106,44 @@ def test_add_collection_item_forbidden(client):
         format='json',
     )
 
-    assert response.status_code == 403
+    assert response.status_code == 401
+    
+@pytest.mark.django_db
+def test_add_collection_item_forbidden_other_user():
+    owner = UserFactory()
 
+    other_user = UserFactory()
+
+    collection = CollectionFactory(user=owner)
+    game = GameFactory()
+    platform = Platform.objects.first() or Platform.objects.create(name='PC')
+
+    payload = {
+        'game_id': game.pk,
+        'platform_id': platform.pk,
+        'is_private': False,
+        'type': 'P',
+    }
+
+    from rest_framework.test import APIClient
+
+    client = APIClient()
+    client.force_authenticate(user=other_user)
+
+    response = client.post(
+        f'/api/collections/{collection.pk}/',
+        payload,
+        format='json',
+    )
+
+    assert response.status_code == 403
 
 @pytest.mark.django_db
 def test_delete_collection_item(client_admin):
     collection = CollectionFactory(user=client_admin.user)
     item = CollectionItemFactory(collection=collection)
 
-    response = client_admin.delete(f'/api/collections/{collection.pk}/{item.pk}/')
+    response = client_admin.delete(f'/api/collections/{collection.pk}/items/{item.pk}/')
 
     assert response.status_code == 204
 
@@ -130,7 +162,7 @@ def test_edit_collection_item(client_admin):
     }
 
     response = client_admin.patch(
-        f'/api/collections/{collection.pk}/{item.pk}/',
+        f'/api/collections/{collection.pk}/items/{item.pk}/',
         payload,
         format='json',
     )
@@ -180,6 +212,7 @@ def test_add_wishlist_item(client_admin):
         'priority': 1,
         'annotation': 'test',
         'type': 'P',
+        'is_private': True
     }
 
     response = client_admin.post(
@@ -199,7 +232,7 @@ def test_delete_wishlist_item(client_admin):
 
     item = WishListItemFactory(wishlist=wishlist)
 
-    response = client_admin.delete(f'/api/wishlist/item/{item.pk}/')
+    response = client_admin.delete(f'/api/wishlist/items/{item.pk}/')
 
     assert response.status_code == 204
 
@@ -211,17 +244,19 @@ def test_edit_wishlist_item(client_admin):
         wishlist = Wishlist.objects.create(user=client_admin.user)
 
     item = WishListItemFactory(wishlist=wishlist)
-    game = GameFactory()
+    platform = Platform.objects.first() or Platform.objects.create(name='PC')
 
     payload = {
         'priority': 2,
         'annotation': 'updated',
         'is_private': False,
         'type': 'P',
+        'platform_id': platform.pk,
+
     }
 
     response = client_admin.patch(
-        f'/api/wishlist/item/{item.pk}/',
+        f'/api/wishlist/items/{item.pk}/',
         payload,
         format='json',
     )
