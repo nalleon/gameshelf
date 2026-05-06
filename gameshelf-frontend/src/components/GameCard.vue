@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="`/game-list/detail/${props.game.slug}`">
+    <router-link :to="`/games/${props.game.slug}`">
         <!-- Contenedor de Imagen -->
         <div class="relative aspect-[3/4] rounded-t-xl overflow-hidden">
             <img :src="game.cover_default" :alt="game.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">

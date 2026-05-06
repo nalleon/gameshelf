@@ -14,11 +14,11 @@ const routes = [
   { path: '/login', component: LoginView },
   { path: '/register', component: RegisterView },
   { 
-    path: '/game-list', 
+    path: '/games', 
     component: GameListView
   },
   {
-    path: '/game-list/detail/:slug',
+    path: '/games/:slug',
     component: GameDetails
   },
   { 

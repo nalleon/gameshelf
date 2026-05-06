@@ -29,7 +29,7 @@
 
             <!-- Botón Game List -->
             <router-link 
-                to="/game-list" 
+                to="/games" 
                 class="text-sm font-semibold uppercase tracking-wider hover:text-gsmenta transition-colors">
                 Colección
             </router-link>
