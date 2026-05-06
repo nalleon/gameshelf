@@ -11,3 +11,5 @@ db.sqlite3
 !/media/avatars/
 /media/avatars/*
 !/media/avatars/default.png
+
+migrations/
