@@ -24,7 +24,8 @@ def test_library_one_to_one_constraint():
     LibraryFactory(user=user)
 
     with pytest.raises(IntegrityError):
-        LibraryFactory(user=user)
+        from libraries.models import Library
+        Library.objects.create(user=user)
 
 
 @pytest.mark.django_db
