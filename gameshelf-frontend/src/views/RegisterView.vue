@@ -86,34 +86,86 @@
 
                     <!-- STEP 2 -->
                     <StepPanel v-slot="{ activateCallback }" :value="2">
-                        <div class="flex flex-col gap-4 mx-auto" style="min-height: 16rem; max-width: 24rem">
-                            <div class="text-center mt-4 mb-4 text-xl font-semibold">Personal Information</div>
 
-                            <input v-model="firstName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2"
-                                placeholder="First Name (Optional)">
-                            <input v-model="lastName" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2"
-                                placeholder="Last Name (Optional)">
+                        <div class="flex flex-col gap-10 mx-auto w-full max-w-5xl px-6">
 
-                            <div class="flex flex-col gap-2 mt-4 text-center">
+                            <!-- TITLE -->
+                            <div class="text-center mt-4 text-xl font-semibold">
+                                Personal Information
+                            </div>
+
+                            <!-- GRID -->
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
+
+                                <!-- IZQUIERDA (MÁS ANCHA) -->
+                                <div class="md:col-span-3 flex flex-col gap-6">
+
+                                    <input v-model="firstName"
+                                        class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-5 py-4 text-base focus:outline-none focus:border-gsmenta transition-all"
+                                        placeholder="First Name (Optional)">
+
+                                    <input v-model="lastName"
+                                        class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-5 py-4 text-base focus:outline-none focus:border-gsmenta transition-all"
+                                        placeholder="Last Name (Optional)">
+
+                                </div>
+
+                                <!-- DERECHA (MÁS PEQUEÑA) -->
+                                <div class="md:col-span-2 flex flex-col items-center justify-center gap-4">
+
+                                    <div class="relative group cursor-pointer">
+
+                                        <div
+                                            class="w-36 h-36 rounded-full bg-[#1a1e26] border border-gsgris/20 overflow-hidden shadow-xl flex items-center justify-center">
+
+                                            <img v-if="avatarPreview" :src="avatarPreview"
+                                                class="w-full h-full object-cover" />
+
+                                            <div v-else class="text-gsgris">
+                                                <i class="pi pi-user text-4xl"></i>
+                                            </div>
+
+                                            <div
+                                                class="absolute inset-0 bg-gsoscuro/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                                                <i class="pi pi-camera text-gsmenta text-xl"></i>
+                                            </div>
+
+                                        </div>
+
+                                        <input type="file" accept="image/*" @change="handleAvatarChange"
+                                            class="absolute inset-0 opacity-0 cursor-pointer" />
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- LOGIN LINK -->
+                            <div class="text-center">
                                 <router-link to="/login" class="text-gsgris hover:text-gsblanco text-sm">
                                     Already have an account? Login
                                 </router-link>
                             </div>
+
                         </div>
 
-                        <div class="flex pt-6 justify-between">
+                        <!-- BOTONES -->
+                        <div class="flex pt-6 justify-between items-center px-6">
+
                             <button @click="activateCallback(1)"
-                                class="flex items-center gap-2 text-gsgris hover:text-gsblanco transition-colors hover:cursor-pointer">
-                                <i class="pi pi-arrow-left" />
+                                class="flex items-center gap-2 text-gsgris hover:text-gsblanco transition-colors">
+                                <i class="pi pi-arrow-left text-lg" />
                             </button>
 
                             <button @click="{ activateCallback(3); submitRegister(); }"
-                                class="bg-gsmenta text-gsoscuro px-6 py-2 rounded-full font-bold hover:cursor-pointer">
+                                class="bg-gsmenta hover:bg-gsbosque transition-all text-gsoscuro px-6 py-2 rounded-full font-bold">
                                 Register
                             </button>
-                        </div>
-                    </StepPanel>
 
+                        </div>
+
+                    </StepPanel>
                     <!-- STEP 3 -->
                     <StepPanel v-slot="{ activateCallback }" :value="3">
                         <div class="flex flex-col gap-2 mx-auto" style="min-height: 16rem; max-width: 24rem">
@@ -170,6 +222,9 @@ const isHiddenPasswordError = ref('invisible')
 
 const numberDictionary = NumberDictionary.generate({ min: 100, max: 9999 });
 
+const avatarFile = ref<File | null>(null)
+const avatarPreview = ref<string | null>(null)
+
 const generateRandomFirstName = () => {
     return uniqueNamesGenerator({
         dictionaries: [adjectives, animals], // Adjetivo + Nombre
@@ -190,20 +245,24 @@ async function apiRegister() {
         lastName.value = String(numberDictionary);
     }
 
-    const payload = {
-        username: username.value,
-        first_name: firstName.value,
-        last_name: lastName.value,
-        email: email.value,
-        password: password.value
+    const formData = new FormData()
+
+    formData.append('username', username.value)
+    formData.append('first_name', firstName.value)
+    formData.append('last_name', lastName.value)
+    formData.append('email', email.value)
+    formData.append('password', password.value)
+
+    if (avatarFile.value) {
+        formData.append('avatar', avatarFile.value)
     }
 
     const headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'multipart/form-data'
     }
 
     try {
-        const response = await axios.post(webhookUrl, payload, { headers })
+        const response = await axios.post(webhookUrl, formData, { headers })
         const data = response.data;
 
         // console.log(data.token)
@@ -246,6 +305,14 @@ function checkFields() {
     }
 
     return true;
+}
+
+function handleAvatarChange(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0]
+    if (!file) return
+
+    avatarFile.value = file
+    avatarPreview.value = URL.createObjectURL(file)
 }
 
 function submitRegister() {
