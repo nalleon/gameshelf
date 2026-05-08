@@ -118,7 +118,7 @@
                                         <div
                                             class="w-36 h-36 rounded-full bg-[#1a1e26] border border-gsgris/20 overflow-hidden shadow-xl flex items-center justify-center">
 
-                                            <img v-if="avatarPreview" :src="avatarPreview"
+                                            <img v-if="croppedImage" :src="croppedImage"
                                                 class="w-full h-full object-cover" />
 
                                             <div v-else class="text-gsgris">
@@ -138,6 +138,7 @@
                                     </div>
 
                                 </div>
+
 
                             </div>
 
@@ -181,6 +182,52 @@
             </Stepper>
         </div>
     </div>
+    <!-- CROPPER MODAL -->
+    <div v-if="showCropper" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+
+        <div
+            class="relative w-full max-w-xl bg-gsoscuro text-gsblanco rounded-2xl shadow-2xl border border-white/8 overflow-hidden">
+
+            <!-- TOP BORDER (igual que cards/login/home) -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta via-gsblanco/70 to-gsbosque"></div>
+
+            <!-- CONTENT -->
+            <div class="p-6">
+
+                <h2 class="text-center text-lg font-semibold mb-6">
+                    Adjust your profile picture
+                </h2>
+
+                <!-- CROPPER -->
+                <div class="flex justify-center">
+
+                    <Cropper ref="cropperRef" :src="rawImage" class="w-full h-80 rounded-xl overflow-hidden"
+                        :stencil-component="CircleStencil" :stencil-props="{
+                            aspectRatio: 1
+                        }" />
+
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="flex justify-between mt-6">
+
+                    <button class="text-gsgris hover:text-gsblanco transition-colors" @click="showCropper = false">
+                        Cancel
+                    </button>
+
+                    <button
+                        class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2 rounded-full font-bold transition-all"
+                        @click="getCroppedImage">
+                        Apply
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -198,7 +245,11 @@ import StepItem from 'primevue/stepitem';
 import Step from 'primevue/step';
 import StepPanel from 'primevue/steppanel';
 import axios from 'axios';
-
+import { Cropper, CircleStencil } from 'vue-advanced-cropper'
+import 'vue-advanced-cropper/dist/style.css'
+const showCropper = ref(false)
+const rawImage = ref<string | null>(null)
+const croppedImage = ref<string | null>(null)
 
 const auth = useAuthStore()
 const activeStep = ref(1);
@@ -224,7 +275,7 @@ const numberDictionary = NumberDictionary.generate({ min: 100, max: 9999 });
 
 const avatarFile = ref<File | null>(null)
 const avatarPreview = ref<string | null>(null)
-
+const cropperRef = ref()
 const generateRandomFirstName = () => {
     return uniqueNamesGenerator({
         dictionaries: [adjectives, animals], // Adjetivo + Nombre
@@ -311,8 +362,23 @@ function handleAvatarChange(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0]
     if (!file) return
 
-    avatarFile.value = file
-    avatarPreview.value = URL.createObjectURL(file)
+    rawImage.value = URL.createObjectURL(file)
+    showCropper.value = true
+}
+
+function getCroppedImage() {
+    const canvas = cropperRef.value.getResult().canvas
+
+    canvas.toBlob((blob: Blob | null) => {
+        if (!blob) return
+
+        const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' })
+
+        avatarFile.value = file
+        croppedImage.value = URL.createObjectURL(file)
+
+        showCropper.value = false
+    }, 'image/jpeg')
 }
 
 function submitRegister() {
