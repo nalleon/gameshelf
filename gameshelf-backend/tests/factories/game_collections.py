@@ -49,7 +49,7 @@ class CollectionItemFactory(factory.django.DjangoModelFactory):
     collection = factory.SubFactory(CollectionFactory)
     game = factory.SubFactory(GameFactory)
     platform = factory.SubFactory(PlatformFactory)
-
+    deleted_at = None
     type = CollectionItem.Type.DIGITAL
     is_private = False
 
@@ -77,7 +77,7 @@ class WishListItemFactory(factory.django.DjangoModelFactory):
     game = factory.SubFactory(GameFactory)
 
     platform = factory.SubFactory(PlatformFactory)
-
+    deleted_at = None
     type = WishListItem.Type.DIGITAL
 
     priority = factory.LazyFunction(lambda: fake.random_int(min=1, max=10))

@@ -63,10 +63,10 @@ def profile_me(request):
 )
 @api_view(['GET'])
 @csrf_exempt
-def profile_wrapper(request, pk_profile: int):
+def profile_wrapper(request):
     match request.method:
         case 'GET':
-            return profile_list(request, pk_profile)
+            return profile_list(request)
 
 
 @csrf_exempt
@@ -386,7 +386,7 @@ def send_verification_email(request):
 
     return Response({'message': 'Verification email sent'})
 
-
+@api_view(['GET'])
 @csrf_exempt
 def verify_email(request, token):
     try:
@@ -463,7 +463,7 @@ def send_activation_email(request):
 
     return Response({'message': 'If account exists, email sent'})
 
-
+@api_view(['GET'])
 @csrf_exempt
 def restore_account(request, token):
     try:
