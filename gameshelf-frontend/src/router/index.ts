@@ -18,7 +18,7 @@ const routes = [
     component: GameListView
   },
   {
-    path: '/games/:slug',
+    path: '/games/:id',
     component: GameDetails
   },
   { 
