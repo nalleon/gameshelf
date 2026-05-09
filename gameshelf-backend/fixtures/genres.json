@@ -1,26 +1,10 @@
 [
     {
         "model": "classifications.genre",
-        "pk": 8,
+        "pk": 14,
         "fields": {
-            "name": "Platform",
-            "slug": "platform"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 9,
-        "fields": {
-            "name": "Puzzle",
-            "slug": "puzzle"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 31,
-        "fields": {
-            "name": "Adventure",
-            "slug": "adventure"
+            "name": "Sport",
+            "slug": "sport"
         }
     },
     {
@@ -29,14 +13,6 @@
         "fields": {
             "name": "Indie",
             "slug": "indie"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 14,
-        "fields": {
-            "name": "Sport",
-            "slug": "sport"
         }
     },
     {
@@ -65,18 +41,34 @@
     },
     {
         "model": "classifications.genre",
-        "pk": 25,
-        "fields": {
-            "name": "Hack and slash/Beat 'em up",
-            "slug": "hack-and-slashbeat-em-up"
-        }
-    },
-    {
-        "model": "classifications.genre",
         "pk": 5,
         "fields": {
             "name": "Shooter",
             "slug": "shooter"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 31,
+        "fields": {
+            "name": "Adventure",
+            "slug": "adventure"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 9,
+        "fields": {
+            "name": "Puzzle",
+            "slug": "puzzle"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 8,
+        "fields": {
+            "name": "Platform",
+            "slug": "platform"
         }
     },
     {
@@ -105,6 +97,22 @@
     },
     {
         "model": "classifications.genre",
+        "pk": 7,
+        "fields": {
+            "name": "Music",
+            "slug": "music"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 2,
+        "fields": {
+            "name": "Point-and-click",
+            "slug": "point-and-click"
+        }
+    },
+    {
+        "model": "classifications.genre",
         "pk": 16,
         "fields": {
             "name": "Turn-based strategy (TBS)",
@@ -121,18 +129,10 @@
     },
     {
         "model": "classifications.genre",
-        "pk": 7,
+        "pk": 25,
         "fields": {
-            "name": "Music",
-            "slug": "music"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 2,
-        "fields": {
-            "name": "Point-and-click",
-            "slug": "point-and-click"
+            "name": "Hack and slash/Beat 'em up",
+            "slug": "hack-and-slashbeat-em-up"
         }
     },
     {
@@ -173,6 +173,14 @@
         "fields": {
             "name": "Tactical",
             "slug": "tactical"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 36,
+        "fields": {
+            "name": "MOBA",
+            "slug": "moba"
         }
     }
 ]

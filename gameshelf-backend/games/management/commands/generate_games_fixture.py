@@ -1,8 +1,9 @@
 import json
 import os
 import time
-from datetime import datetime
 from collections import defaultdict
+from datetime import datetime
+
 import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -13,7 +14,8 @@ class Command(BaseCommand):
     help = 'Generate game fixtures from IGDB with regions and ratings'
 
     BASE_URL = 'https://api.igdb.com/v4'
-
+    TIMEOUT = 30
+    AGE_RATINGS_BATCH_SIZE = 200
     FIXTURE_FILES = {
         'games': 'games.json',
         'genres': 'genres.json',
@@ -24,13 +26,37 @@ class Command(BaseCommand):
     }
 
     RATING_CATEGORIES = {
-        1: 'Three', 2: 'Seven', 3: '12', 4: '16', 5: '18', 6: 'Eighteen',
-        8: 'E', 9: 'E10', 10: 'T', 11: 'M', 12: 'AO', 13: 'Mature',
-        14: 'CERO_A', 15: 'CERO_B', 16: 'CERO_C', 17: 'CERO_D', 18: 'CERO_Z',
-        20: 'USK_0', 21: 'USK_6', 22: 'USK_12', 23: 'USK_16', 24: 'USK_18',
-        28: 'GRAC_Eight', 29: 'GRAC_Twelve', 30: 'GRAC_Sixteen', 31: 'GRAC_Eighteen',
-        32: 'CLASS_IND_18', 33: 'ACB_R18', 34: 'ACB_Mature',
-        35: 'ACB_Restricted', 37: 'ACB_Adults',
+        1: 'Three',
+        2: 'Seven',
+        3: '12',
+        4: '16',
+        5: '18',
+        6: 'Eighteen',
+        8: 'E',
+        9: 'E10',
+        10: 'T',
+        11: 'M',
+        12: 'AO',
+        13: 'Mature',
+        14: 'CERO_A',
+        15: 'CERO_B',
+        16: 'CERO_C',
+        17: 'CERO_D',
+        18: 'CERO_Z',
+        20: 'USK_0',
+        21: 'USK_6',
+        22: 'USK_12',
+        23: 'USK_16',
+        24: 'USK_18',
+        28: 'GRAC_Eight',
+        29: 'GRAC_Twelve',
+        30: 'GRAC_Sixteen',
+        31: 'GRAC_Eighteen',
+        32: 'CLASS_IND_18',
+        33: 'ACB_R18',
+        34: 'ACB_Mature',
+        35: 'ACB_Restricted',
+        37: 'ACB_Adults',
     }
 
     MATURE_THRESHOLDS = {
@@ -45,15 +71,27 @@ class Command(BaseCommand):
     }
 
     REGION_RATINGS = {
-        1: 'PEGI', 2: 'ESRB', 3: 'PEGI', 4: 'PEGI',
-        5: 'CERO', 6: 'GRAC', 7: 'GRAC',
-        8: 'IARC', 9: 'GRAC', 10: 'GRAC',
+        1: 'PEGI',
+        2: 'ESRB',
+        3: 'PEGI',
+        4: 'PEGI',
+        5: 'CERO',
+        6: 'GRAC',
+        7: 'GRAC',
+        8: 'IARC',
+        9: 'GRAC',
+        10: 'GRAC',
     }
 
     ORG_MAP = {
-        1: 'PEGI', 2: 'ESRB', 3: 'CERO',
-        4: 'USK', 5: 'GRAC', 6: 'CLASS_IND',
-        7: 'ACB', 8: 'IARC',
+        1: 'PEGI',
+        2: 'ESRB',
+        3: 'CERO',
+        4: 'USK',
+        5: 'GRAC',
+        6: 'CLASS_IND',
+        7: 'ACB',
+        8: 'IARC',
     }
 
     def add_arguments(self, parser):
@@ -77,9 +115,9 @@ class Command(BaseCommand):
         self.processed_developer_ids = set()
         self.processed_publisher_ids = set()
         self.slug_counter = defaultdict(int)
-        self.used_slugs = set()      
-        self.seen_games = set()  
-        
+        self.used_slugs = set()
+        self.seen_games = set()
+
         self.parent_games = {}
 
         output_dir = os.path.join(settings.BASE_DIR, 'fixtures')
@@ -111,7 +149,7 @@ class Command(BaseCommand):
             'client_secret': settings.IGDB_CLIENT_SECRET,
             'grant_type': 'client_credentials',
         }
-        res = requests.post(url, params=params)
+        res = requests.post(url, params=params, timeout=self.TIMEOUT)
         res.raise_for_status()
         return res.json()['access_token']
 
@@ -142,7 +180,8 @@ class Command(BaseCommand):
             res = requests.post(
                 f'{self.BASE_URL}/games',
                 headers=self.headers,
-                data=query.encode("utf-8")
+                data=query.encode('utf-8'),
+                timeout=self.TIMEOUT,
             )
 
             if res.status_code != 200:
@@ -166,27 +205,60 @@ class Command(BaseCommand):
     # -----------------------
 
     def collect_age_rating_ids(self, games):
-        return list({
-            r['id']
-            for g in games
-            for r in g.get('age_ratings', [])
-            if r.get('id')
-        })
+        return list({r['id'] for g in games for r in g.get('age_ratings', []) if r.get('id')})
+
 
     def fetch_age_ratings(self, ids):
         if not ids:
             return {}
 
-        query = f"""
-            fields id,rating,rating_category,organization;
-            where id = ({','.join(map(str, ids))});
-        """
+        ratings_map = {}
 
-        res = requests.post(f'{self.BASE_URL}/age_ratings', headers=self.headers, data=query)
-        res.raise_for_status()
+        for i in range(0, len(ids), self.AGE_RATINGS_BATCH_SIZE):
+            batch_ids = ids[i : i + self.AGE_RATINGS_BATCH_SIZE]
 
-        return {r['id']: r for r in res.json()}
+            query = f"""
+                fields id,rating,rating_category,organization;
+                where id = ({','.join(map(str, batch_ids))});
+            """
 
+            try:
+                res = requests.post(
+                    f'{self.BASE_URL}/age_ratings',
+                    headers=self.headers,
+                    data=query,
+                    timeout=self.TIMEOUT,
+                )
+
+                if res.status_code != 200:
+                    self.stdout.write(
+                        self.style.WARNING(f'Error fetching age ratings batch {i}: {res.status_code}')
+                    )
+                    self.stdout.write(res.text)
+                    continue
+
+                data = res.json()
+
+                for rating in data:
+                    ratings_map[rating['id']] = rating
+
+                self.stdout.write(
+                    f'Fetched age ratings: {min(i + self.AGE_RATINGS_BATCH_SIZE, len(ids))}/{len(ids)}'
+                )
+
+                time.sleep(0.3)
+
+            except requests.exceptions.Timeout:
+                self.stdout.write(
+                    self.style.WARNING(f'Timeout fetching age ratings batch starting at {i}')
+                )
+
+            except requests.exceptions.RequestException as e:
+                self.stdout.write(
+                    self.style.WARNING(f'Error fetching age ratings batch starting at {i}: {e}')
+                )
+
+        return ratings_map
     # -----------------------
     # PROCESS GAME
     # -----------------------
@@ -195,10 +267,10 @@ class Command(BaseCommand):
         genre_ids = self.get_or_create_genres(g.get('genres', []))
         platform_ids = self.get_or_create_platforms(g.get('platforms', []))
         dev_ids, pub_ids = self.get_or_create_companies(g.get('involved_companies', []))
-        
+
         image_id = g.get('cover', {}).get('image_id')
 
-        base_game_id = g["id"]
+        base_game_id = g['id']
 
         for rd in g.get('release_dates', []):
             ts = rd.get('date')
@@ -209,7 +281,7 @@ class Command(BaseCommand):
             release_region_id = rd.get('release_region')
 
             # -------------------------
-            # AGE RATING 
+            # AGE RATING
             # -------------------------
             rating_value = 'TBA'
             mature = True
@@ -256,7 +328,7 @@ class Command(BaseCommand):
                 parent_pk = self.parent_games[base_game_id]
 
             slug = self.unique_slug(g['name'])
-            
+
             key = (
                 g['name'],
                 released_at,
@@ -264,30 +336,32 @@ class Command(BaseCommand):
             )
 
             if key in self.seen_games:
-                return  
+                return
 
             self.seen_games.add(key)
-            
-            self.fixtures['games'].append({
-                'model': 'games.game',
-                'fields': {
-                    'igdb_id': pk,
-                    'title': g['name'],
-                    'slug': slug,
-                    'description': (g.get('summary') or '')[:500],
-                    'released_at': released_at.isoformat(),
-                    'region': release_region_id,
-                    'parent_game_igdb': parent_pk,
-                    'age_rating': rating_value,
-                    'mature_content': mature,
-                    'cover_default': self.build_cover_url(image_id),
-                    'cover_detail': self.build_cover_url(image_id, 'original'),
-                    'genres': genre_ids,
-                    'platforms': platform_ids,
-                    'developers': dev_ids,
-                    'publishers': pub_ids,
+
+            self.fixtures['games'].append(
+                {
+                    'model': 'games.game',
+                    'fields': {
+                        'igdb_id': pk,
+                        'title': g['name'],
+                        'slug': slug,
+                        'description': (g.get('summary') or '')[:500],
+                        'released_at': released_at.isoformat(),
+                        'region': release_region_id,
+                        'parent_game_igdb': parent_pk,
+                        'age_rating': rating_value,
+                        'mature_content': mature,
+                        'cover_default': self.build_cover_url(image_id),
+                        'cover_detail': self.build_cover_url(image_id, 'original'),
+                        'genres': genre_ids,
+                        'platforms': platform_ids,
+                        'developers': dev_ids,
+                        'publishers': pub_ids,
+                    },
                 }
-            })
+            )
 
     # -----------------------
     # HELPERS
@@ -296,7 +370,7 @@ class Command(BaseCommand):
     def write_fixture(self, path, data):
         with open(path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
-            
+
     def get_or_create_genres(self, genres):
         ids = []
 
@@ -305,14 +379,13 @@ class Command(BaseCommand):
                 continue
 
             if g['id'] not in self.processed_genre_ids:
-                self.fixtures['genres'].append({
-                    'model': 'classifications.genre',
-                    'pk': g['id'],
-                    'fields': {
-                        'name': g['name'],
-                        'slug': self.unique_slug(g['name'])
+                self.fixtures['genres'].append(
+                    {
+                        'model': 'classifications.genre',
+                        'pk': g['id'],
+                        'fields': {'name': g['name'], 'slug': self.unique_slug(g['name'])},
                     }
-                })
+                )
                 self.processed_genre_ids.add(g['id'])
 
             ids.append(g['id'])
@@ -327,20 +400,19 @@ class Command(BaseCommand):
                 continue
 
             if p['id'] not in self.processed_platform_ids:
-                self.fixtures['platforms'].append({
-                    'model': 'classifications.platform',
-                    'pk': p['id'],
-                    'fields': {
-                        'name': p['name'],
-                        'slug': self.unique_slug(p['name'])
+                self.fixtures['platforms'].append(
+                    {
+                        'model': 'classifications.platform',
+                        'pk': p['id'],
+                        'fields': {'name': p['name'], 'slug': self.unique_slug(p['name'])},
                     }
-                })
+                )
                 self.processed_platform_ids.add(p['id'])
 
             ids.append(p['id'])
 
         return ids
-    
+
     def get_or_create_companies(self, companies):
         dev_ids = []
         pub_ids = []
@@ -359,14 +431,13 @@ class Command(BaseCommand):
             # DEVELOPERS
             if comp.get('developer'):
                 if cid not in self.processed_developer_ids:
-                    self.fixtures['developers'].append({
-                        'model': 'classifications.developer',
-                        'pk': cid,
-                        'fields': {
-                            'name': name,
-                            'slug': self.unique_slug(name)
+                    self.fixtures['developers'].append(
+                        {
+                            'model': 'classifications.developer',
+                            'pk': cid,
+                            'fields': {'name': name, 'slug': self.unique_slug(name)},
                         }
-                    })
+                    )
                     self.processed_developer_ids.add(cid)
 
                 dev_ids.append(cid)
@@ -374,14 +445,13 @@ class Command(BaseCommand):
             # PUBLISHERS
             if comp.get('publisher'):
                 if cid not in self.processed_publisher_ids:
-                    self.fixtures['publishers'].append({
-                        'model': 'classifications.publisher',
-                        'pk': cid,
-                        'fields': {
-                            'name': name,
-                            'slug': self.unique_slug(name)
+                    self.fixtures['publishers'].append(
+                        {
+                            'model': 'classifications.publisher',
+                            'pk': cid,
+                            'fields': {'name': name, 'slug': self.unique_slug(name)},
                         }
-                    })
+                    )
                     self.processed_publisher_ids.add(cid)
 
                 pub_ids.append(cid)
@@ -390,26 +460,33 @@ class Command(BaseCommand):
 
     def sync_regions(self):
         query = 'fields id,region; limit 200;'
-        res = requests.post(f'{self.BASE_URL}/release_date_regions', headers=self.headers, data=query)
+        res = requests.post(
+            f'{self.BASE_URL}/release_date_regions',
+            headers=self.headers,
+            data=query,
+            timeout=self.TIMEOUT,
+        )
         res.raise_for_status()
 
         for r in res.json():
-            self.fixtures['regions'].append({
-                'model': 'classifications.region',
-                'pk': r['id'],
-                'fields': {
-                    'name': str(r['region']),
-                    'slug': slugify(str(r['region'])),
-                    'acronym': str(r['region'])[:2].upper(),
-                    'igdb_id': r['id'],
+            self.fixtures['regions'].append(
+                {
+                    'model': 'classifications.region',
+                    'pk': r['id'],
+                    'fields': {
+                        'name': str(r['region']),
+                        'slug': slugify(str(r['region'])),
+                        'acronym': str(r['region'])[:2].upper(),
+                        'igdb_id': r['id'],
+                    },
                 }
-            })
+            )
 
     def build_cover_url(self, image_id, size='cover_big'):
         if not image_id:
             return None
         return f'https://images.igdb.com/igdb/image/upload/t_{size}/{image_id}.jpg'
-        
+
     def unique_slug(self, name):
         base = slugify(name)
         slug = base

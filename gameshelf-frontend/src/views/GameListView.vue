@@ -126,7 +126,7 @@ const loadPage = async (page: number) => {
 }
 
 async function getGames( page : number ) {
-    const webhookUrl = `http://127.0.0.1:8000/api/games/?page=${page}&page_size=15&mature_content=true`
+    const webhookUrl = `http://127.0.0.1:8000/api/games/?page=${page}&page_size=15&mature_content=false`
 
     const response = await axios.get(webhookUrl)
     console.log(response)
