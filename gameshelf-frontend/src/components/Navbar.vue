@@ -59,7 +59,6 @@
             </div>
 
             <!-- LANGUAGE -->
-            <!-- LANGUAGE -->
             <div class="relative">
 
                 <select v-model="selectedLanguage"
@@ -170,8 +169,20 @@
                             Genre
                         </label>
 
-                        <input v-model="filters.genre" type="text" placeholder="RPG..."
+                        <input v-model="genreInput" type="text" placeholder="Press enter..." @keyup.enter="addGenre"
                             class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-3">
+
+                        <div v-for="genre in filters.genres" :key="genre"
+                            class="px-3 py-1 rounded-full bg-gsmenta/20 border border-gsmenta/30 text-xs text-gsmenta flex items-center gap-2">
+                            {{ genre }}
+
+                            <button @click="removeGenre(genre)">
+                                ✕
+                            </button>
+                        </div>
+
                     </div>
 
                     <div>
@@ -183,6 +194,23 @@
                             class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
 
+                    <div>
+                        <label class="block text-sm text-gsgris mb-2">
+                            Region
+                        </label>
+
+                        <input v-model="filters.region" type="text" placeholder="EU..."
+                            class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gsgris mb-2">
+                            Region
+                        </label>
+
+                        <input v-model="filters.region" type="text" placeholder="EU..."
+                            class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                    </div>
                 </div>
 
                 <!-- ACTIONS -->
@@ -219,13 +247,39 @@ const searchQuery = ref('')
 const searchType = ref<'games' | 'users'>('games')
 
 const showFilters = ref(false)
+const genreInput = ref('')
 
 const filters = ref({
     developer: '',
     publisher: '',
-    genre: '',
-    year: ''
+    genres: [] as string[],
+    year: '',
+    region: '',
+    mature_content: false
 })
+
+
+
+function addGenre() {
+
+    const value = genreInput.value.trim()
+
+    if (!value) return
+
+    if (!filters.value.genres.includes(value)) {
+        filters.value.genres.push(value)
+    }
+
+    genreInput.value = ''
+}
+
+function removeGenre(genre: string) {
+
+    filters.value.genres =
+        filters.value.genres.filter(
+            g => g !== genre
+        )
+}
 
 function handleLogout() {
     auth.removeUserSesion()
@@ -254,7 +308,7 @@ function handleSearch() {
             q: searchQuery.value,
             developer: filters.value.developer,
             publisher: filters.value.publisher,
-            genre: filters.value.genre,
+            genres: filters.value.genres,
             year: filters.value.year
         }
     })
@@ -267,10 +321,12 @@ function applyFilters() {
 function resetFilters() {
 
     filters.value = {
-        developer: '',
+    developer: '',
         publisher: '',
-        genre: '',
-        year: ''
+        genres: [] as string[],
+        year: '',
+        region: '',
+        mature_content: false
     }
 }
 </script>

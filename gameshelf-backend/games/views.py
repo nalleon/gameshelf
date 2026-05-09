@@ -39,7 +39,7 @@ from .serializers import (
     UpdateFavoriteSchemaSerializer,
 )
 from .services.igdb import import_games, search_games_by_title
-
+from django.db.models import Q
 User = get_user_model()
 
 
@@ -195,6 +195,192 @@ def _get_int_param(request, name, default):
     except (TypeError, ValueError):
         return default
 
+@extend_schema(
+    methods=['GET'],
+    description='Advanced game search with filters',
+    parameters=[
+
+        OpenApiParameter(
+            name='q',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Search by game title',
+        ),
+
+        OpenApiParameter(
+            name='developer',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Filter by developer name',
+        ),
+
+        OpenApiParameter(
+            name='publisher',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Filter by publisher name',
+        ),
+
+        OpenApiParameter(
+            name='genre',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            many=True,
+            description='Filter by multiple genres',
+            examples=[
+                OpenApiExample(
+                    'Multiple genres',
+                    value=['RPG', 'Action']
+                )
+            ],
+        ),
+
+        OpenApiParameter(
+            name='region',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Filter by region name',
+        ),
+
+        OpenApiParameter(
+            name='year',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Filter by release year',
+        ),
+
+        OpenApiParameter(
+            name='mature_content',
+            type=OpenApiTypes.BOOL,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Include mature games',
+        ),
+
+        OpenApiParameter(
+            name='page',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Page number',
+        ),
+
+        OpenApiParameter(
+            name='page_size',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Results per page',
+        ),
+    ],
+    responses={200: GameSerializer.get_paginated_schema('Game')},
+)
+@api_view(['GET'])
+@csrf_exempt
+def game_search_wrapper(request):
+
+    match request.method:
+        case 'GET':
+            return game_search(request)
+        
+@csrf_exempt
+def game_search(request):
+
+    q = request.GET.get('q')
+    developer = request.GET.get('developer')
+    publisher = request.GET.get('publisher')
+    genres = request.GET.getlist('genre')
+    region = request.GET.get('region')
+    year = request.GET.get('year')
+    mature_content = request.GET.get('mature_content')
+
+    page = _get_int_param(request, 'page', 1)
+    page_size = _get_int_param(request, 'page_size', 15)
+
+    games = Game.objects.all()
+
+    # Mature filter
+    if mature_content is not None:
+
+        mature_content = mature_content.lower() == 'true'
+
+        if not mature_content:
+            games = games.filter(mature_content=False)
+
+    else:
+        games = games.filter(mature_content=False)
+
+    # Search title
+    if q:
+        games = games.filter(
+            Q(title__icontains=q)
+        )
+
+    # Developer
+    if developer:
+        games = games.filter(
+            developers__name__icontains=developer
+        )
+
+    # Publisher
+    if publisher:
+        games = games.filter(
+            publishers__name__icontains=publisher
+        )
+
+    # Genre
+    if genres:
+        genre_query = Q()
+
+        for genre in genres:
+            games = games.filter(
+                genres__name__icontains=genre
+            )
+        games = games.filter(genre_query)
+
+    # Region
+    if region:
+        games = games.filter(
+            region__name__icontains=region
+        )
+
+    # Year
+    if year:
+        games = games.filter(
+            released_at__year=year
+        )
+
+    games = games.distinct()
+
+    total_count = games.count()
+
+    total_pages = ceil(total_count / page_size)
+
+    start = (page - 1) * page_size
+    end = start + page_size
+
+    paginated_games = games[start:end]
+
+    pagination_data = {
+        'results': paginated_games,
+        'count': total_count,
+        'total_pages': total_pages,
+        'current_page': page,
+        'has_next': page < total_pages,
+        'has_previous': page > 1,
+    }
+
+    serializer = GameSerializer([], request=request)
+
+    return Response(
+        serializer.serialize_paginated(pagination_data)
+    )
 
 @extend_schema(
     methods=['GET'],
