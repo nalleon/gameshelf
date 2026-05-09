@@ -78,10 +78,10 @@
             </div>
 
             <!-- BROWSE -->
-            <!-- <router-link to="/games"
+            <router-link to="/games"
                 class="text-sm font-semibold uppercase tracking-[0.15em] hover:text-gsmenta transition-colors">
-                Browse
-            </router-link> -->
+                Browse Games
+            </router-link>
 
             <!-- DIVIDER -->
             <div class="h-7 w-px bg-white/10"></div>
@@ -90,12 +90,12 @@
             <template v-if="auth.isLogged">
 
                 <router-link to="/profile" class="text-sm font-medium hover:text-gsmenta transition-colors">
-                    Mi Perfil
+                    Profile
                 </router-link>
 
                 <button @click="handleLogout"
                     class="text-sm font-medium text-gsgris hover:text-red-400 transition-colors">
-                    Cerrar Sesión
+                    Logout
                 </button>
 
             </template>

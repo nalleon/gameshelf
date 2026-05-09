@@ -26,6 +26,7 @@
     "unique-names-generator": "^4.7.1",
     "vue": "^3.5.29",
     "vue-advanced-cropper": "^2.8.9",
+    "vue-i18n": "^11.4.2",
     "vue-router": "^5.0.3"
   },
   "devDependencies": {

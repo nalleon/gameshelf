@@ -1,0 +1,28 @@
+{
+    "so_games": "Games",
+    "so_users": "Users",
+
+    "search_games": "Search games...",
+    "search_users": "Search users...",
+
+    "search_filters": "Search Filters",
+    "refine_search": "Refine your game search",
+
+    "developer": "Developer",
+    "publisher": "Publisher",
+    "genre": "Genre",
+    "release_year": "Release Year",
+    "region": "Region",
+
+    "press_enter": "Press enter...",
+
+    "mature_content": "Mature Content",
+    "show_mature_games": "Include mature games in search",
+
+    "reset": "Reset",
+    "apply_filters": "Apply Filters",
+
+    "my_profile": "My Profile",
+    "logout": "Logout",
+    "login": "Login"
+}

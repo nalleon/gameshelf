@@ -1,0 +1,28 @@
+{
+    "so_games": "Juegos",
+    "so_users": "Usuarios",
+
+    "search_games": "Buscar juegos...",
+    "search_users": "Buscar usuarios...",
+
+    "search_filters": "Filtros de Búsqueda",
+    "refine_search": "Refina tu búsqueda de juegos",
+
+    "developer": "Desarrollador",
+    "publisher": "Distribuidor",
+    "genre": "Género",
+    "release_year": "Año de Lanzamiento",
+    "region": "Región",
+
+    "press_enter": "Pulsa enter...",
+
+    "mature_content": "Contenido Explícito",
+    "show_mature_games": "Incluir juegos con contenido explícito en la búsqueda",
+
+    "reset": "Reiniciar",
+    "apply_filters": "Aplicar Filtros",
+
+    "my_profile": "Mi Perfil",
+    "logout": "Cerrar Sesión",
+    "login": "Iniciar Sesión"
+}
