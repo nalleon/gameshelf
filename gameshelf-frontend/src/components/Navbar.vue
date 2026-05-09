@@ -1,86 +1,278 @@
 <template>
-    <nav class="bg-gsoscuro text-gsblanco px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-50">
-        
-        <!-- Logo Izquierda -->
-        <router-link to="/" class="flex items-center hover:opacity-80 transition-opacity">
+    <nav
+        class="bg-gsoscuro text-gsblanco px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-50 border-b border-white/5">
+
+        <!-- LOGO -->
+        <router-link :to="auth.isLogged ? '/games' : '/'"
+            class="flex items-center hover:opacity-90 transition-all duration-300">
             <img src="../assets/cover-logo-cut.png" alt="" class="h-10 w-auto object-contain" />
-            
+
             <span class="ml-3 font-bold text-xl tracking-tight hidden md:block">
                 Game<span class="text-gsmenta">Shelf</span>
             </span>
         </router-link>
 
-        <!-- Contenedor Derecha (Buscador + Cuenta) -->
-        <div class="flex items-center gap-4 md:gap-8 flex-1 justify-end">
-        
-            <!-- Buscador de Juegos -->
-            <div class="relative hidden sm:block w-full max-w-xs group">
-                <input 
-                    v-model="searchQuery"
-                    type="text" 
-                    placeholder="Search games..." 
-                    class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta transition-all placeholder-gsgris/60"
-                    @keyup.enter="handleSearch"
-                />
-                <svg xmlns="http://w3.org" class="h-4 w-4 absolute left-3 top-2.5 text-gsgris group-focus-within:text-gsmenta transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+        <!-- RIGHT -->
+        <div class="flex items-center gap-4 md:gap-7 flex-1 justify-end">
+
+            <!-- SEARCH -->
+            <div class="hidden lg:flex items-center gap-3 w-full max-w-3xl">
+
+                <!-- SEARCH TYPE -->
+                <div class="relative">
+
+                    <select v-model="searchType"
+                        class="appearance-none bg-[#161a21] border border-white/8 rounded-2xl px-4 py-2.5 pr-10 text-sm font-medium text-gsblanco focus:outline-none focus:border-gsmenta transition-all">
+                        <option value="games">Games</option>
+                        <option value="users">Users</option>
+                    </select>
+
+                    <i class="pi pi-chevron-down absolute right-3 top-3 text-xs text-gsgris pointer-events-none"></i>
+
+                </div>
+
+                <!-- SEARCH INPUT -->
+                <div class="relative flex-1 group">
+
+                    <input v-model="searchQuery" type="text" :placeholder="searchType === 'games'
+                        ? 'Search games...'
+                        : 'Search users...'"
+                        class="w-full bg-[#161a21] border border-white/8 rounded-2xl py-2.5 pl-11 pr-14 text-sm text-gsblanco placeholder-gsgris/60 focus:outline-none focus:border-gsmenta focus:ring-2 focus:ring-gsmenta/20 transition-all"
+                        @keyup.enter="handleSearch" />
+
+                    <!-- SEARCH ICON -->
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4 absolute left-4 top-[13px] text-gsgris group-focus-within:text-gsmenta transition-colors"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+
+                    <!-- FILTER BUTTON -->
+                    <button v-if="searchType === 'games'" @click="showFilters = true"
+                        class="absolute right-4 top-[10px] text-gsgris hover:text-gsmenta transition-colors">
+                        <i class="pi pi-sliders-h text-sm"></i>
+                    </button>
+
+                </div>
+
             </div>
 
-            <!-- Botón Game List -->
-            <router-link 
-                to="/games" 
-                class="text-sm font-semibold uppercase tracking-wider hover:text-gsmenta transition-colors">
+            <!-- LANGUAGE -->
+            <!-- LANGUAGE -->
+            <div class="relative">
+
+                <select v-model="selectedLanguage"
+                    class="appearance-none bg-[#161a21] border border-white/8 rounded-2xl pl-10 pr-10 py-2.5 text-sm font-bold text-gsblanco focus:outline-none focus:border-gsmenta transition-all">
+                    <option value="en">EN</option>
+                    <option value="es">ES</option>
+                </select>
+
+                <!-- ICON LEFT -->
+                <i
+                    class="pi pi-globe absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gsgris pointer-events-none"></i>
+
+                <!-- ICON RIGHT -->
+                <i
+                    class="pi pi-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gsgris pointer-events-none"></i>
+
+            </div>
+
+            <!-- BROWSE -->
+            <!-- <router-link to="/games"
+                class="text-sm font-semibold uppercase tracking-[0.15em] hover:text-gsmenta transition-colors">
                 Browse
-            </router-link>
+            </router-link> -->
 
-            <!-- Divisor visual -->
-            <div class="h-6 w-px bg-gsgris/30"></div>
+            <!-- DIVIDER -->
+            <div class="h-7 w-px bg-white/10"></div>
 
-            <!-- Cuenta -->
-            
-            <!-- Estado: Autenticado -->
+            <!-- AUTH -->
             <template v-if="auth.isLogged">
-                <router-link to="/profile" class="flex items-center gap-2 hover:text-gsmenta transition-colors font-medium">
+
+                <router-link to="/profile" class="text-sm font-medium hover:text-gsmenta transition-colors">
                     Mi Perfil
                 </router-link>
 
-                <button @click="handleLogout" class="list-none cursor-pointer text-gsgris hover:text-red-400 transition-colors font-medium">
+                <button @click="handleLogout"
+                    class="text-sm font-medium text-gsgris hover:text-red-400 transition-colors">
                     Cerrar Sesión
                 </button>
+
             </template>
 
-            <!-- Estado: No Autenticado -->
             <template v-else>
-                <router-link to="/login" class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95 text-md">
+
+                <router-link to="/login"
+                    class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2.5 rounded-full font-bold transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-gsmenta/10">
                     Login
                 </router-link>
+
             </template>
 
         </div>
     </nav>
+
+    <!-- FILTER MODAL -->
+    <div v-if="showFilters"
+        class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+
+        <div class="relative w-full max-w-xl bg-gsoscuro border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+
+            <!-- TOP BAR -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta via-gsblanco/70 to-gsbosque"></div>
+
+            <div class="p-7">
+
+                <!-- HEADER -->
+                <div class="flex items-center justify-between mb-8">
+
+                    <div>
+                        <h2 class="text-xl font-bold text-gsblanco">
+                            Search Filters
+                        </h2>
+
+                        <p class="text-sm text-gsgris mt-1">
+                            Refine your game search
+                        </p>
+                    </div>
+
+                    <button @click="showFilters = false"
+                        class="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center text-gsgris hover:text-gsblanco">
+                        ✕
+                    </button>
+
+                </div>
+
+                <!-- FIELDS -->
+                <div class="space-y-5">
+
+                    <div>
+                        <label class="block text-sm text-gsgris mb-2">
+                            Developer
+                        </label>
+
+                        <input v-model="filters.developer" type="text" placeholder="Nintendo..."
+                            class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gsgris mb-2">
+                            Publisher
+                        </label>
+
+                        <input v-model="filters.publisher" type="text" placeholder="Sony..."
+                            class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gsgris mb-2">
+                            Genre
+                        </label>
+
+                        <input v-model="filters.genre" type="text" placeholder="RPG..."
+                            class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gsgris mb-2">
+                            Release Year
+                        </label>
+
+                        <input v-model="filters.year" type="number" placeholder="2025"
+                            class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                    </div>
+
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="flex justify-end gap-3 mt-8">
+
+                    <button @click="resetFilters"
+                        class="px-5 py-2.5 rounded-full border border-white/10 text-gsgris hover:bg-white/5 transition-all">
+                        Reset
+                    </button>
+
+                    <button @click="applyFilters"
+                        class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-6 py-2.5 rounded-full font-bold transition-all shadow-lg shadow-gsmenta/10">
+                        Apply Filters
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 </template>
-
 <script setup lang="ts">
-    import {ref} from 'vue'
-    import { useAuthStore } from '@/stores/authStore'
-    import router from '@/router'
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/authStore'
+import router from '@/router'
+import axios from 'axios'
 
-    let searchQuery = ref('')
+const auth = useAuthStore()
 
-    const auth = useAuthStore()
+const searchQuery = ref('')
 
-    function handleLogout() {
-        auth.removeUserSesion()
-        router.replace('/login')
+const searchType = ref<'games' | 'users'>('games')
+
+const showFilters = ref(false)
+
+const filters = ref({
+    developer: '',
+    publisher: '',
+    genre: '',
+    year: ''
+})
+
+function handleLogout() {
+    auth.removeUserSesion()
+    router.replace('/login')
+}
+
+function handleSearch() {
+
+    // USERS
+    if (searchType.value === 'users') {
+
+        router.push({
+            path: '/users',
+            query: {
+                q: searchQuery.value
+            }
+        })
+
+        return
     }
 
-    function handleSearch(){
+    // GAMES
+    router.push({
+        path: '/games',
+        query: {
+            q: searchQuery.value,
+            developer: filters.value.developer,
+            publisher: filters.value.publisher,
+            genre: filters.value.genre,
+            year: filters.value.year
+        }
+    })
+}
+function applyFilters() {
+    showFilters.value = false
+    handleSearch()
+}
 
+function resetFilters() {
+
+    filters.value = {
+        developer: '',
+        publisher: '',
+        genre: '',
+        year: ''
     }
-
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
