@@ -18,7 +18,7 @@
                 <input 
                     v-model="searchQuery"
                     type="text" 
-                    placeholder="Buscar juegos..." 
+                    placeholder="Search games..." 
                     class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta transition-all placeholder-gsgris/60"
                     @keyup.enter="handleSearch"
                 />
@@ -31,11 +31,11 @@
             <router-link 
                 to="/games" 
                 class="text-sm font-semibold uppercase tracking-wider hover:text-gsmenta transition-colors">
-                Colección
+                Browse
             </router-link>
 
             <!-- Divisor visual -->
-            <div class="h-6 w-[1px] bg-gsgris/30"></div>
+            <div class="h-6 w-px bg-gsgris/30"></div>
 
             <!-- Cuenta -->
             
@@ -52,7 +52,7 @@
 
             <!-- Estado: No Autenticado -->
             <template v-else>
-                <router-link to="/login" class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2 rounded-md font-bold transition-all transform hover:scale-105 active:scale-95 text-md">
+                <router-link to="/login" class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95 text-md">
                     Login
                 </router-link>
             </template>

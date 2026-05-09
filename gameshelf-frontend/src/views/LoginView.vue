@@ -1,17 +1,17 @@
 <template>
     <Navbar/>
 
-    <div class="pt-20 h-[92.5vh] bg-gsoscuro/95 flex justify-center items-start px-4">
+    <div class="pt-20 h-[92.5vh] bg-gsoscuro/55 flex justify-center items-start px-4">
         <!-- Tarjeta Principal -->
-        <div class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsgris/20 relative overflow-hidden">
+        <div class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsmenta/10 relative overflow-hidden">
         
             <!-- Detalle estético superior -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gsmenta to-gsbosque"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta to-gsbosque"></div>
 
             <!-- FORMULARIO LOGIN -->
             <form class="flex flex-col text-center" @submit.prevent="submitLogin">
-                <h2 class="text-4xl font-extrabold mb-2 tracking-tight">Wellcome</h2>
-                <p class="text-gsgris text-sm mb-10 font-medium uppercase tracking-widest">Log in to your collection</p>
+                <h2 class="text-4xl font-extrabold mb-2 tracking-tight">Welcome</h2>
+                <p class="text-gsgris text-sm mb-10 font-medium uppercase tracking-widest">Log in to your account</p>
 
                 <!-- Campo Username/Email -->
                 <div class="mb-6 text-left">
@@ -19,7 +19,7 @@
                     <input 
                         v-model="loginField" 
                         class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-4 py-3 mt-1 focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta/50 transition-all placeholder-gsgris/40"
-                        placeholder="collector_01"
+                        placeholder="collector01"
                     >
                     <!-- Error Login Field -->
                     <p :class="isHiddenLoginFieldError" class="text-red-400 text-xs mt-2 ml-1 italic">
@@ -49,7 +49,7 @@
 
                 <!-- Botón Submit -->
                 <button type="submit"
-                    class="bg-gsmenta hover:bg-gsbosque text-gsoscuro font-bold py-3.5 px-6 rounded-xl transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg cursor-pointer uppercase tracking-wider text-sm" 
+                    class="bg-gsmenta hover:bg-gsbosque text-gsoscuro font-bold py-3.5 px-6 rounded-full transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg cursor-pointer uppercase tracking-wider text-sm" 
                 >
                     Login
                 </button>

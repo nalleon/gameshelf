@@ -28,6 +28,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 class LibraryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Library
+        django_get_or_create = ('user',)
 
     user = factory.SubFactory(UserFactory)
     is_private = False
@@ -48,7 +49,12 @@ class LibraryItemFactory(factory.django.DjangoModelFactory):
 
     status = LibraryItem.Status.PLANNING
     is_private = False
-
     hours_played = factory.LazyFunction(
         lambda: fake.pydecimal(left_digits=2, right_digits=1, positive=True)
     )
+
+    @factory.post_generation
+    def attach_platform(self, create, extracted, **kwargs):
+        if not create:
+            return
+        self.game.platforms.add(self.platform)

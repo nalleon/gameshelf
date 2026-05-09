@@ -63,10 +63,10 @@ def profile_me(request):
 )
 @api_view(['GET'])
 @csrf_exempt
-def profile_wrapper(request, pk_profile: int):
+def profile_wrapper(request):
     match request.method:
         case 'GET':
-            return profile_list(request, pk_profile)
+            return profile_list(request)
 
 
 @csrf_exempt
@@ -221,18 +221,18 @@ def search_by_name(request):
 )
 @api_view(['POST'])
 @csrf_exempt
-@require_json_body
-@require_fields('username', 'password', 'email')
+# @require_fields('username', 'password', 'email')
 def user_register(request):
 
-    payload = request.json
+    payload = request.data
 
-    username = payload['username']
-    password = payload['password']
-    email = payload['email']
+    username = payload.get('username')
+    password = payload.get('password')
+    email = payload.get('email')
 
-    first_name = payload.get('first_name')
-    last_name = payload.get('last_name')
+    first_name = payload.get('first_name', '')
+    last_name = payload.get('last_name', '')
+    avatar = request.FILES.get('avatar')
 
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'}, status=400)
@@ -243,12 +243,13 @@ def user_register(request):
     user = User.objects.create_user(
         username=username,
         password=password,
-        first_name=first_name or '',
-        last_name=last_name or '',
+        first_name=first_name,
+        last_name=last_name,
         email=email,
     )
 
-    Profile.objects.create(user=user)
+    Profile.objects.create(user=user, avatar=avatar if avatar else None)
+
     refresh = RefreshToken.for_user(user)
 
     return Response({'token': str(refresh.access_token)}, status=201)
@@ -387,6 +388,7 @@ def send_verification_email(request):
     return Response({'message': 'Verification email sent'})
 
 
+@api_view(['GET'])
 @csrf_exempt
 def verify_email(request, token):
     try:
@@ -464,6 +466,7 @@ def send_activation_email(request):
     return Response({'message': 'If account exists, email sent'})
 
 
+@api_view(['GET'])
 @csrf_exempt
 def restore_account(request, token):
     try:
