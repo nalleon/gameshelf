@@ -12,5 +12,5 @@ db.sqlite3
 /media/avatars/*
 !/media/avatars/default.png
 
-**/migrations/
+**/migrations/*
 !**/migrations/__init__.py
