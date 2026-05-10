@@ -21,7 +21,7 @@ services:
     restart: always
     command: python manage.py rqworker default
     env_file:
-      - ./gameshelf-backend/env
+      - ./gameshelf-backend/.env
     depends_on:
       - redis
       - django
