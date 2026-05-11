@@ -9,7 +9,7 @@
                     <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
                         Catálogo de Juegos
                     </h2>
-                    <span class="text-gsgris text-sm">Mostrando {{ games?.length }} resultados</span>
+                    <!-- <span class="text-gsgris text-sm">Mostrando {{ games?.length }} resultados</span> -->
                 </div>
 
                 <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
@@ -86,15 +86,19 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
+import axios from 'axios';
+
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import type { Game } from '@/types/gameListTypes';
-import { computed, onMounted, ref } from 'vue';
-import axios from 'axios';
 
 
 const games = ref<Game[] | null>([])
 const loading = ref(true)
+const route = useRoute()
 
 // --- VARIABLES DE PAGINACIÓN ---
 const currentPage = ref(1);
@@ -108,6 +112,14 @@ onMounted(async () => {
     await loadPage(1)
     loading.value = false
 });
+
+// Detecta cambios en la URL (filtros, búsqueda, etc.) y recarga la página
+watch(
+    () => route.query,
+    async () => {
+        await loadPage(1)
+    }
+)
 
 const loadPage = async (page: number) => {
     try {
@@ -126,7 +138,45 @@ const loadPage = async (page: number) => {
 }
 
 async function getGames( page : number ) {
-    const webhookUrl = `http://127.0.0.1:8000/api/games/?page=${page}&page_size=15&mature_content=false`
+
+    const params = new URLSearchParams()
+
+    params.append('page', page.toString())
+    params.append('page_size', '15')
+    params.append('mature_content', 'false')
+
+    if (route.query.q) {
+        params.append('q', route.query.q as string)
+    }
+
+    // FILTERS
+    if (route.query.developer) {
+        params.append('developer', route.query.developer as string)
+    }
+
+    if (route.query.publisher) {
+        params.append('publisher', route.query.publisher as string)
+    }
+
+    if (route.query.year) {
+        params.append('year', route.query.year as string)
+    }
+
+    // GENRES
+    if (route.query.genres) {
+
+        const genres = Array.isArray(route.query.genres)
+            ? route.query.genres
+            : [route.query.genres]
+
+        genres.forEach(g => {
+            if (g) {
+                params.append('genres', g)
+            }
+        })
+    }
+
+    const webhookUrl = `http://127.0.0.1:8000/api/games/search/?${params.toString()}`
 
     const response = await axios.get(webhookUrl)
     console.log(response)

@@ -56,26 +56,7 @@
 
                 </div>
 
-            </div>
-
-            <!-- LANGUAGE -->
-            <div class="relative">
-
-                <select v-model="selectedLanguage"
-                    class="appearance-none bg-[#161a21] border border-white/8 rounded-2xl pl-10 pr-10 py-2.5 text-sm font-bold text-gsblanco focus:outline-none focus:border-gsmenta transition-all">
-                    <option value="en">EN</option>
-                    <option value="es">ES</option>
-                </select>
-
-                <!-- ICON LEFT -->
-                <i
-                    class="pi pi-globe absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gsgris pointer-events-none"></i>
-
-                <!-- ICON RIGHT -->
-                <i
-                    class="pi pi-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gsgris pointer-events-none"></i>
-
-            </div>
+            </div> 
 
             <!-- BROWSE -->
             <router-link to="/games"
@@ -122,15 +103,12 @@
             <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta via-gsblanco/70 to-gsbosque"></div>
 
             <div class="p-7">
-
                 <!-- HEADER -->
                 <div class="flex items-center justify-between mb-8">
-
                     <div>
                         <h2 class="text-xl font-bold text-gsblanco">
                             Search Filters
                         </h2>
-
                         <p class="text-sm text-gsgris mt-1">
                             Refine your game search
                         </p>
@@ -140,7 +118,6 @@
                         class="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center text-gsgris hover:text-gsblanco">
                         ✕
                     </button>
-
                 </div>
 
                 <!-- FIELDS -->
@@ -150,7 +127,6 @@
                         <label class="block text-sm text-gsgris mb-2">
                             Developer
                         </label>
-
                         <input v-model="filters.developer" type="text" placeholder="Nintendo..."
                             class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
@@ -159,7 +135,6 @@
                         <label class="block text-sm text-gsgris mb-2">
                             Publisher
                         </label>
-
                         <input v-model="filters.publisher" type="text" placeholder="Sony..."
                             class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
@@ -168,7 +143,6 @@
                         <label class="block text-sm text-gsgris mb-2">
                             Genre
                         </label>
-
                         <input v-model="genreInput" type="text" placeholder="Press enter..." @keyup.enter="addGenre"
                             class="w-full bg-[#161a21] border border-white/8 rounded-2xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
@@ -281,11 +255,6 @@ function removeGenre(genre: string) {
         )
 }
 
-function handleLogout() {
-    auth.removeUserSesion()
-    router.replace('/login')
-}
-
 function handleSearch() {
 
     // USERS
@@ -305,11 +274,11 @@ function handleSearch() {
     router.push({
         path: '/games',
         query: {
-            q: searchQuery.value,
-            developer: filters.value.developer,
-            publisher: filters.value.publisher,
-            genres: filters.value.genres,
-            year: filters.value.year
+            ...(searchQuery.value && { q: searchQuery.value }),
+            ...(filters.value.developer && { developer: filters.value.developer }),
+            ...(filters.value.publisher && { publisher: filters.value.publisher }),
+            ...(filters.value.genres.length > 0 && { genres: filters.value.genres }),
+            ...(filters.value.year && { year: filters.value.year })
         }
     })
 }
@@ -328,6 +297,11 @@ function resetFilters() {
         region: '',
         mature_content: false
     }
+}
+
+function handleLogout() {
+    auth.removeUserSesion()
+    router.replace('/login')
 }
 </script>
 
