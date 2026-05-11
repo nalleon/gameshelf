@@ -87,7 +87,7 @@ def profile_list(request):
         )
     ],
     responses={
-        200: ProfileSerializer,
+        200: LoggedProfileSerializer,
         404: ErrorResponseSerializer,
     },
     description='Get profile detail',
@@ -102,7 +102,7 @@ def profile_list(request):
         },
     ),
     responses={
-        200: ProfileSerializer,
+        200: LoggedProfileSerializer,
         400: ErrorResponseSerializer,
         403: ErrorResponseSerializer,
         404: ErrorResponseSerializer,
@@ -127,7 +127,7 @@ def profile_detail(request, pk_profile: int):
     except Http404:
         return Response({'error': 'Profile not found'}, status=404)
 
-    serializer = ProfileSerializer(profile, request=request)
+    serializer = LoggedProfileSerializer(profile, request=request)
     return serializer.json_response()
 
 
@@ -248,7 +248,11 @@ def user_register(request):
         email=email,
     )
 
-    Profile.objects.create(user=user, avatar=avatar if avatar else None)
+    # Profile.objects.create(user=user, avatar=avatar if avatar else None)
+    if avatar:
+        Profile.objects.create(user=user, avatar=avatar)
+    else:
+        Profile.objects.create(user=user)
 
     refresh = RefreshToken.for_user(user)
 
