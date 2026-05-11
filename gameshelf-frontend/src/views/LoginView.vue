@@ -61,10 +61,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore'
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'
 
 import Navbar from '@/components/Navbar.vue';
 import router from '@/router';
-import axios from 'axios';
 
 
 const auth = useAuthStore()
@@ -93,7 +94,7 @@ async function apiLogin(){
         const response = await axios.post(webhookUrl, payload, { headers })
         const data = response.data;
 
-        // console.log(data.token)
+        console.log(data)
         loginField.value = "";
         password.value = "";
 

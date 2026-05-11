@@ -8,6 +8,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import EditProfile from '@/views/EditProfile.vue';
 import Wishlist from '@/views/Wishlist.vue';
+import UserSearch from '@/views/UserSearch.vue';
 
 const routes = [
   { path: '/', component: HomeView },
@@ -27,13 +28,22 @@ const routes = [
     meta: { requiresAuth: true }
   },
   { 
+    path: '/profile/:id', 
+    component: ProfileView,
+    meta: { requiresAuth: true }
+  },
+  { 
     path: '/profile/edit', 
     component: EditProfile,
     meta: { requiresAuth: true }
   },
   { 
-    path: '/:user_id/wishlist', 
+    path: '/:profile_id/wishlist', 
     component: Wishlist,
+  },
+  { 
+    path: '/users', 
+    component: UserSearch,
   },
 ];
 

@@ -3,3 +3,7 @@ export interface User {
   name: string
   email: string
 }
+
+// export interface JwtPayload {
+//   user_id: number
+// }

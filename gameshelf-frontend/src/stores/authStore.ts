@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { jwtDecode } from 'jwt-decode'
+
 import type { User } from '@/types/authTypes'
 
 interface AuthState {
@@ -29,6 +31,22 @@ export const useAuthStore = defineStore('auth', {
     removeUserSesion() {
       this.token = null
       localStorage.removeItem('token')
+    },
+
+    isOwnProfile(id: number): boolean {
+      if (!this.token) return false
+
+      try {
+        const decoded = jwtDecode<{ user_id: string | number }>(this.token)
+
+        const tokenUserId = Number(decoded.user_id)
+
+        return tokenUserId === id
+
+      } catch (e) {
+        console.error("Token no válido", e)
+        return false
+      }
     }
   }
 })
