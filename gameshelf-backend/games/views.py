@@ -295,10 +295,12 @@ def game_search(request):
     q = request.GET.get('q')
     developer = request.GET.get('developer')
     publisher = request.GET.get('publisher')
-    genres = request.GET.getlist('genre')
+    genres = request.GET.getlist('genres')
     region = request.GET.get('region')
     year = request.GET.get('year')
     mature_content = request.GET.get('mature_content')
+    
+    print("GENRES:", genres)  # 👈 AQUÍ
 
     page = _get_int_param(request, 'page', 1)
     page_size = _get_int_param(request, 'page_size', 15)
@@ -336,13 +338,15 @@ def game_search(request):
 
     # Genre
     if genres:
-        genre_query = Q()
+
+        # genre_query = Q()
 
         for genre in genres:
             games = games.filter(
                 genres__name__icontains=genre
             )
-        games = games.filter(genre_query)
+
+        # games = games.filter(genre_query)
 
     # Region
     if region:
