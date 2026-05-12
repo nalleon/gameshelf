@@ -1,29 +1,37 @@
-FROM python:3.12-slim
+FROM python:3.14-slim
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PATH="/app/.venv/bin:$PATH"
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    gcc \
+    g++ \
     libpq-dev \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install uv gunicorn
+COPY gameshelf-backend/pyproject.toml .
+COPY gameshelf-backend/uv.lock .
 
-# Copiar backend
-COPY gameshelf-backend/ /app/
+RUN uv sync --frozen --no-dev
 
-# Instalar dependencias
-RUN uv pip install --system .
+COPY gameshelf-backend/ .
 
-RUN mkdir -p /app/staticfiles
+RUN mkdir -p /app/staticfiles /app/media
 
-# Entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+RUN adduser --disabled-password --gecos "" django_user && \
+    chown -R django_user:django_user /app
+
+USER django_user
 
 EXPOSE 8000
 
