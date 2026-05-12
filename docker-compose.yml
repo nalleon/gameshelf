@@ -6,11 +6,16 @@ services:
     restart: always
     env_file:
       - ./gameshelf-backend/.env
+
+    user: "1000:1000"
+
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
+
     expose:
       - 8000
+
     depends_on:
       - redis
 
@@ -22,6 +27,7 @@ services:
     command: python manage.py rqworker default
     env_file:
       - ./gameshelf-backend/.env
+    user: "1000:1000"
     depends_on:
       - redis
       - django

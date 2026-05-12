@@ -22,8 +22,12 @@ COPY gameshelf-backend/ .
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-RUN adduser --disabled-password --gecos "" django_user \
-    && chown -R django_user:django_user /app
+
+RUN adduser --disabled-password --gecos "" django_user
+
+RUN mkdir -p /app/staticfiles /app/media
+
+RUN chown -R django_user:django_user /app
 
 USER django_user
 
