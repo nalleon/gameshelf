@@ -1,0 +1,23 @@
+* {
+  text-align: justify;
+}
+
+.img-dark {
+  display: none;
+} 
+
+[data-md-color-scheme="slate"] .img-light {
+  display: none;
+}
+
+[data-md-color-scheme="default"] .img-dark {
+  display: none;
+}
+
+[data-md-color-scheme="slate"] .img-dark {
+  display: inline;
+}
+ 
+.caption-center {
+  text-align: center;
+}

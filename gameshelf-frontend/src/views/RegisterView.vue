@@ -276,6 +276,7 @@ const numberDictionary = NumberDictionary.generate({ min: 100, max: 9999 });
 const avatarFile = ref<File | null>(null)
 const avatarPreview = ref<string | null>(null)
 const cropperRef = ref()
+
 const generateRandomFirstName = () => {
     return uniqueNamesGenerator({
         dictionaries: [adjectives, animals], // Adjetivo + Nombre
@@ -283,7 +284,6 @@ const generateRandomFirstName = () => {
         style: 'capital', // Para que sea AdjetivoNombre123
     });
 };
-
 
 async function apiRegister() {
     const webhookUrl = 'http://127.0.0.1:8000/api/auth/register/'

@@ -7,5 +7,5 @@ from . import views
 urlpatterns = [
     path('', views.library_wrapper, name='library-wrapper'),
     path('<int:pk_item>/', views.library_detail_wrapper, name='library-detail-wrapper'),
-    path('users/<int:pk_user>/', views.get_library, name='library-user'),
+    path('user/<int:pk_user>/', views.get_library, name='library-user'),
 ]

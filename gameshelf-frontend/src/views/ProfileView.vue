@@ -30,7 +30,9 @@
                         </div>
                     </div>
 
-                    <router-link to="/profile/edit"
+                    <router-link 
+                        v-if="isOwnProfile"
+                        to="/profile/edit"
                         class="mb-2 px-6 py-2 border border-gsmenta text-gsmenta rounded-full hover:bg-gsmenta hover:text-gsoscuro transition-all duration-300 font-semibold">
                         Editar Perfil
                     </router-link>
@@ -41,24 +43,25 @@
         <!-- Stats Bar -->
         <section class="bg-[#161a21] border-y border-gsgris/10 py-8" v-if="profile">
             <div class="max-w-5xl mx-auto px-6 flex justify-around md:justify-center md:gap-24">
-                <div class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.collections?.length
-                        ?? 0 }}</span>
+                <router-link :to="`/collections/${profile.user.id}`" class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.collections?.length ?? 0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Collections</span>
-                </div>
-                <div class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{
-                        profile.user.library.items?.length ?? 0 }}</span>
+                </router-link>
+                <router-link :to="`/library/${profile.user.id}`" class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.library.items?.length ?? 0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Library</span>
-                </div>
-                <div class="text-center border-x border-gsgris/20 px-10 md:border-none">
+                </router-link>
+                <router-link :to="`/favorites/${profile.user.id}`" class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.favorites?.length ?? 0 }}</span>
+                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Favorites</span>
+                </router-link>
+                <router-link :to="`/wishlist/${profile.user.wishlist.id}`" class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.wishlist.items?.length ?? 0 }}</span>
+                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Wishlist</span>
+                </router-link>
+                <router-link :to="`/completed/${profile.user.wishlist.id}`" class="text-center">
                     <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ completed }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Completed</span>
-                </div>
-                <router-link :to="`/${profile.id}/wishlist`" class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{
-                        profile.user.wishlist.items?.length ?? 0 }}</span>
-                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Wishlist</span>
                 </router-link>
             </div>
         </section>
@@ -99,28 +102,86 @@
 </template>
 
 <script setup lang="ts">
-import Navbar from '@/components/Navbar.vue';
-import { computed, onMounted, ref } from 'vue';
-import { useAuthStore } from '@/stores/authStore';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router'
+import axios from 'axios';
+
 import type { Profile } from '@/types/profileTypes';
+import { useAuthStore } from '@/stores/authStore';
+import Navbar from '@/components/Navbar.vue';
 import Badge from '@/components/Badge.vue';
 import GameCard from '@/components/GameCard.vue';
-import axios from 'axios';
 
 const authStore = useAuthStore()
 const profile = ref<Profile | null>(null);
 const loading = ref(true)
 
-onMounted(async () => {
+const route = useRoute()
+
+const isOwnProfile = computed(() => {
+
+    if (!route.params.id) return true
+
+    return authStore.isOwnProfile(
+        Number(route.params.id)
+    )
+})
+
+watch(
+    () => route.params.id,
+    fetchProfile,
+    { immediate: true } // Hace inecesario un onMounted
+)
+
+
+// onMounted(async () => {
+//     try {
+//         const data = await apiProfileMe()
+//         profile.value = data
+//     } catch (error) {
+//         console.error('Error cargando el perfil:', error)
+//     } finally {
+//         loading.value = false
+//     }
+// });
+
+async function fetchProfile() {
+
+    loading.value = true
+
     try {
-        const data = await apiProfileMe()
+
+        // MI PERFIL
+        if (!route.params.id) {
+
+            const data = await apiProfileMe()
+            profile.value = data
+
+            return
+        }
+
+        // PERFIL PUBLICO
+        const data = await apiProfileById(route.params.id as string)
         profile.value = data
+
     } catch (error) {
-        console.error('Error cargando el perfil:', error)
+
+        console.error(error)
+
     } finally {
+
         loading.value = false
     }
-});
+}
+
+async function apiProfileById(id: string) {
+
+    const response = await axios.get(
+        `http://127.0.0.1:8000/api/users/${id}/`
+    )
+
+    return response.data
+}
 
 const fullName = computed(() => {
     const first = profile.value?.user.first_name?.trim()

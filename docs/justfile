@@ -1,7 +1,6 @@
 # Serve the Zensical site locally
 runserver:
-    uv run zensical serve
-
+    uv run python -m zensical serve
 # Setup the development environment
 @setup:
     uv sync

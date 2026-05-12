@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'django_rq',
     'colorfield',
+    'seeders.apps.SeedersConfig',
 ]
 
 MIDDLEWARE = [
