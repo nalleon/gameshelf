@@ -12,6 +12,7 @@ db.sqlite3
 /media/avatars/*
 /media/reviews/*
 !/media/avatars/default.png
+/fixtures/*
 
 **/migrations/*
 !**/migrations/__init__.py
