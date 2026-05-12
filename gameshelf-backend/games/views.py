@@ -896,17 +896,18 @@ def delete_review_media(request, pk_media: int):
 @api_view(['GET', 'POST'])
 @csrf_exempt
 @auth_required
-def favorites_wrapper(request):
+def favorites_wrapper(request, user_pk):
     match request.method:
         case 'POST':
-            return add_favorite_item(request)
+            return add_favorite_item(request, user_pk)
         case 'GET':
-            return favorite_item_list(request)
+            return favorite_item_list(request, user_pk)
 
 
 @csrf_exempt
-def favorite_item_list(request):
-    favorite_items = request.user.favorites.all()
+def favorite_item_list(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
+    favorite_items = user.favorites.all()
     serializer = FavoriteItemSerializer(favorite_items, request=request)
     return serializer.json_response()
 
@@ -915,7 +916,7 @@ def favorite_item_list(request):
 @require_json_body
 @require_fields('pk_game', 'pk_platform')
 @auth_required
-def add_favorite_item(request):
+def add_favorite_item(request, user_pk):
 
     payload = request.json
     pk_game = payload['pk_game']
