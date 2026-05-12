@@ -1,0 +1,2532 @@
+[
+    {
+        "model": "game_collections.collection",
+        "pk": 100,
+        "fields": {
+            "user": 1,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966197+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 200,
+        "fields": {
+            "user": 2,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966250+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 201,
+        "fields": {
+            "user": 2,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966294+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 300,
+        "fields": {
+            "user": 3,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966318+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 301,
+        "fields": {
+            "user": 3,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966359+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 302,
+        "fields": {
+            "user": 3,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966378+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 400,
+        "fields": {
+            "user": 4,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966416+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 401,
+        "fields": {
+            "user": 4,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966434+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 500,
+        "fields": {
+            "user": 5,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966456+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 501,
+        "fields": {
+            "user": 5,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966495+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 502,
+        "fields": {
+            "user": 5,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966517+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 600,
+        "fields": {
+            "user": 6,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966564+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 700,
+        "fields": {
+            "user": 7,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966595+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 701,
+        "fields": {
+            "user": 7,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966607+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 702,
+        "fields": {
+            "user": 7,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966630+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 800,
+        "fields": {
+            "user": 8,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966672+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 801,
+        "fields": {
+            "user": 8,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966706+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 802,
+        "fields": {
+            "user": 8,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966744+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 900,
+        "fields": {
+            "user": 9,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966776+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 901,
+        "fields": {
+            "user": 9,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966823+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 902,
+        "fields": {
+            "user": 9,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966854+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1000,
+        "fields": {
+            "user": 10,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966868+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1001,
+        "fields": {
+            "user": 10,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966903+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1100,
+        "fields": {
+            "user": 11,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966947+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1101,
+        "fields": {
+            "user": 11,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.966978+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1102,
+        "fields": {
+            "user": 11,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967014+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1103,
+        "fields": {
+            "user": 11,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967037+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1200,
+        "fields": {
+            "user": 12,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967060+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1201,
+        "fields": {
+            "user": 12,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967100+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1202,
+        "fields": {
+            "user": 12,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967142+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1203,
+        "fields": {
+            "user": 12,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967162+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1300,
+        "fields": {
+            "user": 13,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967178+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1301,
+        "fields": {
+            "user": 13,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967211+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1302,
+        "fields": {
+            "user": 13,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967230+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1303,
+        "fields": {
+            "user": 13,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967275+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1400,
+        "fields": {
+            "user": 14,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967314+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1500,
+        "fields": {
+            "user": 15,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967344+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1501,
+        "fields": {
+            "user": 15,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967354+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1600,
+        "fields": {
+            "user": 16,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967378+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1601,
+        "fields": {
+            "user": 16,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967422+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1602,
+        "fields": {
+            "user": 16,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967434+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1603,
+        "fields": {
+            "user": 16,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967445+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1700,
+        "fields": {
+            "user": 17,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967487+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1800,
+        "fields": {
+            "user": 18,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967499+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1801,
+        "fields": {
+            "user": 18,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967520+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1802,
+        "fields": {
+            "user": 18,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967533+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1900,
+        "fields": {
+            "user": 19,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967570+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1901,
+        "fields": {
+            "user": 19,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967600+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 1902,
+        "fields": {
+            "user": 19,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967635+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2000,
+        "fields": {
+            "user": 20,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967658+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2100,
+        "fields": {
+            "user": 21,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967693+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2101,
+        "fields": {
+            "user": 21,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967715+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2102,
+        "fields": {
+            "user": 21,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967751+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2103,
+        "fields": {
+            "user": 21,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967790+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2200,
+        "fields": {
+            "user": 22,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967836+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2201,
+        "fields": {
+            "user": 22,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967850+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2300,
+        "fields": {
+            "user": 23,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967878+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2400,
+        "fields": {
+            "user": 24,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.967918+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2401,
+        "fields": {
+            "user": 24,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967935+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2402,
+        "fields": {
+            "user": 24,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.967960+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2500,
+        "fields": {
+            "user": 25,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968003+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2501,
+        "fields": {
+            "user": 25,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968040+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2600,
+        "fields": {
+            "user": 26,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968081+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2601,
+        "fields": {
+            "user": 26,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968129+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2602,
+        "fields": {
+            "user": 26,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968152+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2603,
+        "fields": {
+            "user": 26,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968192+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2700,
+        "fields": {
+            "user": 27,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968230+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2800,
+        "fields": {
+            "user": 28,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968255+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 2900,
+        "fields": {
+            "user": 29,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968294+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3000,
+        "fields": {
+            "user": 30,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968325+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3001,
+        "fields": {
+            "user": 30,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968337+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3002,
+        "fields": {
+            "user": 30,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968488+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3003,
+        "fields": {
+            "user": 30,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968523+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3100,
+        "fields": {
+            "user": 31,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968569+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3200,
+        "fields": {
+            "user": 32,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968581+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3201,
+        "fields": {
+            "user": 32,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968596+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3300,
+        "fields": {
+            "user": 33,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968635+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3301,
+        "fields": {
+            "user": 33,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968682+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3302,
+        "fields": {
+            "user": 33,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968694+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3400,
+        "fields": {
+            "user": 34,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968721+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3500,
+        "fields": {
+            "user": 35,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968755+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3501,
+        "fields": {
+            "user": 35,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968792+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3600,
+        "fields": {
+            "user": 36,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968808+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3601,
+        "fields": {
+            "user": 36,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.968855+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3602,
+        "fields": {
+            "user": 36,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968893+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3700,
+        "fields": {
+            "user": 37,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968932+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3701,
+        "fields": {
+            "user": 37,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.968978+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3702,
+        "fields": {
+            "user": 37,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969004+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3800,
+        "fields": {
+            "user": 38,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969034+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3801,
+        "fields": {
+            "user": 38,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969056+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3900,
+        "fields": {
+            "user": 39,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969081+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 3901,
+        "fields": {
+            "user": 39,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969114+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4000,
+        "fields": {
+            "user": 40,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969154+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4001,
+        "fields": {
+            "user": 40,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969169+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4002,
+        "fields": {
+            "user": 40,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969201+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4003,
+        "fields": {
+            "user": 40,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969239+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4100,
+        "fields": {
+            "user": 41,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969276+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4101,
+        "fields": {
+            "user": 41,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969305+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4102,
+        "fields": {
+            "user": 41,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969339+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4103,
+        "fields": {
+            "user": 41,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969381+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4200,
+        "fields": {
+            "user": 42,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969411+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4201,
+        "fields": {
+            "user": 42,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969435+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4300,
+        "fields": {
+            "user": 43,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969464+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4301,
+        "fields": {
+            "user": 43,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969478+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4302,
+        "fields": {
+            "user": 43,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969500+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4400,
+        "fields": {
+            "user": 44,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969535+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4500,
+        "fields": {
+            "user": 45,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969578+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4501,
+        "fields": {
+            "user": 45,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969594+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4502,
+        "fields": {
+            "user": 45,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969618+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4600,
+        "fields": {
+            "user": 46,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969652+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4601,
+        "fields": {
+            "user": 46,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969677+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4602,
+        "fields": {
+            "user": 46,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969724+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4700,
+        "fields": {
+            "user": 47,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969772+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4701,
+        "fields": {
+            "user": 47,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969808+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4800,
+        "fields": {
+            "user": 48,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969838+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4801,
+        "fields": {
+            "user": 48,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969864+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4802,
+        "fields": {
+            "user": 48,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969895+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4803,
+        "fields": {
+            "user": 48,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969914+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4900,
+        "fields": {
+            "user": 49,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969939+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4901,
+        "fields": {
+            "user": 49,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.969983+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 4902,
+        "fields": {
+            "user": 49,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.969997+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5000,
+        "fields": {
+            "user": 50,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970034+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5001,
+        "fields": {
+            "user": 50,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970059+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5002,
+        "fields": {
+            "user": 50,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970085+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5003,
+        "fields": {
+            "user": 50,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970105+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5100,
+        "fields": {
+            "user": 51,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970149+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5101,
+        "fields": {
+            "user": 51,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970173+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5200,
+        "fields": {
+            "user": 52,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970210+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5201,
+        "fields": {
+            "user": 52,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970223+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5300,
+        "fields": {
+            "user": 53,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970246+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5301,
+        "fields": {
+            "user": 53,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970288+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5302,
+        "fields": {
+            "user": 53,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970324+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5400,
+        "fields": {
+            "user": 54,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970343+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5401,
+        "fields": {
+            "user": 54,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970357+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5402,
+        "fields": {
+            "user": 54,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970384+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5403,
+        "fields": {
+            "user": 54,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970422+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5500,
+        "fields": {
+            "user": 55,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970444+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5501,
+        "fields": {
+            "user": 55,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970477+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5502,
+        "fields": {
+            "user": 55,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970487+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5503,
+        "fields": {
+            "user": 55,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970515+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5600,
+        "fields": {
+            "user": 56,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970531+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5601,
+        "fields": {
+            "user": 56,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970567+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5602,
+        "fields": {
+            "user": 56,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970591+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5700,
+        "fields": {
+            "user": 57,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970625+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5701,
+        "fields": {
+            "user": 57,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970646+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5800,
+        "fields": {
+            "user": 58,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970688+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5801,
+        "fields": {
+            "user": 58,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970703+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5900,
+        "fields": {
+            "user": 59,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970741+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 5901,
+        "fields": {
+            "user": 59,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.970781+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6000,
+        "fields": {
+            "user": 60,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970822+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6001,
+        "fields": {
+            "user": 60,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970836+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6002,
+        "fields": {
+            "user": 60,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970872+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6100,
+        "fields": {
+            "user": 61,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970897+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6101,
+        "fields": {
+            "user": 61,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970930+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6200,
+        "fields": {
+            "user": 62,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970948+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6201,
+        "fields": {
+            "user": 62,
+            "name": "Backlog",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970961+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6202,
+        "fields": {
+            "user": 62,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.970992+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6300,
+        "fields": {
+            "user": 63,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971033+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6301,
+        "fields": {
+            "user": 63,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971072+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6400,
+        "fields": {
+            "user": 64,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971088+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6401,
+        "fields": {
+            "user": 64,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971099+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6402,
+        "fields": {
+            "user": 64,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971121+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6500,
+        "fields": {
+            "user": 65,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971146+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6501,
+        "fields": {
+            "user": 65,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971184+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6502,
+        "fields": {
+            "user": 65,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971196+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6503,
+        "fields": {
+            "user": 65,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971230+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6600,
+        "fields": {
+            "user": 66,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971272+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6601,
+        "fields": {
+            "user": 66,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971284+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6700,
+        "fields": {
+            "user": 67,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971400+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6701,
+        "fields": {
+            "user": 67,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971435+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6702,
+        "fields": {
+            "user": 67,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971455+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6703,
+        "fields": {
+            "user": 67,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971489+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6800,
+        "fields": {
+            "user": 68,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971512+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6801,
+        "fields": {
+            "user": 68,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971526+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6802,
+        "fields": {
+            "user": 68,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971539+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6900,
+        "fields": {
+            "user": 69,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971570+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 6901,
+        "fields": {
+            "user": 69,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971595+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7000,
+        "fields": {
+            "user": 70,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971629+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7001,
+        "fields": {
+            "user": 70,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971659+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7002,
+        "fields": {
+            "user": 70,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971700+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7003,
+        "fields": {
+            "user": 70,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971729+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7100,
+        "fields": {
+            "user": 71,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971743+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7101,
+        "fields": {
+            "user": 71,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971768+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7102,
+        "fields": {
+            "user": 71,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971801+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7200,
+        "fields": {
+            "user": 72,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971842+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7300,
+        "fields": {
+            "user": 73,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971878+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7301,
+        "fields": {
+            "user": 73,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971911+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7302,
+        "fields": {
+            "user": 73,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.971940+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7303,
+        "fields": {
+            "user": 73,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971963+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7400,
+        "fields": {
+            "user": 74,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.971981+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7500,
+        "fields": {
+            "user": 75,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972073+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7501,
+        "fields": {
+            "user": 75,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972136+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7600,
+        "fields": {
+            "user": 76,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972185+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7601,
+        "fields": {
+            "user": 76,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972200+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7602,
+        "fields": {
+            "user": 76,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972243+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7603,
+        "fields": {
+            "user": 76,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972264+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7700,
+        "fields": {
+            "user": 77,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972285+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7800,
+        "fields": {
+            "user": 78,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972303+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7900,
+        "fields": {
+            "user": 79,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972321+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7901,
+        "fields": {
+            "user": 79,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972367+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 7902,
+        "fields": {
+            "user": 79,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972396+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8000,
+        "fields": {
+            "user": 80,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972414+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8001,
+        "fields": {
+            "user": 80,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972447+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8100,
+        "fields": {
+            "user": 81,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972478+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8101,
+        "fields": {
+            "user": 81,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972509+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8200,
+        "fields": {
+            "user": 82,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972552+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8201,
+        "fields": {
+            "user": 82,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972573+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8202,
+        "fields": {
+            "user": 82,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972615+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8203,
+        "fields": {
+            "user": 82,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972659+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8300,
+        "fields": {
+            "user": 83,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972694+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8400,
+        "fields": {
+            "user": 84,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972733+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8500,
+        "fields": {
+            "user": 85,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972777+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8600,
+        "fields": {
+            "user": 86,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972797+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8601,
+        "fields": {
+            "user": 86,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972826+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8700,
+        "fields": {
+            "user": 87,
+            "name": "Indie Gems",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972858+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8701,
+        "fields": {
+            "user": 87,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972880+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8702,
+        "fields": {
+            "user": 87,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972899+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8703,
+        "fields": {
+            "user": 87,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.972923+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8800,
+        "fields": {
+            "user": 88,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972958+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8801,
+        "fields": {
+            "user": 88,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.972971+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8900,
+        "fields": {
+            "user": 89,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973005+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 8901,
+        "fields": {
+            "user": 89,
+            "name": "Physical Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973023+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9000,
+        "fields": {
+            "user": 90,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973059+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9001,
+        "fields": {
+            "user": 90,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973106+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9002,
+        "fields": {
+            "user": 90,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973154+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9003,
+        "fields": {
+            "user": 90,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973180+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9100,
+        "fields": {
+            "user": 91,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973212+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9101,
+        "fields": {
+            "user": 91,
+            "name": "Favorites",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973231+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9102,
+        "fields": {
+            "user": 91,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973249+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9103,
+        "fields": {
+            "user": 91,
+            "name": "JRPG Masterpieces",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973281+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9200,
+        "fields": {
+            "user": 92,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973299+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9201,
+        "fields": {
+            "user": 92,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973327+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9300,
+        "fields": {
+            "user": 93,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973365+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9301,
+        "fields": {
+            "user": 93,
+            "name": "Physical Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973388+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9302,
+        "fields": {
+            "user": 93,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973408+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9303,
+        "fields": {
+            "user": 93,
+            "name": "Completed Games",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973423+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9400,
+        "fields": {
+            "user": 94,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973455+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9500,
+        "fields": {
+            "user": 95,
+            "name": "Digital Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973486+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9600,
+        "fields": {
+            "user": 96,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973522+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9601,
+        "fields": {
+            "user": 96,
+            "name": "Multiplayer",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973559+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9602,
+        "fields": {
+            "user": 96,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973601+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9603,
+        "fields": {
+            "user": 96,
+            "name": "Retro Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973637+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9700,
+        "fields": {
+            "user": 97,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973676+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9701,
+        "fields": {
+            "user": 97,
+            "name": "Multiplayer",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973702+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9702,
+        "fields": {
+            "user": 97,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973749+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9703,
+        "fields": {
+            "user": 97,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973768+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9800,
+        "fields": {
+            "user": 98,
+            "name": "Indie Gems",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973823+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9801,
+        "fields": {
+            "user": 98,
+            "name": "Digital Collection",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973895+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9802,
+        "fields": {
+            "user": 98,
+            "name": "Retro Collection",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.973925+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9900,
+        "fields": {
+            "user": 99,
+            "name": "Favorites",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.973973+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9901,
+        "fields": {
+            "user": 99,
+            "name": "Backlog",
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.974012+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 9902,
+        "fields": {
+            "user": 99,
+            "name": "JRPG Masterpieces",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.974059+00:00"
+        }
+    },
+    {
+        "model": "game_collections.collection",
+        "pk": 10000,
+        "fields": {
+            "user": 100,
+            "name": "Completed Games",
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.974099+00:00"
+        }
+    }
+]

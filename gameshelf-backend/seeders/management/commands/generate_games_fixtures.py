@@ -327,16 +327,18 @@ class Command(BaseCommand):
             else:
                 parent_pk = self.parent_games[base_game_id]
 
+            normalized_title = g['name'].strip().lower()
+
             slug = self.unique_slug(g['name'])
 
             key = (
-                g['name'],
-                released_at,
-                release_region_id,
+                normalized_title,
+                released_at.isoformat(),
+                release_region_id or 0,
             )
 
             if key in self.seen_games:
-                return
+                continue
 
             self.seen_games.add(key)
 

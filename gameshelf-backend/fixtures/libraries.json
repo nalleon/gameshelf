@@ -1,0 +1,1002 @@
+[
+    {
+        "model": "libraries.library",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.933652+00:00",
+            "updated_at": "2026-05-12T13:06:55.933658+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.934202+00:00",
+            "updated_at": "2026-05-12T13:06:55.934205+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.934589+00:00",
+            "updated_at": "2026-05-12T13:06:55.934591+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 4,
+        "fields": {
+            "user": 4,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.935056+00:00",
+            "updated_at": "2026-05-12T13:06:55.935058+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 5,
+        "fields": {
+            "user": 5,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.935413+00:00",
+            "updated_at": "2026-05-12T13:06:55.935415+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 6,
+        "fields": {
+            "user": 6,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.935793+00:00",
+            "updated_at": "2026-05-12T13:06:55.935796+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 7,
+        "fields": {
+            "user": 7,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.936180+00:00",
+            "updated_at": "2026-05-12T13:06:55.936182+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 8,
+        "fields": {
+            "user": 8,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.936588+00:00",
+            "updated_at": "2026-05-12T13:06:55.936589+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 9,
+        "fields": {
+            "user": 9,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.936939+00:00",
+            "updated_at": "2026-05-12T13:06:55.936940+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 10,
+        "fields": {
+            "user": 10,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.937264+00:00",
+            "updated_at": "2026-05-12T13:06:55.937265+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 11,
+        "fields": {
+            "user": 11,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.937608+00:00",
+            "updated_at": "2026-05-12T13:06:55.937610+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 12,
+        "fields": {
+            "user": 12,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.937951+00:00",
+            "updated_at": "2026-05-12T13:06:55.937954+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 13,
+        "fields": {
+            "user": 13,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.938429+00:00",
+            "updated_at": "2026-05-12T13:06:55.938431+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 14,
+        "fields": {
+            "user": 14,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.938684+00:00",
+            "updated_at": "2026-05-12T13:06:55.938685+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 15,
+        "fields": {
+            "user": 15,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.939011+00:00",
+            "updated_at": "2026-05-12T13:06:55.939013+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 16,
+        "fields": {
+            "user": 16,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.939321+00:00",
+            "updated_at": "2026-05-12T13:06:55.939322+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 17,
+        "fields": {
+            "user": 17,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.939627+00:00",
+            "updated_at": "2026-05-12T13:06:55.939629+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 18,
+        "fields": {
+            "user": 18,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.939910+00:00",
+            "updated_at": "2026-05-12T13:06:55.939911+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 19,
+        "fields": {
+            "user": 19,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.940238+00:00",
+            "updated_at": "2026-05-12T13:06:55.940240+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 20,
+        "fields": {
+            "user": 20,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.940616+00:00",
+            "updated_at": "2026-05-12T13:06:55.940618+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 21,
+        "fields": {
+            "user": 21,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.940882+00:00",
+            "updated_at": "2026-05-12T13:06:55.940883+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 22,
+        "fields": {
+            "user": 22,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.941221+00:00",
+            "updated_at": "2026-05-12T13:06:55.941222+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 23,
+        "fields": {
+            "user": 23,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.941725+00:00",
+            "updated_at": "2026-05-12T13:06:55.941727+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 24,
+        "fields": {
+            "user": 24,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.942068+00:00",
+            "updated_at": "2026-05-12T13:06:55.942070+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 25,
+        "fields": {
+            "user": 25,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.942375+00:00",
+            "updated_at": "2026-05-12T13:06:55.942377+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 26,
+        "fields": {
+            "user": 26,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.942702+00:00",
+            "updated_at": "2026-05-12T13:06:55.942703+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 27,
+        "fields": {
+            "user": 27,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.943077+00:00",
+            "updated_at": "2026-05-12T13:06:55.943079+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 28,
+        "fields": {
+            "user": 28,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.943375+00:00",
+            "updated_at": "2026-05-12T13:06:55.943377+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 29,
+        "fields": {
+            "user": 29,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.943720+00:00",
+            "updated_at": "2026-05-12T13:06:55.943721+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 30,
+        "fields": {
+            "user": 30,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.944030+00:00",
+            "updated_at": "2026-05-12T13:06:55.944032+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 31,
+        "fields": {
+            "user": 31,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.944331+00:00",
+            "updated_at": "2026-05-12T13:06:55.944332+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 32,
+        "fields": {
+            "user": 32,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.944532+00:00",
+            "updated_at": "2026-05-12T13:06:55.944534+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 33,
+        "fields": {
+            "user": 33,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.944899+00:00",
+            "updated_at": "2026-05-12T13:06:55.944901+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 34,
+        "fields": {
+            "user": 34,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.945148+00:00",
+            "updated_at": "2026-05-12T13:06:55.945150+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 35,
+        "fields": {
+            "user": 35,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.945504+00:00",
+            "updated_at": "2026-05-12T13:06:55.945506+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 36,
+        "fields": {
+            "user": 36,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.945793+00:00",
+            "updated_at": "2026-05-12T13:06:55.945796+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 37,
+        "fields": {
+            "user": 37,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.946154+00:00",
+            "updated_at": "2026-05-12T13:06:55.946156+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 38,
+        "fields": {
+            "user": 38,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.946470+00:00",
+            "updated_at": "2026-05-12T13:06:55.946471+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 39,
+        "fields": {
+            "user": 39,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.946691+00:00",
+            "updated_at": "2026-05-12T13:06:55.946692+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 40,
+        "fields": {
+            "user": 40,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.946986+00:00",
+            "updated_at": "2026-05-12T13:06:55.946987+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 41,
+        "fields": {
+            "user": 41,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.947274+00:00",
+            "updated_at": "2026-05-12T13:06:55.947275+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 42,
+        "fields": {
+            "user": 42,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.947686+00:00",
+            "updated_at": "2026-05-12T13:06:55.947688+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 43,
+        "fields": {
+            "user": 43,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.947956+00:00",
+            "updated_at": "2026-05-12T13:06:55.947958+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 44,
+        "fields": {
+            "user": 44,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.948239+00:00",
+            "updated_at": "2026-05-12T13:06:55.948240+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 45,
+        "fields": {
+            "user": 45,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.948589+00:00",
+            "updated_at": "2026-05-12T13:06:55.948591+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 46,
+        "fields": {
+            "user": 46,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.949041+00:00",
+            "updated_at": "2026-05-12T13:06:55.949043+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 47,
+        "fields": {
+            "user": 47,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.949318+00:00",
+            "updated_at": "2026-05-12T13:06:55.949319+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 48,
+        "fields": {
+            "user": 48,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.949502+00:00",
+            "updated_at": "2026-05-12T13:06:55.949503+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 49,
+        "fields": {
+            "user": 49,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.949753+00:00",
+            "updated_at": "2026-05-12T13:06:55.949755+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 50,
+        "fields": {
+            "user": 50,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.950125+00:00",
+            "updated_at": "2026-05-12T13:06:55.950128+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 51,
+        "fields": {
+            "user": 51,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.950477+00:00",
+            "updated_at": "2026-05-12T13:06:55.950478+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 52,
+        "fields": {
+            "user": 52,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.950733+00:00",
+            "updated_at": "2026-05-12T13:06:55.950734+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 53,
+        "fields": {
+            "user": 53,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.950909+00:00",
+            "updated_at": "2026-05-12T13:06:55.950911+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 54,
+        "fields": {
+            "user": 54,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.951214+00:00",
+            "updated_at": "2026-05-12T13:06:55.951217+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 55,
+        "fields": {
+            "user": 55,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.951518+00:00",
+            "updated_at": "2026-05-12T13:06:55.951520+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 56,
+        "fields": {
+            "user": 56,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.951904+00:00",
+            "updated_at": "2026-05-12T13:06:55.951906+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 57,
+        "fields": {
+            "user": 57,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.952274+00:00",
+            "updated_at": "2026-05-12T13:06:55.952276+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 58,
+        "fields": {
+            "user": 58,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.952542+00:00",
+            "updated_at": "2026-05-12T13:06:55.952543+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 59,
+        "fields": {
+            "user": 59,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.952925+00:00",
+            "updated_at": "2026-05-12T13:06:55.952927+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 60,
+        "fields": {
+            "user": 60,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.953424+00:00",
+            "updated_at": "2026-05-12T13:06:55.953426+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 61,
+        "fields": {
+            "user": 61,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.953736+00:00",
+            "updated_at": "2026-05-12T13:06:55.953738+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 62,
+        "fields": {
+            "user": 62,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.953990+00:00",
+            "updated_at": "2026-05-12T13:06:55.953992+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 63,
+        "fields": {
+            "user": 63,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.954324+00:00",
+            "updated_at": "2026-05-12T13:06:55.954326+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 64,
+        "fields": {
+            "user": 64,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.954608+00:00",
+            "updated_at": "2026-05-12T13:06:55.954609+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 65,
+        "fields": {
+            "user": 65,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.954941+00:00",
+            "updated_at": "2026-05-12T13:06:55.954943+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 66,
+        "fields": {
+            "user": 66,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.955263+00:00",
+            "updated_at": "2026-05-12T13:06:55.955264+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 67,
+        "fields": {
+            "user": 67,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.955582+00:00",
+            "updated_at": "2026-05-12T13:06:55.955583+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 68,
+        "fields": {
+            "user": 68,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.955911+00:00",
+            "updated_at": "2026-05-12T13:06:55.955912+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 69,
+        "fields": {
+            "user": 69,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.956220+00:00",
+            "updated_at": "2026-05-12T13:06:55.956222+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 70,
+        "fields": {
+            "user": 70,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.956620+00:00",
+            "updated_at": "2026-05-12T13:06:55.956621+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 71,
+        "fields": {
+            "user": 71,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.956924+00:00",
+            "updated_at": "2026-05-12T13:06:55.956926+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 72,
+        "fields": {
+            "user": 72,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.957228+00:00",
+            "updated_at": "2026-05-12T13:06:55.957229+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 73,
+        "fields": {
+            "user": 73,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.957554+00:00",
+            "updated_at": "2026-05-12T13:06:55.957556+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 74,
+        "fields": {
+            "user": 74,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.957883+00:00",
+            "updated_at": "2026-05-12T13:06:55.957885+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 75,
+        "fields": {
+            "user": 75,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.958152+00:00",
+            "updated_at": "2026-05-12T13:06:55.958154+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 76,
+        "fields": {
+            "user": 76,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.958458+00:00",
+            "updated_at": "2026-05-12T13:06:55.958460+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 77,
+        "fields": {
+            "user": 77,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.958737+00:00",
+            "updated_at": "2026-05-12T13:06:55.958739+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 78,
+        "fields": {
+            "user": 78,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.959056+00:00",
+            "updated_at": "2026-05-12T13:06:55.959058+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 79,
+        "fields": {
+            "user": 79,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.959322+00:00",
+            "updated_at": "2026-05-12T13:06:55.959323+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 80,
+        "fields": {
+            "user": 80,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.959612+00:00",
+            "updated_at": "2026-05-12T13:06:55.959613+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 81,
+        "fields": {
+            "user": 81,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.959906+00:00",
+            "updated_at": "2026-05-12T13:06:55.959908+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 82,
+        "fields": {
+            "user": 82,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.960350+00:00",
+            "updated_at": "2026-05-12T13:06:55.960351+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 83,
+        "fields": {
+            "user": 83,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.960565+00:00",
+            "updated_at": "2026-05-12T13:06:55.960566+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 84,
+        "fields": {
+            "user": 84,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.960786+00:00",
+            "updated_at": "2026-05-12T13:06:55.960787+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 85,
+        "fields": {
+            "user": 85,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.961061+00:00",
+            "updated_at": "2026-05-12T13:06:55.961062+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 86,
+        "fields": {
+            "user": 86,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.961445+00:00",
+            "updated_at": "2026-05-12T13:06:55.961448+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 87,
+        "fields": {
+            "user": 87,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.961868+00:00",
+            "updated_at": "2026-05-12T13:06:55.961869+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 88,
+        "fields": {
+            "user": 88,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.962197+00:00",
+            "updated_at": "2026-05-12T13:06:55.962199+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 89,
+        "fields": {
+            "user": 89,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.962420+00:00",
+            "updated_at": "2026-05-12T13:06:55.962421+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 90,
+        "fields": {
+            "user": 90,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.962681+00:00",
+            "updated_at": "2026-05-12T13:06:55.962682+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 91,
+        "fields": {
+            "user": 91,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.962938+00:00",
+            "updated_at": "2026-05-12T13:06:55.962939+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 92,
+        "fields": {
+            "user": 92,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.963351+00:00",
+            "updated_at": "2026-05-12T13:06:55.963352+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 93,
+        "fields": {
+            "user": 93,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.963734+00:00",
+            "updated_at": "2026-05-12T13:06:55.963735+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 94,
+        "fields": {
+            "user": 94,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.963968+00:00",
+            "updated_at": "2026-05-12T13:06:55.963969+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 95,
+        "fields": {
+            "user": 95,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.964293+00:00",
+            "updated_at": "2026-05-12T13:06:55.964295+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 96,
+        "fields": {
+            "user": 96,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.964603+00:00",
+            "updated_at": "2026-05-12T13:06:55.964604+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 97,
+        "fields": {
+            "user": 97,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.964960+00:00",
+            "updated_at": "2026-05-12T13:06:55.964961+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 98,
+        "fields": {
+            "user": 98,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.965382+00:00",
+            "updated_at": "2026-05-12T13:06:55.965383+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 99,
+        "fields": {
+            "user": 99,
+            "is_private": true,
+            "created_at": "2026-05-12T13:06:55.965685+00:00",
+            "updated_at": "2026-05-12T13:06:55.965687+00:00"
+        }
+    },
+    {
+        "model": "libraries.library",
+        "pk": 100,
+        "fields": {
+            "user": 100,
+            "is_private": false,
+            "created_at": "2026-05-12T13:06:55.966049+00:00",
+            "updated_at": "2026-05-12T13:06:55.966051+00:00"
+        }
+    }
+]

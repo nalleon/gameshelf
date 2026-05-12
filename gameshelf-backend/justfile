@@ -223,23 +223,36 @@ dump-data:
 
     echo "Data dumped into fixtures/*.json"
 
-# Load fixtures into database
+# Generate fixtures and load into db
 [group('data')]
-load-data:
+seed:
     #!/usr/bin/env bash
     set -e
 
-    echo "Loading classifications..."
+    echo "1/3 Generating game fixtures..."
+    uv run manage.py generate_games_fixtures --limit 500
+
+    echo "2/3 Loading base fixtures..."
     uv run manage.py loaddata fixtures/genres.json
     uv run manage.py loaddata fixtures/platforms.json
     uv run manage.py loaddata fixtures/regions.json
     uv run manage.py loaddata fixtures/developers.json
     uv run manage.py loaddata fixtures/publishers.json
-
-    echo "Loading games..."
     uv run manage.py loaddata fixtures/games.json
 
-    echo "Fixtures loaded"
+    echo "3/3 Generating and loading social fixtures..."
+    uv run manage.py generate_social_fixtures --users 100
+
+    uv run manage.py loaddata fixtures/users.json
+    uv run manage.py loaddata fixtures/profiles.json
+    uv run manage.py loaddata fixtures/libraries.json
+    uv run manage.py loaddata fixtures/library_items.json
+    uv run manage.py loaddata fixtures/collections.json
+    uv run manage.py loaddata fixtures/collection_items.json
+    uv run manage.py loaddata fixtures/wishlists.json
+    uv run manage.py loaddata fixtures/wishlist_items.json
+
+    echo "DONE"
 
 [group('testing')]
 coverage: 
