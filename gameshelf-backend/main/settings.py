@@ -209,7 +209,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5175",
     "http://127.0.0.1:5175",
-    "gameshelf.arkania.es",
+    "http://gameshelf.arkania.es",
+    "https://gameshelf.arkania.es",
 ]
 CORS_ALLOW_METHODS = [
     'DELETE',

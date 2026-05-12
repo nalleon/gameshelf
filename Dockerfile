@@ -23,6 +23,8 @@ RUN uv sync --frozen --no-dev
 
 COPY gameshelf-backend/ .
 
+RUN uv run python manage.py collectstatic --noinput
+
 RUN adduser --disabled-password --gecos "" django_user \
     && mkdir -p /app/staticfiles /app/media \
     && chown -R django_user:django_user /app \
