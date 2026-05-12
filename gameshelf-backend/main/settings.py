@@ -17,6 +17,7 @@ from prettyconf import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+SITE_URL = 'http://gameshelf.arkania.es'
 
 
 # Quick-start development settings - unsuitable for production
@@ -208,6 +209,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5175",
     "http://127.0.0.1:5175",
+    "gameshelf.arkania.es",
 ]
 CORS_ALLOW_METHODS = [
     'DELETE',

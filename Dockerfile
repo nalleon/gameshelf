@@ -23,7 +23,9 @@ RUN uv sync --frozen --no-dev
 
 COPY gameshelf-backend/ .
 
-RUN mkdir -p /app/staticfiles /app/media
+RUN mkdir -p /app/staticfiles /app/media && \
+    chown -R django_user:django_user /app && \
+    chmod -R 755 /app/staticfiles /app/media
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
