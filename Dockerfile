@@ -23,15 +23,14 @@ RUN uv sync --frozen --no-dev
 
 COPY gameshelf-backend/ .
 
-RUN mkdir -p /app/staticfiles /app/media && \
-    chown -R django_user:django_user /app && \
-    chmod -R 755 /app/staticfiles /app/media
+RUN adduser --disabled-password --gecos "" django_user \
+    && mkdir -p /app/staticfiles /app/media \
+    && chown -R django_user:django_user /app \
+    && chmod -R 755 /app/staticfiles /app/media
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-RUN adduser --disabled-password --gecos "" django_user && \
-    chown -R django_user:django_user /app
 
 USER django_user
 
