@@ -1,0 +1,4002 @@
+[
+    {
+        "model": "game_collections.wishlist",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.203765+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.203796+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.203824+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 4,
+        "fields": {
+            "user": 4,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.203850+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 5,
+        "fields": {
+            "user": 5,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.203893+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 6,
+        "fields": {
+            "user": 6,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.203916+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 7,
+        "fields": {
+            "user": 7,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.203953+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 8,
+        "fields": {
+            "user": 8,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.203998+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 9,
+        "fields": {
+            "user": 9,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204021+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 10,
+        "fields": {
+            "user": 10,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204060+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 11,
+        "fields": {
+            "user": 11,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204091+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 12,
+        "fields": {
+            "user": 12,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204119+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 13,
+        "fields": {
+            "user": 13,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204145+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 14,
+        "fields": {
+            "user": 14,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204178+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 15,
+        "fields": {
+            "user": 15,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204220+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 16,
+        "fields": {
+            "user": 16,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204245+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 17,
+        "fields": {
+            "user": 17,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204277+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 18,
+        "fields": {
+            "user": 18,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204310+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 19,
+        "fields": {
+            "user": 19,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204341+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 20,
+        "fields": {
+            "user": 20,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204389+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 21,
+        "fields": {
+            "user": 21,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204425+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 22,
+        "fields": {
+            "user": 22,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204453+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 23,
+        "fields": {
+            "user": 23,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204477+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 24,
+        "fields": {
+            "user": 24,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204510+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 25,
+        "fields": {
+            "user": 25,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204532+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 26,
+        "fields": {
+            "user": 26,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204579+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 27,
+        "fields": {
+            "user": 27,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204594+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 28,
+        "fields": {
+            "user": 28,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204619+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 29,
+        "fields": {
+            "user": 29,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204658+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 30,
+        "fields": {
+            "user": 30,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204684+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 31,
+        "fields": {
+            "user": 31,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204720+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 32,
+        "fields": {
+            "user": 32,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204743+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 33,
+        "fields": {
+            "user": 33,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204769+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 34,
+        "fields": {
+            "user": 34,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204816+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 35,
+        "fields": {
+            "user": 35,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204859+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 36,
+        "fields": {
+            "user": 36,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204902+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 37,
+        "fields": {
+            "user": 37,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204943+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 38,
+        "fields": {
+            "user": 38,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.204971+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 39,
+        "fields": {
+            "user": 39,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.204989+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 40,
+        "fields": {
+            "user": 40,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205031+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 41,
+        "fields": {
+            "user": 41,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205188+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 42,
+        "fields": {
+            "user": 42,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205211+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 43,
+        "fields": {
+            "user": 43,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205250+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 44,
+        "fields": {
+            "user": 44,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205269+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 45,
+        "fields": {
+            "user": 45,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205313+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 46,
+        "fields": {
+            "user": 46,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205347+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 47,
+        "fields": {
+            "user": 47,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205380+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 48,
+        "fields": {
+            "user": 48,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205398+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 49,
+        "fields": {
+            "user": 49,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205432+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 50,
+        "fields": {
+            "user": 50,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205460+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 51,
+        "fields": {
+            "user": 51,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205498+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 52,
+        "fields": {
+            "user": 52,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205549+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 53,
+        "fields": {
+            "user": 53,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205567+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 54,
+        "fields": {
+            "user": 54,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205615+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 55,
+        "fields": {
+            "user": 55,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205658+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 56,
+        "fields": {
+            "user": 56,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205698+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 57,
+        "fields": {
+            "user": 57,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205743+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 58,
+        "fields": {
+            "user": 58,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205769+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 59,
+        "fields": {
+            "user": 59,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205790+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 60,
+        "fields": {
+            "user": 60,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205835+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 61,
+        "fields": {
+            "user": 61,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.205865+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 62,
+        "fields": {
+            "user": 62,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205905+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 63,
+        "fields": {
+            "user": 63,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205937+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 64,
+        "fields": {
+            "user": 64,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.205970+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 65,
+        "fields": {
+            "user": 65,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206002+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 66,
+        "fields": {
+            "user": 66,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206035+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 67,
+        "fields": {
+            "user": 67,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206071+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 68,
+        "fields": {
+            "user": 68,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206095+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 69,
+        "fields": {
+            "user": 69,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206128+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 70,
+        "fields": {
+            "user": 70,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206143+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 71,
+        "fields": {
+            "user": 71,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206157+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 72,
+        "fields": {
+            "user": 72,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206184+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 73,
+        "fields": {
+            "user": 73,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206219+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 74,
+        "fields": {
+            "user": 74,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206234+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 75,
+        "fields": {
+            "user": 75,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206257+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 76,
+        "fields": {
+            "user": 76,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206292+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 77,
+        "fields": {
+            "user": 77,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206312+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 78,
+        "fields": {
+            "user": 78,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206352+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 79,
+        "fields": {
+            "user": 79,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206388+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 80,
+        "fields": {
+            "user": 80,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206426+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 81,
+        "fields": {
+            "user": 81,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206472+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 82,
+        "fields": {
+            "user": 82,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206504+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 83,
+        "fields": {
+            "user": 83,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206539+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 84,
+        "fields": {
+            "user": 84,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206564+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 85,
+        "fields": {
+            "user": 85,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206582+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 86,
+        "fields": {
+            "user": 86,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206607+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 87,
+        "fields": {
+            "user": 87,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206658+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 88,
+        "fields": {
+            "user": 88,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206703+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 89,
+        "fields": {
+            "user": 89,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206728+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 90,
+        "fields": {
+            "user": 90,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206769+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 91,
+        "fields": {
+            "user": 91,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206787+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 92,
+        "fields": {
+            "user": 92,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206820+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 93,
+        "fields": {
+            "user": 93,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206851+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 94,
+        "fields": {
+            "user": 94,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206894+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 95,
+        "fields": {
+            "user": 95,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206918+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 96,
+        "fields": {
+            "user": 96,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.206958+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 97,
+        "fields": {
+            "user": 97,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.206996+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 98,
+        "fields": {
+            "user": 98,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207040+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 99,
+        "fields": {
+            "user": 99,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207063+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 100,
+        "fields": {
+            "user": 100,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207082+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 101,
+        "fields": {
+            "user": 101,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207105+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 102,
+        "fields": {
+            "user": 102,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207148+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 103,
+        "fields": {
+            "user": 103,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207191+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 104,
+        "fields": {
+            "user": 104,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207212+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 105,
+        "fields": {
+            "user": 105,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207234+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 106,
+        "fields": {
+            "user": 106,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207270+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 107,
+        "fields": {
+            "user": 107,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207311+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 108,
+        "fields": {
+            "user": 108,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207340+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 109,
+        "fields": {
+            "user": 109,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207384+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 110,
+        "fields": {
+            "user": 110,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207424+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 111,
+        "fields": {
+            "user": 111,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207457+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 112,
+        "fields": {
+            "user": 112,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207502+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 113,
+        "fields": {
+            "user": 113,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207520+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 114,
+        "fields": {
+            "user": 114,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207549+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 115,
+        "fields": {
+            "user": 115,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207586+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 116,
+        "fields": {
+            "user": 116,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207625+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 117,
+        "fields": {
+            "user": 117,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207656+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 118,
+        "fields": {
+            "user": 118,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207675+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 119,
+        "fields": {
+            "user": 119,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207708+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 120,
+        "fields": {
+            "user": 120,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207783+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 121,
+        "fields": {
+            "user": 121,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207828+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 122,
+        "fields": {
+            "user": 122,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207866+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 123,
+        "fields": {
+            "user": 123,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207908+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 124,
+        "fields": {
+            "user": 124,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.207949+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 125,
+        "fields": {
+            "user": 125,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.207977+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 126,
+        "fields": {
+            "user": 126,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208027+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 127,
+        "fields": {
+            "user": 127,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208080+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 128,
+        "fields": {
+            "user": 128,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208107+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 129,
+        "fields": {
+            "user": 129,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208158+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 130,
+        "fields": {
+            "user": 130,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.208280+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 131,
+        "fields": {
+            "user": 131,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.208314+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 132,
+        "fields": {
+            "user": 132,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208364+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 133,
+        "fields": {
+            "user": 133,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208401+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 134,
+        "fields": {
+            "user": 134,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.208440+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 135,
+        "fields": {
+            "user": 135,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.208466+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 136,
+        "fields": {
+            "user": 136,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.208498+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 137,
+        "fields": {
+            "user": 137,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.208524+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 138,
+        "fields": {
+            "user": 138,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208590+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 139,
+        "fields": {
+            "user": 139,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208682+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 140,
+        "fields": {
+            "user": 140,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.208754+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 141,
+        "fields": {
+            "user": 141,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.208862+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 142,
+        "fields": {
+            "user": 142,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.208967+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 143,
+        "fields": {
+            "user": 143,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209061+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 144,
+        "fields": {
+            "user": 144,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209095+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 145,
+        "fields": {
+            "user": 145,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209133+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 146,
+        "fields": {
+            "user": 146,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209215+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 147,
+        "fields": {
+            "user": 147,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209262+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 148,
+        "fields": {
+            "user": 148,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209335+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 149,
+        "fields": {
+            "user": 149,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209382+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 150,
+        "fields": {
+            "user": 150,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209447+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 151,
+        "fields": {
+            "user": 151,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209510+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 152,
+        "fields": {
+            "user": 152,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209567+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 153,
+        "fields": {
+            "user": 153,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209605+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 154,
+        "fields": {
+            "user": 154,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209627+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 155,
+        "fields": {
+            "user": 155,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209661+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 156,
+        "fields": {
+            "user": 156,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209681+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 157,
+        "fields": {
+            "user": 157,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209699+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 158,
+        "fields": {
+            "user": 158,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209724+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 159,
+        "fields": {
+            "user": 159,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209758+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 160,
+        "fields": {
+            "user": 160,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209778+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 161,
+        "fields": {
+            "user": 161,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209820+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 162,
+        "fields": {
+            "user": 162,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209858+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 163,
+        "fields": {
+            "user": 163,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209883+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 164,
+        "fields": {
+            "user": 164,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209930+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 165,
+        "fields": {
+            "user": 165,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.209956+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 166,
+        "fields": {
+            "user": 166,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.209997+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 167,
+        "fields": {
+            "user": 167,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210019+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 168,
+        "fields": {
+            "user": 168,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210037+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 169,
+        "fields": {
+            "user": 169,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210069+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 170,
+        "fields": {
+            "user": 170,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210102+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 171,
+        "fields": {
+            "user": 171,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210137+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 172,
+        "fields": {
+            "user": 172,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210180+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 173,
+        "fields": {
+            "user": 173,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210208+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 174,
+        "fields": {
+            "user": 174,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210245+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 175,
+        "fields": {
+            "user": 175,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210283+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 176,
+        "fields": {
+            "user": 176,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210323+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 177,
+        "fields": {
+            "user": 177,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210344+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 178,
+        "fields": {
+            "user": 178,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210390+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 179,
+        "fields": {
+            "user": 179,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210448+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 180,
+        "fields": {
+            "user": 180,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210464+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 181,
+        "fields": {
+            "user": 181,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210490+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 182,
+        "fields": {
+            "user": 182,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210514+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 183,
+        "fields": {
+            "user": 183,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210536+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 184,
+        "fields": {
+            "user": 184,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210554+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 185,
+        "fields": {
+            "user": 185,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210579+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 186,
+        "fields": {
+            "user": 186,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210615+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 187,
+        "fields": {
+            "user": 187,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210659+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 188,
+        "fields": {
+            "user": 188,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210703+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 189,
+        "fields": {
+            "user": 189,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210743+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 190,
+        "fields": {
+            "user": 190,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210787+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 191,
+        "fields": {
+            "user": 191,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.210829+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 192,
+        "fields": {
+            "user": 192,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210868+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 193,
+        "fields": {
+            "user": 193,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210890+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 194,
+        "fields": {
+            "user": 194,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210934+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 195,
+        "fields": {
+            "user": 195,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210952+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 196,
+        "fields": {
+            "user": 196,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.210991+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 197,
+        "fields": {
+            "user": 197,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211043+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 198,
+        "fields": {
+            "user": 198,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211087+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 199,
+        "fields": {
+            "user": 199,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211104+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 200,
+        "fields": {
+            "user": 200,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211142+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 201,
+        "fields": {
+            "user": 201,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211164+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 202,
+        "fields": {
+            "user": 202,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211190+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 203,
+        "fields": {
+            "user": 203,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211231+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 204,
+        "fields": {
+            "user": 204,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211273+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 205,
+        "fields": {
+            "user": 205,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211312+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 206,
+        "fields": {
+            "user": 206,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211333+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 207,
+        "fields": {
+            "user": 207,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211383+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 208,
+        "fields": {
+            "user": 208,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211421+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 209,
+        "fields": {
+            "user": 209,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211450+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 210,
+        "fields": {
+            "user": 210,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211486+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 211,
+        "fields": {
+            "user": 211,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211516+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 212,
+        "fields": {
+            "user": 212,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211554+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 213,
+        "fields": {
+            "user": 213,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211588+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 214,
+        "fields": {
+            "user": 214,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211612+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 215,
+        "fields": {
+            "user": 215,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211688+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 216,
+        "fields": {
+            "user": 216,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211713+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 217,
+        "fields": {
+            "user": 217,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.211744+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 218,
+        "fields": {
+            "user": 218,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211794+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 219,
+        "fields": {
+            "user": 219,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211919+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 220,
+        "fields": {
+            "user": 220,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.211978+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 221,
+        "fields": {
+            "user": 221,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212015+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 222,
+        "fields": {
+            "user": 222,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212065+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 223,
+        "fields": {
+            "user": 223,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212105+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 224,
+        "fields": {
+            "user": 224,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212158+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 225,
+        "fields": {
+            "user": 225,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212222+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 226,
+        "fields": {
+            "user": 226,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212244+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 227,
+        "fields": {
+            "user": 227,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212294+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 228,
+        "fields": {
+            "user": 228,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212327+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 229,
+        "fields": {
+            "user": 229,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212359+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 230,
+        "fields": {
+            "user": 230,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212399+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 231,
+        "fields": {
+            "user": 231,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212427+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 232,
+        "fields": {
+            "user": 232,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212461+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 233,
+        "fields": {
+            "user": 233,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212485+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 234,
+        "fields": {
+            "user": 234,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212524+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 235,
+        "fields": {
+            "user": 235,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212567+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 236,
+        "fields": {
+            "user": 236,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212589+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 237,
+        "fields": {
+            "user": 237,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212612+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 238,
+        "fields": {
+            "user": 238,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212644+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 239,
+        "fields": {
+            "user": 239,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212672+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 240,
+        "fields": {
+            "user": 240,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212709+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 241,
+        "fields": {
+            "user": 241,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212744+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 242,
+        "fields": {
+            "user": 242,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212776+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 243,
+        "fields": {
+            "user": 243,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212826+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 244,
+        "fields": {
+            "user": 244,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212855+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 245,
+        "fields": {
+            "user": 245,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212872+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 246,
+        "fields": {
+            "user": 246,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212900+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 247,
+        "fields": {
+            "user": 247,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.212939+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 248,
+        "fields": {
+            "user": 248,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.212979+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 249,
+        "fields": {
+            "user": 249,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213011+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 250,
+        "fields": {
+            "user": 250,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213040+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 251,
+        "fields": {
+            "user": 251,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213074+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 252,
+        "fields": {
+            "user": 252,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213097+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 253,
+        "fields": {
+            "user": 253,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213140+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 254,
+        "fields": {
+            "user": 254,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213161+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 255,
+        "fields": {
+            "user": 255,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213188+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 256,
+        "fields": {
+            "user": 256,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213210+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 257,
+        "fields": {
+            "user": 257,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213251+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 258,
+        "fields": {
+            "user": 258,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213288+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 259,
+        "fields": {
+            "user": 259,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213325+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 260,
+        "fields": {
+            "user": 260,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213350+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 261,
+        "fields": {
+            "user": 261,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213370+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 262,
+        "fields": {
+            "user": 262,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213396+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 263,
+        "fields": {
+            "user": 263,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213431+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 264,
+        "fields": {
+            "user": 264,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213455+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 265,
+        "fields": {
+            "user": 265,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213480+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 266,
+        "fields": {
+            "user": 266,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213528+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 267,
+        "fields": {
+            "user": 267,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213549+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 268,
+        "fields": {
+            "user": 268,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213568+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 269,
+        "fields": {
+            "user": 269,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213615+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 270,
+        "fields": {
+            "user": 270,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213653+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 271,
+        "fields": {
+            "user": 271,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213680+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 272,
+        "fields": {
+            "user": 272,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213712+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 273,
+        "fields": {
+            "user": 273,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213745+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 274,
+        "fields": {
+            "user": 274,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213778+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 275,
+        "fields": {
+            "user": 275,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213802+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 276,
+        "fields": {
+            "user": 276,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213844+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 277,
+        "fields": {
+            "user": 277,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213865+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 278,
+        "fields": {
+            "user": 278,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213903+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 279,
+        "fields": {
+            "user": 279,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213929+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 280,
+        "fields": {
+            "user": 280,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.213952+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 281,
+        "fields": {
+            "user": 281,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.213975+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 282,
+        "fields": {
+            "user": 282,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214014+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 283,
+        "fields": {
+            "user": 283,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214041+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 284,
+        "fields": {
+            "user": 284,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214075+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 285,
+        "fields": {
+            "user": 285,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214119+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 286,
+        "fields": {
+            "user": 286,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214163+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 287,
+        "fields": {
+            "user": 287,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214197+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 288,
+        "fields": {
+            "user": 288,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214213+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 289,
+        "fields": {
+            "user": 289,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214259+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 290,
+        "fields": {
+            "user": 290,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214300+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 291,
+        "fields": {
+            "user": 291,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214325+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 292,
+        "fields": {
+            "user": 292,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214379+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 293,
+        "fields": {
+            "user": 293,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214408+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 294,
+        "fields": {
+            "user": 294,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214435+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 295,
+        "fields": {
+            "user": 295,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214474+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 296,
+        "fields": {
+            "user": 296,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214518+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 297,
+        "fields": {
+            "user": 297,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214542+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 298,
+        "fields": {
+            "user": 298,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214575+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 299,
+        "fields": {
+            "user": 299,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214602+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 300,
+        "fields": {
+            "user": 300,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214643+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 301,
+        "fields": {
+            "user": 301,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214679+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 302,
+        "fields": {
+            "user": 302,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214712+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 303,
+        "fields": {
+            "user": 303,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214746+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 304,
+        "fields": {
+            "user": 304,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214791+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 305,
+        "fields": {
+            "user": 305,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214830+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 306,
+        "fields": {
+            "user": 306,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214864+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 307,
+        "fields": {
+            "user": 307,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.214913+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 308,
+        "fields": {
+            "user": 308,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.214940+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 309,
+        "fields": {
+            "user": 309,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215061+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 310,
+        "fields": {
+            "user": 310,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215113+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 311,
+        "fields": {
+            "user": 311,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215151+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 312,
+        "fields": {
+            "user": 312,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215182+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 313,
+        "fields": {
+            "user": 313,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215219+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 314,
+        "fields": {
+            "user": 314,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215251+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 315,
+        "fields": {
+            "user": 315,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215275+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 316,
+        "fields": {
+            "user": 316,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215294+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 317,
+        "fields": {
+            "user": 317,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215337+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 318,
+        "fields": {
+            "user": 318,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215354+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 319,
+        "fields": {
+            "user": 319,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215387+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 320,
+        "fields": {
+            "user": 320,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215421+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 321,
+        "fields": {
+            "user": 321,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215473+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 322,
+        "fields": {
+            "user": 322,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215502+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 323,
+        "fields": {
+            "user": 323,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215518+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 324,
+        "fields": {
+            "user": 324,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215539+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 325,
+        "fields": {
+            "user": 325,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215558+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 326,
+        "fields": {
+            "user": 326,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215607+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 327,
+        "fields": {
+            "user": 327,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215650+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 328,
+        "fields": {
+            "user": 328,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215698+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 329,
+        "fields": {
+            "user": 329,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215729+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 330,
+        "fields": {
+            "user": 330,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215760+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 331,
+        "fields": {
+            "user": 331,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215782+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 332,
+        "fields": {
+            "user": 332,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215797+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 333,
+        "fields": {
+            "user": 333,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215822+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 334,
+        "fields": {
+            "user": 334,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215843+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 335,
+        "fields": {
+            "user": 335,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.215893+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 336,
+        "fields": {
+            "user": 336,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215929+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 337,
+        "fields": {
+            "user": 337,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215948+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 338,
+        "fields": {
+            "user": 338,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.215965+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 339,
+        "fields": {
+            "user": 339,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216000+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 340,
+        "fields": {
+            "user": 340,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216028+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 341,
+        "fields": {
+            "user": 341,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216077+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 342,
+        "fields": {
+            "user": 342,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216112+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 343,
+        "fields": {
+            "user": 343,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216130+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 344,
+        "fields": {
+            "user": 344,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216163+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 345,
+        "fields": {
+            "user": 345,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216213+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 346,
+        "fields": {
+            "user": 346,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216235+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 347,
+        "fields": {
+            "user": 347,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216253+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 348,
+        "fields": {
+            "user": 348,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216294+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 349,
+        "fields": {
+            "user": 349,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216318+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 350,
+        "fields": {
+            "user": 350,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216357+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 351,
+        "fields": {
+            "user": 351,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216400+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 352,
+        "fields": {
+            "user": 352,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216469+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 353,
+        "fields": {
+            "user": 353,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216506+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 354,
+        "fields": {
+            "user": 354,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216554+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 355,
+        "fields": {
+            "user": 355,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216589+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 356,
+        "fields": {
+            "user": 356,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216633+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 357,
+        "fields": {
+            "user": 357,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216683+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 358,
+        "fields": {
+            "user": 358,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216705+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 359,
+        "fields": {
+            "user": 359,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216746+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 360,
+        "fields": {
+            "user": 360,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216779+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 361,
+        "fields": {
+            "user": 361,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216801+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 362,
+        "fields": {
+            "user": 362,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216859+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 363,
+        "fields": {
+            "user": 363,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.216890+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 364,
+        "fields": {
+            "user": 364,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216923+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 365,
+        "fields": {
+            "user": 365,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216944+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 366,
+        "fields": {
+            "user": 366,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.216981+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 367,
+        "fields": {
+            "user": 367,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217016+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 368,
+        "fields": {
+            "user": 368,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217059+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 369,
+        "fields": {
+            "user": 369,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217112+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 370,
+        "fields": {
+            "user": 370,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217142+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 371,
+        "fields": {
+            "user": 371,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217194+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 372,
+        "fields": {
+            "user": 372,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217213+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 373,
+        "fields": {
+            "user": 373,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217251+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 374,
+        "fields": {
+            "user": 374,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217272+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 375,
+        "fields": {
+            "user": 375,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217301+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 376,
+        "fields": {
+            "user": 376,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217324+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 377,
+        "fields": {
+            "user": 377,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217364+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 378,
+        "fields": {
+            "user": 378,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217408+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 379,
+        "fields": {
+            "user": 379,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217447+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 380,
+        "fields": {
+            "user": 380,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217467+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 381,
+        "fields": {
+            "user": 381,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217509+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 382,
+        "fields": {
+            "user": 382,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217542+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 383,
+        "fields": {
+            "user": 383,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217573+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 384,
+        "fields": {
+            "user": 384,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217602+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 385,
+        "fields": {
+            "user": 385,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217645+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 386,
+        "fields": {
+            "user": 386,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217672+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 387,
+        "fields": {
+            "user": 387,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217719+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 388,
+        "fields": {
+            "user": 388,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217758+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 389,
+        "fields": {
+            "user": 389,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217804+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 390,
+        "fields": {
+            "user": 390,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217824+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 391,
+        "fields": {
+            "user": 391,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217853+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 392,
+        "fields": {
+            "user": 392,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217872+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 393,
+        "fields": {
+            "user": 393,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217907+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 394,
+        "fields": {
+            "user": 394,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.217921+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 395,
+        "fields": {
+            "user": 395,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217961+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 396,
+        "fields": {
+            "user": 396,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.217997+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 397,
+        "fields": {
+            "user": 397,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.218028+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 398,
+        "fields": {
+            "user": 398,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.218184+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 399,
+        "fields": {
+            "user": 399,
+            "name": "My Wishlist",
+            "is_private": false,
+            "created_at": "2026-05-12T15:54:10.218205+00:00"
+        }
+    },
+    {
+        "model": "game_collections.wishlist",
+        "pk": 400,
+        "fields": {
+            "user": 400,
+            "name": "My Wishlist",
+            "is_private": true,
+            "created_at": "2026-05-12T15:54:10.218252+00:00"
+        }
+    }
+]

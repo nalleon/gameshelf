@@ -1,10 +1,18 @@
 [
     {
         "model": "classifications.genre",
-        "pk": 14,
+        "pk": 9,
         "fields": {
-            "name": "Sport",
-            "slug": "sport"
+            "name": "Puzzle",
+            "slug": "puzzle"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 15,
+        "fields": {
+            "name": "Strategy",
+            "slug": "strategy"
         }
     },
     {
@@ -13,6 +21,14 @@
         "fields": {
             "name": "Indie",
             "slug": "indie"
+        }
+    },
+    {
+        "model": "classifications.genre",
+        "pk": 14,
+        "fields": {
+            "name": "Sport",
+            "slug": "sport"
         }
     },
     {
@@ -57,26 +73,10 @@
     },
     {
         "model": "classifications.genre",
-        "pk": 9,
-        "fields": {
-            "name": "Puzzle",
-            "slug": "puzzle"
-        }
-    },
-    {
-        "model": "classifications.genre",
         "pk": 8,
         "fields": {
             "name": "Platform",
             "slug": "platform"
-        }
-    },
-    {
-        "model": "classifications.genre",
-        "pk": 15,
-        "fields": {
-            "name": "Strategy",
-            "slug": "strategy"
         }
     },
     {

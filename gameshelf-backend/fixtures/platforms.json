@@ -1,6 +1,22 @@
 [
     {
         "model": "classifications.platform",
+        "pk": 3,
+        "fields": {
+            "name": "Linux",
+            "slug": "linux"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 6,
+        "fields": {
+            "name": "PC (Microsoft Windows)",
+            "slug": "pc-microsoft-windows"
+        }
+    },
+    {
+        "model": "classifications.platform",
         "pk": 58,
         "fields": {
             "name": "Super Famicom",
@@ -25,22 +41,6 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 3,
-        "fields": {
-            "name": "Linux",
-            "slug": "linux"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 6,
-        "fields": {
-            "name": "PC (Microsoft Windows)",
-            "slug": "pc-microsoft-windows"
-        }
-    },
-    {
-        "model": "classifications.platform",
         "pk": 9,
         "fields": {
             "name": "PlayStation 3",
@@ -61,14 +61,6 @@
         "fields": {
             "name": "PlayStation Portable",
             "slug": "playstation-portable"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 37,
-        "fields": {
-            "name": "Nintendo 3DS",
-            "slug": "nintendo-3ds"
         }
     },
     {
@@ -201,6 +193,14 @@
     },
     {
         "model": "classifications.platform",
+        "pk": 37,
+        "fields": {
+            "name": "Nintendo 3DS",
+            "slug": "nintendo-3ds"
+        }
+    },
+    {
+        "model": "classifications.platform",
         "pk": 5,
         "fields": {
             "name": "Wii",
@@ -249,18 +249,18 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 169,
-        "fields": {
-            "name": "Xbox Series X|S",
-            "slug": "xbox-series-xs"
-        }
-    },
-    {
-        "model": "classifications.platform",
         "pk": 32,
         "fields": {
             "name": "Sega Saturn",
             "slug": "sega-saturn"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 169,
+        "fields": {
+            "name": "Xbox Series X|S",
+            "slug": "xbox-series-xs"
         }
     },
     {
@@ -293,14 +293,6 @@
         "fields": {
             "name": "DOS",
             "slug": "dos"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 12,
-        "fields": {
-            "name": "Xbox 360",
-            "slug": "xbox-360"
         }
     },
     {
@@ -385,22 +377,6 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 11,
-        "fields": {
-            "name": "Xbox",
-            "slug": "xbox"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 21,
-        "fields": {
-            "name": "Nintendo GameCube",
-            "slug": "nintendo-gamecube"
-        }
-    },
-    {
-        "model": "classifications.platform",
         "pk": 125,
         "fields": {
             "name": "PC-8800 Series",
@@ -417,10 +393,26 @@
     },
     {
         "model": "classifications.platform",
+        "pk": 12,
+        "fields": {
+            "name": "Xbox 360",
+            "slug": "xbox-360"
+        }
+    },
+    {
+        "model": "classifications.platform",
         "pk": 165,
         "fields": {
             "name": "PlayStation VR",
             "slug": "playstation-vr"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 162,
+        "fields": {
+            "name": "Oculus VR",
+            "slug": "oculus-vr"
         }
     },
     {
@@ -441,10 +433,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 170,
+        "pk": 11,
         "fields": {
-            "name": "Google Stadia",
-            "slug": "google-stadia"
+            "name": "Xbox",
+            "slug": "xbox"
         }
     },
     {
@@ -453,14 +445,6 @@
         "fields": {
             "name": "PlayStation VR2",
             "slug": "playstation-vr2"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 508,
-        "fields": {
-            "name": "Nintendo Switch 2",
-            "slug": "nintendo-switch-2"
         }
     },
     {
@@ -481,26 +465,26 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 162,
-        "fields": {
-            "name": "Oculus VR",
-            "slug": "oculus-vr"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 384,
-        "fields": {
-            "name": "Oculus Quest",
-            "slug": "oculus-quest"
-        }
-    },
-    {
-        "model": "classifications.platform",
         "pk": 57,
         "fields": {
             "name": "WonderSwan",
             "slug": "wonderswan"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 77,
+        "fields": {
+            "name": "Sharp X1",
+            "slug": "sharp-x1"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 152,
+        "fields": {
+            "name": "FM-7",
+            "slug": "fm-7"
         }
     },
     {
@@ -573,6 +557,14 @@
         "fields": {
             "name": "Game Boy",
             "slug": "game-boy"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 170,
+        "fields": {
+            "name": "Google Stadia",
+            "slug": "google-stadia"
         }
     },
     {
@@ -689,10 +681,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 77,
+        "pk": 21,
         "fields": {
-            "name": "Sharp X1",
-            "slug": "sharp-x1"
+            "name": "Nintendo GameCube",
+            "slug": "nintendo-gamecube"
         }
     },
     {
@@ -701,14 +693,6 @@
         "fields": {
             "name": "MSX2",
             "slug": "msx2"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 152,
-        "fields": {
-            "name": "FM-7",
-            "slug": "fm-7"
         }
     },
     {
@@ -725,6 +709,14 @@
         "fields": {
             "name": "Odyssey 2 / Videopac G7000",
             "slug": "odyssey-2-videopac-g7000"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 508,
+        "fields": {
+            "name": "Nintendo Switch 2",
+            "slug": "nintendo-switch-2"
         }
     },
     {
@@ -841,6 +833,14 @@
     },
     {
         "model": "classifications.platform",
+        "pk": 240,
+        "fields": {
+            "name": "Zeebo",
+            "slug": "zeebo"
+        }
+    },
+    {
+        "model": "classifications.platform",
         "pk": 307,
         "fields": {
             "name": "Game & Watch",
@@ -905,6 +905,14 @@
     },
     {
         "model": "classifications.platform",
+        "pk": 384,
+        "fields": {
+            "name": "Oculus Quest",
+            "slug": "oculus-quest"
+        }
+    },
+    {
+        "model": "classifications.platform",
         "pk": 35,
         "fields": {
             "name": "Sega Game Gear",
@@ -917,14 +925,6 @@
         "fields": {
             "name": "Acorn Archimedes",
             "slug": "acorn-archimedes"
-        }
-    },
-    {
-        "model": "classifications.platform",
-        "pk": 240,
-        "fields": {
-            "name": "Zeebo",
-            "slug": "zeebo"
         }
     },
     {
@@ -969,18 +969,18 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 153,
+        "pk": 79,
         "fields": {
-            "name": "Dragon 32/64",
-            "slug": "dragon-3264"
+            "name": "Neo Geo MVS",
+            "slug": "neo-geo-mvs"
         }
     },
     {
         "model": "classifications.platform",
-        "pk": 158,
+        "pk": 153,
         "fields": {
-            "name": "Commodore CDTV",
-            "slug": "commodore-cdtv"
+            "name": "Dragon 32/64",
+            "slug": "dragon-3264"
         }
     },
     {
@@ -1001,10 +1001,10 @@
     },
     {
         "model": "classifications.platform",
-        "pk": 478,
+        "pk": 136,
         "fields": {
-            "name": "Panasonic M2",
-            "slug": "panasonic-m2"
+            "name": "Neo Geo CD",
+            "slug": "neo-geo-cd"
         }
     },
     {
@@ -1029,6 +1029,118 @@
         "fields": {
             "name": "Sharp MZ-2200",
             "slug": "sharp-mz-2200"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 67,
+        "fields": {
+            "name": "Intellivision",
+            "slug": "intellivision"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 339,
+        "fields": {
+            "name": "Sega Pico",
+            "slug": "sega-pico"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 274,
+        "fields": {
+            "name": "PC-FX",
+            "slug": "pc-fx"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 439,
+        "fields": {
+            "name": "V.Smile",
+            "slug": "vsmile"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 66,
+        "fields": {
+            "name": "Atari 5200",
+            "slug": "atari-5200"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 93,
+        "fields": {
+            "name": "Commodore 16",
+            "slug": "commodore-16"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 155,
+        "fields": {
+            "name": "Tatung Einstein",
+            "slug": "tatung-einstein"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 94,
+        "fields": {
+            "name": "Commodore Plus/4",
+            "slug": "commodore-plus4"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 478,
+        "fields": {
+            "name": "Panasonic M2",
+            "slug": "panasonic-m2"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 409,
+        "fields": {
+            "name": "Legacy Computer",
+            "slug": "legacy-computer"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 102,
+        "fields": {
+            "name": "EDSAC",
+            "slug": "edsac"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 120,
+        "fields": {
+            "name": "Neo Geo Pocket Color",
+            "slug": "neo-geo-pocket-color"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 138,
+        "fields": {
+            "name": "VC 4000",
+            "slug": "vc-4000"
+        }
+    },
+    {
+        "model": "classifications.platform",
+        "pk": 139,
+        "fields": {
+            "name": "1292 Advanced Programmable Video System",
+            "slug": "1292-advanced-programmable-video-system"
         }
     }
 ]
