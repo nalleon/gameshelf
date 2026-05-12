@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential gcc g++ libpq-dev curl \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y just
+
 COPY gameshelf-backend/pyproject.toml .
 COPY gameshelf-backend/uv.lock .
 
