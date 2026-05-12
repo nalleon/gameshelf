@@ -9,11 +9,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    gcc \
-    g++ \
-    libpq-dev \
-    curl \
+    build-essential gcc g++ libpq-dev curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY gameshelf-backend/pyproject.toml .
@@ -23,16 +19,11 @@ RUN uv sync --frozen --no-dev
 
 COPY gameshelf-backend/ .
 
-RUN uv run python manage.py collectstatic --noinput
-
-RUN adduser --disabled-password --gecos "" django_user \
-    && mkdir -p /app/staticfiles /app/media \
-    && chown -R django_user:django_user /app \
-    && chmod -R 755 /app/staticfiles /app/media
-
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+RUN adduser --disabled-password --gecos "" django_user \
+    && chown -R django_user:django_user /app
 
 USER django_user
 
