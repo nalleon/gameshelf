@@ -21,6 +21,7 @@
 
                         <div class="flex items-center gap-4 mb-2 relative">
                             <h1 class="text-5xl font-bold">{{ game.title }}</h1>
+
                             <div class="flex gap-2">
                                 <div class="relative">
                                     <button 
@@ -95,6 +96,55 @@
                                                     Físico
                                                 </button>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="relative">
+                                    <button 
+                                        @click="showLibrarySelector = !showLibrarySelector; showPlatformSelector = false; showWishlistSelector = false"
+                                        class="p-2 rounded-full hover:bg-white/10 transition-all"
+                                        title="Añadir a mi colección"
+                                    >
+                                        <Icon 
+                                            :icon="isInLibrary ? 'mdi:library-shelves' : 'mdi:library-outline'" 
+                                            class="text-4xl"
+                                            :class="isInLibrary ? 'text-gsmenta' : 'text-gray-400 hover:text-gsmenta'"
+                                        />
+                                    </button>
+
+                                    <div v-if="showLibrarySelector" 
+                                        class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[70] w-80 p-4">
+                                        
+                                        <p class="text-xs font-bold text-gray-500 uppercase mb-4">Mi Biblioteca</p>
+                                        
+                                        <div v-for="p in game.platforms" :key="p.id" class="mb-6 last:mb-0 border-b border-white/5 pb-4 last:border-0">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="text-sm font-bold text-white">{{ p.name }}</span>
+                                                <span v-if="libraryItems.find(i => i.platform.id === p.id)" class="text-[10px] text-gsmenta uppercase font-bold">En Biblioteca</span>
+                                            </div>
+                                            
+                                            <div class="grid grid-cols-2 gap-2">
+                                                <button 
+                                                    v-for="status in LIBRARY_STATUS" 
+                                                    :key="status.id"
+                                                    @click="toggleLibrary(p.id, status.id)"
+                                                    :class="libraryItems.some(i => Number(i.platform.id) === Number(p.id) && i.status === status.name) 
+                                                        ? 'bg-gsmenta text-black shadow-[0_0_10px_#00ff99]' 
+                                                        : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                                                    class="text-[10px] py-1.5 rounded uppercase font-bold transition-all"
+                                                >
+                                                    {{ status.name }}
+                                                </button>
+                                            </div>
+
+                                            <button 
+                                                v-if="libraryItems.find(i => i.platform.id === p.id)"
+                                                @click="toggleLibrary(p.id)"
+                                                class="w-full mt-2 text-[9px] text-red-400 hover:text-red-300 uppercase font-bold text-center"
+                                            >
+                                                Quitar de esta plataforma
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +259,7 @@ import { Icon } from '@iconify/vue'
 import Navbar from '@/components/Navbar.vue';
 import type { Developer, Game, Platform, Publisher } from '@/types/gameDetailsType';
 import { useAuthStore } from '@/stores/authStore';
-import type { FavoriteItem } from '@/types/profileTypes';
+import type { FavoriteItem, Library, LibraryItem, Wishlist, WishlistItem } from '@/types/profileTypes';
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -228,10 +278,9 @@ onMounted(async () => {
     try {
         const data = await getGame()
         game.value = data
-        // Obtenemos qué plataformas de este juego ya son favoritas
         await loadFavoriteStatus();
-        // Cargar estado de la wishlist
-        await loadWishlistStatus(); 
+        await loadWishlistStatus();
+        await loadLibraryStatus();
     } catch (error) {
         console.error('Error:', error)
     } finally {
@@ -285,7 +334,10 @@ const isGameFavorite = computed(() => favoritePlatforms.value.length > 0);
 
 // --- LÓGICA DE WISHLIST ---
 const isInWishlist = ref(false);
-const wishlistItems = ref<any[]>([]); // Guardaremos los objetos para tener el ID del WishlistItem y poder borrarlo
+const wishlistData = ref<Wishlist | null>(null);
+const wishlistItems = ref<WishlistItem[]>([]);
+const wishlistId = computed(() => wishlistData.value?.id);
+
 const showWishlistSelector = ref(false);
 
 const loadWishlistStatus = async () => {
@@ -293,48 +345,136 @@ const loadWishlistStatus = async () => {
         // Obtenemos la wishlist del propio usuario autenticado
         const response = await axios.get(`http://127.0.0.1:8000/api/wishlist/`, {headers});
 
-        // Filtramos los items que coincidan con este juego
-        wishlistItems.value = response.data.items.filter((item: any) => item.game.id === game.value?.id);
+        wishlistData.value = response.data;
+        
+        // Filtramos los items del game actual
+        wishlistItems.value = response.data.items.filter(
+            (item: WishlistItem) => item.game.id === game.value?.id
+        );
     } catch (error) {
         console.error('Error cargando wishlist:', error);
     }
 };
 
 const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
-    // Buscamos si ya existe esta combinación exacta
-    const existingItem = wishlistItems.value.find(item => item.platform.id === platformId && item.type === type);
+    // TS sabe que existingItem será un WishlistItem o undefined
+    const existingItem = wishlistItems.value.find(
+        (item: WishlistItem) => item.platform.id === platformId && item.type === (type as any) 
+        // Nota: Si 'type' en tu interfaz es string, quizás necesites un cast pequeño o actualizar la interfaz
+    );
 
     try {
         if (existingItem) {
-            // Si existe, lo borramos usando el ID del WishlistItem
-            await axios.delete(`http://127.0.0.1:8000/api/wishlist/items/${existingItem.id}/`);
+            await axios.delete(`http://127.0.0.1:8000/api/wishlist/items/${existingItem.id}/`, {headers});
             wishlistItems.value = wishlistItems.value.filter(item => item.id !== existingItem.id);
         } else {
-            // Si no existe, lo añadimos
-            // Importante: Necesitas el pk de la wishlist del usuario. 
-            // Si no lo tienes en el authStore, podrías sacarlo del loadWishlistStatus inicial.
-            const wishlistId = authStore.user.wishlist_id; // Asumiendo que guardas esto al loguear
+            if (!wishlistId.value) return;
 
             const payload = {
-                game_id: gameId,
+                game_id: game.value?.id,
                 platform_id: platformId,
-                priority: 5, // Valor por defecto
+                priority: 5,
                 annotation: "",
                 is_private: false,
                 type: type
             };
 
-            const response = await axios.post(`http://127.0.0.1:8000/api/wishlist/${wishlistId}/items/`, payload);
-            // El backend devuelve el objeto creado, lo añadimos a nuestra lista local
+            const response = await axios.post<WishlistItem>(
+                `http://127.0.0.1:8000/api/wishlist/${wishlistId.value}/`,
+                payload,
+                {headers}
+            );
+            
+            // Añadimos el nuevo item (que viene con el formato WishlistItem)
             wishlistItems.value.push(response.data);
         }
-    } catch (error: any) {
-        alert(error.response?.data?.error || "Error al actualizar wishlist");
+    } catch (error) {
+        console.error(error);
     }
 };
 
 // Computed para saber si el icono de wishlist debe resaltar
 const isAnyWishlist = computed(() => wishlistItems.value.length > 0);
+
+// --- LÓGICA DE LIBRERÍA ---
+const libraryData = ref<Library | null>(null);
+const libraryItems = ref<LibraryItem[]>([]);
+const showLibrarySelector = ref(false);
+
+// Mapeo de estados para el select/botones
+const LIBRARY_STATUS = [
+    { id: 'PLN', name: 'Planning' },
+    { id: 'PLY', name: 'Playing' },
+    { id: 'CMP', name: 'Completed' },
+    { id: 'PSD', name: 'Paused' },
+    { id: 'DRP', name: 'Dropped' },
+];
+
+const loadLibraryStatus = async () => {
+    try {
+        const response = await axios.get<Library>(`http://127.0.0.1:8000/api/library/`, { headers });
+        libraryData.value = response.data;
+        // Filtramos items para este juego
+        libraryItems.value = response.data.items.filter(
+            (item: LibraryItem) => item.game.id === game.value?.id
+        );
+    } catch (error) {
+        console.error('Error cargando librería:', error);
+    }
+};
+
+const toggleLibrary = async (platformId: number, status?: string) => {
+    // 1. Buscamos si el juego ya existe en esta plataforma dentro de la librería
+    const existingItem = libraryItems.value.find(
+        (item: LibraryItem) => item.platform.id === platformId
+    );
+
+    try {
+        if (existingItem) {
+            // Si el usuario pulsa el MISMO estado que ya tiene, lo borramos (Toggle)
+            // Si pulsa un estado diferente, lo actualizamos (PATCH)
+            if (!status || existingItem.status === status) {
+                await axios.delete(`http://127.0.0.1:8000/api/library/${existingItem.id}/`, { headers });
+                libraryItems.value = libraryItems.value.filter(item => item.id !== existingItem.id);
+            } else {
+                // ACTUALIZAR ESTADO (PATCH)
+                const response = await axios.patch(
+                    `http://127.0.0.1:8000/api/library/${existingItem.id}/`, 
+                    { 
+                        status: status,
+                        platform_id: platformId // Tu backend lo pide en el edit_library_item
+                    }, 
+                    { headers }
+                );
+                
+                // Actualizamos el item en nuestro array local
+                const index = libraryItems.value.findIndex(item => item.id === existingItem.id);
+                if (index !== -1) libraryItems.value[index] = response.data;
+            }
+        } else if (status) {
+            // CREAR NUEVO (POST)
+            const payload = {
+                game_id: game.value?.id,
+                platform_id: platformId,
+                status: status,
+                is_private: false,
+                hours_played: 0
+            };
+
+            await axios.post(`http://127.0.0.1:8000/api/library/`, payload, { headers });
+            
+            // Recargamos para traer el objeto con el formato correcto del serializador
+            await loadLibraryStatus();
+        }
+    } catch (error: any) {
+        console.error("Error en Library:", error.response?.data);
+    }
+};
+
+const isInLibrary = computed(() => libraryItems.value.length > 0);
+
+
+// --- Details del Game
 
 // --- LÓGICA DE PLATAFORMAS ---
 const PLATFORM_MAP: Record<string, string> = {
