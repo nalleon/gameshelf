@@ -33,6 +33,22 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token')
     },
 
+    getSelfId(){
+      if (!this.token) return 0
+
+      try {
+        const decoded = jwtDecode<{ user_id: string | number }>(this.token)
+
+        const tokenUserId = Number(decoded.user_id)
+
+        return tokenUserId;
+
+      } catch (e) {
+        console.error("Token no válido", e)
+        return false
+      }
+    },
+
     isOwnProfile(id: number): boolean {
       if (!this.token) return false
 
