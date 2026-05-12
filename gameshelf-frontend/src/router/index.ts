@@ -9,6 +9,11 @@ import { useAuthStore } from '@/stores/authStore'
 import EditProfile from '@/views/EditProfile.vue';
 import Wishlist from '@/views/Wishlist.vue';
 import UserSearch from '@/views/UserSearch.vue';
+import Favorites from '@/views/Favorites.vue';
+import LibraryList from '@/views/LibraryList.vue';
+import CompletedList from '@/views/CompletedList.vue';
+import Collections from '@/views/Collections.vue';
+import CollectionDetails from '@/views/CollectionDetails.vue';
 
 const routes = [
   { path: '/', component: HomeView },
@@ -38,8 +43,34 @@ const routes = [
     meta: { requiresAuth: true }
   },
   { 
-    path: '/:profile_id/wishlist', 
+    path: '/collections/:user_id', 
+    component: Collections,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/collections/:user_id/:collection_id', 
+    component: CollectionDetails,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/wishlist/:wishlist_id', 
     component: Wishlist,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/favorites/:user_id', 
+    component: Favorites,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/library/:user_id', 
+    component: LibraryList,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/completed/:user_id', 
+    component: CompletedList,
+    meta: { requiresAuth: true }
   },
   { 
     path: '/users', 

@@ -43,24 +43,25 @@
         <!-- Stats Bar -->
         <section class="bg-[#161a21] border-y border-gsgris/10 py-8" v-if="profile">
             <div class="max-w-5xl mx-auto px-6 flex justify-around md:justify-center md:gap-24">
-                <div class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.collections?.length
-                        ?? 0 }}</span>
+                <router-link :to="`/collections/${profile.user.id}`" class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.collections?.length ?? 0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Collections</span>
-                </div>
-                <div class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{
-                        profile.user.library.items?.length ?? 0 }}</span>
+                </router-link>
+                <router-link :to="`/library/${profile.user.id}`" class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.library.items?.length ?? 0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Library</span>
-                </div>
-                <div class="text-center border-x border-gsgris/20 px-10 md:border-none">
+                </router-link>
+                <router-link :to="`/favorites/${profile.user.id}`" class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.favorites?.length ?? 0 }}</span>
+                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Favorites</span>
+                </router-link>
+                <router-link :to="`/wishlist/${profile.user.wishlist.id}`" class="text-center">
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.wishlist.items?.length ?? 0 }}</span>
+                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Wishlist</span>
+                </router-link>
+                <router-link :to="`/completed/${profile.user.wishlist.id}`" class="text-center">
                     <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ completed }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Completed</span>
-                </div>
-                <router-link :to="`/${profile.id}/wishlist`" class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{
-                        profile.user.wishlist.items?.length ?? 0 }}</span>
-                    <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Wishlist</span>
                 </router-link>
             </div>
         </section>

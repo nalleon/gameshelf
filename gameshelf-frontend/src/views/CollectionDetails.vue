@@ -7,16 +7,16 @@
             <div class="max-w-[1600px] mx-auto">
                 <div class="mb-8 flex items-center justify-between text-gsmenta">
                     <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
-                        Wishlist
+                        {{ collection?.name }}
                     </h2>
-                    <span class="text-gsgris text-sm">Games Wishlisted: {{ wishlist?.items.length }}</span>
+                    <span class="text-gsgris text-sm">Games in Collection: {{ collection?.items.length }}</span>
                 </div>
 
                 <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
-                    <div v-for="item in wishlist?.items" :key="item.id"
+                    <div v-for="item in collection?.items" :key="item.id"
                         class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
                     >
-                        <GameCard :game="item.game"/>
+                        <GameCard v-if="item.is_private" :game="item.game"/>
                     </div>
                 </main>
             </div>
@@ -41,29 +41,32 @@ import { useRoute } from 'vue-router'
 import axios from 'axios';
 
 import { useAuthStore } from '@/stores/authStore';
-import type { Wishlist } from '@/types/profileTypes';
+import type { Collection } from '@/types/profileTypes';
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 
 
-const wishlist = ref<Wishlist>();
+const collection = ref<Collection>();
 const authStore = useAuthStore()
 const route = useRoute()
-const wishlistId = route.params.wishlist_id;
+const collectionId = route.params.collection_id;
 
 
 onMounted(async () => {
     try {
-        const data = await getWishlist()
-        wishlist.value = data
+        const data = await getCollection()
+        collection.value = data
+        if(data.is_private){
+            // Vista de prohibido
+        }
         console.log(data)
     } catch (error) {
-        console.error('Error cargando la wishlist:', error)
+        console.error('Error cargando la collection:', error)
     }
 });
 
-async function getWishlist() {
-    const webhookUrl = `http://127.0.0.1:8000/api/wishlist/${wishlistId}/`
+async function getCollection() {
+    const webhookUrl = `http://127.0.0.1:8000/api/collection/${collectionId}/`
     const headers = {
         'Authorization': `Bearer ${authStore.token}`, 
         'Content-Type': 'application/json'
