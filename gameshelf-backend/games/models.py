@@ -112,6 +112,10 @@ class FavoriteItem(SoftDeleteModel):
     
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['user', 'game', 'platform'], name='unique_user_game_platform_favorite')
+            models.UniqueConstraint(
+                fields=['user', 'game', 'platform'],
+                condition=models.Q(deleted_at__isnull=True), # Solo aplica si no está borrado
+                name='unique_active_favorite'
+            )
         ]
         ordering = ['order']
