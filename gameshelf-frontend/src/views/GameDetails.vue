@@ -21,49 +21,82 @@
 
                         <div class="flex items-center gap-4 mb-2 relative">
                             <h1 class="text-5xl font-bold">{{ game.title }}</h1>
-                            
-                            <div class="relative">
-                                <button 
-                                    @click="showPlatformSelector = !showPlatformSelector"
-                                    class="p-2 rounded-full hover:bg-white/10 transition-all duration-300"
-                                    title="Gestionar favoritos"
-                                >
-                                    <Icon 
-                                        :icon="isGameFavorite ? 'mdi:heart' : 'mdi:heart-outline'" 
-                                        class="text-4xl transition-transform active:scale-125"
-                                        :class="isGameFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-400'"
-                                    />
-                                </button>
+                            <div class="flex gap-2">
+                                <div class="relative">
+                                    <button 
+                                        @click="showPlatformSelector = !showPlatformSelector"
+                                        class="p-2 rounded-full hover:bg-white/10 transition-all duration-300"
+                                        title="Gestionar favoritos"
+                                    >
+                                        <Icon 
+                                            :icon="isGameFavorite ? 'mdi:heart' : 'mdi:heart-outline'" 
+                                            class="text-4xl transition-transform active:scale-125"
+                                            :class="isGameFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-400'"
+                                        />
+                                    </button>
 
-                                <div v-if="showPlatformSelector" 
-                                    class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-50 w-64 p-3 overflow-hidden">
-                                    
-                                    <div class="flex justify-between items-center mb-3 px-1">
-                                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Añadir para:</span>
-                                        <button @click="showPlatformSelector = false" class="text-gray-500 hover:text-white text-xs">Cerrar</button>
-                                    </div>
+                                    <div v-if="showPlatformSelector" 
+                                        class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-50 w-64 p-3 overflow-hidden">
+                                        
+                                        <div class="flex justify-between items-center mb-3 px-1">
+                                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Añadir para:</span>
+                                            <button @click="showPlatformSelector = false" class="text-gray-500 hover:text-white text-xs">Cerrar</button>
+                                        </div>
 
-                                    <div class="flex flex-col gap-1">
-                                        <button 
-                                            v-for="p in game.platforms" 
-                                            :key="p.id"
-                                            @click="toggleFavorite(p.id)"
-                                            class="flex justify-between items-center px-3 py-2 rounded-md hover:bg-white/5 transition-colors group"
-                                        >
-                                            <span :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta font-bold' : 'text-gray-300 group-hover:text-white'">
-                                                {{ p.name }}
-                                            </span>
-                                            <Icon 
-                                                :icon="favoritePlatforms.includes(p.id) ? 'mdi:check-circle' : 'mdi:plus-circle-outline'" 
-                                                class="text-xl"
-                                                :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta' : 'text-gray-600 group-hover:text-gray-400'"
-                                            />
-                                        </button>
+                                        <div class="flex flex-col gap-1">
+                                            <button 
+                                                v-for="p in game.platforms" 
+                                                :key="p.id"
+                                                @click="toggleFavorite(p.id)"
+                                                class="flex justify-between items-center px-3 py-2 rounded-md hover:bg-white/5 transition-colors group"
+                                            >
+                                                <span :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta font-bold' : 'text-gray-300 group-hover:text-white'">
+                                                    {{ p.name }}
+                                                </span>
+                                                <Icon 
+                                                    :icon="favoritePlatforms.includes(p.id) ? 'mdi:check-circle' : 'mdi:plus-circle-outline'" 
+                                                    class="text-xl"
+                                                    :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta' : 'text-gray-600 group-hover:text-gray-400'"
+                                                />
+                                            </button>
+                                        </div>
+                                        
+                                        <p v-if="favoritePlatforms.length >= 10" class="text-[10px] text-red-400 mt-2 px-1">
+                                            Límite de 10 favoritos alcanzado.
+                                        </p>
                                     </div>
-                                    
-                                    <p v-if="favoritePlatforms.length >= 10" class="text-[10px] text-red-400 mt-2 px-1">
-                                        Límite de 10 favoritos alcanzado.
-                                    </p>
+                                </div>
+
+                                <div class="relative">
+                                    <button 
+                                        @click="showWishlistSelector = !showWishlistSelector; showPlatformSelector = false"
+                                        class="p-2 rounded-full hover:bg-white/10 transition-all"
+                                    >
+                                        <Icon 
+                                            :icon="isAnyWishlist ? 'mdi:bookmark' : 'mdi:bookmark-outline'" 
+                                            class="text-4xl"
+                                            :class="isAnyWishlist ? 'text-gsmenta' : 'text-gray-400 hover:text-gsmenta'"
+                                        />
+                                    </button>
+
+                                    <div v-if="showWishlistSelector" class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[60] w-72 p-3">
+                                        <p class="text-xs font-bold text-gray-500 uppercase mb-3">Añadir a Wishlist</p>
+                                        <div v-for="p in game.platforms" :key="p.id" class="mb-4 last:mb-0 border-b border-white/5 pb-3 last:border-0">
+                                            <span class="text-xs text-gray-500 block mb-2">{{ p.name }}</span>
+                                            <div class="flex gap-2">
+                                                <button @click="toggleWishlist(p.id, 'D')"
+                                                    :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'D') ? 'bg-gsmenta text-black' : 'bg-white/5 text-white'"
+                                                    class="flex-1 text-[10px] py-1.5 rounded uppercase font-bold transition-all">
+                                                    Digital
+                                                </button>
+                                                <button @click="toggleWishlist(p.id, 'P')"
+                                                    :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'P') ? 'bg-gsmenta text-black' : 'bg-white/5 text-white'"
+                                                    class="flex-1 text-[10px] py-1.5 rounded uppercase font-bold transition-all">
+                                                    Físico
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -181,22 +214,24 @@ import type { FavoriteItem } from '@/types/profileTypes';
 const route = useRoute()
 const authStore = useAuthStore()
 
+const headers = {
+    'Authorization': `Bearer ${authStore.token}`,
+    'Content-Type': 'application/json'
+}
 
 const gameId = route.params.id
 const game = ref<Game | null>(null);
 
 const loading = ref(true)
-// const isFavorite = ref(false); // Estado local
-const showPlatformSelector = ref(false);
-const favoritePlatforms = ref<number[]>([]); // Guardaremos los IDs de las plataformas favoritas
 
-// Modifica tu función de carga inicial
 onMounted(async () => {
     try {
         const data = await getGame()
         game.value = data
         // Obtenemos qué plataformas de este juego ya son favoritas
-        await loadFavoriteStatus()
+        await loadFavoriteStatus();
+        // Cargar estado de la wishlist
+        await loadWishlistStatus(); 
     } catch (error) {
         console.error('Error:', error)
     } finally {
@@ -211,13 +246,12 @@ async function getGame() {
 }
 
 // --- Lógica de añadir a Favoritos ---
+const showPlatformSelector = ref(false);
+const favoritePlatforms = ref<number[]>([]);
 
 const loadFavoriteStatus = async () => {
     const userId = authStore.getSelfId();
-    const headers = {
-        'Authorization': `Bearer ${authStore.token}`,
-        'Content-Type': 'application/json'
-    }
+    
     const response = await axios.get(`http://127.0.0.1:8000/api/favorites/user/${userId}/`, {headers});
     // Filtramos los favoritos que pertenecen a este juego y guardamos sus IDs de plataforma
     favoritePlatforms.value = response.data
@@ -227,11 +261,6 @@ const loadFavoriteStatus = async () => {
 
 const toggleFavorite = async (platformId: number) => {
     try {
-
-        const headers = {
-            'Authorization': `Bearer ${authStore.token}`,
-            'Content-Type': 'application/json'
-        }
 
         const response = await axios.post(`http://127.0.0.1:8000/api/favorites/toggle/`, 
             {
@@ -254,6 +283,58 @@ const toggleFavorite = async (platformId: number) => {
 
 const isGameFavorite = computed(() => favoritePlatforms.value.length > 0);
 
+// --- LÓGICA DE WISHLIST ---
+const isInWishlist = ref(false);
+const wishlistItems = ref<any[]>([]); // Guardaremos los objetos para tener el ID del WishlistItem y poder borrarlo
+const showWishlistSelector = ref(false);
+
+const loadWishlistStatus = async () => {
+    try {
+        // Obtenemos la wishlist del propio usuario autenticado
+        const response = await axios.get(`http://127.0.0.1:8000/api/wishlist/`, {headers});
+
+        // Filtramos los items que coincidan con este juego
+        wishlistItems.value = response.data.items.filter((item: any) => item.game.id === game.value?.id);
+    } catch (error) {
+        console.error('Error cargando wishlist:', error);
+    }
+};
+
+const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
+    // Buscamos si ya existe esta combinación exacta
+    const existingItem = wishlistItems.value.find(item => item.platform.id === platformId && item.type === type);
+
+    try {
+        if (existingItem) {
+            // Si existe, lo borramos usando el ID del WishlistItem
+            await axios.delete(`http://127.0.0.1:8000/api/wishlist/items/${existingItem.id}/`);
+            wishlistItems.value = wishlistItems.value.filter(item => item.id !== existingItem.id);
+        } else {
+            // Si no existe, lo añadimos
+            // Importante: Necesitas el pk de la wishlist del usuario. 
+            // Si no lo tienes en el authStore, podrías sacarlo del loadWishlistStatus inicial.
+            const wishlistId = authStore.user.wishlist_id; // Asumiendo que guardas esto al loguear
+
+            const payload = {
+                game_id: gameId,
+                platform_id: platformId,
+                priority: 5, // Valor por defecto
+                annotation: "",
+                is_private: false,
+                type: type
+            };
+
+            const response = await axios.post(`http://127.0.0.1:8000/api/wishlist/${wishlistId}/items/`, payload);
+            // El backend devuelve el objeto creado, lo añadimos a nuestra lista local
+            wishlistItems.value.push(response.data);
+        }
+    } catch (error: any) {
+        alert(error.response?.data?.error || "Error al actualizar wishlist");
+    }
+};
+
+// Computed para saber si el icono de wishlist debe resaltar
+const isAnyWishlist = computed(() => wishlistItems.value.length > 0);
 
 // --- LÓGICA DE PLATAFORMAS ---
 const PLATFORM_MAP: Record<string, string> = {
