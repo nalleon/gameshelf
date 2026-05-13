@@ -113,7 +113,7 @@ set-media:
 
 # Remove migrations and database. Reset DB artefacts.
 [group('config')]
-reset-db: && makemigrations migrate create-su
+reset-db: && makemigrations migrate seed create-su
     #!/usr/bin/env bash
     find . -path "*/migrations/*.py" ! -path "./.venv/*" ! -name "__init__.py" -delete
     find . -path "*/migrations/*.pyc" ! -path "./.venv/*" -delete
@@ -229,7 +229,7 @@ seed:
     set -e
 
     echo "1/3 Generating game fixtures..."
-    uv run manage.py generate_games_fixtures --limit 8000
+    uv run manage.py generate_games_fixtures --limit 9000
 
     echo "2/3 Loading base fixtures..."
     uv run manage.py loaddata fixtures/genres.json
