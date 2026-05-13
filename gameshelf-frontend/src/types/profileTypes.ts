@@ -39,6 +39,8 @@ export interface Collection {
 export interface CollectionItem{
     id: number,
     is_private: boolean,
+    platform: Platform,
+    type: string,
     game: Game
 }
 

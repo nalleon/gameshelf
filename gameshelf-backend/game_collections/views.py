@@ -57,14 +57,14 @@ User = get_user_model()
 def collection_wrapper(request):
     match request.method:
         case 'GET':
-            return collection_list(request)
+            return own_collection_list(request)
         case 'POST':
             return create_collection(request)
 
 
 # This method is public to get all existing collections
 @csrf_exempt
-def collection_list(request):
+def own_collection_list(request):
     collections = get_collections_queryset(request.user)
     serializer = CollectionSerializer(collections, request=request)
     return serializer.json_response()
