@@ -53,9 +53,11 @@ export interface Wishlist {
 export interface WishlistItem{
     id: number,
     priority: number,
+    type: string,
     annotation: string,
     is_private: boolean,
-    game: Game
+    game: Game,
+    platform: Platform,
 }
 
 export interface Library {
