@@ -112,7 +112,6 @@ set-media:
     echo "✔ Media settings added to settings.py"
 
 # Remove migrations and database. Reset DB artefacts.
-[confirm("⚠️ All migrations and database will be removed. Continue? [yN]:")]
 [group('config')]
 reset-db: && makemigrations migrate create-su
     #!/usr/bin/env bash
