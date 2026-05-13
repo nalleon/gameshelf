@@ -8,12 +8,13 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, OpenApiRequest, OpenApiTypes, extend_schema
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from shared.decorators import require_fields, require_json_body
 from shared.serializers import ErrorResponseSerializer, MessageResponseSerializer
+
 from users.decorators import auth_required
 
 from .models import Profile, UserToken
@@ -313,7 +314,6 @@ def user_login(request):
 @api_view(['POST'])
 @require_json_body
 @require_fields('email')
-# TODO: redirect to frontend
 def request_password_reset(request):
     payload = request.json
     email = payload['email']
@@ -393,6 +393,7 @@ def send_verification_email(request):
 
 
 @api_view(['GET'])
+@renderer_classes([JSONRenderer])
 @csrf_exempt
 def verify_email(request, token):
     try:
@@ -471,6 +472,7 @@ def send_activation_email(request):
 
 
 @api_view(['GET'])
+@renderer_classes([JSONRenderer])
 @csrf_exempt
 def restore_account(request, token):
     try:
