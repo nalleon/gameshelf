@@ -10,7 +10,7 @@ Estas son las tecnologías que se han utilizado para el desarrollo de GameShelf:
     - [Miro](https://miro.com/diagramming/) para el diseño de la interfaz.
 
 - :lucide-database: **Bases de Datos:**
-    - [MySQL](https://www.sqlite.org/index.html) como base de datos relacional.
+    - [SQLite3](https://www.sqlite.org/index.html) como base de datos relacional.
 
 - :lucide-flask-conical: **Testing**
     - [Pytest - Django](https://pypi.org/project/pytest-django/) para los tests de Django
@@ -22,9 +22,10 @@ Estas son las tecnologías que se han utilizado para el desarrollo de GameShelf:
     - [Vue](https://es.react.dev/) para el desarollo del cliente web de la aplicación con TypeScript.
 
 - :lucide-shield-check: **Securización:**
-
+    - [JWT](https://jwt.io/) para la autenticación y autorización de usuarios mediante tokens seguros entre cliente y servidor.
+    
 - :lucide-panels-top-left: **Despliegue:**
     - [Docker](https://www.docker.com/) para la creación de contenedores y despliegue del proyecto en diferentes entornos.
 
 - :lucide-braces: **APIs externas:**
-    - [RAWGApi](https://rawg.io/apidocs) para obtener los videojuegos.
+    - [IGDB API](https://www.igdb.com/api) para obtener los videojuegos.

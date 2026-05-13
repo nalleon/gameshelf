@@ -14,7 +14,7 @@ repo_name = "nalleon/gameshelf"
 # The site_name is shown in the page header and the browser window title
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_name
-site_name = "Documentación de GameShelf"
+site_name = "GameShelf"
 
 # The site_description is included in the HTML head and should contain a
 # meaningful description of the site content for use by search engines.
@@ -37,7 +37,7 @@ site_author = "Nabil León Álvarez y Pedro Martín Escuela"
 #
 # Read more: https://zensical.org/docs/setup/basics/#copyright
 copyright = """
-Copyright &copy; 2025 Pedro Martín Escuela & Nabil León Álvarez
+Copyright &copy; 2026 Pedro Martín Escuela & Nabil León Álvarez
 """
 
 # Zensical supports both implicit navigation and explicitly defined navigation.
@@ -55,6 +55,7 @@ nav = [
     { "Tecnologías" = "tecnologias.md"},
     "disenio.md",
     "tareas.md",
+    { "Despliegue" = "despliegue.md"},
     "planificacionempresarial.md",
     "manualusr.md",
     "conclusion.md",
