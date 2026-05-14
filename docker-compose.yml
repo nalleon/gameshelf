@@ -2,6 +2,7 @@ services:
   django:
     build:
       context: .
+      dockerfile: Dockerfile.backend
     container_name: gameshelf_backend
     restart: always
 
