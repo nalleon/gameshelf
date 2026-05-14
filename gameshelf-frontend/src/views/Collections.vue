@@ -30,7 +30,7 @@
                             </div>
                             
                             <router-link 
-                                :to="`/collections/${collection.id}`" 
+                                :to="`/collections/${userId}/${collection.id}/`" 
                                 class="text-sm text-gsmenta hover:underline flex items-center gap-1"
                             >
                                 View full collection 

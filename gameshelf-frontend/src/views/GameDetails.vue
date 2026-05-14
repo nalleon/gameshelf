@@ -548,7 +548,7 @@ const loadCollections = async () => {
         const userId = authStore.getSelfId();
         // Usamos el endpoint que devuelve las colecciones del usuario
         const response = await axios.get(`http://127.0.0.1:8000/api/collections/`, { headers });
-        
+        console.log(response.data)
         // Si el backend devuelve todas, filtramos por las del usuario actual
         userCollections.value = response.data;
     } catch (error) {
@@ -587,7 +587,7 @@ const toggleCollectionItem = async (collectionId: number, platformId: number, ty
             await axios.delete(`http://127.0.0.1:8000/api/collections/${collectionId}/items/${existingItem.id}/`, { headers });
         } else {
             // POST: /api/collections/<pk_collection>/items/
-            await axios.post(`http://127.0.0.1:8000/api/collections/${collectionId}/items/`, {
+            await axios.post(`http://127.0.0.1:8000/api/collections/${collectionId}/`, {
                 game_id: game.value?.id,
                 platform_id: platformId,
                 is_private: false,
