@@ -25,6 +25,7 @@ export interface User {
 
 export interface FavoriteItem {
     id: number,
+    platform: Platform,
     game: Game
 }
 

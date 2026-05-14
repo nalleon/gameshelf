@@ -28,7 +28,7 @@
                     <div v-for="item in collection?.items" :key="item.id"
                         class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
                     >
-                        <GameCard v-if="!item.is_private" :game="item.game"/>
+                        <GameCard v-if="!item.is_private" :game="item.game" :platform="item.platform"/>
                     </div>
                 </main>
             </div>

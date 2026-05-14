@@ -47,7 +47,7 @@
                                     :key="item.id"
                                     class="min-w-[200px] max-w-[200px] snap-start"
                                 >
-                                    <GameCard v-if="!item.is_private" :game="item.game" />
+                                    <GameCard v-if="!item.is_private" :game="item.game" :platform="item.platform"/>
                                 </div>
                                 
                                 <div v-if="collection.items.length > 10" class="min-w-[150px] flex items-center justify-center">
@@ -101,6 +101,7 @@ onMounted(async () => {
         const response = await axios.get(`http://127.0.0.1:8000/api/users/${userId}/`, {
             headers: { 'Authorization': `Bearer ${authStore.token}` }
         });
+        console.log(response.data.user.collections)
         collections.value = response.data.user.collections;
     } catch (error) {
         console.error('Error loading collections:', error);

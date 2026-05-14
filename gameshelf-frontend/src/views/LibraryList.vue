@@ -16,7 +16,7 @@
                     <div v-for="item in library?.items" :key="item.id"
                         class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
                     >
-                        <GameCard :game="item.game"/>
+                        <GameCard :game="item.game" :platform="item.platform"/>
                     </div>
                 </main>
             </div>

@@ -322,7 +322,8 @@ import { Icon } from '@iconify/vue'
 import Navbar from '@/components/Navbar.vue';
 import type { Developer, Game, Platform, Publisher } from '@/types/gameDetailsType';
 import { useAuthStore } from '@/stores/authStore';
-import type { Collection, CollectionItem, FavoriteItem, Library, LibraryItem, Wishlist, WishlistItem } from '@/types/profileTypes';
+import type { Collection, CollectionItem, Library, LibraryItem, Wishlist, WishlistItem } from '@/types/profileTypes';
+import { PLATFORM_MAP } from '@/constants/app';
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -612,18 +613,6 @@ const isInCollection = (collection: Collection, platformId: number, type: 'P' | 
 // --- Details del Game
 
 // --- LÓGICA DE PLATAFORMAS ---
-const PLATFORM_MAP: Record<string, string> = {
-    'linux': 'simple-icons:linux',
-    'playstation-2': 'simple-icons:playstation2',
-    'playstation-3': 'simple-icons:playstation3',
-    'playstation-4': 'simple-icons:playstation4',
-    'playstation-5': 'simple-icons:playstation5',
-    'pc-microsoft-windows': 'mdi:computer-classic',
-    'xbox': 'simple-icons:xbox',
-    'nintendo-switch': 'simple-icons:nintendoswitch',
-    'android': 'simple-icons:android',
-};
-
 const LIMIT_ICONS = 3; // Número de iconos antes de mostrar los puntos
 const showAllPlatforms = ref(false);
 
