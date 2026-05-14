@@ -1,10 +1,9 @@
 <template>
-    <div class="h-screen flex flex-col bg-[#0b0e14]">
+    <div class="h-screen flex flex-col bg-[#0b0e14]"> 
         <div class="flex-shrink-0 sticky top-0 z-50">
-            <Navbar />
+            <Navbar/>
         </div>
-        <section ref="scrollContainer" @scroll="handleScroll"
-            class="flex-1 overflow-y-auto p-6 sm:p-8 text-gsblanco relative">
+        <section ref="scrollContainer" @scroll="handleScroll" class="flex-1 overflow-y-auto p-6 sm:p-8 text-gsblanco relative">            
             <div class="max-w-[1600px] mx-auto">
 
                 <router-link 
@@ -34,11 +33,12 @@
                 </main>
             </div>
             <Transition name="fade">
-                <button v-show="showButton" @click="scrollTop"
-                    class="fixed bottom-8 right-8 z-50 p-3 rounded-md bg-gsmenta text-gsoscuro shadow-xl hover:bg-gsbosque hover:scale-110 transition-all duration-300 group">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
+                <button 
+                    v-show="showButton"
+                    @click="scrollTop"
+                    class="fixed bottom-8 right-8 z-50 p-3 rounded-md bg-gsmenta text-gsoscuro shadow-xl hover:bg-gsbosque hover:scale-110 transition-all duration-300 group"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
                     </svg>
                 </button>
@@ -46,6 +46,7 @@
         </section>
     </div>
 </template>
+
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
@@ -91,8 +92,10 @@ async function loadCollection() {
 async function getCollection() {
 
     const response = await api.get(
-        `/api/collection/${collectionId}/`
+        `api/collections/${collectionId}/user/${userId}/`
     );
+
+    console.log('OK' + response.data);
 
     return response.data;
 }

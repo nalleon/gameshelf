@@ -20,8 +20,11 @@
                             <h1 class="text-5xl font-bold">{{ game.title }}</h1>
 
                             <div class="flex gap-2">
+
+                                <!-- FAVORITOS -->
                                 <div class="relative">
-                                    <button @click="showPlatformSelector = !showPlatformSelector"
+                                    <button 
+                                        @click="openDropdown = openDropdown === 'favorites' ? null : 'favorites'"
                                         class="p-2 rounded-full hover:bg-white/10 transition-all duration-300"
                                         title="Gestionar favoritos">
                                         <Icon :icon="isGameFavorite ? 'mdi:heart' : 'mdi:heart-outline'"
@@ -29,15 +32,13 @@
                                             :class="isGameFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-400'" />
                                     </button>
 
-                                    <div v-if="showPlatformSelector"
+                                    <div v-if="openDropdown === 'favorites'"
                                         class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-50 w-64 p-3 overflow-hidden">
 
                                         <div class="flex justify-between items-center mb-3 px-1">
-                                            <span
-                                                class="text-xs font-bold text-gray-500 uppercase tracking-wider">Añadir
-                                                para:</span>
-                                            <button @click="showPlatformSelector = false"
-                                                class="text-gray-500 hover:text-white text-xs">Cerrar</button>
+                                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                                Add as favorite for:
+                                            </span>
                                         </div>
 
                                         <div class="flex flex-col gap-1">
@@ -54,37 +55,44 @@
                                                     :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta' : 'text-gray-600 group-hover:text-gray-400'" />
                                             </button>
                                         </div>
-
-                                        <p v-if="favoritePlatforms.length >= 10"
-                                            class="text-[10px] text-red-400 mt-2 px-1">
-                                            Límite de 10 favoritos alcanzado.
-                                        </p>
                                     </div>
                                 </div>
 
+                                <!-- WISHLIST -->
                                 <div class="relative">
                                     <button
-                                        @click="showWishlistSelector = !showWishlistSelector; showPlatformSelector = false"
+                                        @click="openDropdown = openDropdown === 'wishlist' ? null : 'wishlist'"
                                         class="p-2 rounded-full hover:bg-white/10 transition-all">
                                         <Icon :icon="isAnyWishlist ? 'mdi:bookmark' : 'mdi:bookmark-outline'"
                                             class="text-4xl"
                                             :class="isAnyWishlist ? 'text-gsmenta' : 'text-gray-400 hover:text-gsmenta'" />
                                     </button>
 
-                                    <div v-if="showWishlistSelector"
+                                    <div v-if="openDropdown === 'wishlist'"
                                         class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[60] w-72 p-3">
-                                        <p class="text-xs font-bold text-gray-500 uppercase mb-3">Añadir a Wishlist</p>
+
+                                        <p class="text-xs font-bold text-gray-500 uppercase mb-3">
+                                            Add into Wishlist
+                                        </p>
+
                                         <div v-for="p in game.platforms" :key="p.id"
                                             class="mb-4 last:mb-0 border-b border-white/5 pb-3 last:border-0">
+
                                             <span class="text-xs text-gray-500 block mb-2">{{ p.name }}</span>
+
                                             <div class="flex gap-2">
                                                 <button @click="toggleWishlist(p.id, 'D')"
-                                                    :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'D') ? 'bg-gsmenta text-black' : 'bg-white/5 text-white'"
+                                                    :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'D')
+                                                        ? 'bg-gsmenta text-black'
+                                                        : 'bg-white/5 text-white'"
                                                     class="flex-1 text-[10px] py-1.5 rounded uppercase font-bold transition-all">
                                                     Digital
                                                 </button>
+
                                                 <button @click="toggleWishlist(p.id, 'P')"
-                                                    :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'P') ? 'bg-gsmenta text-black' : 'bg-white/5 text-white'"
+                                                    :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'P')
+                                                        ? 'bg-gsmenta text-black'
+                                                        : 'bg-white/5 text-white'"
                                                     class="flex-1 text-[10px] py-1.5 rounded uppercase font-bold transition-all">
                                                     Físico
                                                 </button>
@@ -93,104 +101,124 @@
                                     </div>
                                 </div>
 
+                                <!-- LIBRARY -->
                                 <div class="relative">
                                     <button
-                                        @click="showLibrarySelector = !showLibrarySelector; showPlatformSelector = false; showWishlistSelector = false"
+                                        @click="openDropdown = openDropdown === 'library' ? null : 'library'"
                                         class="p-2 rounded-full hover:bg-white/10 transition-all"
-                                        title="Añadir a mi colección">
+                                        title="Add into mi colección">
                                         <Icon :icon="isInLibrary ? 'mdi:library-shelves' : 'mdi:library-outline'"
                                             class="text-4xl"
                                             :class="isInLibrary ? 'text-gsmenta' : 'text-gray-400 hover:text-gsmenta'" />
                                     </button>
 
-                                    <div v-if="showLibrarySelector"
+                                    <div v-if="openDropdown === 'library'"
                                         class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[70] w-80 p-4">
 
-                                        <p class="text-xs font-bold text-gray-500 uppercase mb-4">Mi Biblioteca</p>
+                                        <p class="text-xs font-bold text-gray-500 uppercase mb-4">
+                                            My library
+                                        </p>
 
                                         <div v-for="p in game.platforms" :key="p.id"
                                             class="mb-6 last:mb-0 border-b border-white/5 pb-4 last:border-0">
+
                                             <div class="flex justify-between items-center mb-2">
                                                 <span class="text-sm font-bold text-white">{{ p.name }}</span>
                                                 <span v-if="libraryItems.find(i => i.platform.id === p.id)"
-                                                    class="text-[10px] text-gsmenta uppercase font-bold">En
-                                                    Biblioteca</span>
+                                                    class="text-[10px] text-gsmenta uppercase font-bold">
+                                                    In library
+                                                </span>
                                             </div>
 
                                             <div class="grid grid-cols-2 gap-2">
                                                 <button v-for="status in LIBRARY_STATUS" :key="status.id"
-                                                    @click="toggleLibrary(p.id, status.id)" :class="libraryItems.some(i => Number(i.platform.id) === Number(p.id) && i.status === status.name)
+                                                    @click="toggleLibrary(p.id, status.id)"
+                                                    :class="libraryItems.some(i => Number(i.platform.id) === Number(p.id) && i.status === status.name)
                                                         ? 'bg-gsmenta text-black shadow-[0_0_10px_#00ff99]'
                                                         : 'bg-white/5 text-gray-400 hover:bg-white/10'"
                                                     class="text-[10px] py-1.5 rounded uppercase font-bold transition-all">
                                                     {{ status.name }}
                                                 </button>
                                             </div>
-
-                                            <button v-if="libraryItems.find(i => i.platform.id === p.id)"
-                                                @click="toggleLibrary(p.id)"
-                                                class="w-full mt-2 text-[9px] text-red-400 hover:text-red-300 uppercase font-bold text-center">
-                                                Quitar de esta plataforma
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- COLLECTIONS -->
                                 <div class="relative">
-                                    <button 
-                                        @click="showCollectionSelector = !showCollectionSelector; showPlatformSelector = false; showWishlistSelector = false; showLibrarySelector = false"
+                                    <button
+                                        @click="openDropdown = openDropdown === 'collections' ? null : 'collections'"
                                         class="p-2 rounded-full hover:bg-white/10 transition-all"
-                                        title="Mis Colecciones"
-                                    >
-                                        <Icon 
-                                            :icon="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) ? 'mdi:folder-star' : 'mdi:folder-plus-outline'" 
+                                        title="Mis Colecciones">
+                                        <Icon
+                                            :icon="userCollections.some(c => c.items.some(i => i.game.id === game?.id))
+                                                ? 'mdi:folder-star'
+                                                : 'mdi:folder-plus-outline'"
                                             class="text-4xl"
-                                            :class="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) ? 'text-gsmenta' : 'text-gray-400 hover:text-gsmenta'"
-                                        />
+                                            :class="userCollections.some(c => c.items.some(i => i.game.id === game?.id))
+                                                ? 'text-gsmenta'
+                                                : 'text-gray-400 hover:text-gsmenta'" />
                                     </button>
 
-                                    <div v-if="showCollectionSelector" 
+                                    <div v-if="openDropdown === 'collections'"
                                         class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[80] w-80 max-h-[500px] flex flex-col overflow-hidden">
-                                        
+
                                         <div class="p-4 border-b border-white/5 bg-[#1a1f29]">
-                                            <p class="text-xs font-bold text-gray-500 uppercase mb-3">Añadir a Colección</p>
+                                            <p class="text-xs font-bold text-gray-500 uppercase mb-3">
+                                                Add into collection
+                                            </p>
+
                                             <div class="flex gap-2">
-                                                <input 
-                                                    v-model="newCollectionName"
-                                                    type="text" 
-                                                    placeholder="Nueva colección..."
+                                                <input v-model="newCollectionName"
+                                                    type="text"
+                                                    placeholder="New collection..."
                                                     class="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs focus:outline-none focus:border-gsmenta text-white"
-                                                    @keyup.enter="createNewCollection"
-                                                />
-                                                <button @click="createNewCollection" class="bg-gsmenta text-black px-3 py-1 rounded font-bold hover:brightness-110">
-                                                    <Icon icon="mdi:plus" class="text-xl"/>
+                                                    @keyup.enter="createNewCollection" />
+
+                                                <button @click="createNewCollection"
+                                                    class="bg-gsmenta text-black px-3 py-1 rounded font-bold hover:brightness-110">
+                                                    <Icon icon="mdi:plus" class="text-xl" />
                                                 </button>
                                             </div>
                                         </div>
 
                                         <div class="overflow-y-auto p-4 space-y-4 custom-scrollbar">
-                                            <div v-for="col in userCollections" :key="col.id" class="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                                            <div v-for="col in collectionItemsForGame" :key="col.id"
+                                                class="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+
                                                 <div class="flex justify-between items-center mb-2">
-                                                    <span class="text-sm font-bold text-gray-200 truncate">{{ col.name }}</span>
-                                                    <span v-if="col.is_private" class="text-[10px] text-gray-600 uppercase">Privada</span>
+                                                    <span class="text-sm font-bold text-gray-200 truncate">
+                                                        {{ col.name }}
+                                                    </span>
+                                                    <span v-if="col.is_private"
+                                                        class="text-[10px] text-gray-600 uppercase">
+                                                        Private
+                                                    </span>
                                                 </div>
 
                                                 <div v-for="p in game.platforms" :key="p.id" class="mt-2 space-y-1">
-                                                    <p class="text-[9px] text-gray-500 font-bold ml-1 uppercase">{{ p.name }}</p>
+
+                                                    <p class="text-[9px] text-gray-500 font-bold ml-1 uppercase">
+                                                        {{ p.name }}
+                                                    </p>
+
                                                     <div class="flex gap-2">
-                                                        <button 
+                                                        <button
                                                             @click="toggleCollectionItem(col.id, p.id, 'D')"
-                                                            :class="isInCollection(col, p.id, 'D') ? 'bg-gsmenta text-black' : 'bg-white/5 text-gray-400'"
-                                                            class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase"
-                                                        >
+                                                            :class="isInCollection(col, p.id, 'D')
+                                                                ? 'bg-gsmenta text-black'
+                                                                : 'bg-white/5 text-gray-400'"
+                                                            class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase">
                                                             Digital
                                                         </button>
-                                                        <button 
+
+                                                        <button
                                                             @click="toggleCollectionItem(col.id, p.id, 'P')"
-                                                            :class="isInCollection(col, p.id, 'P') ? 'bg-gsmenta text-black' : 'bg-white/5 text-gray-400'"
-                                                            class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase"
-                                                        >
-                                                            Físico
+                                                            :class="isInCollection(col, p.id, 'P')
+                                                                ? 'bg-gsmenta text-black'
+                                                                : 'bg-white/5 text-gray-400'"
+                                                            class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase">
+                                                            Physical
                                                         </button>
                                                     </div>
                                                 </div>
@@ -198,6 +226,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -206,48 +235,12 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-lg mb-8">
                             <div class="flex gap-2 items-center">
                                 <span class="text-gray-400">Desarrolladora:</span>
-                                <span class="text-gsmenta">
-                                    {{ formatText(game?.developers, 'developer') }}
-                                    <span v-if="game?.developers && isLong(game?.developers)"
-                                        @click="toggleField('developer')"
-                                        class="cursor-pointer hover:text-white transition-colors ml-1 font-bold">
-                                        {{ expanded.developer ? ' (ver menos)' : '...' }}
-                                    </span>
-                                </span>
+                                <span class="text-gsmenta">{{ formatText(game?.developers, 'developer') }}</span>
                             </div>
 
                             <div class="flex gap-2 items-center">
                                 <span class="text-gray-400">Distribuidora:</span>
-                                <span class="text-gsmenta">
-                                    {{ formatText(game?.publishers, 'publisher') }}
-                                    <span v-if="game?.publishers && isLong(game?.publishers)"
-                                        @click="toggleField('publisher')"
-                                        class="cursor-pointer hover:text-white transition-colors ml-1 font-bold">
-                                        {{ expanded.publisher ? ' (ver menos)' : '...' }}
-                                    </span>
-                                </span>
-                            </div>
-
-                            <div class="flex gap-2 items-center mt-5">
-                                <span class="text-gray-400">Plataformas:</span>
-                                <div class="flex items-center gap-3">
-                                    <div v-for="item in visibleIcons" :key="item.slug"
-                                        class="group relative flex items-center">
-                                        <Icon :icon="item.icon"
-                                            class="text-2xl text-gsmenta transition-transform group-hover:scale-110"
-                                            :title="item.slug" />
-                                        <span
-                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-xs p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                            {{ item.slug }}
-                                        </span>
-                                    </div>
-
-                                    <button v-if="processedIcons.length > LIMIT_ICONS"
-                                        @click="showAllPlatforms = !showAllPlatforms"
-                                        class="text-gsmenta hover:text-white transition-colors font-bold text-xl flex items-center pb-1">
-                                        {{ showAllPlatforms ? '«' : '...' }}
-                                    </button>
-                                </div>
+                                <span class="text-gsmenta">{{ formatText(game?.publishers, 'publisher') }}</span>
                             </div>
                         </div>
 
@@ -259,36 +252,14 @@
                     </div>
                 </div>
 
-                <div class="mt-16">
-                    <h3 class="text-gray-500 uppercase tracking-widest text-sm font-bold mb-6">Reviews</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div v-for="review in game.reviews" :key="review.id"
-                            class="bg-[#151921] border border-white/5 p-6 rounded-md">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <h4 class="text-gsmenta font-medium">{{ review.author.username }}</h4>
-                                    <span class="text-gray-400 ml-1">
-                                        <Icon :icon="(review.recommend ? 'mdi:thumb-up' : 'mdi:thumb-down')"
-                                            class="text-2xl text-gsmenta transition-transform group-hover:scale-110"
-                                            :title="review.recommend ? 'Recomiendo' : 'No recomendado'" />
-                                    </span>
-                                </div>
-                                <span class="text-[10px] bg-green-500/10 text-green-500 px-2 py-1 rounded uppercase">
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <div v-else-if="loading" class="flex justify-center items-center h-64 text-gsmenta">
-                Cargando...
+                Loading...
             </div>
         </section>
     </div>
 </template>
-
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
@@ -313,11 +284,13 @@ const gameId = route.params.id
 const game = ref<Game | null>(null);
 
 const loading = ref(true)
+const openDropdown = ref<null | 'favorites' | 'wishlist' | 'library' | 'collections'>(null)
 
 onMounted(async () => {
     try {
         const data = await getGame()
         game.value = data
+        await loadCollections();
         await loadFavoriteStatus();
         await loadWishlistStatus();
         await loadLibraryStatus();
@@ -333,7 +306,7 @@ async function getGame() {
     return response.data
 }
 
-// --- Lógica de añadir a Favoritos ---
+// --- Lógica de Add into Favoritos ---
 const showPlatformSelector = ref(false);
 const favoritePlatforms = ref<number[]>([]);
 
@@ -428,6 +401,12 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
                 `/api/wishlist/${wishlistId.value}/`,
                 payload
             );
+
+            console.log({
+                game_id: game.value?.id,
+                platform_id: platformId,
+                type
+            });
 
             // Añadimos el nuevo item (que viene con el formato WishlistItem)
             wishlistItems.value.push(response.data);
@@ -528,67 +507,128 @@ const isNewCollectionPrivate = ref(false);
 
 const loadCollections = async () => {
     try {
-        const userId = authStore.getSelfId();
-        // Usamos el endpoint que devuelve las colecciones del usuario
-        const response = await axios.get(`http://127.0.0.1:8000/api/collections/`, { headers });
-        console.log(response.data)
-        // Si el backend devuelve todas, filtramos por las del usuario actual
-        userCollections.value = response.data;
-    } catch (error) {
-        console.error('Error cargando colecciones:', error);
+        const response = await api.get('/api/collections/')
+        console.log("STATUS:", response.status)
+        console.log("DATA:", response.data)
+          
+        userCollections.value = response.data.map((col: any) => ({
+            ...col,
+            items: col.items ?? [] // seguridad
+        }));
+
+// userCollections.value = response.data;
+        newCollectionName.value = "";
+    } catch (err: any) {
+        console.error("ERROR:", err.response?.status)
+        console.error("DETAIL:", err.response?.data)
     }
-};
+}
+
+const collectionItemsForGame = computed(() => {
+    if (!game.value) return [];
+
+    return userCollections.value.map(col => ({
+        ...col,
+        items: col.items.filter(
+            (i: any) => i.game?.id === game.value?.id
+        )
+    }));
+});
 
 const createNewCollection = async () => {
+
     if (!newCollectionName.value.trim()) return;
+
     try {
-        const response = await axios.post(`http://127.0.0.1:8000/api/collections/`, {
-            name: newCollectionName.value,
-            is_private: isNewCollectionPrivate.value
-        }, { headers });
-        
-        userCollections.value.push({ ...response.data, items: [] });
+
+        const response = await api.post(
+            `/api/collections/`,
+            {
+                name: newCollectionName.value,
+                is_private: isNewCollectionPrivate.value
+            }
+        );
+
+        userCollections.value.push({
+            ...response.data,
+            items: []
+        });
+
         newCollectionName.value = "";
-    } catch (error) {
+
+    } catch (error: any) {
+
         alert("Error al crear la colección");
+
     }
 };
 
-const toggleCollectionItem = async (collectionId: number, platformId: number, type: 'P' | 'D') => {
+const toggleCollectionItem = async (
+    collectionId: number,
+    platformId: number,
+    type: 'P' | 'D'
+) => {
 
-    const collection = userCollections.value.find(c => c.id === collectionId);
-    if (!collection) return;
-
-    // Buscamos si el juego ya está en ESTA colección específica con ESTE tipo
-    const existingItem: CollectionItem | undefined = collection.items.find(
-        item => item.game.id === game.value?.id && item.type === type && item.platform.id === platformId
+    const collection = userCollections.value.find(
+        c => c.id === collectionId
     );
 
+    if (!collection) return;
+
+    const existingItem: CollectionItem | undefined =
+        collection.items.find(
+            item =>
+                item.game.id === game.value?.id &&
+                item.type === type &&
+                item.platform.id === platformId
+        );
+
     try {
+
         if (existingItem) {
-            // DELETE: /api/collections/<pk_collection>/items/<pk_item>/
-            await axios.delete(`http://127.0.0.1:8000/api/collections/${collectionId}/items/${existingItem.id}/`, { headers });
+
+            await api.delete(
+                `/api/collections/${collectionId}/items/${existingItem.id}/`
+            );
+
         } else {
-            // POST: /api/collections/<pk_collection>/items/
-            await axios.post(`http://127.0.0.1:8000/api/collections/${collectionId}/`, {
-                game_id: game.value?.id,
-                platform_id: platformId,
-                is_private: false,
-                type: type
-            }, { headers });
+
+            await api.post(
+                `/api/collections/${collectionId}/`,
+                {
+                    game_id: game.value?.id,
+                    platform_id: platformId,
+                    is_private: false,
+                    type: type
+                }
+            );
         }
-        // Recargamos todas las colecciones para actualizar los estados visuales
+
         await loadCollections();
+
     } catch (error: any) {
+
         console.error(error.response?.data);
-        alert(error.response?.data?.error || "Error al gestionar colección");
+
+        alert(
+            error.response?.data?.error ||
+            "Error al gestionar colección"
+        );
     }
 };
 
-// Helper para saber si un juego está en una colección específica (para el color verde)
-const isInCollection = (collection: Collection, platformId: number, type: 'P' | 'D') => {
+// Helper para saber si un juego está en una colección específica
+const isInCollection = (
+    collection: Collection,
+    platformId: number,
+    type: 'P' | 'D'
+) => {
+
     return collection.items.some(
-        item => item.game.id === game.value?.id && item.type === type && item.platform.id === platformId
+        item =>
+            item.game.id === game.value?.id &&
+            item.type === type &&
+            item.platform.id === platformId
     );
 };
 

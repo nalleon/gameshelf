@@ -524,7 +524,7 @@ def add_self_wishlist_item(request, pk_wishlist: int):
         return Response({'error': str(e)}, status=400)
 
     if WishListItem.objects.filter(
-        wishlist=wishlist, game=game, type=item_type, deleted_at__isnull=True
+        wishlist=wishlist, game=game, type=item_type, platform=platform, deleted_at__isnull=True
     ).exists():
         return Response({'error': 'Game already exists in wishlist'}, status=400)
 

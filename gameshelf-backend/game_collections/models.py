@@ -110,7 +110,7 @@ class WishListItem(Item):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['wishlist', 'game', 'type'],
+                fields=['wishlist', 'game', 'type', 'platform'],
                 condition=models.Q(deleted_at__isnull=True),
                 name='unique_game_per_wishlist_and_type'
             )
