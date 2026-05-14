@@ -8,5 +8,6 @@ from . import views
 urlpatterns = [
     path('', views.collection_wrapper, name='collection_wrapper'),
     path('<int:pk_collection>/', views.collection_items_wrapper, name='collection_items_wrapper'),
+    path('<int:pk_collection>/user/<int:pk_user>/', views.collection_item_list, name='collection_items_user'),
     path('<int:pk_collection>/items/<int:pk_collection_item>/', views.collection_item_detail_wrapper, name='collection_item_detail_wrapper'),
 ]

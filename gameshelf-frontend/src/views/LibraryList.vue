@@ -15,8 +15,9 @@
 
                 <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
                     <div v-for="item in library?.items" :key="item.id"
-                        class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg">
-                        <GameCard :game="item.game" />
+                        class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
+                    >
+                        <GameCard :game="item.game" :platform="item.platform"/>
                     </div>
                 </main>
             </div>

@@ -129,6 +129,7 @@ class LoggedCollectionItemSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
             'id': instance.pk,
+            'platform': PlatformSerializer(instance.platform, request=self.request).serialize(),
             'game': LoggedGameSerializer(instance.game, request=self.request).serialize(),
         }
 

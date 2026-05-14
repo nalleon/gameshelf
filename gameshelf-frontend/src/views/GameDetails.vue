@@ -135,6 +135,69 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="relative">
+                                    <button 
+                                        @click="showCollectionSelector = !showCollectionSelector; showPlatformSelector = false; showWishlistSelector = false; showLibrarySelector = false"
+                                        class="p-2 rounded-full hover:bg-white/10 transition-all"
+                                        title="Mis Colecciones"
+                                    >
+                                        <Icon 
+                                            :icon="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) ? 'mdi:folder-star' : 'mdi:folder-plus-outline'" 
+                                            class="text-4xl"
+                                            :class="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) ? 'text-gsmenta' : 'text-gray-400 hover:text-gsmenta'"
+                                        />
+                                    </button>
+
+                                    <div v-if="showCollectionSelector" 
+                                        class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[80] w-80 max-h-[500px] flex flex-col overflow-hidden">
+                                        
+                                        <div class="p-4 border-b border-white/5 bg-[#1a1f29]">
+                                            <p class="text-xs font-bold text-gray-500 uppercase mb-3">Añadir a Colección</p>
+                                            <div class="flex gap-2">
+                                                <input 
+                                                    v-model="newCollectionName"
+                                                    type="text" 
+                                                    placeholder="Nueva colección..."
+                                                    class="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs focus:outline-none focus:border-gsmenta text-white"
+                                                    @keyup.enter="createNewCollection"
+                                                />
+                                                <button @click="createNewCollection" class="bg-gsmenta text-black px-3 py-1 rounded font-bold hover:brightness-110">
+                                                    <Icon icon="mdi:plus" class="text-xl"/>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="overflow-y-auto p-4 space-y-4 custom-scrollbar">
+                                            <div v-for="col in userCollections" :key="col.id" class="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                                                <div class="flex justify-between items-center mb-2">
+                                                    <span class="text-sm font-bold text-gray-200 truncate">{{ col.name }}</span>
+                                                    <span v-if="col.is_private" class="text-[10px] text-gray-600 uppercase">Privada</span>
+                                                </div>
+
+                                                <div v-for="p in game.platforms" :key="p.id" class="mt-2 space-y-1">
+                                                    <p class="text-[9px] text-gray-500 font-bold ml-1 uppercase">{{ p.name }}</p>
+                                                    <div class="flex gap-2">
+                                                        <button 
+                                                            @click="toggleCollectionItem(col.id, p.id, 'D')"
+                                                            :class="isInCollection(col, p.id, 'D') ? 'bg-gsmenta text-black' : 'bg-white/5 text-gray-400'"
+                                                            class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase"
+                                                        >
+                                                            Digital
+                                                        </button>
+                                                        <button 
+                                                            @click="toggleCollectionItem(col.id, p.id, 'P')"
+                                                            :class="isInCollection(col, p.id, 'P') ? 'bg-gsmenta text-black' : 'bg-white/5 text-gray-400'"
+                                                            class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase"
+                                                        >
+                                                            Físico
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -235,7 +298,8 @@ import api from "@/api/client";
 import Navbar from '@/components/Navbar.vue';
 import type { Developer, Game, Platform, Publisher } from '@/types/gameDetailsType';
 import { useAuthStore } from '@/stores/authStore';
-import type { FavoriteItem, Library, LibraryItem, Wishlist, WishlistItem } from '@/types/profileTypes';
+import type { Collection, CollectionItem, Library, LibraryItem, Wishlist, WishlistItem } from '@/types/profileTypes';
+import { PLATFORM_MAP } from '@/constants/app';
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -456,22 +520,81 @@ const toggleLibrary = async (platformId: number, status?: string) => {
 
 const isInLibrary = computed(() => libraryItems.value.length > 0);
 
+// --- LÓGICA DE COLECCIONES ---
+const userCollections = ref<Collection[]>([]);
+const showCollectionSelector = ref(false);
+const newCollectionName = ref("");
+const isNewCollectionPrivate = ref(false);
+
+const loadCollections = async () => {
+    try {
+        const userId = authStore.getSelfId();
+        // Usamos el endpoint que devuelve las colecciones del usuario
+        const response = await axios.get(`http://127.0.0.1:8000/api/collections/`, { headers });
+        console.log(response.data)
+        // Si el backend devuelve todas, filtramos por las del usuario actual
+        userCollections.value = response.data;
+    } catch (error) {
+        console.error('Error cargando colecciones:', error);
+    }
+};
+
+const createNewCollection = async () => {
+    if (!newCollectionName.value.trim()) return;
+    try {
+        const response = await axios.post(`http://127.0.0.1:8000/api/collections/`, {
+            name: newCollectionName.value,
+            is_private: isNewCollectionPrivate.value
+        }, { headers });
+        
+        userCollections.value.push({ ...response.data, items: [] });
+        newCollectionName.value = "";
+    } catch (error) {
+        alert("Error al crear la colección");
+    }
+};
+
+const toggleCollectionItem = async (collectionId: number, platformId: number, type: 'P' | 'D') => {
+
+    const collection = userCollections.value.find(c => c.id === collectionId);
+    if (!collection) return;
+
+    // Buscamos si el juego ya está en ESTA colección específica con ESTE tipo
+    const existingItem: CollectionItem | undefined = collection.items.find(
+        item => item.game.id === game.value?.id && item.type === type && item.platform.id === platformId
+    );
+
+    try {
+        if (existingItem) {
+            // DELETE: /api/collections/<pk_collection>/items/<pk_item>/
+            await axios.delete(`http://127.0.0.1:8000/api/collections/${collectionId}/items/${existingItem.id}/`, { headers });
+        } else {
+            // POST: /api/collections/<pk_collection>/items/
+            await axios.post(`http://127.0.0.1:8000/api/collections/${collectionId}/`, {
+                game_id: game.value?.id,
+                platform_id: platformId,
+                is_private: false,
+                type: type
+            }, { headers });
+        }
+        // Recargamos todas las colecciones para actualizar los estados visuales
+        await loadCollections();
+    } catch (error: any) {
+        console.error(error.response?.data);
+        alert(error.response?.data?.error || "Error al gestionar colección");
+    }
+};
+
+// Helper para saber si un juego está en una colección específica (para el color verde)
+const isInCollection = (collection: Collection, platformId: number, type: 'P' | 'D') => {
+    return collection.items.some(
+        item => item.game.id === game.value?.id && item.type === type && item.platform.id === platformId
+    );
+};
 
 // --- Details del Game
 
 // --- LÓGICA DE PLATAFORMAS ---
-const PLATFORM_MAP: Record<string, string> = {
-    'linux': 'simple-icons:linux',
-    'playstation-2': 'simple-icons:playstation2',
-    'playstation-3': 'simple-icons:playstation3',
-    'playstation-4': 'simple-icons:playstation4',
-    'playstation-5': 'simple-icons:playstation5',
-    'pc-microsoft-windows': 'mdi:computer-classic',
-    'xbox': 'simple-icons:xbox',
-    'nintendo-switch': 'simple-icons:nintendoswitch',
-    'android': 'simple-icons:android',
-};
-
 const LIMIT_ICONS = 3; // Número de iconos antes de mostrar los puntos
 const showAllPlatforms = ref(false);
 

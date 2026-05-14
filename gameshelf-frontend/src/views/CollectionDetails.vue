@@ -6,6 +6,18 @@
         <section ref="scrollContainer" @scroll="handleScroll"
             class="flex-1 overflow-y-auto p-6 sm:p-8 text-gsblanco relative">
             <div class="max-w-[1600px] mx-auto">
+
+                <router-link 
+                    :to="`/collections/${userId}/`" 
+                    class="text-sm text-gsmenta hover:underline flex items-center gap-1 mb-5"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 7l-5 5m0 0l5 5m-5-5H18" />
+                    </svg>
+
+                    Collections
+                </router-link>
+
                 <div class="mb-8 flex items-center justify-between text-gsmenta">
                     <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
                         {{ collection?.name }}
@@ -15,8 +27,9 @@
 
                 <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
                     <div v-for="item in collection?.items" :key="item.id"
-                        class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg">
-                        <GameCard v-if="item.is_private" :game="item.game" />
+                        class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
+                    >
+                        <GameCard v-if="!item.is_private" :game="item.game" :platform="item.platform"/>
                     </div>
                 </main>
             </div>
@@ -48,6 +61,7 @@ import api from "@/api/client";
 const collection = ref<Collection>();
 const authStore = useAuthStore()
 const route = useRoute()
+const userId = route.params.user_id;
 const collectionId = route.params.collection_id;
 
 onMounted(async () => {

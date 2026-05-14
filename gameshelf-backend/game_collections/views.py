@@ -57,14 +57,14 @@ User = get_user_model()
 def collection_wrapper(request):
     match request.method:
         case 'GET':
-            return collection_list(request)
+            return own_collection_list(request)
         case 'POST':
             return create_collection(request)
 
 
 # This method is public to get all existing collections
 @csrf_exempt
-def collection_list(request):
+def own_collection_list(request):
     collections = get_collections_queryset(request.user)
     serializer = CollectionSerializer(collections, request=request)
     return serializer.json_response()
@@ -140,12 +140,12 @@ def create_collection(request):
         operation_id='edit_collection',
     ),
 )
-@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
+@api_view(['POST', 'DELETE', 'PATCH'])
 @csrf_exempt
 def collection_items_wrapper(request, pk_collection):
     match request.method:
-        case 'GET':
-            return collection_item_list(request, pk_collection)
+        # case 'GET':
+        #     return collection_item_list(request, pk_collection, pk_user)
         case 'POST':
             return add_self_collection_item(request, pk_collection)
         case 'DELETE':
@@ -155,12 +155,13 @@ def collection_items_wrapper(request, pk_collection):
 
 
 # This method is public to get all items from a collection
+@api_view(['GET'])
 @csrf_exempt
-def collection_item_list(request, pk_collection):
-    collection = get_collection_with_items(pk_collection, request.user)
-
+@auth_required
+def collection_item_list(request, pk_collection, pk_user):
+    user = get_object_or_404(User, pk=pk_user)
+    collection = get_collection_with_items(pk_collection, user)
     serializer = CollectionSerializer(collection, request=request)
-
     return serializer.json_response()
 
 
@@ -689,16 +690,37 @@ def check_wishlistitem_ownership(user, pk_wishlist_item):
     return wishlist_item
 
 
+# def get_collections_queryset(user):
+#     qs = Collection.objects.all()
+
+#     if not user.is_authenticated:
+#         qs = qs.filter(is_private=False)
+#         items_qs = CollectionItem.objects.filter(deleted_at__isnull=True, is_private=False)
+#     else:
+#         qs = qs.filter(Q(is_private=False) | Q(user=user))
+
+#         items_qs = CollectionItem.objects.filter(deleted_at__isnull=True)
+
+#     return qs.annotate(
+#         total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),
+#         total_public=Count(
+#             'items', filter=Q(items__deleted_at__isnull=True, items__is_private=False)
+#         ),
+#         total_private=Count(
+#             'items', filter=Q(items__deleted_at__isnull=True, items__is_private=True)
+#         ),
+#     ).prefetch_related(Prefetch('items', queryset=items_qs))
+
 def get_collections_queryset(user):
-    qs = Collection.objects.all()
-
+    # Si el usuario no está autenticado, no debería ver colecciones "propias"
     if not user.is_authenticated:
-        qs = qs.filter(is_private=False)
-        items_qs = CollectionItem.objects.filter(deleted_at__isnull=True, is_private=False)
-    else:
-        qs = qs.filter(Q(is_private=False) | Q(user=user))
+        return Collection.objects.none()
 
-        items_qs = CollectionItem.objects.filter(deleted_at__isnull=True)
+    # Filtramos ESTRICTAMENTE por el usuario autenticado
+    qs = Collection.objects.filter(user=user)
+    
+    # Traemos solo los ítems que no estén borrados de esas colecciones
+    items_qs = CollectionItem.objects.filter(deleted_at__isnull=True)
 
     return qs.annotate(
         total_all=Count('items', filter=Q(items__deleted_at__isnull=True)),

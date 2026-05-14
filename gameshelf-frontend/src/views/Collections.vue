@@ -30,7 +30,7 @@
                             </div>
                             
                             <router-link 
-                                :to="`/collections/${collection.id}`" 
+                                :to="`/collections/${userId}/${collection.id}/`" 
                                 class="text-sm text-gsmenta hover:underline flex items-center gap-1"
                             >
                                 View full collection 
@@ -47,7 +47,7 @@
                                     :key="item.id"
                                     class="min-w-[200px] max-w-[200px] snap-start"
                                 >
-                                    <GameCard v-if="!item.is_private" :game="item.game" />
+                                    <GameCard v-if="!item.is_private" :game="item.game" :platform="item.platform"/>
                                 </div>
                                 
                                 <div v-if="collection.items.length > 10" class="min-w-[150px] flex items-center justify-center">
