@@ -18,28 +18,29 @@ from prettyconf import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 SITE_URL = 'http://gameshelf.arkania.es'
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=False, cast=config.boolean)
+DEBUG = config('DEBUG', default=False, cast=config.boolean)
 
-#ALLOWED_HOSTS = config(
-#    "ALLOWED_HOSTS",
-#    default="",
-#    cast=config.list,
-#)
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='',
+    cast=config.list,
+)
+# ALLOWED_HOSTS = ['*']
 
 
 CSRF_TRUSTED_ORIGINS = config(
-    "CSRF_TRUSTED_ORIGINS",
-    default="",
+    'CSRF_TRUSTED_ORIGINS',
+    default='',
     cast=config.list,
 )
 
@@ -77,7 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -207,12 +208,12 @@ SIMPLE_JWT = {
 # CORS Settings
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:5175",
-    "http://127.0.0.1:5175",
-    "http://gameshelf.arkania.es",
-    "https://gameshelf.arkania.es",
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:5175',
+    'http://127.0.0.1:5175',
+    'http://gameshelf.arkania.es',
+    'https://gameshelf.arkania.es',
 ]
 CORS_ALLOW_METHODS = [
     'DELETE',
