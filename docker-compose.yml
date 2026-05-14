@@ -4,6 +4,7 @@ services:
       context: .
     container_name: gameshelf_backend
     restart: always
+
     env_file:
       - ./gameshelf-backend/.env
 
@@ -12,6 +13,7 @@ services:
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
+      - db_volume:/app/data
 
     expose:
       - 8000
@@ -43,6 +45,7 @@ services:
     image: redis:7-alpine
     container_name: gameshelf_redis
     restart: always
+
     volumes:
       - redis_data:/data
 
@@ -63,24 +66,8 @@ services:
     depends_on:
       - django
 
-
-  init:
-    build:
-      context: .
-    container_name: gameshelf_init
-
-    env_file:
-      - ./gameshelf-backend/.env
-
-    user: "1000:1000"
-
-    depends_on:
-      - redis
-
-    command: sh -c "just makemigrations && just migrate && just seed && just create-su"
-
-
 volumes:
   static_volume:
   media_volume:
   redis_data:
+  db_volume:
