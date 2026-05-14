@@ -24,7 +24,7 @@ const badge = computed(() => {
 
   switch (props.nombre) {
     case "collectionist": {
-      const quantity = props.collectionsQuantity;
+      const quantity = props.collectionsQuantity ?? 0;
 
       if (quantity < 1) {
         label = "hide";
@@ -49,7 +49,7 @@ const badge = computed(() => {
     }
 
     case "completionist": {
-      const quantity = props.completedQuantity;
+      const quantity = props.completedQuantity ?? 0;
 
       if (quantity < 1) {
         label = "Paper Completionist";
@@ -73,7 +73,7 @@ const badge = computed(() => {
       break;
     }
     case "wisher": {
-      const quantity = props.wishlistQuantity;
+      const quantity = props.wishlistQuantity ?? 0;
 
       if (quantity < 1) {
         label = "hide";
@@ -98,7 +98,7 @@ const badge = computed(() => {
     }
 
     case "player": {
-      const quantity = props.libraryQuantity;
+      const quantity = props.libraryQuantity ?? 0;
 
       if (quantity < 1) {
         label = "hide";
@@ -123,7 +123,10 @@ const badge = computed(() => {
     }
 
     case "role":
+      if (!props.role) break;
+
       label = props.role;
+
       bgColor =
         props.role?.toLowerCase() === "admin"
           ? "bg-gradient-to-t from-[#A66A1A]/80 via-[#F6C453]/70 to-[#FFF1C2]/80"

@@ -30,9 +30,7 @@
                         </div>
                     </div>
 
-                    <router-link 
-                        v-if="isOwnProfile"
-                        to="/profile/edit"
+                    <router-link v-if="isOwnProfile" to="/profile/edit"
                         class="mb-2 px-6 py-2 border border-gsmenta text-gsmenta rounded-full hover:bg-gsmenta hover:text-gsoscuro transition-all duration-300 font-semibold">
                         Editar Perfil
                     </router-link>
@@ -44,19 +42,23 @@
         <section class="bg-[#161a21] border-y border-gsgris/10 py-8" v-if="profile">
             <div class="max-w-5xl mx-auto px-6 flex justify-around md:justify-center md:gap-24">
                 <router-link :to="`/collections/${profile.user.id}`" class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.collections?.length ?? 0 }}</span>
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.collections?.length
+                        ?? 0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Collections</span>
                 </router-link>
                 <router-link :to="`/library/${profile.user.id}`" class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.library.items?.length ?? 0 }}</span>
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{
+                        profile.user.library.items?.length ?? 0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Library</span>
                 </router-link>
                 <router-link :to="`/favorites/${profile.user.id}`" class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.favorites?.length ?? 0 }}</span>
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.favorites?.length ??
+                        0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Favorites</span>
                 </router-link>
                 <router-link :to="`/wishlist/${profile.user.wishlist.id}`" class="text-center">
-                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{ profile.user.wishlist.items?.length ?? 0 }}</span>
+                    <span class="block text-2xl md:text-3xl font-bold text-gsmenta">{{
+                        profile.user.wishlist.items?.length ?? 0 }}</span>
                     <span class="text-gsgris text-xs uppercase tracking-wider font-semibold">Wishlist</span>
                 </router-link>
                 <router-link :to="`/completed/${profile.user.wishlist.id}`" class="text-center">
@@ -83,13 +85,15 @@
 
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold border-l-4 border-gsmenta pl-4">Favoritos</h2>
-                <a href="#" class="text-gsmenta hover:text-gsbosque text-sm font-medium transition-colors">Ver todos los favoritos →</a>
+                <a href="#" class="text-gsmenta hover:text-gsbosque text-sm font-medium transition-colors">Ver todos los
+                    favoritos →</a>
             </div>
 
             <!-- Game Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
                 <template v-if="profile && limitedFavorites.length > 0">
-                    <div v-for="game in limitedFavorites" :key="game.id" class="group cursor-pointer flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg">
+                    <div v-for="game in limitedFavorites" :key="game.id"
+                        class="group cursor-pointer flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg">
                         <GameCard :game="game.game" />
                     </div>
                 </template>
@@ -138,7 +142,7 @@ watch(
 //     try {
 //         const data = await apiProfileMe()
 //         profile.value = data
-//     } catch (error) {
+//    } catch (error: any) {
 //         console.error('Error cargando el perfil:', error)
 //     } finally {
 //         loading.value = false
@@ -164,7 +168,7 @@ async function fetchProfile() {
         const data = await apiProfileById(route.params.id as string)
         profile.value = data
 
-    } catch (error) {
+    } catch (error: any) {
 
         console.error(error)
 

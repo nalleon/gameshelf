@@ -247,6 +247,7 @@ import StepPanel from 'primevue/steppanel';
 import axios from 'axios';
 import { Cropper, CircleStencil } from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
+import api from "@/api/client";
 const showCropper = ref(false)
 const rawImage = ref<string | null>(null)
 const croppedImage = ref<string | null>(null)
@@ -286,8 +287,6 @@ const generateRandomFirstName = () => {
 };
 
 async function apiRegister() {
-    const webhookUrl = 'http://127.0.0.1:8000/api/auth/register/'
-
     if (!firstName.value.trim()) {
         firstName.value = generateRandomFirstName();
     }
@@ -296,42 +295,34 @@ async function apiRegister() {
         lastName.value = String(numberDictionary);
     }
 
-    const formData = new FormData()
+    const formData = new FormData();
 
-    formData.append('username', username.value)
-    formData.append('first_name', firstName.value)
-    formData.append('last_name', lastName.value)
-    formData.append('email', email.value)
-    formData.append('password', password.value)
+    formData.append('username', username.value);
+    formData.append('first_name', firstName.value);
+    formData.append('last_name', lastName.value);
+    formData.append('email', email.value);
+    formData.append('password', password.value);
 
     if (avatarFile.value) {
-        formData.append('avatar', avatarFile.value)
-    }
-
-    const headers = {
-        'Content-Type': 'multipart/form-data'
+        formData.append('avatar', avatarFile.value);
     }
 
     try {
-        const response = await axios.post(webhookUrl, formData, { headers })
+        const response = await api.post('/api/auth/register/', formData);
+
         const data = response.data;
 
-        // console.log(data.token)
         username.value = "";
         email.value = "";
         password.value = "";
 
         return data;
-    } catch (error) {
-        if (error.response) {
-            console.error("Error en registro:", error.response.data);
-        } else {
-            console.error("Error de red o configuración:", error.message);
-        }
+
+    } catch (error: unknown) {
+        console.error("Error en registro:", error);
         return null;
     }
 }
-
 function checkFields() {
     isHiddenUsernameError.value = "invisible"
     isHiddenEmailError.value = "invisible"

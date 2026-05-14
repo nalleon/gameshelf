@@ -34,12 +34,14 @@ migrate app="":
 
 # Create a superuser (or update if already exists)
 [group('data')]
-create-su username="admin" password="admin" email="nlamail1529@gmail.com":
+create-su username="admin" password="admin" email="nlamail1529@gmail.com" first_name="Administrator" last_name="GameShelf":
     #!/usr/bin/env bash
     uv run manage.py shell -v0 -c '
     from django.contrib.auth.models import User
     from users.models import Profile
     user, _ = User.objects.get_or_create(username="{{ username }}")
+    user.first_name = "{{ first_name }}"
+    user.last_name = "{{ last_name }}"
     user.email = "{{ email }}"
     user.set_password("{{ password }}") 
     user.is_superuser = True

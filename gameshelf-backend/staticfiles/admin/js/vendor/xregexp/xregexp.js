@@ -3154,7 +3154,7 @@ var iteratorClose = require('../internals/iterator-close');
 module.exports = function (iterator, fn, value, ENTRIES) {
   try {
     return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
-  } catch (error) {
+ } catch (error: any) {
     iteratorClose(iterator, 'throw', error);
   }
 };
@@ -3195,7 +3195,7 @@ module.exports = function (exec, SKIP_CLOSING) {
       };
     };
     exec(object);
-  } catch (error) { /* empty */ }
+ } catch (error: any) { /* empty */ }
   return ITERATION_SUPPORT;
 };
 
@@ -3226,7 +3226,7 @@ var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Argu
 var tryGet = function (it, key) {
   try {
     return it[key];
-  } catch (error) { /* empty */ }
+ } catch (error: any) { /* empty */ }
 };
 
 // getting tag from ES6+ `Object.prototype.toString`
@@ -3655,7 +3655,7 @@ module.exports = function (options, source) {
 module.exports = function (exec) {
   try {
     return !!exec();
-  } catch (error) {
+ } catch (error: any) {
     return true;
   }
 };
@@ -3984,7 +3984,7 @@ var isConstructorModern = function isConstructor(argument) {
   try {
     construct(noop, empty, argument);
     return true;
-  } catch (error) {
+ } catch (error: any) {
     return false;
   }
 };
@@ -4001,7 +4001,7 @@ var isConstructorLegacy = function isConstructor(argument) {
     // `Function#toString` throws on some built-it function in some legacy engines
     // (for example, `DOMQuad` and similar in FF41-)
     return INCORRECT_TO_STRING || !!exec(constructorRegExp, inspectSource(argument));
-  } catch (error) {
+ } catch (error: any) {
     return true;
   }
 };
@@ -4083,7 +4083,7 @@ module.exports = function (iterator, kind, value) {
       return value;
     }
     innerResult = call(innerResult, iterator);
-  } catch (error) {
+ } catch (error: any) {
     innerError = true;
     innerResult = error;
   }
@@ -4259,7 +4259,7 @@ var activeXDocument;
 var NullProtoObject = function () {
   try {
     activeXDocument = new ActiveXObject('htmlfile');
-  } catch (error) { /* ignore */ }
+ } catch (error: any) { /* ignore */ }
   NullProtoObject = typeof document != 'undefined'
     ? document.domain && activeXDocument
       ? NullProtoObjectViaActiveX(activeXDocument) // old IE
@@ -4326,7 +4326,7 @@ exports.f = DESCRIPTORS ? $defineProperty : function defineProperty(O, P, Attrib
   anObject(Attributes);
   if (IE8_DOM_DEFINE) try {
     return $defineProperty(O, P, Attributes);
-  } catch (error) { /* empty */ }
+ } catch (error: any) { /* empty */ }
   if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
   if ('value' in Attributes) O[P] = Attributes.value;
   return O;
@@ -4352,7 +4352,7 @@ exports.f = DESCRIPTORS ? $getOwnPropertyDescriptor : function getOwnPropertyDes
   P = toPropertyKey(P);
   if (IE8_DOM_DEFINE) try {
     return $getOwnPropertyDescriptor(O, P);
-  } catch (error) { /* empty */ }
+ } catch (error: any) { /* empty */ }
   if (hasOwn(O, P)) return createPropertyDescriptor(!call(propertyIsEnumerableModule.f, O, P), O[P]);
 };
 
@@ -4369,7 +4369,7 @@ var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNa
 var getWindowNames = function (it) {
   try {
     return $getOwnPropertyNames(it);
-  } catch (error) {
+ } catch (error: any) {
     return arraySlice(windowNames);
   }
 };
@@ -4494,7 +4494,7 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
     setter = uncurryThis(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set);
     setter(test, []);
     CORRECT_SETTER = test instanceof Array;
-  } catch (error) { /* empty */ }
+ } catch (error: any) { /* empty */ }
   return function setPrototypeOf(O, proto) {
     anObject(O);
     aPossiblePrototype(proto);
@@ -4582,7 +4582,7 @@ var defineProperty = Object.defineProperty;
 module.exports = function (key, value) {
   try {
     defineProperty(global, key, { value: value, configurable: true, writable: true });
-  } catch (error) {
+ } catch (error: any) {
     global[key] = value;
   } return value;
 };
@@ -4837,7 +4837,7 @@ var String = global.String;
 module.exports = function (argument) {
   try {
     return String(argument);
-  } catch (error) {
+ } catch (error: any) {
     return 'Object';
   }
 };
