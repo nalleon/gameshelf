@@ -37,42 +37,50 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
-import axios from 'axios';
 
 import { useAuthStore } from '@/stores/authStore';
 import type { Collection } from '@/types/profileTypes';
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 
+import api from "@/api/client";
 
 const collection = ref<Collection>();
 const authStore = useAuthStore()
 const route = useRoute()
 const collectionId = route.params.collection_id;
 
-
 onMounted(async () => {
+    await loadCollection();
+});
+
+async function loadCollection() {
     try {
-        const data = await getCollection()
-        collection.value = data
+
+        const data = await getCollection();
+
+        collection.value = data;
+
         if (data.is_private) {
             // Vista de prohibido
         }
-        console.log(data)
+
+        console.log(data);
+
     } catch (error: any) {
-        console.error('Error cargando la collection:', error)
+
+        console.error('Error cargando la collection:', error);
+
     }
-});
+}
 
 async function getCollection() {
-    const webhookUrl = `http://127.0.0.1:8000/api/collection/${collectionId}/`
-    const headers = {
-        'Authorization': `Bearer ${authStore.token}`,
-        'Content-Type': 'application/json'
-    }
 
-    const response = await axios.get(webhookUrl, { headers })
-    return response.data
+    const response = await api.get(
+        `/api/collection/${collectionId}/`
+    );
+
+    return response.data;
 }
 
 // Botón de scroll hasta arriba

@@ -108,13 +108,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router'
-import axios from 'axios';
-
 import type { Profile } from '@/types/profileTypes';
 import { useAuthStore } from '@/stores/authStore';
 import Navbar from '@/components/Navbar.vue';
 import Badge from '@/components/Badge.vue';
 import GameCard from '@/components/GameCard.vue';
+import api from "@/api/client";
 
 const authStore = useAuthStore()
 const profile = ref<Profile | null>(null);
@@ -137,56 +136,21 @@ watch(
     { immediate: true } // Hace inecesario un onMounted
 )
 
-
-// onMounted(async () => {
-//     try {
-//         const data = await apiProfileMe()
-//         profile.value = data
-//    } catch (error: any) {
-//         console.error('Error cargando el perfil:', error)
-//     } finally {
-//         loading.value = false
-//     }
-// });
-
 async function fetchProfile() {
-
-    loading.value = true
+    loading.value = true;
 
     try {
+        profile.value = route.params.id
+            ? (await api.get(`/api/users/${route.params.id}/`)).data
+            : (await api.get('/api/users/me/')).data;
 
-        // MI PERFIL
-        if (!route.params.id) {
-
-            const data = await apiProfileMe()
-            profile.value = data
-
-            return
-        }
-
-        // PERFIL PUBLICO
-        const data = await apiProfileById(route.params.id as string)
-        profile.value = data
-
-    } catch (error: any) {
-
-        console.error(error)
+    } catch (error: unknown) {
+        console.error(error);
 
     } finally {
-
-        loading.value = false
+        loading.value = false;
     }
 }
-
-async function apiProfileById(id: string) {
-
-    const response = await axios.get(
-        `http://127.0.0.1:8000/api/users/${id}/`
-    )
-
-    return response.data
-}
-
 const fullName = computed(() => {
     const first = profile.value?.user.first_name?.trim()
     const last = profile.value?.user.last_name?.trim()
@@ -197,23 +161,10 @@ const fullName = computed(() => {
 
 const completed = computed(() => {
     if (!profile.value?.user.library.items) return 0
-
-    // Devuelve la longitud de un array creado a partir de los items completed
     return profile.value.user.library.items.filter(item => item.status === "Completed").length
 })
 
 const limitedFavorites = computed(() => {
     return profile.value?.user.favorites?.slice(0, 4) || []
 })
-
-async function apiProfileMe() {
-    const webhookUrl = `http://127.0.0.1:8000/api/users/me/`
-    const headers = {
-        'Authorization': `Bearer ${authStore.token}`,
-        'Content-Type': 'application/json'
-    }
-
-    const response = await axios.get(webhookUrl, { headers })
-    return response.data
-}
 </script>

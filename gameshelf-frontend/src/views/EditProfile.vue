@@ -146,9 +146,10 @@ import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
 import Navbar from '@/components/Navbar.vue';
 import type { Profile } from '@/types/profileTypes';
-import axios from 'axios';
 import { Cropper, CircleStencil } from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
+import api from "@/api/client";
+
 const router = useRouter();
 const authStore = useAuthStore();
 const profile = ref<Profile | null>(null);
@@ -182,17 +183,9 @@ onMounted(async () => {
     };
 });
 
-// Reutiliza tu función de fetch o impórtala
 async function apiProfileMe() {
-    const webhookUrl = `http://127.0.0.1:8000/api/users/me/`
-    const headers = {
-        'Authorization': `Bearer ${authStore.token}`,
-        'Content-Type': 'application/json'
-    }
-
-    const response = await axios.get(webhookUrl, { headers })
-    console.log(response)
-    return response.data
+    const response = await api.get('/api/users/me/');
+    return response.data;
 }
 
 function handleAvatarChange(event: Event) {
@@ -221,37 +214,34 @@ async function saveProfile() {
     if (!profile.value) return;
 
     errorMessage.value = null;
+
     const formData = new FormData();
 
-    // Agregamos los textos
     formData.append('first_name', editForm.value.first_name);
     formData.append('last_name', editForm.value.last_name);
     formData.append('bio', editForm.value.bio);
     formData.append('color_bg', editForm.value.color_bg);
 
-    // Agregamos el archivo real (el objeto File del input)
     const file = avatarFile.value;
+
     if (file) {
         formData.append('avatar', file);
     }
-    const urlEditProfile = `http://127.0.0.1:8000/api/users/${profile.value?.id}/`
-
-    const headers = {
-        // El navegador pondrá automáticamente 'multipart/form-data'
-        'Authorization': `Bearer ${authStore.token}`
-    }
 
     try {
-        await axios.patch(urlEditProfile,
-            formData, // Enviamos el formData directamente
-            { headers }
+        await api.patch(
+            `/api/users/${profile.value.id}/`,
+            formData
         );
-    } catch (error: any) {
-        // Capturamos el error del backend (ej: "Username already taken")
-        errorMessage.value = error.response?.data?.error || "Ocurrió un error al guardar";
-    }
 
-    router.push('/profile');
+        router.push('/profile');
+
+    } catch (error: any) {
+
+        errorMessage.value =
+            error.response?.data?.error ||
+            "Ocurrió un error al guardar";
+    }
 }
 </script>
 

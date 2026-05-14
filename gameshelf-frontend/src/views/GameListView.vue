@@ -81,6 +81,7 @@ import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import type { Game } from '@/types/gameListTypes';
 
+import api from "@/api/client";
 
 const games = ref<Game[] | null>([])
 const loading = ref(true)
@@ -135,7 +136,6 @@ async function getGames(page: number) {
         params.append('q', route.query.q as string)
     }
 
-    // FILTERS
     if (route.query.developer) {
         params.append('developer', route.query.developer as string)
     }
@@ -148,24 +148,20 @@ async function getGames(page: number) {
         params.append('year', route.query.year as string)
     }
 
-    // GENRES
     if (route.query.genres) {
-
         const genres = Array.isArray(route.query.genres)
             ? route.query.genres
             : [route.query.genres]
 
         genres.forEach(g => {
-            if (g) {
-                params.append('genres', g)
-            }
+            if (g) params.append('genres', g)
         })
     }
 
-    const webhookUrl = `http://127.0.0.1:8000/api/games/search/?${params.toString()}`
+    const response = await api.get('/api/games/search/', {
+        params: Object.fromEntries(params)
+    })
 
-    const response = await axios.get(webhookUrl)
-    console.log(response)
     return response.data
 }
 

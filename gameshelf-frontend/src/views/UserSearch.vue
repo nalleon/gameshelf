@@ -40,7 +40,7 @@
                                 {{ fullName(profile) }}
                             </h2>
 
-                            <p class="text-sm text-gsgris">
+                            <p class="text-sm text-gsmenta">
                                 @{{ profile.user.username }}
                             </p>
 
@@ -72,7 +72,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axios from 'axios'
 import api from "@/api/client";
 import Navbar from '@/components/Navbar.vue'
 import type { Profile } from '@/types/profileTypes'

@@ -37,17 +37,14 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
-import axios from 'axios';
-
-import { useAuthStore } from '@/stores/authStore';
 import type { Library, LibraryItem } from '@/types/profileTypes';
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
+import api from "@/api/client";
 
 
 const library = ref<Library>();
 const completed = ref<Array<LibraryItem>>([])
-const authStore = useAuthStore()
 const route = useRoute()
 const userId = route.params.user_id;
 
@@ -64,21 +61,13 @@ onMounted(async () => {
 });
 
 async function getLibrary() {
-    const webhookUrl = `http://127.0.0.1:8000/api/library/user/${userId}/`
-    const headers = {
-        'Authorization': `Bearer ${authStore.token}`,
-        'Content-Type': 'application/json'
-    }
-
-    const response = await axios.get(webhookUrl, { headers })
-    return response.data
+    const response = await api.get(`/api/library/user/${userId}/`);
+    return response.data;
 }
-
 async function loadCompleted(libraryLoaded: Library) {
     return libraryLoaded.items.filter(item => item.status === "Completed")
 }
 
-// Botón de scroll hasta arriba
 const scrollContainer = ref<HTMLElement | null>(null);
 const showButton = ref(false);
 

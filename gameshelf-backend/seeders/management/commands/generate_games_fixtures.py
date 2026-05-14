@@ -349,7 +349,7 @@ class Command(BaseCommand):
                         'igdb_id': pk,
                         'title': g['name'],
                         'slug': slug,
-                        'description': (g.get('summary') or '')[:500],
+                        'description': (g.get('summary') or ''),
                         'released_at': released_at.isoformat(),
                         'region': release_region_id,
                         'parent_game_igdb': parent_pk,

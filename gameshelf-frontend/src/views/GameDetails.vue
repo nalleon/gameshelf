@@ -231,7 +231,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
 import axios from 'axios';
 import { Icon } from '@iconify/vue'
-
+import api from "@/api/client";
 import Navbar from '@/components/Navbar.vue';
 import type { Developer, Game, Platform, Publisher } from '@/types/gameDetailsType';
 import { useAuthStore } from '@/stores/authStore';
@@ -265,8 +265,7 @@ onMounted(async () => {
 });
 
 async function getGame() {
-    const webhookUrl = `http://127.0.0.1:8000/api/games/${gameId}/`
-    const response = await axios.get(webhookUrl)
+    const response = await api.get(`/api/games/${gameId}/`)
     return response.data
 }
 
@@ -277,7 +276,10 @@ const favoritePlatforms = ref<number[]>([]);
 const loadFavoriteStatus = async () => {
     const userId = authStore.getSelfId();
 
-    const response = await axios.get(`http://127.0.0.1:8000/api/favorites/user/${userId}/`, { headers });
+    const response = await api.get(
+        `/api/favorites/user/${userId}/`,
+        { headers }
+    );
     // Filtramos los favoritos que pertenecen a este juego y guardamos sus IDs de plataforma
     favoritePlatforms.value = response.data
         .filter((fav: any) => fav.game.id === game.value?.id)
@@ -287,7 +289,8 @@ const loadFavoriteStatus = async () => {
 const toggleFavorite = async (platformId: number) => {
     try {
 
-        const response = await axios.post(`http://127.0.0.1:8000/api/favorites/toggle/`,
+        const response = await api.post(
+            `/api/favorites/toggle/`,
             {
                 pk_game: gameId,
                 pk_platform: platformId
@@ -319,7 +322,7 @@ const showWishlistSelector = ref(false);
 const loadWishlistStatus = async () => {
     try {
         // Obtenemos la wishlist del propio usuario autenticado
-        const response = await axios.get(`http://127.0.0.1:8000/api/wishlist/`, { headers });
+        const response = await api.get(`/api/wishlist/`, { headers });
 
         wishlistData.value = response.data;
 
@@ -341,7 +344,9 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
 
     try {
         if (existingItem) {
-            await axios.delete(`http://127.0.0.1:8000/api/wishlist/items/${existingItem.id}/`, { headers });
+            await api.delete(
+                `/api/wishlist/items/${existingItem.id}/`
+            );
             wishlistItems.value = wishlistItems.value.filter(item => item.id !== existingItem.id);
         } else {
             if (!wishlistId.value) return;
@@ -355,10 +360,9 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
                 type: type
             };
 
-            const response = await axios.post<WishlistItem>(
-                `http://127.0.0.1:8000/api/wishlist/${wishlistId.value}/`,
-                payload,
-                { headers }
+            const response = await api.post(
+                `/api/wishlist/${wishlistId.value}/`,
+                payload
             );
 
             // Añadimos el nuevo item (que viene con el formato WishlistItem)
@@ -388,7 +392,7 @@ const LIBRARY_STATUS = [
 
 const loadLibraryStatus = async () => {
     try {
-        const response = await axios.get<Library>(`http://127.0.0.1:8000/api/library/`, { headers });
+        const response = await api.get(`/api/library/`, { headers });
         libraryData.value = response.data;
         // Filtramos items para este juego
         libraryItems.value = response.data.items.filter(
@@ -410,19 +414,19 @@ const toggleLibrary = async (platformId: number, status?: string) => {
             // Si el usuario pulsa el MISMO estado que ya tiene, lo borramos (Toggle)
             // Si pulsa un estado diferente, lo actualizamos (PATCH)
             if (!status || existingItem.status === status) {
-                await axios.delete(`http://127.0.0.1:8000/api/library/${existingItem.id}/`, { headers });
+                await api.delete(
+                    `/api/library/${existingItem.id}/`
+                );
                 libraryItems.value = libraryItems.value.filter(item => item.id !== existingItem.id);
             } else {
                 // ACTUALIZAR ESTADO (PATCH)
-                const response = await axios.patch(
-                    `http://127.0.0.1:8000/api/library/${existingItem.id}/`,
+                const response = await api.patch(
+                    `/api/library/${existingItem.id}/`,
                     {
-                        status: status,
-                        platform_id: platformId // Tu backend lo pide en el edit_library_item
-                    },
-                    { headers }
+                        status,
+                        platform_id: platformId
+                    }
                 );
-
                 // Actualizamos el item en nuestro array local
                 const index = libraryItems.value.findIndex(item => item.id === existingItem.id);
                 if (index !== -1) libraryItems.value[index] = response.data;
@@ -437,7 +441,10 @@ const toggleLibrary = async (platformId: number, status?: string) => {
                 hours_played: 0
             };
 
-            await axios.post(`http://127.0.0.1:8000/api/library/`, payload, { headers });
+            await api.post(
+                `/api/library/`,
+                payload
+            );
 
             // Recargamos para traer el objeto con el formato correcto del serializador
             await loadLibraryStatus();
