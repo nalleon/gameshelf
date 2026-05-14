@@ -513,7 +513,7 @@ const loadCollections = async () => {
           
         userCollections.value = response.data.map((col: any) => ({
             ...col,
-            items: col.items ?? [] // seguridad
+            items: col.items ?? []
         }));
 
 // userCollections.value = response.data;

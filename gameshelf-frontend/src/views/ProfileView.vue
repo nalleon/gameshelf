@@ -17,7 +17,9 @@
 
                     <!-- User Details -->
                     <div class="flex-1">
-                        <h1 class="text-3xl md:text-4xl font-bold">{{ fullName }}</h1>
+                        <h1 class="text-2xl sm:text-3xl font-bold">
+                            {{ fullName }}
+                        </h1>
                         <p class="text-gsmenta font-medium">@{{ profile?.user.username }}</p>
 
                         <div class="flex flex-wrap gap-2 mt-3" v-if="profile">
@@ -32,7 +34,7 @@
 
                     <router-link v-if="isOwnProfile" to="/profile/edit"
                         class="mb-2 px-6 py-2 border border-gsmenta text-gsmenta rounded-full hover:bg-gsmenta hover:text-gsoscuro transition-all duration-300 font-semibold">
-                        Editar Perfil
+                        Edit profile
                     </router-link>
                 </div>
             </div>
@@ -72,21 +74,21 @@
         <main class="max-w-5xl mx-auto px-6 mt-12">
             <!-- Biografía -->
             <section class="mb-12">
-                <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-3">Biografía</h3>
+                <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-3">Biography</h3>
                 <div class="bg-[#1a1e26] border border-gsgris/10 p-5 rounded-2xl relative overflow-hidden group">
                     <div
                         class="absolute top-0 right-0 w-16 h-16 bg-gsmenta/5 rounded-bl-full transition-all group-hover:bg-gsmenta/10">
                     </div>
                     <p class="text-gsblanco/80 leading-relaxed text-sm md:text-base">
-                        {{ profile?.bio || 'Este coleccionista aún no ha escrito su historia... ¡Pero su estantería habla por sí sola!' }}
+                        {{ profile?.bio || defaultBio }}
                     </p>
                 </div>
             </section>
 
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold border-l-4 border-gsmenta pl-4">Favoritos</h2>
-                <a href="#" class="text-gsmenta hover:text-gsbosque text-sm font-medium transition-colors">Ver todos los
-                    favoritos →</a>
+                <h2 class="text-2xl font-bold border-l-4 border-gsmenta pl-4">Favorites</h2>
+                <a href="#" class="text-gsmenta hover:text-gsbosque text-sm font-medium transition-colors">View all
+                    →</a>
             </div>
 
             <!-- Game Grid -->
@@ -120,7 +122,7 @@ const profile = ref<Profile | null>(null);
 const loading = ref(true)
 
 const route = useRoute()
-
+const defaultBio = 'This collector has not yet written their story... But their shelf speaks for itself!'
 const isOwnProfile = computed(() => {
 
     if (!route.params.id) return true
