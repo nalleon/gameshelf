@@ -12,7 +12,7 @@
                     </h2>
 
                     <button @click="showSettings = true"
-                        class="flex items-center gap-2 text-sm px-3 py-2 rounded-lg border border-gsgris/30 hover:border-gsmenta hover:text-gsmenta transition">
+                        class="flex items-center gap-2 text-sm px-3 py-2 rounded-full border border-gsgris/30 hover:border-gsmenta hover:text-gsmenta transition">
                         <i class="pi pi-cog"></i>
                         Settings
                     </button>
@@ -82,7 +82,7 @@
 
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gsmenta flex items-center gap-2">
-                        <ion-icon name="settings-outline"></ion-icon>
+                        <i class="pi pi-cog"></i>
                         Settings
                     </h3>
 
