@@ -602,23 +602,27 @@ def review_wrapper(request):
         case 'POST':
             return add_review(request)
 
-
 @csrf_exempt
 def review_list(request):
     page = int(request.GET.get('page', 1))
     page_size = int(request.GET.get('page_size', 15))
+    game_id = request.GET.get('game_id')
+
     reviews = Review.objects.all()
+    
+    if game_id:
+        reviews = reviews.filter(game_id=game_id)
 
     total_count = reviews.count()
-    total_pages = ceil(total_count / page_size)
+    total_pages = ceil(total_count / page_size) if total_count > 0 else 1
 
     start = (page - 1) * page_size
     end = start + page_size
 
-    paginated_games = reviews[start:end]
+    paginated_reviews = reviews[start:end]
 
     pagination_data = {
-        'results': paginated_games,
+        'results': paginated_reviews,
         'count': total_count,
         'total_pages': total_pages,
         'current_page': page,
@@ -627,7 +631,6 @@ def review_list(request):
     }
 
     serializer = ReviewSerializer([], request=request)
-
     return Response(serializer.serialize_paginated(pagination_data))
 
 
