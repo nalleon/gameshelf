@@ -249,6 +249,118 @@
                         <p class="text-gray-300 leading-relaxed text-lg max-w-3xl">
                             {{ game.description }}
                         </p>
+
+                        <div class="mt-16 border-t border-white/10 pt-12">
+                            <h2 ref="reviewsTitle" class="text-3xl font-bold mb-8">Reviews</h2>
+
+                            <div v-if="!userHasReviewed || isEditingReview" 
+                                class="bg-[#151921] p-6 rounded-lg mb-12 border border-white/10 shadow-xl">
+                                
+                                <h3 class="text-xl font-bold mb-4 text-gsmenta">
+                                    {{ isEditingReview ? 'Edit Review' : 'Write a Review' }}
+                                </h3>
+                                
+                                <textarea
+                                    v-model="reviewForm.content"
+                                    class="w-full bg-white/5 border border-white/10 rounded-lg p-4 text-white mb-4 min-h-[120px] focus:outline-none focus:border-gsmenta transition-colors"
+                                    placeholder="What do you think about this game?"
+                                ></textarea>
+
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <label class="flex items-center gap-2 cursor-pointer group">
+                                            <input type="radio" v-model="reviewForm.recommend" :value="true" class="hidden peer" />
+                                            <div class="p-2 px-4 rounded border border-white/10 peer-checked:bg-gsmenta peer-checked:text-black group-hover:bg-white/5 transition-all font-bold flex items-center gap-2">
+                                                <Icon icon="mdi:thumb-up" class="text-xl" /> 
+                                                Recommend
+                                            </div>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer group">
+                                            <input type="radio" v-model="reviewForm.recommend" :value="false" class="hidden peer" />
+                                            <div class="p-2 px-4 rounded border border-white/10 peer-checked:bg-red-500 peer-checked:text-white group-hover:bg-white/5 transition-all font-bold flex items-center gap-2">
+                                                <Icon icon="mdi:thumb-down" class="text-xl" /> 
+                                                Don't Recommend
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div class="flex gap-3">
+                                        <button v-if="isEditingReview" @click="cancelEdit" 
+                                            class="bg-white/10 text-white font-bold py-2 px-6 rounded hover:bg-white/20 transition-colors">
+                                            Cancel
+                                        </button>
+                                        <button @click="saveReview" 
+                                            class="bg-gsmenta text-black font-bold py-2 px-6 rounded hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,255,153,0.3)]">
+                                            {{ isEditingReview ? 'Update' : 'Post Review' }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div v-if="reviews.length === 0" class="text-gray-500 italic text-center py-8">
+                                    No reviews yet. Be the first to share your thoughts!
+                                </div>
+
+                                <div v-for="review in reviews" :key="review.id" 
+                                    class="bg-[#151921] p-6 rounded-lg border border-white/10">
+                                    
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div class="flex items-center gap-4">
+                                            <div class="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl text-gray-300">
+                                                {{ review.author?.username?.charAt(0).toUpperCase() || 'U' }}
+                                            </div>
+                                            <div>
+                                                <p class="font-bold text-lg text-gray-200">{{ review.author?.username || 'Unknown User' }}</p>
+                                                <div class="flex items-center gap-1 text-sm font-bold mt-1" 
+                                                    :class="review.recommend ? 'text-gsmenta' : 'text-red-500'">
+                                                    <Icon :icon="review.recommend ? 'mdi:thumb-up' : 'mdi:thumb-down'" />
+                                                    <span>{{ review.recommend ? 'Recommended' : 'Not Recommended' }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div v-if="review.author?.id === currentUserId" class="flex gap-2">
+                                            <button @click="startEdit(review)" 
+                                                class="p-2 bg-white/5 rounded text-gray-400 hover:text-gsmenta hover:bg-white/10 transition-all" title="Edit">
+                                                <Icon icon="mdi:pencil" class="text-xl" />
+                                            </button>
+                                            <button @click="deleteReview(review.id)" 
+                                                class="p-2 bg-white/5 rounded text-gray-400 hover:text-red-500 hover:bg-white/10 transition-all" title="Delete">
+                                                <Icon icon="mdi:trash-can" class="text-xl" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-gray-300 leading-relaxed whitespace-pre-wrap">{{ review.content }}</p>
+                                </div>
+                                <div class="space-y-6">
+                                </div>
+
+                                <div v-if="totalPages > 1" class="flex justify-center items-center gap-4 mt-8">
+                                    <button
+                                        @click="changePage(currentPage - 1)"
+                                        :disabled="!hasPreviousPage"
+                                        class="p-2 rounded bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed transition-all">
+                                        <Icon icon="mdi:chevron-left" class="text-3xl text-white" />
+                                    </button>
+
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-gray-400 font-bold text-sm uppercase tracking-wider">Page</span>
+                                        <span class="text-gsmenta font-bold text-lg">{{ currentPage }}</span>
+                                        <span class="text-gray-500 font-bold">/</span>
+                                        <span class="text-gray-400 font-bold">{{ totalPages }}</span>
+                                    </div>
+
+                                    <button
+                                        @click="changePage(currentPage + 1)"
+                                        :disabled="!hasNextPage"
+                                        class="p-2 rounded bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed transition-all">
+                                        <Icon icon="mdi:chevron-right" class="text-3xl text-white" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -267,7 +379,7 @@ import axios from 'axios';
 import { Icon } from '@iconify/vue'
 import api from "@/api/client";
 import Navbar from '@/components/Navbar.vue';
-import type { Developer, Game, Platform, Publisher } from '@/types/gameDetailsType';
+import type { Developer, Game, Platform, Publisher, Review } from '@/types/gameDetailsType';
 import { useAuthStore } from '@/stores/authStore';
 import type { Collection, CollectionItem, Library, LibraryItem, Wishlist, WishlistItem } from '@/types/profileTypes';
 import { PLATFORM_MAP } from '@/constants/app';
@@ -294,6 +406,7 @@ onMounted(async () => {
         await loadFavoriteStatus();
         await loadWishlistStatus();
         await loadLibraryStatus();
+        await loadReviews();
     } catch (error: any) {
         console.error('Error:', error)
     } finally {
@@ -402,11 +515,11 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
                 payload
             );
 
-            console.log({
-                game_id: game.value?.id,
-                platform_id: platformId,
-                type
-            });
+            // console.log({
+            //     game_id: game.value?.id,
+            //     platform_id: platformId,
+            //     type
+            // });
 
             // Añadimos el nuevo item (que viene con el formato WishlistItem)
             wishlistItems.value.push(response.data);
@@ -508,8 +621,8 @@ const isNewCollectionPrivate = ref(false);
 const loadCollections = async () => {
     try {
         const response = await api.get('/api/collections/')
-        console.log("STATUS:", response.status)
-        console.log("DATA:", response.data)
+        // console.log("STATUS:", response.status)
+        // console.log("DATA:", response.data)
           
         userCollections.value = response.data.map((col: any) => ({
             ...col,
@@ -666,15 +779,15 @@ const expanded = ref({
 });
 
 // Comprobar la longitud del texto para decidir si mostrar el botón de expansión
-const isLong = (list: Array<any> | undefined) => {
-    if (!list || list.length === 0) return false;
-    return list.map(item => item.name).join(', ').length > LIMIT;
-};
+// const isLong = (list: Array<any> | undefined) => {
+//     if (!list || list.length === 0) return false;
+//     return list.map(item => item.name).join(', ').length > LIMIT;
+// };
 
 // Función para alternar el estado
-const toggleField = (field: 'developer' | 'publisher' | 'platform') => {
-    expanded.value[field] = !expanded.value[field];
-};
+// const toggleField = (field: 'developer' | 'publisher' | 'platform') => {
+//     expanded.value[field] = !expanded.value[field];
+// };
 
 // Función para mostrar el texto procesado
 const formatText = (list: Array<Developer> | Array<Publisher> | Array<Platform> | undefined, field: 'developer' | 'publisher' | 'platform') => {
@@ -685,6 +798,123 @@ const formatText = (list: Array<Developer> | Array<Publisher> | Array<Platform> 
     if (text.length <= LIMIT || expanded.value[field]) return text;
 
     return text.substring(0, LIMIT);
+};
+
+
+// --- LÓGICA DE REVIEWS ---
+
+const reviews = ref<Review[]>([]);
+const currentUserId = computed(() => authStore.getSelfId());
+
+// Formulario
+const reviewForm = ref({
+    content: '',
+    recommend: true as boolean | null
+});
+const isEditingReview = ref<number | null>(null);
+
+// Comprobamos si el usuario actual ya ha escrito una review
+const userHasReviewed = computed(() => {
+    return reviews.value.some(r => r.author?.id === currentUserId.value);
+});
+
+const loadReviews = async (page = 1) => {
+    try {
+        // Ahora pasamos explícitamente el game_id y la página al backend
+        const response = await api.get(`/api/reviews/?game_id=${gameId}&page=${page}`, { headers });
+        
+        // Ya no hace falta filtrar en el frontend porque el backend nos da exactamente lo que queremos
+        reviews.value = response.data.results;
+        
+        // Actualizamos los controles de paginación
+        currentPage.value = response.data.current_page;
+        totalPages.value = response.data.total_pages;
+        hasNextPage.value = response.data.has_next;
+        hasPreviousPage.value = response.data.has_previous;
+        
+    } catch (error) {
+        console.error('Error cargando reviews:', error);
+    }
+};
+
+const saveReview = async () => {
+    if (!reviewForm.value.content.trim() || reviewForm.value.recommend === null) {
+        alert("Please write a review and select a recommendation.");
+        return;
+    }
+
+    try {
+        if (isEditingReview.value) {
+            // EDITAR (PATCH) - Tu backend espera pk_game según el views.py
+            await api.patch(`/api/reviews/${isEditingReview.value}/`, {
+                content: reviewForm.value.content,
+                recommend: reviewForm.value.recommend,
+                pk_game: Number(gameId)
+            }, { headers });
+        } else {
+            // CREAR NUEVA (POST) - Tu backend espera game_id según el views.py
+            await api.post(`/api/reviews/`, {
+                content: reviewForm.value.content,
+                recommend: reviewForm.value.recommend,
+                game_id: Number(gameId)
+            }, { headers });
+        }
+
+        // Limpiar estado y recargar
+        cancelEdit();
+        await loadReviews();
+        
+    } catch (error: any) {
+        console.error('Error guardando review:', error.response?.data);
+        alert(error.response?.data?.error || "Error saving the review.");
+    }
+};
+
+const startEdit = (review: Review) => {
+    isEditingReview.value = review.id;
+    reviewForm.value = {
+        content: review.content,
+        recommend: review.recommend
+    };
+};
+
+const cancelEdit = () => {
+    isEditingReview.value = null;
+    reviewForm.value = { content: '', recommend: true };
+};
+
+const deleteReview = async (reviewId: number) => {
+    if (!confirm('Are you sure you want to delete this review?')) return;
+    
+    try {
+        await api.delete(`/api/reviews/${reviewId}/`, { headers });
+        
+        // Si estaba editando la review que acaba de borrar, reseteamos el formulario
+        if (isEditingReview.value === reviewId) {
+            cancelEdit();
+        }
+        
+        await loadReviews();
+    } catch (error: any) {
+        console.error('Error borrando review:', error.response?.data);
+    }
+};
+
+// Nuevos estados para la paginación
+const currentPage = ref(1);
+const totalPages = ref(1);
+const hasNextPage = ref(false);
+const hasPreviousPage = ref(false);
+const reviewsTitle = ref<HTMLElement | null>(null);
+
+const changePage = async (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages.value) {
+        await loadReviews(newPage);
+
+        reviewsTitle.value?.scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
 };
 
 </script>
