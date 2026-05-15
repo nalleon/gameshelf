@@ -58,11 +58,12 @@ import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 
 import api from "@/api/client";
+import router from '@/router';
 
 const collection = ref<Collection>();
 const authStore = useAuthStore()
 const route = useRoute()
-const userId = route.params.user_id;
+const userId = Number(route.params.user_id);
 const collectionId = route.params.collection_id;
 
 onMounted(async () => {
@@ -73,6 +74,7 @@ async function loadCollection() {
     try {
 
         const data = await getCollection();
+        if(data.is_private && !authStore.isOwnProfile(userId)) router.go(-1)
 
         collection.value = data;
 

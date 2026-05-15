@@ -42,16 +42,20 @@ import type { Library } from '@/types/profileTypes';
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import api from "@/api/client";
+import { useAuthStore } from '@/stores/authStore';
+import router from '@/router';
 
-
+const authStore = useAuthStore();
 const library = ref<Library>();
 const route = useRoute()
-const userId = route.params.user_id;
+const userId = Number(route.params.user_id);
 
 
 onMounted(async () => {
     try {
         const data = await getLibrary()
+        if(data.is_private && !authStore.isOwnProfile(userId)) router.go(-1)
+        
         library.value = data
         console.log(data)
     } catch (error: any) {
@@ -60,7 +64,7 @@ onMounted(async () => {
 });
 
 async function getLibrary() {
-    const response = await api.get(`/api/library/user/${userId}/`);
+    const response = await api.get(`/api/library/users/${userId}/`);
     return response.data;
 }
 

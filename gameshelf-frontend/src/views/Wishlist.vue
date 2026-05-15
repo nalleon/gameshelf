@@ -45,17 +45,20 @@ import type { Wishlist } from '@/types/profileTypes';
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import api from "@/api/client";
+import router from '@/router';
 
 const wishlist = ref<Wishlist>();
 const authStore = useAuthStore()
 const route = useRoute()
+const userId = Number(route.params.user_id);
 const wishlistId = route.params.wishlist_id;
 
 onMounted(async () => {
     try {
         const data = await getWishlist()
-        wishlist.value = data
         console.log(data)
+        if(data.is_private && !authStore.isOwnProfile(userId)) router.go(-1)
+        wishlist.value = data
     } catch (error: any) {
         console.error('Error cargando la wishlist:', error)
     }

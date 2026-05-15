@@ -51,12 +51,11 @@ export const useAuthStore = defineStore('auth', {
 
     isOwnProfile(id: number): boolean {
       if (!this.token) return false
-
+      
       try {
         const decoded = jwtDecode<{ user_id: string | number }>(this.token)
 
         const tokenUserId = Number(decoded.user_id)
-
         return tokenUserId === id
 
       } catch (e) {
