@@ -6,7 +6,9 @@ import router from './router'
 import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config';
 
-import { useAuthStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/authStore';
+import 'primeicons/primeicons.css'
+import 'flag-icons/css/flag-icons.min.css'
 
 const app = createApp(App)
 

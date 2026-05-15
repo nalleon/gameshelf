@@ -8,9 +8,14 @@
             <div class="max-w-[1600px] mx-auto">
                 <div class="mb-8 flex items-center justify-between text-gsmenta">
                     <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
-                        Catálogo de Juegos
+                        Game Catalog
                     </h2>
-                    <!-- <span class="text-gsgris text-sm">Mostrando {{ games?.length }} resultados</span> -->
+
+                    <button @click="showSettings = true"
+                        class="flex items-center gap-2 text-sm px-3 py-2 rounded-lg border border-gsgris/30 hover:border-gsmenta hover:text-gsmenta transition">
+                        <i class="pi pi-cog"></i>
+                        Settings
+                    </button>
                 </div>
 
                 <main class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
@@ -69,6 +74,41 @@
             </Transition>
         </section>
     </div>
+
+    <Transition name="fade">
+        <div v-if="showSettings" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+            @click.self="showSettings = false">
+            <div class="bg-[#161a21] p-6 rounded-xl border border-gsgris/30 w-[90%] max-w-md text-gsblanco">
+
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gsmenta flex items-center gap-2">
+                        <ion-icon name="settings-outline"></ion-icon>
+                        Settings
+                    </h3>
+
+                    <button @click="showSettings = false" class="text-gsgris hover:text-gsblanco transition">
+                        <ion-icon name="close-outline"></ion-icon>
+                    </button>
+                </div>
+
+                <label class="flex items-center justify-between gap-4">
+                    <span class="text-sm">
+                        Show mature content
+                    </span>
+
+                    <input type="checkbox" v-model="matureContent" class="w-5 h-5 accent-gsmenta" />
+                </label>
+
+                <p class="text-xs text-gsgris mt-3 leading-relaxed">
+                    Enabling this option includes adult-rated games as well as titles without an assigned age rating.
+                    Due to current data limitations, unrated content cannot be reliably classified and is therefore
+                    treated
+                    as mature content.
+                </p>
+
+            </div>
+        </div>
+    </Transition>
 </template>
 
 <script setup lang="ts">
@@ -86,6 +126,33 @@ import api from "@/api/client";
 const games = ref<Game[] | null>([])
 const loading = ref(true)
 const route = useRoute()
+
+const showSettings = ref(false)
+
+const matureContent = ref(false)
+
+const STORAGE_KEY = 'games_preferences'
+
+onMounted(() => {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+        const parsed = JSON.parse(saved)
+        matureContent.value = parsed.matureContent ?? false
+    }
+
+    loadPage(1)
+    loading.value = false
+})
+
+watch(matureContent, (val) => {
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ matureContent: val })
+    )
+
+    // recargar juegos cuando cambie el filtro
+    loadPage(1)
+})
 
 // --- VARIABLES DE PAGINACIÓN ---
 const currentPage = ref(1);
@@ -130,7 +197,7 @@ async function getGames(page: number) {
 
     params.append('page', page.toString())
     params.append('page_size', '15')
-    params.append('mature_content', 'false')
+    params.append('mature_content', matureContent.value ? 'true' : 'false')
 
     if (route.query.q) {
         params.append('q', route.query.q as string)
