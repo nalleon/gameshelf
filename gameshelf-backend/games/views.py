@@ -1088,35 +1088,29 @@ def toggle_favorite(request):
     
     game = get_object_or_404(Game, pk=pk_game)
     platform = get_object_or_404(Platform, pk=pk_platform)
-
-    # 1. Buscamos en TODOS los registros (incluidos los borrados)
-    # Nota: Ajusta 'all_objects' al nombre del manager que use tu base Shared (a veces es 'global_objects')
+    
     favorite = FavoriteItem.all_objects.filter(
         user=user, 
         game=game, 
         platform=platform
     ).first()
 
-    # CASO A: El favorito existe y está ACTIVO -> Lo "borramos" (Soft Delete)
     if favorite and favorite.deleted_at is None:
-        favorite.delete() # Esto pondrá la fecha en deleted_at
-        return Response({'is_favorite': False, 'message': 'Eliminado de favoritos'}, status=200)
+        favorite.delete() 
+        return Response({'is_favorite': False, 'message': 'Deleted from favorites'}, status=200)
     
-    # CASO B: El favorito existe pero estaba BORRADO -> Lo "resucitamos"
     elif favorite and favorite.deleted_at is not None:
-        favorite.deleted_at = None # Restauramos
+        favorite.restore()
         
-        # Recalcular el orden para que vaya al final
         last_order = FavoriteItem.objects.filter(user=user).aggregate(models.Max('order'))['order__max']
         favorite.order = (last_order or 0) + 1
         
         favorite.save()
-        return Response({'is_favorite': True, 'message': 'Restaurado en favoritos'}, status=200)
+        return Response({'is_favorite': True, 'message': 'Added to favorites'}, status=200)
     
-    # CASO C: No existe en absoluto -> Lo creamos
     else:
         if FavoriteItem.objects.filter(user=user).count() >= 10:
-            return Response({'error': 'Límite de 10 favoritos alcanzado'}, status=400)
+            return Response({'error': 'Maximum number of favorites reached'}, status=400)
 
         last_order = FavoriteItem.objects.filter(user=user).aggregate(models.Max('order'))['order__max']
         
