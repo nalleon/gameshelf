@@ -28,7 +28,7 @@ const badge = computed(() => {
 
       if (quantity < 1) {
         label = "hide";
-        bgColor = "invisible";
+        bgColor = "hidden";
       } else if (quantity < 3) {
         label = "Rookie";
         bgColor = 'bg-gradient-to-b from-[#FFC08A]/70 to-[#E1843F]/70';
@@ -53,7 +53,7 @@ const badge = computed(() => {
 
       if (quantity < 1) {
         label = "Paper Completionist";
-        bgColor = "invisible";
+        bgColor = "hidden";
       } else if (quantity < 11) {
         label = "Bronce Completionist";
         bgColor = 'bg-gradient-to-b from-[#FFC08A]/70 to-[#E1843F]/70';
@@ -77,7 +77,7 @@ const badge = computed(() => {
 
       if (quantity < 1) {
         label = "hide";
-        bgColor = "invisible";
+        bgColor = "hidden";
       } else if (quantity < 11) {
         label = "Explorer";
         bgColor = 'bg-gradient-to-b from-[#B7F58C]/70 to-[#67C93C]/70';
@@ -102,7 +102,7 @@ const badge = computed(() => {
 
       if (quantity < 1) {
         label = "hide";
-        bgColor = "invisible";
+        bgColor = "hidden";
       } else if (quantity < 11) {
         label = "Casual";
         bgColor = 'bg-gradient-to-b from-[#B7F58C]/70 to-[#67C93C]/70';

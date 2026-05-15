@@ -112,6 +112,8 @@ class LoggedCollectionSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'is_private': instance.is_private,
+            'created_at': instance.created_at,
             'items': LoggedCollectionItemSerializer(
                 instance.items.all(), request=self.request
             ).serialize(),

@@ -25,8 +25,8 @@
                             class="absolute inset-0 opacity-0 cursor-pointer" ref="fileInputRef" accept="image/*" />
                     </div>
                     <div class="mb-2">
-                        <h1 class="text-2xl font-bold text-gsblanco">Editar Perfil</h1>
-                        <p class="text-gsgris text-sm">Personaliza tu identidad en la plataforma</p>
+                        <h1 class="text-2xl font-bold text-gsblanco">Edit Profile</h1>
+                        <p class="text-gsgris text-sm">Personalize your identity on the platform</p>
                     </div>
                 </div>
             </div>
@@ -37,38 +37,38 @@
 
                 <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="col-span-full">
-                        <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-4">Información Personal
+                        <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-4">Personal Information
                         </h3>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm text-gsgris ml-1">Nombre</label>
+                        <label class="text-sm text-gsgris ml-1">First Name</label>
                         <input v-model="editForm.first_name" type="text"
                             class="w-full bg-[#161a21] border border-gsgris/20 rounded-xl px-4 py-3 focus:outline-none focus:border-gsmenta transition-colors"
-                            placeholder="Tu nombre">
+                            placeholder="Your first name">
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm text-gsgris ml-1">Apellido</label>
+                        <label class="text-sm text-gsgris ml-1">Last Name</label>
                         <input v-model="editForm.last_name" type="text"
                             class="w-full bg-[#161a21] border border-gsgris/20 rounded-xl px-4 py-3 focus:outline-none focus:border-gsmenta transition-colors"
-                            placeholder="Tu apellido">
+                            placeholder="Your last name">
                     </div>
 
                     <div class="col-span-full space-y-2">
-                        <label class="text-sm text-gsgris ml-1">Biografía</label>
+                        <label class="text-sm text-gsgris ml-1">Biography</label>
                         <textarea v-model="editForm.bio" rows="4"
                             class="w-full bg-[#161a21] border border-gsgris/20 rounded-xl px-4 py-3 focus:outline-none focus:border-gsmenta transition-colors resize-none"
-                            placeholder="Cuéntanos sobre tus gustos en videojuegos..."></textarea>
+                            placeholder="Tell us about your gaming tastes..."></textarea>
                     </div>
                 </section>
 
                 <section>
-                    <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-4">Estilo Visual</h3>
+                    <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-4">Visual Style</h3>
                     <div class="bg-[#1a1e26] p-6 rounded-2xl border border-gsgris/10 flex items-center justify-between">
                         <div>
-                            <p class="font-medium">Color de Banner</p>
-                            <p class="text-xs text-gsgris">Este color se mostrará en el encabezado de tu perfil.</p>
+                            <p class="font-medium">Banner Color</p>
+                            <p class="text-xs text-gsgris">This color will be displayed on your profile header.</p>
                         </div>
                         <div class="flex items-center gap-3">
                             <input type="color" v-model="editForm.color_bg"
@@ -78,14 +78,58 @@
                     </div>
                 </section>
 
+                <section>
+                    <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-4">Privacy</h3>
+                    <div class="bg-[#1a1e26] p-4 rounded-2xl border border-gsgris/10 space-y-4">
+                        
+                        <div class="flex items-center justify-between p-2">
+                            <div>
+                                <p class="font-medium text-gsblanco">Private Library</p>
+                                <p class="text-xs text-gsgris">Hide your game list and play status.</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" v-model="editForm.library_private" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gsgris/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gsmenta"></div>
+                            </label>
+                        </div>
+
+                        <hr class="border-gsgris/10">
+
+                        <div class="flex items-center justify-between p-2">
+                            <div>
+                                <p class="font-medium text-gsblanco">Private Wishlist</p>
+                                <p class="text-xs text-gsgris">Nobody will see the games you want to buy.</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" v-model="editForm.wishlist_private" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gsgris/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gsmenta"></div>
+                            </label>
+                        </div>
+
+                        <hr class="border-gsgris/10">
+
+                        <div class="flex items-center justify-between p-2">
+                            <div>
+                                <p class="font-medium text-gsblanco">Private Collections</p>
+                                <p class="text-xs text-gsgris">Affects all your custom collections.</p>
+                                <p class="text-xs text-red-500">All your collections will be set on private</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" v-model="editForm.collections_private" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gsgris/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gsmenta"></div>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
                 <div class="flex flex-col md:flex-row gap-4 pt-6 border-t border-gsgris/10">
                     <button type="submit"
                         class="flex-1 bg-gsmenta text-gsoscuro font-bold py-4 rounded-xl hover:bg-[#68d391] transition-all transform hover:scale-[1.01] active:scale-95 shadow-lg shadow-gsmenta/10">
-                        Guardar Cambios
+                        Save Changes
                     </button>
                     <button type="button" @click="$router.push('/profile')"
                         class="px-8 py-4 border border-gsgris/30 text-gsgris font-semibold rounded-xl hover:bg-gsgris/10 transition-all">
-                        Cancelar
+                        Cancel
                     </button>
                 </div>
 
@@ -93,51 +137,31 @@
         </main>
     </div>
     <div v-if="showCropper" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
-
-        <div
-            class="relative w-full max-w-xl bg-gsoscuro text-gsblanco rounded-2xl shadow-2xl border border-white/8 overflow-hidden">
-
-            <!-- TOP BORDER (igual que cards/login/home) -->
+        <div class="relative w-full max-w-xl bg-gsoscuro text-gsblanco rounded-2xl shadow-2xl border border-white/8 overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta via-gsblanco/70 to-gsbosque"></div>
-
-            <!-- CONTENT -->
             <div class="p-6">
-
                 <h2 class="text-center text-lg font-semibold mb-6">
                     Adjust your profile picture
                 </h2>
-
-                <!-- CROPPER -->
                 <div class="flex justify-center">
-
                     <Cropper ref="cropperRef" :src="rawImage" class="w-full h-80 rounded-xl overflow-hidden"
                         :stencil-component="CircleStencil" :stencil-props="{
                             aspectRatio: 1
                         }" />
-
                 </div>
-
-                <!-- BUTTONS -->
                 <div class="flex justify-between mt-6">
-
                     <button class="text-gsgris hover:text-gsblanco transition-colors" @click="showCropper = false">
                         Cancel
                     </button>
-
                     <button
                         class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2 rounded-full font-bold transition-all"
                         @click="getCroppedImage">
                         Apply
                     </button>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </template>
 
 <script setup lang="ts">
@@ -162,26 +186,64 @@ const fileInputRef = ref<HTMLInputElement | null>(null);
 const errorMessage = ref<string | null>(null); // Para mostrar errores del backend
 
 // Formulario reactivo
+// 1. Actualizar el objeto inicial
 const editForm = ref({
     first_name: '',
     last_name: '',
     bio: '',
-    color_bg: '#79a998'
+    color_bg: '#79a998',
+    library_private: false,    // Nuevo
+    wishlist_private: false,   // Nuevo
+    collections_private: false // Nuevo
 });
 
+// 2. Actualizar onMounted para leer estos valores del backend
 onMounted(async () => {
-    // Aquí podrías usar la misma función apiProfileMe que tienes en Profile
     const data = await apiProfileMe();
     profile.value = data;
 
-    // Inicializar el formulario con los datos actuales
     editForm.value = {
         first_name: data.user.first_name || '',
         last_name: data.user.last_name || '',
         bio: data.bio || '',
-        color_bg: data.color_bg || '#79a998'
+        color_bg: data.color_bg || '#79a998',
+        // Asegúrate que tu API devuelva estos campos o sus equivalentes
+        library_private: data.user.library?.is_private ?? false,
+        wishlist_private: data.user.wishlist?.is_private ?? false,
+        collections_private: false
     };
 });
+
+// 3. Actualizar saveProfile para enviar los booleanos
+async function saveProfile() {
+    if (!profile.value) return;
+    errorMessage.value = null;
+
+    const formData = new FormData();
+    formData.append('first_name', editForm.value.first_name);
+    formData.append('last_name', editForm.value.last_name);
+    formData.append('bio', editForm.value.bio);
+    formData.append('color_bg', editForm.value.color_bg);
+    
+    // FormData envía strings, el backend debe manejarlos o puedes enviarlo como JSON
+    formData.append('library_private', String(editForm.value.library_private));
+    formData.append('wishlist_private', String(editForm.value.wishlist_private));
+    formData.append('collections_private', String(editForm.value.collections_private));
+
+    if (avatarFile.value) {
+        formData.append('avatar', avatarFile.value);
+    }
+
+    try {
+        await api.patch(`/api/users/${profile.value.id}/`, formData);
+        router.push({
+            path: '/profile',
+            query: { updated: 'true' }
+        });
+    } catch (error: any) {
+        errorMessage.value = error.response?.data?.error || "Error al guardar";
+    }
+}
 
 async function apiProfileMe() {
     const response = await api.get('/api/users/me/');
@@ -210,39 +272,39 @@ function getCroppedImage() {
     }, 'image/jpeg')
 }
 
-async function saveProfile() {
-    if (!profile.value) return;
+// async function saveProfile() {
+//     if (!profile.value) return;
 
-    errorMessage.value = null;
+//     errorMessage.value = null;
 
-    const formData = new FormData();
+//     const formData = new FormData();
 
-    formData.append('first_name', editForm.value.first_name);
-    formData.append('last_name', editForm.value.last_name);
-    formData.append('bio', editForm.value.bio);
-    formData.append('color_bg', editForm.value.color_bg);
+//     formData.append('first_name', editForm.value.first_name);
+//     formData.append('last_name', editForm.value.last_name);
+//     formData.append('bio', editForm.value.bio);
+//     formData.append('color_bg', editForm.value.color_bg);
 
-    const file = avatarFile.value;
+//     const file = avatarFile.value;
 
-    if (file) {
-        formData.append('avatar', file);
-    }
+//     if (file) {
+//         formData.append('avatar', file);
+//     }
 
-    try {
-        await api.patch(
-            `/api/users/${profile.value.id}/`,
-            formData
-        );
+//     try {
+//         await api.patch(
+//             `/api/users/${profile.value.id}/`,
+//             formData
+//         );
 
-        router.push('/profile');
+//         router.push('/profile');
 
-    } catch (error: any) {
+//     } catch (error: any) {
 
-        errorMessage.value =
-            error.response?.data?.error ||
-            "Ocurrió un error al guardar";
-    }
-}
+//         errorMessage.value =
+//             error.response?.data?.error ||
+//             "Ocurrió un error al guardar";
+//     }
+// }
 </script>
 
 <style scoped></style>

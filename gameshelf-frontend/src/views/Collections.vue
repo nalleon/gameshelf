@@ -10,17 +10,18 @@
                     <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
                         Collections
                     </h2>
-                    <span class="text-gsgris text-sm">Total Collections: {{ collections.length }}</span>
+                    <span class="text-gsgris text-sm">Total Collections: {{ visibleCollections.length }}</span>
                 </div>
 
                 <div class="space-y-6">
-                    <details 
+                    <details
                         v-for="collection in collections" 
                         :key="collection.id" 
                         class="group bg-[#161a21] rounded-xl border border-gsgris/20 overflow-hidden transition-all duration-300 open:border-gsmenta/30"
                         open
                     >
-                        <summary class="flex items-center justify-between p-5 cursor-pointer list-none hover:bg-[#1c222c] transition-colors">
+                        <summary
+                            class="flex items-center justify-between p-5 cursor-pointer list-none hover:bg-[#1c222c] transition-colors">
                             <div class="flex items-center gap-4">
                                 <span class="text-gsmenta transform group-open:rotate-90 transition-transform duration-200">▶</span>
                                 <h3 class="text-xl font-bold">{{ collection.name }}</h3>
@@ -28,7 +29,16 @@
                                     {{ collection.items.length }} games
                                 </span>
                             </div>
-                            
+                            <button
+                                v-if="authStore.isOwnProfile(userId)"
+                                @click.stop="toggleCollectionPrivacy(collection)"
+                                class="text-xs px-3 py-1 rounded-full border transition-all"
+                                :class="collection.is_private
+                                    ? 'border-red-500/40 text-red-400 hover:bg-red-500/10'
+                                    : 'border-gsmenta/40 text-gsmenta hover:bg-gsmenta/10'"
+                            >
+                                {{ collection.is_private ? 'Private' : 'Public' }}
+                            </button>
                             <router-link 
                                 :to="`/collections/${userId}/${collection.id}/`" 
                                 class="text-sm text-gsmenta hover:underline flex items-center gap-1"
@@ -40,14 +50,18 @@
                             </router-link>
                         </summary>
 
-                        <div class="p-5 border-t border-gsgris/10">
+                        <div 
+                            class="p-5 border-t border-gsgris/10">
                             <div class="flex gap-6 overflow-x-auto pb-4 scrollbar-hide snap-x">
                                 <div 
                                     v-for="item in collection.items.slice(0, 10)" 
                                     :key="item.id"
                                     class="min-w-[200px] max-w-[200px] snap-start"
                                 >
-                                    <GameCard v-if="!item.is_private" :game="item.game" :platform="item.platform"/>
+                                    <GameCard 
+                                        v-if="!item.is_private || authStore.isOwnProfile(userId)" 
+                                        :game="item.game" :platform="item.platform"
+                                    />
                                 </div>
                                 
                                 <div v-if="collection.items.length > 10" class="min-w-[150px] flex items-center justify-center">
@@ -79,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { useAuthStore } from '@/stores/authStore';
@@ -92,7 +106,7 @@ import api from "@/api/client";
 const collections = ref<Collection[]>([]);
 const authStore = useAuthStore();
 const route = useRoute();
-const userId = route.params.user_id;
+const userId = Number(route.params.user_id);
 
 const scrollContainer = ref<HTMLElement | null>(null);
 const showButton = ref(false);
@@ -103,17 +117,49 @@ onMounted(async () => {
 
 async function loadCollections() {
     try {
-
         const response = await api.get(`/api/users/${userId}/`);
-
+        console.log(response.data)
         collections.value = response.data.user.collections;
-
     } catch (error: any) {
-
         console.error('Error loading collections:', error);
-
     }
 }
+
+const visibleCollections = computed(() => {
+    // Si es mi propio perfil, las veo todas (públicas y privadas)
+    if (authStore.isOwnProfile(userId)) {
+        return collections.value;
+    }
+    // Si no es mi perfil, solo veo las que NO son privadas
+    return collections.value.filter(c => !c.is_private);
+});
+
+async function toggleCollectionPrivacy(collection: Collection) {
+
+    const previousValue = collection.is_private
+
+    // Optimistic UI
+    collection.is_private = !collection.is_private
+
+    try {
+
+        await api.patch(
+            `/api/collections/${collection.id}/`,
+            {
+                name: collection.name,
+                is_private: collection.is_private
+            }
+        )
+
+    } catch (error) {
+
+        // rollback
+        collection.is_private = previousValue
+
+        console.error('Error updating collection privacy', error)
+    }
+}
+
 const handleScroll = () => {
     if (scrollContainer.value) showButton.value = scrollContainer.value.scrollTop > 300;
 };

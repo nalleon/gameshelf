@@ -52,8 +52,13 @@ const routes = [
     component: CollectionDetails,
     meta: { requiresAuth: true }
   },
+  // { 
+  //   path: '/wishlist/:wishlist_id', 
+  //   component: Wishlist,
+  //   meta: { requiresAuth: true }
+  // },
   { 
-    path: '/wishlist/:wishlist_id', 
+    path: '/wishlist/:user_id/:wishlist_id', 
     component: Wishlist,
     meta: { requiresAuth: true }
   },
