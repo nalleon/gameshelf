@@ -120,39 +120,46 @@ import axios from 'axios';
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 import type { Game } from '@/types/gameListTypes';
-
+import { useAuthStore } from '@/stores/authStore';
 import api from "@/api/client";
 
 const games = ref<Game[] | null>([])
 const loading = ref(true)
 const route = useRoute()
+const authStore = useAuthStore()
 
 const showSettings = ref(false)
 
 const matureContent = ref(false)
 
-const STORAGE_KEY = 'games_preferences'
+const STORAGE_KEY = computed(() => {
+  const userId = authStore.getSelfId()
 
+  return userId
+    ? `games_preferences_user_${userId}`
+    : 'games_preferences_guest'
+})
 onMounted(() => {
-    const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved) {
-        const parsed = JSON.parse(saved)
-        matureContent.value = parsed.matureContent ?? false
-    }
+  const saved = localStorage.getItem(STORAGE_KEY.value)
 
-    loadPage(1)
-    loading.value = false
+  if (saved) {
+    const parsed = JSON.parse(saved)
+    matureContent.value = parsed.matureContent ?? false
+  }
+
+  loadPage(1)
+  loading.value = false
 })
 
 watch(matureContent, (val) => {
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ matureContent: val })
-    )
+  localStorage.setItem(
+    STORAGE_KEY.value,
+    JSON.stringify({ matureContent: val })
+  )
 
-    // recargar juegos cuando cambie el filtro
     loadPage(1)
 })
+
 
 // --- VARIABLES DE PAGINACIÓN ---
 const currentPage = ref(1);
