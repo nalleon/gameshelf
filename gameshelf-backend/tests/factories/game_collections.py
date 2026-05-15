@@ -11,7 +11,7 @@ User = get_user_model()
 
 
 # -------------------------
-# USER (si no tienes uno global reutilizable)
+# USER
 # -------------------------
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -33,11 +33,6 @@ class CollectionFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda n: f'Collection {n}')
     is_private = False
 
-    @factory.post_generation
-    def items(self, create, extracted, **kwargs):
-        if not create:
-            return
-
 
 # -------------------------
 # COLLECTION ITEM
@@ -49,9 +44,8 @@ class CollectionItemFactory(factory.django.DjangoModelFactory):
     collection = factory.SubFactory(CollectionFactory)
     game = factory.SubFactory(GameFactory)
     platform = factory.SubFactory(PlatformFactory)
-    deleted_at = None
+
     type = CollectionItem.Type.DIGITAL
-    is_private = False
 
 
 # -------------------------
@@ -75,12 +69,9 @@ class WishListItemFactory(factory.django.DjangoModelFactory):
 
     wishlist = factory.SubFactory(WishlistFactory)
     game = factory.SubFactory(GameFactory)
-
     platform = factory.SubFactory(PlatformFactory)
-    deleted_at = None
+
     type = WishListItem.Type.DIGITAL
 
     priority = factory.LazyFunction(lambda: fake.random_int(min=1, max=10))
     annotation = factory.LazyFunction(lambda: fake.sentence(nb_words=6))
-
-    is_private = False

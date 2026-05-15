@@ -10,6 +10,9 @@ from tests.factories.game_collections import (
     WishlistFactory,
     WishListItemFactory,
 )
+
+from tests.factories.classifications import PlatformFactory
+
 from tests.factories.games import GameFactory
 
 
@@ -54,11 +57,22 @@ def test_collection_item_creation():
 def test_collection_item_unique_constraint():
     collection = CollectionFactory()
     game = GameFactory()
+    platform = PlatformFactory()
 
-    CollectionItemFactory(collection=collection, game=game, type='D')
+    CollectionItemFactory(
+        collection=collection,
+        game=game,
+        platform=platform,
+        type='D'
+    )
 
     with pytest.raises(IntegrityError):
-        CollectionItemFactory(collection=collection, game=game, type='D')
+        CollectionItemFactory(
+            collection=collection,
+            game=game,
+            platform=platform,
+            type='D'
+        )
 
 
 @pytest.mark.django_db
@@ -109,12 +123,22 @@ def test_wishlist_item_priority_range():
 def test_wishlist_item_unique_constraint():
     wishlist = WishlistFactory()
     game = GameFactory()
+    platform = PlatformFactory()
 
-    WishListItemFactory(wishlist=wishlist, game=game, type='D')
+    WishListItemFactory(
+        wishlist=wishlist,
+        game=game,
+        platform=platform,
+        type='D'
+    )
 
     with pytest.raises(IntegrityError):
-        WishListItemFactory(wishlist=wishlist, game=game, type='D')
-
+        WishListItemFactory(
+            wishlist=wishlist,
+            game=game,
+            platform=platform,
+            type='D'
+        )
 
 @pytest.mark.django_db
 def test_wishlist_item_null_game_allowed():

@@ -1,12 +1,10 @@
 import json
 import os
 import random
-from io import BytesIO
 
 from classifications.models import Platform
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from faker import Faker
@@ -391,7 +389,6 @@ class Command(BaseCommand):
         img.save(path)
 
         return f'media/{filename}'
-
 
     def generate_fake_avatar(self):
         img = Image.new(
