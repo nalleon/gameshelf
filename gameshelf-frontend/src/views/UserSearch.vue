@@ -24,26 +24,15 @@
             </div>
 
             <!-- RESULTS -->
-            <div
-                v-else-if="profiles.length > 0"
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-                <router-link
-                    v-for="profile in profiles"
-                    :key="profile.id"
-                    :to="`/profile/${profile.id}`"
-                    class="bg-[#161a21] border border-white/10 rounded-2xl p-5 hover:border-gsmenta/40 transition-all duration-300 group"
-                >
+            <div v-else-if="profiles.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <router-link v-for="profile in profiles" :key="profile.id" :to="`/profile/${profile.id}`"
+                    class="bg-[#161a21] border border-white/10 rounded-2xl p-5 hover:border-gsmenta/40 transition-all duration-300 group">
                     <div class="flex items-center gap-4">
 
                         <!-- AVATAR -->
-                        <img
-                            v-if="profile.avatar"
-                            :src="profile.avatar"
-                            alt=""
+                        <img v-if="profile.avatar" :src="profile.avatar" alt=""
                             class="w-18 h-18 rounded-full object-cover border-2"
-                            :style="{ borderColor: profile.color_bg || '#79a998' }"
-                        />
+                            :style="{ borderColor: profile.color_bg || '#79a998' }" />
 
                         <!-- INFO -->
                         <div class="flex-1">
@@ -51,7 +40,7 @@
                                 {{ fullName(profile) }}
                             </h2>
 
-                            <p class="text-sm text-gsgris">
+                            <p class="text-sm text-gsmenta">
                                 @{{ profile.user.username }}
                             </p>
 
@@ -68,14 +57,8 @@
             </div>
 
             <!-- EMPTY -->
-            <div
-                v-else
-                class="flex flex-col items-center justify-center py-20"
-            >
-                <img
-                    src="@/assets/Empty-cuate.svg"
-                    class="w-80 opacity-80"
-                />
+            <div v-else class="flex flex-col items-center justify-center py-20">
+                <img src="@/assets/Empty-cuate.svg" class="w-80 opacity-80" />
 
                 <p class="text-gsgris mt-6">
                     No users found
@@ -89,8 +72,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axios from 'axios'
-
+import api from "@/api/client";
 import Navbar from '@/components/Navbar.vue'
 import type { Profile } from '@/types/profileTypes'
 
@@ -102,37 +84,29 @@ const loading = ref(false)
 onMounted(fetchUsers)
 
 async function fetchUsers() {
-
-    const query = route.query.q
+    const query = route.query.q;
 
     if (!query) {
-        profiles.value = []
-        return
+        profiles.value = [];
+        return;
     }
 
-    loading.value = true
+    loading.value = true;
 
     try {
-
-        const response = await axios.get(
-            `http://127.0.0.1:8000/api/users/search/`,
-            {
-                params: {
-                    q: query
-                }
+        const response = await api.get('/api/users/search/', {
+            params: {
+                q: query
             }
-        )
+        });
 
-        profiles.value = response.data
+        profiles.value = response.data;
 
-    } catch (error) {
-
-        console.error('Error searching users:', error)
+    } catch (error: unknown) {
+        console.error('Error searching users:', error);
 
     } finally {
-
-        loading.value = false
-
+        loading.value = false;
     }
 }
 

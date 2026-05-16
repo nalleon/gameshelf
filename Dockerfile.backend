@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y just
+RUN apt-get update && apt-get install -y sqlite3
 
 COPY gameshelf-backend/pyproject.toml .
 COPY gameshelf-backend/uv.lock .
@@ -27,7 +28,7 @@ RUN chmod +x /entrypoint.sh
 
 RUN adduser --disabled-password --gecos "" django_user
 
-RUN mkdir -p /app/staticfiles /app/media
+RUN mkdir -p /app/staticfiles /app/media /app/data
 
 RUN chown -R django_user:django_user /app
 

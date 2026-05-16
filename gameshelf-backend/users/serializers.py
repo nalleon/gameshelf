@@ -10,12 +10,15 @@ from classifications.serializers import (
 
 class UserSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
+        profile = getattr(instance, 'profile', None)
+
         return {
             'id': instance.pk,
             'username': instance.username,
             'first_name': instance.first_name,
             'last_name': instance.last_name,
             'email': instance.email,
+            'avatar': self.build_url(profile.avatar.url) if profile and profile.avatar else None,
         }
 
     @staticmethod
@@ -26,8 +29,8 @@ class UserSerializer(BaseSerializer):
             'first_name': serializers.CharField(),
             'last_name': serializers.CharField(),
             'email': serializers.EmailField(),
+            'avatar': serializers.CharField(allow_null=True),
         }
-
 
 class ProfileSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
@@ -112,6 +115,8 @@ class LoggedCollectionSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'is_private': instance.is_private,
+            'created_at': instance.created_at,
             'items': LoggedCollectionItemSerializer(
                 instance.items.all(), request=self.request
             ).serialize(),
@@ -129,6 +134,7 @@ class LoggedCollectionItemSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
             'id': instance.pk,
+            'platform': PlatformSerializer(instance.platform, request=self.request).serialize(),
             'game': LoggedGameSerializer(instance.game, request=self.request).serialize(),
         }
 

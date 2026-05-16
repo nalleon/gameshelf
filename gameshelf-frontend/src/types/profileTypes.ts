@@ -21,10 +21,12 @@ export interface User {
     collections: Array<Collection>
     library: Library
     wishlist: Wishlist
+    avatar: string
 }
 
 export interface FavoriteItem {
     id: number,
+    platform: Platform,
     game: Game
 }
 
@@ -39,6 +41,8 @@ export interface Collection {
 export interface CollectionItem{
     id: number,
     is_private: boolean,
+    platform: Platform,
+    type: string,
     game: Game
 }
 

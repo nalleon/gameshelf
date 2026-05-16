@@ -88,6 +88,7 @@ class WishlistSerializer(BaseSerializer):
         return {
             'id': instance.pk,
             'name': instance.name,
+            'is_private': instance.is_private,
             'user': ShowUsernameSerializer(instance.user, request=self.request).serialize(),
             'total_all': getattr(instance, 'total_all', 0),
             'total_public': getattr(instance, 'total_public', 0),

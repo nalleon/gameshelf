@@ -88,6 +88,12 @@ def test_delete_game(client_admin):
 
     assert response.status_code == 204
 
+
+# -------------------------
+# FAVORITES
+# -------------------------
+
+
 @pytest.mark.django_db
 def test_add_favorite_limit(client_admin, admin_user):
     FavoriteItemFactory.create_batch(10, user=admin_user)
@@ -96,23 +102,21 @@ def test_add_favorite_limit(client_admin, admin_user):
     platform = PlatformFactory()
 
     response = client_admin.post(
-        '/api/favorites/',
+        '/api/favorites/toggle/',
         {'pk_game': game.pk, 'pk_platform': platform.pk},
         format='json'
     )
 
     assert response.status_code == 400
     assert response.json()['error'] == 'Maximum number of favorites reached'
-    
-# -------------------------
-# FAVORITES
-# -------------------------
 
 
+@pytest.mark.django_db
 def test_favorite_list(client_admin, admin_user):
     FavoriteItemFactory.create_batch(3, user=admin_user)
 
-    response = client_admin.get('/api/favorites/')
+    response = client_admin.get(f'/api/favorites/user/{admin_user.pk}/')
+
     assert response.status_code == 200
 
 
@@ -126,25 +130,38 @@ def test_add_favorite(client_admin):
         'pk_platform': platform.pk,
     }
 
-    response = client_admin.post('/api/favorites/', payload, format='json')
+    response = client_admin.post(
+        '/api/favorites/toggle/',
+        payload,
+        format='json'
+    )
 
-    assert response.status_code == 200
+    assert response.status_code in [200, 201]
 
 
+@pytest.mark.django_db
 def test_add_favorite_duplicate(client_admin, admin_user):
     game = GameFactory()
     platform = PlatformFactory()
 
-    FavoriteItemFactory(user=admin_user, game=game, platform=platform)
+    FavoriteItemFactory(
+        user=admin_user,
+        game=game,
+        platform=platform,
+    )
 
     payload = {
         'pk_game': game.pk,
         'pk_platform': platform.pk,
     }
 
-    response = client_admin.post('/api/favorites/', payload, format='json')
+    response = client_admin.post(
+        '/api/favorites/toggle/',
+        payload,
+        format='json'
+    )
 
-    assert response.status_code == 400
+    assert response.status_code in [200, 204]
 
 
 @pytest.mark.django_db
@@ -152,7 +169,7 @@ def test_add_favorite_game_not_found(client_admin):
     platform = PlatformFactory()
 
     response = client_admin.post(
-        '/api/favorites/',
+        '/api/favorites/toggle/',
         {'pk_game': 999, 'pk_platform': platform.pk},
         format='json',
     )
@@ -165,11 +182,22 @@ def test_edit_favorite(client_admin):
     user = client_admin.user
     platform = PlatformFactory()
 
-    fav = FavoriteItemFactory(user=user, platform=platform, order=1)
+    fav = FavoriteItemFactory(
+        user=user,
+        platform=platform,
+        order=1,
+    )
 
-    payload = {'order': 2, 'pk_platform': platform.pk}
+    payload = {
+        'order': 2,
+        'pk_platform': platform.pk,
+    }
 
-    response = client_admin.patch(f'/api/favorites/{fav.pk}/', payload, format='json')
+    response = client_admin.patch(
+        f'/api/favorites/{fav.pk}/',
+        payload,
+        format='json',
+    )
 
     assert response.status_code == 200
 
@@ -177,9 +205,12 @@ def test_edit_favorite(client_admin):
 @pytest.mark.django_db
 def test_delete_favorite(client_admin):
     user = client_admin.user
+
     fav = FavoriteItemFactory(user=user)
 
-    response = client_admin.delete(f'/api/favorites/{fav.pk}/')
+    response = client_admin.delete(
+        f'/api/favorites/{fav.pk}/'
+    )
 
     assert response.status_code == 204
 
@@ -231,6 +262,7 @@ def test_review_detail_not_found(client):
     assert response.status_code == 404
 
 
+@pytest.mark.django_db
 def test_delete_review_ok(client_admin, admin_user):
     review = ReviewFactory(author=admin_user)
 

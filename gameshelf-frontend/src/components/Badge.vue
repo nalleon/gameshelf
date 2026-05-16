@@ -24,11 +24,11 @@ const badge = computed(() => {
 
   switch (props.nombre) {
     case "collectionist": {
-      const quantity = props.collectionsQuantity;
+      const quantity = props.collectionsQuantity ?? 0;
 
       if (quantity < 1) {
         label = "hide";
-        bgColor = "invisible";
+        bgColor = "hidden";
       } else if (quantity < 3) {
         label = "Rookie";
         bgColor = 'bg-gradient-to-b from-[#FFC08A]/70 to-[#E1843F]/70';
@@ -49,11 +49,11 @@ const badge = computed(() => {
     }
 
     case "completionist": {
-      const quantity = props.completedQuantity;
+      const quantity = props.completedQuantity ?? 0;
 
       if (quantity < 1) {
         label = "Paper Completionist";
-        bgColor = "invisible";
+        bgColor = "hidden";
       } else if (quantity < 11) {
         label = "Bronce Completionist";
         bgColor = 'bg-gradient-to-b from-[#FFC08A]/70 to-[#E1843F]/70';
@@ -73,11 +73,11 @@ const badge = computed(() => {
       break;
     }
     case "wisher": {
-      const quantity = props.wishlistQuantity;
+      const quantity = props.wishlistQuantity ?? 0;
 
       if (quantity < 1) {
         label = "hide";
-        bgColor = "invisible";
+        bgColor = "hidden";
       } else if (quantity < 11) {
         label = "Explorer";
         bgColor = 'bg-gradient-to-b from-[#B7F58C]/70 to-[#67C93C]/70';
@@ -98,11 +98,11 @@ const badge = computed(() => {
     }
 
     case "player": {
-      const quantity = props.libraryQuantity;
+      const quantity = props.libraryQuantity ?? 0;
 
       if (quantity < 1) {
         label = "hide";
-        bgColor = "invisible";
+        bgColor = "hidden";
       } else if (quantity < 11) {
         label = "Casual";
         bgColor = 'bg-gradient-to-b from-[#B7F58C]/70 to-[#67C93C]/70';
@@ -123,7 +123,10 @@ const badge = computed(() => {
     }
 
     case "role":
+      if (!props.role) break;
+
       label = props.role;
+
       bgColor =
         props.role?.toLowerCase() === "admin"
           ? "bg-gradient-to-t from-[#A66A1A]/80 via-[#F6C453]/70 to-[#FFF1C2]/80"

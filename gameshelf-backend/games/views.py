@@ -1,8 +1,9 @@
 from math import ceil
 
+from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import Max
+from django.db.models import Max, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -16,8 +17,6 @@ from drf_spectacular.utils import (
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
-
-from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from shared.decorators import require_fields, require_json_body, require_role
 from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
@@ -39,7 +38,7 @@ from .serializers import (
     UpdateFavoriteSchemaSerializer,
 )
 from .services.igdb import import_games, search_games_by_title
-from django.db.models import Q
+
 User = get_user_model()
 
 
@@ -225,7 +224,7 @@ def _get_int_param(request, name, default):
         ),
 
         OpenApiParameter(
-            name='genre',
+            name='genres',
             type=OpenApiTypes.STR,
             location=OpenApiParameter.QUERY,
             required=False,
@@ -300,7 +299,6 @@ def game_search(request):
     year = request.GET.get('year')
     mature_content = request.GET.get('mature_content')
     
-    print("GENRES:", genres)  # 👈 AQUÍ
 
     page = _get_int_param(request, 'page', 1)
     page_size = _get_int_param(request, 'page_size', 15)
@@ -309,14 +307,9 @@ def game_search(request):
 
     # Mature filter
     if mature_content is not None:
-
-        mature_content = mature_content.lower() == 'true'
-
-        if not mature_content:
+        mature_val = mature_content.lower() == 'true'
+        if not mature_val:
             games = games.filter(mature_content=False)
-
-    else:
-        games = games.filter(mature_content=False)
 
     # Search title
     if q:
@@ -359,6 +352,8 @@ def game_search(request):
         games = games.filter(
             released_at__year=year
         )
+    
+    
 
     games = games.distinct()
 
@@ -564,6 +559,14 @@ def delete_game(request, pk_game: int):
     operation_id='get_reviews',
     parameters=[
         OpenApiParameter(
+            name='game_id',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Game id',
+            examples=[OpenApiExample('Game to check', value=1)],
+        ),
+        OpenApiParameter(
             name='page',
             type=OpenApiTypes.INT,
             location=OpenApiParameter.QUERY,
@@ -602,23 +605,27 @@ def review_wrapper(request):
         case 'POST':
             return add_review(request)
 
-
 @csrf_exempt
 def review_list(request):
     page = int(request.GET.get('page', 1))
     page_size = int(request.GET.get('page_size', 15))
+    game_id = request.GET.get('game_id')
+
     reviews = Review.objects.all()
+    
+    if game_id:
+        reviews = reviews.filter(game_id=game_id)
 
     total_count = reviews.count()
-    total_pages = ceil(total_count / page_size)
+    total_pages = ceil(total_count / page_size) if total_count > 0 else 1
 
     start = (page - 1) * page_size
     end = start + page_size
 
-    paginated_games = reviews[start:end]
+    paginated_reviews = reviews[start:end]
 
     pagination_data = {
-        'results': paginated_games,
+        'results': paginated_reviews,
         'count': total_count,
         'total_pages': total_pages,
         'current_page': page,
@@ -627,7 +634,6 @@ def review_list(request):
     }
 
     serializer = ReviewSerializer([], request=request)
-
     return Response(serializer.serialize_paginated(pagination_data))
 
 
@@ -738,10 +744,11 @@ def review_detail(request, pk_review: int):
 @auth_required
 def edit_review(request, pk_review: int):
     payload = request.json
-    content = payload['content']
-    recommend = payload['recommend']
-    pk_game = payload['pk_game']
-    pk_author = payload['pk_author']
+    # 1. Usamos .get() con valores por defecto (None) para que no explote si no se envían
+    content = payload.get('content')
+    recommend = payload.get('recommend')
+    pk_game = payload.get('pk_game')
+    pk_author = payload.get('pk_author')
 
     try:
         review = get_object_or_404(Review, pk=pk_review)
@@ -749,29 +756,29 @@ def edit_review(request, pk_review: int):
         return Response({'error': 'Review not found'}, status=404)
 
     if request.user != review.author:
-        if request.user.role != 'Admin':
+        if request.user.profile.role != 'Admin':
             return Response({'error': 'Forbbiden Access'}, status=403)
 
-    if content:
+    if content is not None:  
         review.content = content
 
-    if recommend:
+    if recommend is not None:
         review.recommend = recommend
 
     if pk_game:
         try:
-            game = get_object_or_404(Game, pk_game)
+            game = get_object_or_404(Game, pk=pk_game)
         except Http404:
             return Response({'error': 'Game to associate not found'}, status=404)
-
+        
         review.game = game
 
     if pk_author:
-        if request.user.role != 'Admin':
-            return Response({'error': 'Forbbiden Access'}, status=403)
+        if request.user.profile.role != 'Admin':
+            return Response({'error': 'Forbidden Access'}, status=403)
 
         try:
-            author = get_object_or_404(User, pk_author)
+            author = get_object_or_404(User, pk=pk_author)
         except Http404:
             return Response({'error': 'Author to associate not found'}, status=404)
 
@@ -1088,35 +1095,29 @@ def toggle_favorite(request):
     
     game = get_object_or_404(Game, pk=pk_game)
     platform = get_object_or_404(Platform, pk=pk_platform)
-
-    # 1. Buscamos en TODOS los registros (incluidos los borrados)
-    # Nota: Ajusta 'all_objects' al nombre del manager que use tu base Shared (a veces es 'global_objects')
+    
     favorite = FavoriteItem.all_objects.filter(
         user=user, 
         game=game, 
         platform=platform
     ).first()
 
-    # CASO A: El favorito existe y está ACTIVO -> Lo "borramos" (Soft Delete)
     if favorite and favorite.deleted_at is None:
-        favorite.delete() # Esto pondrá la fecha en deleted_at
-        return Response({'is_favorite': False, 'message': 'Eliminado de favoritos'}, status=200)
+        favorite.delete() 
+        return Response({'is_favorite': False, 'message': 'Deleted from favorites'}, status=200)
     
-    # CASO B: El favorito existe pero estaba BORRADO -> Lo "resucitamos"
     elif favorite and favorite.deleted_at is not None:
-        favorite.deleted_at = None # Restauramos
+        favorite.restore()
         
-        # Recalcular el orden para que vaya al final
         last_order = FavoriteItem.objects.filter(user=user).aggregate(models.Max('order'))['order__max']
         favorite.order = (last_order or 0) + 1
         
         favorite.save()
-        return Response({'is_favorite': True, 'message': 'Restaurado en favoritos'}, status=200)
+        return Response({'is_favorite': True, 'message': 'Added to favorites'}, status=200)
     
-    # CASO C: No existe en absoluto -> Lo creamos
     else:
         if FavoriteItem.objects.filter(user=user).count() >= 10:
-            return Response({'error': 'Límite de 10 favoritos alcanzado'}, status=400)
+            return Response({'error': 'Maximum number of favorites reached'}, status=400)
 
         last_order = FavoriteItem.objects.filter(user=user).aggregate(models.Max('order'))['order__max']
         

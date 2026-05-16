@@ -5,6 +5,18 @@
         </div>
         <section ref="scrollContainer" @scroll="handleScroll" class="flex-1 overflow-y-auto p-6 sm:p-8 text-gsblanco relative">            
             <div class="max-w-[1600px] mx-auto">
+
+                <router-link 
+                    :to="`/collections/${userId}/`" 
+                    class="text-sm text-gsmenta hover:underline flex items-center gap-1 mb-5"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 7l-5 5m0 0l5 5m-5-5H18" />
+                    </svg>
+
+                    Collections
+                </router-link>
+
                 <div class="mb-8 flex items-center justify-between text-gsmenta">
                     <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
                         {{ collection?.name }}
@@ -16,7 +28,7 @@
                     <div v-for="item in collection?.items" :key="item.id"
                         class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg"
                     >
-                        <GameCard v-if="item.is_private" :game="item.game"/>
+                        <GameCard v-if="!item.is_private" :game="item.game" :platform="item.platform"/>
                     </div>
                 </main>
             </div>
@@ -35,45 +47,59 @@
     </div>
 </template>
 
+
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
-import axios from 'axios';
 
 import { useAuthStore } from '@/stores/authStore';
 import type { Collection } from '@/types/profileTypes';
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
 
+import api from "@/api/client";
+import router from '@/router';
 
 const collection = ref<Collection>();
 const authStore = useAuthStore()
 const route = useRoute()
+const userId = Number(route.params.user_id);
 const collectionId = route.params.collection_id;
 
-
 onMounted(async () => {
-    try {
-        const data = await getCollection()
-        collection.value = data
-        if(data.is_private){
-            // Vista de prohibido
-        }
-        console.log(data)
-    } catch (error) {
-        console.error('Error cargando la collection:', error)
-    }
+    await loadCollection();
 });
 
-async function getCollection() {
-    const webhookUrl = `http://127.0.0.1:8000/api/collection/${collectionId}/`
-    const headers = {
-        'Authorization': `Bearer ${authStore.token}`, 
-        'Content-Type': 'application/json'
-    }
+async function loadCollection() {
+    try {
 
-    const response = await axios.get(webhookUrl, { headers })
-    return response.data
+        const data = await getCollection();
+        if(data.is_private && !authStore.isOwnProfile(userId)) router.go(-1)
+
+        collection.value = data;
+
+        if (data.is_private) {
+            // Vista de prohibido
+        }
+
+        console.log(data);
+
+    } catch (error: any) {
+
+        console.error('Error cargando la collection:', error);
+
+    }
+}
+
+async function getCollection() {
+
+    const response = await api.get(
+        `api/collections/${collectionId}/user/${userId}/`
+    );
+
+    console.log('OK' + response.data);
+
+    return response.data;
 }
 
 // Botón de scroll hasta arriba

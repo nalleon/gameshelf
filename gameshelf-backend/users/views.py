@@ -146,7 +146,25 @@ def profile_edit(request, pk_profile: int):
         return Response({'error': 'Forbidden'}, status=403)
 
     data = request.data
-    files = request.FILES
+    files = request.FILES   
+    
+    if 'library_private' in data:
+        val = str(data['library_private']).lower() == 'true'
+        library = request.user.library
+        library.is_private = val
+        library.save()
+
+    # Procesamos Wishlist (OneToOne)
+    if 'wishlist_private' in data:
+        val = str(data['wishlist_private']).lower() == 'true'
+        wishlist = request.user.wishlist
+        wishlist.is_private = val
+        wishlist.save()
+
+    # Procesamos todas las Colecciones
+    if 'collections_private' in data:
+        val = str(data['collections_private']).lower() == 'true'
+        request.user.collections.all().update(is_private=val)
 
     if 'bio' in data:
         profile.bio = data['bio']
