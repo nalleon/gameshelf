@@ -1,4 +1,4 @@
-export const API_URL = "http://localhost:8000/api";
+// export const API_URL = "http://localhost:8000/api";
 
 export const PLATFORM_MAP: Record<string, string> = {
     'super-famicom': 'mdi:gamepad-square',
