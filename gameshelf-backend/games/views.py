@@ -741,10 +741,11 @@ def review_detail(request, pk_review: int):
 @auth_required
 def edit_review(request, pk_review: int):
     payload = request.json
-    content = payload['content']
-    recommend = payload['recommend']
-    pk_game = payload['pk_game']
-    pk_author = payload['pk_author']
+    # 1. Usamos .get() con valores por defecto (None) para que no explote si no se envían
+    content = payload.get('content')
+    recommend = payload.get('recommend')
+    pk_game = payload.get('pk_game')
+    pk_author = payload.get('pk_author')
 
     try:
         review = get_object_or_404(Review, pk=pk_review)
@@ -752,29 +753,29 @@ def edit_review(request, pk_review: int):
         return Response({'error': 'Review not found'}, status=404)
 
     if request.user != review.author:
-        if request.user.role != 'Admin':
+        if request.user.profile.role != 'Admin':
             return Response({'error': 'Forbbiden Access'}, status=403)
 
-    if content:
+    if content is not None:  
         review.content = content
 
-    if recommend:
+    if recommend is not None:
         review.recommend = recommend
 
     if pk_game:
         try:
-            game = get_object_or_404(Game, pk_game)
+            game = get_object_or_404(Game, pk=pk_game)
         except Http404:
             return Response({'error': 'Game to associate not found'}, status=404)
-
+        
         review.game = game
 
     if pk_author:
-        if request.user.role != 'Admin':
-            return Response({'error': 'Forbbiden Access'}, status=403)
+        if request.user.profile.role != 'Admin':
+            return Response({'error': 'Forbidden Access'}, status=403)
 
         try:
-            author = get_object_or_404(User, pk_author)
+            author = get_object_or_404(User, pk=pk_author)
         except Http404:
             return Response({'error': 'Author to associate not found'}, status=404)
 

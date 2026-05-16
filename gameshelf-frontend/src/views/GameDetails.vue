@@ -311,7 +311,16 @@
                                                 {{ review.author?.username?.charAt(0).toUpperCase() || 'U' }}
                                             </div>
                                             <div>
-                                                <p class="font-bold text-lg text-gray-200">{{ review.author?.username || 'Unknown User' }}</p>
+                                                <div class="flex items-baseline gap-2 flex-wrap">
+                                                    <p class="font-bold text-lg text-gray-200">
+                                                        {{ review.author?.username || 'Unknown User' }}
+                                                    </p>
+                                                    
+                                                    <span class="text-xs text-gray-500">
+                                                        • {{ formatDate(review.updated_at) }}
+                                                    </span>
+                                                </div>
+
                                                 <div class="flex items-center gap-1 text-sm font-bold mt-1" 
                                                     :class="review.recommend ? 'text-gsmenta' : 'text-red-500'">
                                                     <Icon :icon="review.recommend ? 'mdi:thumb-up' : 'mdi:thumb-down'" />
@@ -320,7 +329,7 @@
                                             </div>
                                         </div>
 
-                                        <div v-if="review.author?.id === currentUserId" class="flex gap-2">
+                                        <div v-if="(review.author?.id === currentUserId)" class="flex gap-2">
                                             <button @click="startEdit(review)" 
                                                 class="p-2 bg-white/5 rounded text-gray-400 hover:text-gsmenta hover:bg-white/10 transition-all" title="Edit">
                                                 <Icon icon="mdi:pencil" class="text-xl" />
@@ -372,6 +381,7 @@
         </section>
     </div>
 </template>
+
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
@@ -849,7 +859,8 @@ const saveReview = async () => {
             await api.patch(`/api/reviews/${isEditingReview.value}/`, {
                 content: reviewForm.value.content,
                 recommend: reviewForm.value.recommend,
-                pk_game: Number(gameId)
+                pk_game: Number(gameId),
+                // pk_author: authStore.getSelfId()
             }, { headers });
         } else {
             // CREAR NUEVA (POST) - Tu backend espera game_id según el views.py
@@ -898,6 +909,18 @@ const deleteReview = async (reviewId: number) => {
     } catch (error: any) {
         console.error('Error borrando review:', error.response?.data);
     }
+};
+
+const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    
+    // Esto lo formateará automáticamente según el idioma del navegador (ej: "16 may 2026")
+    return date.toLocaleDateString(undefined, {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    });
 };
 
 // Nuevos estados para la paginación

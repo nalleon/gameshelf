@@ -69,8 +69,8 @@ export interface Review {
     recommend: boolean,
     author: User,
     media: Array<Media>,
-    created_at: Date,
-    updated_at: Date,
+    created_at: string,
+    updated_at: string,
 }
 
 export interface Media {
