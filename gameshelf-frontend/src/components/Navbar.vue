@@ -53,28 +53,31 @@
                 <i class="pi text-lg" :class="showMobileSearch ? 'pi-times' : 'pi-search'"></i>
             </button>
 
-            <div class="hidden lg:flex items-center gap-4 md:gap-7">
+            <div class="hidden lg:flex items-center gap-4 md:gap-6">
                 <router-link to="/games"
-                    class="text-sm font-semibold uppercase tracking-[0.15em] hover:text-gsmenta transition-colors">
+                    class="relative text-xs font-bold uppercase tracking-[0.2em] text-gsgris hover:text-gsblanco py-2 transition-colors duration-300 group mr-2">
                     Browse Games
+                    <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-gsmenta transition-all duration-300 group-hover:w-full"></span>
                 </router-link>
 
                 <div class="h-7 w-px bg-white/10"></div>
 
                 <template v-if="auth.isLogged">
-                    <router-link to="/profile" class="text-sm font-medium hover:text-gsmenta transition-colors">
-                        Profile
+                    <router-link to="/profile" class="flex items-center gap-2 text-sm font-medium hover:text-gsmenta transition-colors" title="View Profile">
+                        <i class="pi pi-user text-base"></i>
+                        <span>My Profile</span>
                     </router-link>
 
                     <button @click="handleLogout"
-                        class="text-sm font-medium text-gsgris hover:text-red-400 transition-colors cursor-pointer">
-                        Logout
+                        class="p-2 text-gsgris hover:text-red-400 transition-colors cursor-pointer rounded-full hover:bg-white/5 flex items-center justify-center"
+                        title="Logout">
+                        <i class="pi pi-power-off text-lg"></i>
                     </button>
                 </template>
 
                 <template v-else>
                     <router-link to="/login"
-                        class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2.5 rounded-full font-bold transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-gsmenta/10">
+                        class="border-2 border-gsmenta/30 hover:border-gsmenta bg-gsmenta/5 hover:bg-gsmenta text-gsblanco hover:text-gsoscuro px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 active:scale-95 shadow-md shadow-gsmenta/5 hover:shadow-lg hover:shadow-gsmenta/20">
                         Login
                     </router-link>
                 </template>
@@ -119,24 +122,28 @@
         <Transition name="slide">
             <div v-if="showMobileMenu" class="fixed inset-y-0 right-0 w-64 bg-[#121620] border-l border-white/10 z-40 pt-20 px-6 flex flex-col gap-5 lg:hidden shadow-2xl">
                 <router-link to="/games" @click="showMobileMenu = false" 
-                    class="text-md font-semibold uppercase tracking-wider hover:text-gsmenta transition-colors py-2 border-b border-white/5">
-                    Browse Games
+                    class="text-md font-semibold uppercase tracking-wider hover:text-gsmenta transition-colors py-2 border-b border-white/5 flex items-center justify-between group">
+                    <span>Browse Games</span>
+                    <i class="pi pi-chevron-right text-xs text-gsgris group-hover:text-gsmenta transition-colors"></i>
                 </router-link>
 
                 <template v-if="auth.isLogged">
                     <router-link to="/profile" @click="showMobileMenu = false" 
-                        class="text-md font-medium hover:text-gsmenta transition-colors py-2 border-b border-white/5">
-                        Profile
+                        class="flex items-center gap-3 text-md font-medium hover:text-gsmenta transition-colors py-2 border-b border-white/5">
+                        <i class="pi pi-user text-md"></i>
+                        <span>My Profile</span>
                     </router-link>
+                    
                     <button @click="handleLogout(); showMobileMenu = false;" 
-                        class="text-left text-md font-medium text-gsgris hover:text-red-400 transition-colors py-2">
-                        Logout
+                        class="text-left text-md font-medium text-gsgris hover:text-red-400 transition-colors py-2 flex items-center gap-3">
+                        <i class="pi pi-power-off text-md"></i>
+                        <span>Logout</span>
                     </button>
                 </template>
                 
                 <template v-else>
                     <router-link to="/login" @click="showMobileMenu = false" 
-                        class="text-center bg-gsmenta text-gsoscuro py-3 rounded-full font-bold transition-all mt-4">
+                        class="text-center bg-transparent border-2 border-gsmenta text-gsmenta hover:bg-gsmenta hover:text-gsoscuro py-3 rounded-full font-bold uppercase tracking-wider text-xs transition-all duration-200 mt-4 shadow-lg shadow-gsmenta/5">
                         Login
                     </router-link>
                 </template>
@@ -149,111 +156,56 @@
 
     <div v-if="showFilters"
         class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-
         <div class="relative w-full max-w-xl bg-gsoscuro border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
-
             <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta via-gsblanco/70 to-gsbosque"></div>
-
             <div class="p-5 sm:p-7">
                 <div class="flex items-center justify-between mb-8">
                     <div>
-                        <h2 class="text-xl font-bold text-gsblanco">
-                            Search Filters
-                        </h2>
-                        <p class="text-sm text-gsgris mt-1">
-                            Refine your game search
-                        </p>
+                        <h2 class="text-xl font-bold text-gsblanco">Search Filters</h2>
+                        <p class="text-sm text-gsgris mt-1">Refine your game search</p>
                     </div>
-
-                    <button @click="showFilters = false"
-                        class="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center text-gsgris hover:text-gsblanco">
-                        ✕
-                    </button>
+                    <button @click="showFilters = false" class="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center text-gsgris hover:text-gsblanco">✕</button>
                 </div>
-
                 <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
-
                     <div>
-                        <label class="block text-sm text-gsgris mb-2">
-                            Developer
-                        </label>
-                        <input v-model="filters.developer" type="text" placeholder="Nintendo..."
-                            class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                        <label class="block text-sm text-gsgris mb-2">Developer</label>
+                        <input v-model="filters.developer" type="text" placeholder="Nintendo..." class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
-
                     <div>
-                        <label class="block text-sm text-gsgris mb-2">
-                            Publisher
-                        </label>
-                        <input v-model="filters.publisher" type="text" placeholder="Sony..."
-                            class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                        <label class="block text-sm text-gsgris mb-2">Publisher</label>
+                        <input v-model="filters.publisher" type="text" placeholder="Sony..." class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
-
                     <div>
-                        <label class="block text-sm text-gsgris mb-2">
-                            Genre
-                        </label>
-                        <input v-model="genreInput" type="text" placeholder="Press enter..." @keyup.enter="addGenre"
-                            class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                        <label class="block text-sm text-gsgris mb-2">Genre</label>
+                        <input v-model="genreInput" type="text" placeholder="Press enter..." @keyup.enter="addGenre" class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
                     <div class="flex flex-wrap gap-2 mt-3">
-
-                        <div v-for="genre in filters.genres" :key="genre"
-                            class="px-3 py-1 rounded-full bg-gsmenta/20 border border-gsmenta/30 text-xs text-gsmenta flex items-center gap-2">
+                        <div v-for="genre in filters.genres" :key="genre" class="px-3 py-1 rounded-full bg-gsmenta/20 border border-gsmenta/30 text-xs text-gsmenta flex items-center gap-2">
                             {{ genre }}
-
-                            <button @click="removeGenre(genre)">
-                                ✕
-                            </button>
+                            <button @click="removeGenre(genre)">✕</button>
                         </div>
-
                     </div>
-
                     <div>
-                        <label class="block text-sm text-gsgris mb-2">
-                            Release Year
-                        </label>
-
-                        <input v-model="filters.year" type="number" placeholder="2025"
-                            class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                        <label class="block text-sm text-gsgris mb-2">Release Year</label>
+                        <input v-model="filters.year" type="number" placeholder="2025" class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
-
                     <div>
-                        <label class="block text-sm text-gsgris mb-2">
-                            Region
-                        </label>
-
-                        <input v-model="filters.region" type="text" placeholder="EU..."
-                            class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
+                        <label class="block text-sm text-gsgris mb-2">Region</label>
+                        <input v-model="filters.region" type="text" placeholder="EU..." class="w-full bg-[#161a21] border border-white/8 rounded-full px-5 py-3 text-sm text-gsblanco placeholder-gsgris/50 focus:outline-none focus:border-gsmenta transition-all" />
                     </div>
                 </div>
-
                 <div class="flex justify-end gap-3 mt-8 pt-4 border-t border-white/5">
-
-                    <button @click="resetFilters"
-                        class="px-5 py-2.5 rounded-full border border-white/10 text-gsgris hover:bg-white/5 transition-all">
-                        Reset
-                    </button>
-
-                    <button @click="applyFilters"
-                        class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-6 py-2.5 rounded-full font-bold transition-all shadow-lg shadow-gsmenta/10">
-                        Apply Filters
-                    </button>
-
+                    <button @click="resetFilters" class="px-5 py-2.5 rounded-full border border-white/10 text-gsgris hover:bg-white/5 transition-all">Reset</button>
+                    <button @click="applyFilters" class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-6 py-2.5 rounded-full font-bold transition-all shadow-lg shadow-gsmenta/10">Apply Filters</button>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import router from '@/router'
-import axios from 'axios'
 
 const auth = useAuthStore()
 
