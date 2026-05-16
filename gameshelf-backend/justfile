@@ -230,10 +230,10 @@ seed:
     #!/usr/bin/env bash
     set -e
     echo "1/3 Generating game fixtures..."
-    uv run manage.py generate_games_fixtures --limit 9000
+    uv run manage.py generate_games_fixtures --limit 20000
 
     echo "2/3 Loading base fixtures..."
-    uv run manage.py loaddata fixtures/all_fixtures.json
+    uv run manage.py loaddata fixtures/all_data_games.json
 
     echo "3/3 Generating and loading social fixtures..."
     uv run manage.py generate_social_fixtures --users 400

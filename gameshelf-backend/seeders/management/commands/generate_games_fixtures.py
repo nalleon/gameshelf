@@ -1,7 +1,6 @@
 import json
 import os
 import time
-from collections import defaultdict
 from datetime import datetime
 
 import requests
@@ -16,11 +15,7 @@ class Command(BaseCommand):
     BASE_URL = 'https://api.igdb.com/v4'
     TIMEOUT = 30
     AGE_RATINGS_BATCH_SIZE = 200
-    # FIX 1: Output a single ordered file instead of separate files.
-    # This guarantees loaddata inserts dependencies before games, avoiding
-    # the FOREIGN KEY constraint error that occurred when Django loaded
-    # fixtures alphabetically (games.json before regions.json, etc.).
-    OUTPUT_FILE = 'all_fixtures.json'
+    OUTPUT_FILE = 'all_data_games.json'
 
     RATING_CATEGORIES = {
         1: 'Three',
@@ -117,35 +112,31 @@ class Command(BaseCommand):
         self.used_slugs = set()
         self.seen_games = set()
 
-        self.used_developer_names = set()
-        self.used_publisher_names = set()
-        self.used_genre_names = set()
-        self.used_platform_names = set()
+        # --- Deduplication state for classification models ---
+        #
+        # The Classification model has a UniqueConstraint on name (active rows).
+        # Two different IGDB IDs can share the same display name. When that
+        # happens we cannot insert two rows. Strategy: the first IGDB ID that
+        # owns a given name wins and gets the real PK; any later IGDB ID with
+        # the same name is silently remapped to that first PK so M2M references
+        # stay valid without duplicating the row.
+        #
+        # name_to_pk : normalised name -> canonical PK written to the fixture
+        # id_remap   : igdb id         -> PK we actually use for references
 
-        # Track registered PKs separately so we never emit a reference to a
-        # PK that hasn't been written to the fixture. Name-based deduplication
-        # alone is insufficient because the same company ID can appear under
-        # slightly different name strings across games, and a company that was
-        # only registered as a developer must still be registered as a
-        # publisher (and vice-versa) when it fills both roles.
-        self.registered_developer_ids = set()
-        self.registered_publisher_ids = set()
-        self.registered_genre_ids = set()
-        self.registered_platform_ids = set()
+        self.developer_name_to_pk = {}
+        self.publisher_name_to_pk = {}
+        self.genre_name_to_pk = {}
+        self.platform_name_to_pk = {}
 
-        # FIX 2: game_pk_counter gives each game entry a unique auto-incremented
-        # PK. Previously every release_date entry for the same IGDB game reused
-        # pk = g["id"], so inserting multiple regional releases of one game
-        # caused a duplicate-PK integrity error.
+        self.developer_id_remap = {}
+        self.publisher_id_remap = {}
+        self.genre_id_remap = {}
+        self.platform_id_remap = {}
+
+        # Unique auto-incremented PK for Game rows (FIX 2).
         self.game_pk_counter = 1
-
-        # FIX 3: igdb_id_to_first_pk maps an IGDB game ID to the PK of the
-        # first fixture entry created for it. Subsequent regional releases of
-        # the same game store that PK in parent_game_igdb so the parent
-        # relationship is correct. The old code stored base_game_id as the
-        # parent PK, which was the IGDB ID, not the fixture PK, and it set
-        # parent_pk=None on the very first visit, then never re-entered that
-        # branch for follow-up releases because the key was already present.
+        # Maps igdb game id -> PK of first fixture row for that game (FIX 3).
         self.igdb_id_to_first_pk = {}
 
         output_dir = os.path.join(settings.BASE_DIR, 'fixtures')
@@ -161,8 +152,8 @@ class Command(BaseCommand):
         for g in games:
             self.process_game(g, age_ratings_map)
 
-        # FIX 1 (continued): Write a single file with dependencies ordered
-        # before games so Django's loaddata inserts them in the right sequence.
+        # Single ordered file so Django loaddata never hits a FK before the
+        # referenced row exists (FIX 1).
         ordered_fixtures = (
             self.fixtures['regions']
             + self.fixtures['genres']
@@ -323,11 +314,7 @@ class Command(BaseCommand):
             released_at = datetime.utcfromtimestamp(ts).date()
             release_region_id = rd.get('release_region')
 
-            # -------------------------
-            # DEDUPLICATION
-            # -------------------------
-            # Matches the unique_together = ['title', 'released_at', 'region']
-            # constraint on the Game model.
+            # Deduplication key matches unique_together = ['title', 'released_at', 'region'].
             key = (
                 g['name'].strip().lower(),
                 released_at.isoformat(),
@@ -336,7 +323,6 @@ class Command(BaseCommand):
 
             if key in self.seen_games:
                 continue
-
             self.seen_games.add(key)
 
             # -------------------------
@@ -374,23 +360,15 @@ class Command(BaseCommand):
                 rating_value = label
                 mature = label in self.MATURE_THRESHOLDS.get(org, [])
 
-            # -------------------------
-            # FIX 2 + 3: Unique PK and correct parent relationship
-            # -------------------------
-            # Each fixture entry gets its own auto-incremented PK so that
-            # multiple regional releases of the same IGDB game don't collide.
-            #
-            # The first entry created for an IGDB game is the "canonical" one;
-            # all subsequent regional entries point to it via parent_game_igdb.
+            # FIX 2: unique PK per release row.
             pk = self.game_pk_counter
             self.game_pk_counter += 1
 
+            # FIX 3: correct parent using fixture PKs, not IGDB IDs.
             if igdb_id not in self.igdb_id_to_first_pk:
-                # First time we see this IGDB game — it is its own parent.
                 self.igdb_id_to_first_pk[igdb_id] = pk
                 parent_pk = None
             else:
-                # Subsequent regional release — point to the first entry's PK.
                 parent_pk = self.igdb_id_to_first_pk[igdb_id]
 
             self.fixtures['games'].append(
@@ -425,56 +403,63 @@ class Command(BaseCommand):
         with open(path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 
+    def _register_classification(self, fixture_key, model_label, igdb_id, name, name_to_pk, id_remap):
+        """
+        Ensure a classification row exists in the fixture and return the PK
+        to use for all FK/M2M references to this item.
+
+        Three cases:
+          1. Same IGDB ID seen again  -> return already-assigned PK.
+          2. Same name, different ID  -> name collision; remap new ID to the
+                                         existing canonical PK (no new row).
+          3. Genuinely new            -> write a new row with pk=igdb_id.
+        """
+        norm = name.strip().lower()
+
+        if igdb_id in id_remap:
+            return id_remap[igdb_id]
+
+        if norm in name_to_pk:
+            canonical_pk = name_to_pk[norm]
+            id_remap[igdb_id] = canonical_pk
+            return canonical_pk
+
+        self.fixtures[fixture_key].append({
+            'model': model_label,
+            'pk': igdb_id,
+            'fields': {
+                'name': name,
+                'slug': self.unique_slug(name),
+            },
+        })
+        name_to_pk[norm] = igdb_id
+        id_remap[igdb_id] = igdb_id
+        return igdb_id
+
     def get_or_create_genres(self, genres):
         ids = []
-
         for g in genres:
             if not g.get('id') or not g.get('name'):
                 continue
-
-            gid = g['id']
-
-            # Guard by ID: name deduplication alone can miss the same ID
-            # arriving under a slightly different string in a later batch.
-            if gid not in self.registered_genre_ids:
-                self.fixtures['genres'].append({
-                    'model': 'classifications.genre',
-                    'pk': gid,
-                    'fields': {
-                        'name': g['name'],
-                        'slug': self.unique_slug(g['name']),
-                    },
-                })
-                self.registered_genre_ids.add(gid)
-                self.used_genre_names.add(g['name'].strip().lower())
-
-            ids.append(gid)
-
+            pk = self._register_classification(
+                'genres', 'classifications.genre',
+                g['id'], g['name'],
+                self.genre_name_to_pk, self.genre_id_remap,
+            )
+            ids.append(pk)
         return ids
 
     def get_or_create_platforms(self, platforms):
         ids = []
-
         for p in platforms:
             if not p.get('id') or not p.get('name'):
                 continue
-
-            pid = p['id']
-
-            if pid not in self.registered_platform_ids:
-                self.fixtures['platforms'].append({
-                    'model': 'classifications.platform',
-                    'pk': pid,
-                    'fields': {
-                        'name': p['name'],
-                        'slug': self.unique_slug(p['name']),
-                    },
-                })
-                self.registered_platform_ids.add(pid)
-                self.used_platform_names.add(p['name'].strip().lower())
-
-            ids.append(pid)
-
+            pk = self._register_classification(
+                'platforms', 'classifications.platform',
+                p['id'], p['name'],
+                self.platform_name_to_pk, self.platform_id_remap,
+            )
+            ids.append(pk)
         return ids
 
     def get_or_create_companies(self, companies):
@@ -492,45 +477,21 @@ class Command(BaseCommand):
             if not cid or not name:
                 continue
 
-            # ------------------
-            # DEVELOPERS
-            # ------------------
             if comp.get('developer'):
-                # Guard by ID, not name. A company that was previously seen
-                # only as a publisher won't be in registered_developer_ids
-                # even though its name is in used_publisher_names, so we must
-                # register it as a developer too.
-                if cid not in self.registered_developer_ids:
-                    self.fixtures['developers'].append({
-                        'model': 'classifications.developer',
-                        'pk': cid,
-                        'fields': {
-                            'name': name,
-                            'slug': self.unique_slug(name),
-                        },
-                    })
-                    self.registered_developer_ids.add(cid)
-                    self.used_developer_names.add(name.strip().lower())
+                pk = self._register_classification(
+                    'developers', 'classifications.developer',
+                    cid, name,
+                    self.developer_name_to_pk, self.developer_id_remap,
+                )
+                dev_ids.append(pk)
 
-                dev_ids.append(cid)
-
-            # ------------------
-            # PUBLISHERS
-            # ------------------
             if comp.get('publisher'):
-                if cid not in self.registered_publisher_ids:
-                    self.fixtures['publishers'].append({
-                        'model': 'classifications.publisher',
-                        'pk': cid,
-                        'fields': {
-                            'name': name,
-                            'slug': self.unique_slug(name),
-                        },
-                    })
-                    self.registered_publisher_ids.add(cid)
-                    self.used_publisher_names.add(name.strip().lower())
-
-                pub_ids.append(cid)
+                pk = self._register_classification(
+                    'publishers', 'classifications.publisher',
+                    cid, name,
+                    self.publisher_name_to_pk, self.publisher_id_remap,
+                )
+                pub_ids.append(pk)
 
         return dev_ids, pub_ids
 
