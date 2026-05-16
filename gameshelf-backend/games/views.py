@@ -564,6 +564,14 @@ def delete_game(request, pk_game: int):
     operation_id='get_reviews',
     parameters=[
         OpenApiParameter(
+            name='game_id',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            required=False,
+            description='Game id',
+            examples=[OpenApiExample('Game to check', value=1)],
+        ),
+        OpenApiParameter(
             name='page',
             type=OpenApiTypes.INT,
             location=OpenApiParameter.QUERY,

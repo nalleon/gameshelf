@@ -7,369 +7,436 @@
         <section ref="scrollContainer" class="flex-1 overflow-y-auto p-6 sm:p-12 text-white relative">
             <div v-if="game" class="max-w-[1200px] mx-auto">
 
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-4 relative">
+                    <div>
+                        <h1 class="text-3xl font-bold block mb-1">{{ game.title }}</h1>
+
+                        <div class="flex items-center gap-2 mt-1">
+                            <p class="text-gray-400 text-sm">{{ game.released_at }}</p>
+
+                            <i class="pi pi-circle-fill text-gray-600" style="font-size: 3px;"></i>
+
+                            <div class="flex items-center justify-center px-1.5 py-0.5 text-xs text-gray-400 select-none"
+                                :title="`Region: ${game.region?.name || 'Unknown'}`">
+
+                                <span v-if="['eu', 'us', 'nz', 'jp', 'cn', 'kr', 'br'].includes(region)"
+                                    :class="`fi fi-${region}`" class="text-xs rounded-sm" />
+
+                                <i v-else-if="region === 'world'" class="pi pi-globe text-[11px]" />
+
+                                <i v-else-if="region === 'asia'" class="pi pi-compass text-[11px]" />
+
+                                <i v-else class="pi pi-exclamation-triangle text-[11px] text-yellow-400" />
+
+                                <span class="text-[9px] font-bold uppercase ml-1 tracking-wider text-gray-400">
+                                    {{ region === 'warning' ? 'TBA' : region }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2 sm:ml-auto z-40">
+
+                        <button @click="openDropdown = openDropdown === 'favorites' ? null : 'favorites'"
+                            :disabled="!isAuthenticated" class="p-2 rounded-full transition-all duration-300" :class="isAuthenticated
+                                ? 'hover:bg-white/10 active:scale-125 cursor-pointer'
+                                : 'opacity-40 cursor-not-allowed select-none'"
+                            :title="isAuthenticated ? 'Manage favorites' : 'Log in to add to favorites'">
+                            <Icon :icon="isGameFavorite && isAuthenticated ? 'mdi:heart' : 'mdi:heart-outline'"
+                                class="text-4xl"
+                                :class="isGameFavorite && isAuthenticated ? 'text-red-500' : 'text-gray-400' + (isAuthenticated ? ' hover:text-red-400' : '')" />
+                        </button>
+
+                        <button @click="openDropdown = openDropdown === 'wishlist' ? null : 'wishlist'"
+                            :disabled="!isAuthenticated" class="p-2 rounded-full transition-all" :class="isAuthenticated
+                                ? 'hover:bg-white/10 cursor-pointer'
+                                : 'opacity-40 cursor-not-allowed select-none'"
+                            :title="isAuthenticated ? 'Wishlist' : 'Log in to use wishlist'">
+                            <Icon :icon="isAnyWishlist && isAuthenticated ? 'mdi:bookmark' : 'mdi:bookmark-outline'"
+                                class="text-4xl"
+                                :class="isAnyWishlist && isAuthenticated ? 'text-gsmenta' : 'text-gray-400' + (isAuthenticated ? ' hover:text-gsmenta' : '')" />
+                        </button>
+
+                        <button @click="openDropdown = openDropdown === 'library' ? null : 'library'"
+                            :disabled="!isAuthenticated" class="p-2 rounded-full transition-all" :class="isAuthenticated
+                                ? 'hover:bg-white/10 cursor-pointer'
+                                : 'opacity-40 cursor-not-allowed select-none'"
+                            :title="isAuthenticated ? 'Add into my collection' : 'Log in to add to your library'">
+                            <Icon :icon="isInLibrary && isAuthenticated ? 'mdi:library-shelves' : 'mdi:library-outline'"
+                                class="text-4xl"
+                                :class="isInLibrary && isAuthenticated ? 'text-gsmenta' : 'text-gray-400' + (isAuthenticated ? ' hover:text-gsmenta' : '')" />
+                        </button>
+
+                        <button @click="openDropdown = openDropdown === 'collections' ? null : 'collections'"
+                            :disabled="!isAuthenticated" class="p-2 rounded-full transition-all" :class="isAuthenticated
+                                ? 'hover:bg-white/10 cursor-pointer'
+                                : 'opacity-40 cursor-not-allowed select-none'"
+                            title="isAuthenticated ? 'My Collections' : 'Log in to manage collections'">
+                            <Icon
+                                :icon="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) && isAuthenticated ? 'mdi:folder-star' : 'mdi:folder-plus-outline'"
+                                class="text-4xl"
+                                :class="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) && isAuthenticated ? 'text-gsmenta' : 'text-gray-400' + (isAuthenticated ? ' hover:text-gsmenta' : '')" />
+                        </button>
+                    </div>
+
+                    <div v-if="openDropdown"
+                        class="absolute top-full left-0 right-0 sm:left-auto sm:right-0 mt-3 bg-[#151921] border border-white/10 rounded-xl shadow-2xl z-50 w-full sm:w-85 max-h-[60vh] sm:max-h-[480px] flex flex-col overflow-hidden backdrop-blur-md">
+
+                        <div v-if="openDropdown === 'favorites'"
+                            class="p-4 flex flex-col gap-1 overflow-y-auto custom-scrollbar">
+                            <div class="flex justify-between items-center mb-3 px-1">
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Add as favorite for:
+                                </span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <button v-for="p in game.platforms" :key="p.id" @click="toggleFavorite(p.id)"
+                                    class="flex justify-between items-center px-3 py-2 rounded-md hover:bg-white/5 transition-colors group">
+                                    <span
+                                        :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta font-bold' : 'text-gray-300 group-hover:text-white'">
+                                        {{ p.name }}
+                                    </span>
+                                    <Icon
+                                        :icon="favoritePlatforms.includes(p.id) ? 'mdi:check-circle' : 'mdi:plus-circle-outline'"
+                                        class="text-xl"
+                                        :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta' : 'text-gray-600 group-hover:text-gray-400'" />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div v-if="openDropdown === 'wishlist'" class="p-4 overflow-y-auto custom-scrollbar flex-1">
+                            <p class="text-xs font-bold text-gray-500 uppercase mb-3">Add into Wishlist</p>
+                            <div v-for="p in game.platforms" :key="p.id"
+                                class="mb-4 last:mb-0 border-b border-white/5 pb-3 last:border-0">
+                                <span class="text-xs text-gray-500 block mb-2">{{ p.name }}</span>
+                                <div class="flex gap-2">
+                                    <button @click="toggleWishlist(p.id, 'D')"
+                                        :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'D') ? 'bg-gsmenta text-black' : 'bg-white/5 text-white'"
+                                        class="flex-1 text-[10px] py-1.5 rounded uppercase font-bold transition-all">Digital</button>
+                                    <button @click="toggleWishlist(p.id, 'P')"
+                                        :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'P') ? 'bg-gsmenta text-black' : 'bg-white/5 text-white'"
+                                        class="flex-1 text-[10px] py-1.5 rounded uppercase font-bold transition-all">Physical</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="openDropdown === 'library'" class="p-4 overflow-y-auto custom-scrollbar flex-1">
+                            <p class="text-xs font-bold text-gray-500 uppercase mb-4">My library</p>
+                            <div v-for="p in game.platforms" :key="p.id"
+                                class="mb-6 last:mb-0 border-b border-white/5 pb-4 last:border-0">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-bold text-white">{{ p.name }}</span>
+                                    <span v-if="libraryItems.find(i => i.platform.id === p.id)"
+                                        class="text-[10px] text-gsmenta uppercase font-bold">In library</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button v-for="status in LIBRARY_STATUS" :key="status.id"
+                                        @click="toggleLibrary(p.id, status.id)"
+                                        :class="libraryItems.some(i => Number(i.platform.id) === Number(p.id) && i.status === status.name) ? 'bg-gsmenta text-black shadow-[0_0_10px_#00ff99]' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                                        class="text-[10px] py-1.5 rounded uppercase font-bold transition-all">{{
+                                            status.name }}</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="openDropdown === 'collections'" class="flex flex-col h-full overflow-hidden flex-1">
+                            <div class="p-4 border-b border-white/5 bg-[#1a1f29] flex-shrink-0">
+                                <p class="text-xs font-bold text-gray-500 uppercase mb-3">Add into collection</p>
+                                <div class="flex gap-2">
+                                    <input v-model="newCollectionName" type="text" placeholder="New collection..."
+                                        class="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs focus:outline-none focus:border-gsmenta text-white"
+                                        @keyup.enter="createNewCollection" />
+                                    <button @click="createNewCollection"
+                                        class="bg-gsmenta text-black px-3 py-1 rounded font-bold hover:brightness-110">
+                                        <Icon icon="mdi:plus" class="text-xl" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="overflow-y-auto p-4 space-y-4 custom-scrollbar flex-1">
+                                <div v-for="col in collectionItemsForGame" :key="col.id"
+                                    class="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm font-bold text-gray-200 truncate">{{ col.name }}</span>
+                                        <span v-if="col.is_private"
+                                            class="text-[10px] text-gray-600 uppercase">Private</span>
+                                    </div>
+                                    <div v-for="p in game.platforms" :key="p.id" class="mt-2 space-y-1">
+                                        <p class="text-[9px] text-gray-500 font-bold ml-1 uppercase">{{ p.name }}</p>
+                                        <div class="flex gap-2">
+                                            <button @click="toggleCollectionItem(col.id, p.id, 'D')"
+                                                :class="isInCollection(col, p.id, 'D') ? 'bg-gsmenta text-black' : 'bg-white/5 text-gray-400'"
+                                                class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase">Digital</button>
+                                            <button @click="toggleCollectionItem(col.id, p.id, 'P')"
+                                                :class="isInCollection(col, p.id, 'P') ? 'bg-gsmenta text-black' : 'bg-white/5 text-gray-400'"
+                                                class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase">Physical</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="h-[2px] w-full bg-gradient-to-r from-gsmenta/50 via-white/10 to-transparent mb-8"></div>
+
                 <div class="flex flex-col md:flex-row gap-12 mb-12">
 
                     <div class="w-full md:w-[350px] flex-shrink-0">
                         <img :src="game.cover_detail" :alt="game.title"
                             class="w-full rounded shadow-2xl border-3 border-gsmenta" />
+
+                        <div v-if="game.genres && game.genres.length"
+                            class="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
+                            <span v-for="genre in game.genres" :key="genre.id"
+                                class="text-[11px] font-bold uppercase tracking-wider bg-white/5 border border-white/10 px-3 py-1.5 rounded-md text-gray-300 hover:border-gsmenta/40 hover:text-white transition-colors select-none">
+                                {{ genre.name }}
+                            </span>
+                        </div>
                     </div>
 
                     <div class="flex-1">
 
-                        <div class="flex items-center gap-4 mb-2 relative">
-                            <h1 class="text-5xl font-bold">{{ game.title }}</h1>
-
-                            <div class="flex gap-2">
-
-                                <!-- FAVORITOS -->
-                                <div class="relative">
-                                    <button 
-                                        @click="openDropdown = openDropdown === 'favorites' ? null : 'favorites'"
-                                        class="p-2 rounded-full hover:bg-white/10 transition-all duration-300"
-                                        title="Gestionar favoritos">
-                                        <Icon :icon="isGameFavorite ? 'mdi:heart' : 'mdi:heart-outline'"
-                                            class="text-4xl transition-transform active:scale-125"
-                                            :class="isGameFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-400'" />
-                                    </button>
-
-                                    <div v-if="openDropdown === 'favorites'"
-                                        class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-50 w-64 p-3 overflow-hidden">
-
-                                        <div class="flex justify-between items-center mb-3 px-1">
-                                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                                Add as favorite for:
-                                            </span>
-                                        </div>
-
-                                        <div class="flex flex-col gap-1">
-                                            <button v-for="p in game.platforms" :key="p.id"
-                                                @click="toggleFavorite(p.id)"
-                                                class="flex justify-between items-center px-3 py-2 rounded-md hover:bg-white/5 transition-colors group">
-                                                <span
-                                                    :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta font-bold' : 'text-gray-300 group-hover:text-white'">
-                                                    {{ p.name }}
-                                                </span>
-                                                <Icon
-                                                    :icon="favoritePlatforms.includes(p.id) ? 'mdi:check-circle' : 'mdi:plus-circle-outline'"
-                                                    class="text-xl"
-                                                    :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta' : 'text-gray-600 group-hover:text-gray-400'" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- WISHLIST -->
-                                <div class="relative">
-                                    <button
-                                        @click="openDropdown = openDropdown === 'wishlist' ? null : 'wishlist'"
-                                        class="p-2 rounded-full hover:bg-white/10 transition-all">
-                                        <Icon :icon="isAnyWishlist ? 'mdi:bookmark' : 'mdi:bookmark-outline'"
-                                            class="text-4xl"
-                                            :class="isAnyWishlist ? 'text-gsmenta' : 'text-gray-400 hover:text-gsmenta'" />
-                                    </button>
-
-                                    <div v-if="openDropdown === 'wishlist'"
-                                        class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[60] w-72 p-3">
-
-                                        <p class="text-xs font-bold text-gray-500 uppercase mb-3">
-                                            Add into Wishlist
-                                        </p>
-
-                                        <div v-for="p in game.platforms" :key="p.id"
-                                            class="mb-4 last:mb-0 border-b border-white/5 pb-3 last:border-0">
-
-                                            <span class="text-xs text-gray-500 block mb-2">{{ p.name }}</span>
-
-                                            <div class="flex gap-2">
-                                                <button @click="toggleWishlist(p.id, 'D')"
-                                                    :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'D')
-                                                        ? 'bg-gsmenta text-black'
-                                                        : 'bg-white/5 text-white'"
-                                                    class="flex-1 text-[10px] py-1.5 rounded uppercase font-bold transition-all">
-                                                    Digital
-                                                </button>
-
-                                                <button @click="toggleWishlist(p.id, 'P')"
-                                                    :class="wishlistItems.find(i => i.platform.id === p.id && i.type === 'P')
-                                                        ? 'bg-gsmenta text-black'
-                                                        : 'bg-white/5 text-white'"
-                                                    class="flex-1 text-[10px] py-1.5 rounded uppercase font-bold transition-all">
-                                                    Físico
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- LIBRARY -->
-                                <div class="relative">
-                                    <button
-                                        @click="openDropdown = openDropdown === 'library' ? null : 'library'"
-                                        class="p-2 rounded-full hover:bg-white/10 transition-all"
-                                        title="Add into mi colección">
-                                        <Icon :icon="isInLibrary ? 'mdi:library-shelves' : 'mdi:library-outline'"
-                                            class="text-4xl"
-                                            :class="isInLibrary ? 'text-gsmenta' : 'text-gray-400 hover:text-gsmenta'" />
-                                    </button>
-
-                                    <div v-if="openDropdown === 'library'"
-                                        class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[70] w-80 p-4">
-
-                                        <p class="text-xs font-bold text-gray-500 uppercase mb-4">
-                                            My library
-                                        </p>
-
-                                        <div v-for="p in game.platforms" :key="p.id"
-                                            class="mb-6 last:mb-0 border-b border-white/5 pb-4 last:border-0">
-
-                                            <div class="flex justify-between items-center mb-2">
-                                                <span class="text-sm font-bold text-white">{{ p.name }}</span>
-                                                <span v-if="libraryItems.find(i => i.platform.id === p.id)"
-                                                    class="text-[10px] text-gsmenta uppercase font-bold">
-                                                    In library
-                                                </span>
-                                            </div>
-
-                                            <div class="grid grid-cols-2 gap-2">
-                                                <button v-for="status in LIBRARY_STATUS" :key="status.id"
-                                                    @click="toggleLibrary(p.id, status.id)"
-                                                    :class="libraryItems.some(i => Number(i.platform.id) === Number(p.id) && i.status === status.name)
-                                                        ? 'bg-gsmenta text-black shadow-[0_0_10px_#00ff99]'
-                                                        : 'bg-white/5 text-gray-400 hover:bg-white/10'"
-                                                    class="text-[10px] py-1.5 rounded uppercase font-bold transition-all">
-                                                    {{ status.name }}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- COLLECTIONS -->
-                                <div class="relative">
-                                    <button
-                                        @click="openDropdown = openDropdown === 'collections' ? null : 'collections'"
-                                        class="p-2 rounded-full hover:bg-white/10 transition-all"
-                                        title="Mis Colecciones">
-                                        <Icon
-                                            :icon="userCollections.some(c => c.items.some(i => i.game.id === game?.id))
-                                                ? 'mdi:folder-star'
-                                                : 'mdi:folder-plus-outline'"
-                                            class="text-4xl"
-                                            :class="userCollections.some(c => c.items.some(i => i.game.id === game?.id))
-                                                ? 'text-gsmenta'
-                                                : 'text-gray-400 hover:text-gsmenta'" />
-                                    </button>
-
-                                    <div v-if="openDropdown === 'collections'"
-                                        class="absolute top-full left-0 mt-2 bg-[#151921] border border-white/10 rounded-lg shadow-2xl z-[80] w-80 max-h-[500px] flex flex-col overflow-hidden">
-
-                                        <div class="p-4 border-b border-white/5 bg-[#1a1f29]">
-                                            <p class="text-xs font-bold text-gray-500 uppercase mb-3">
-                                                Add into collection
-                                            </p>
-
-                                            <div class="flex gap-2">
-                                                <input v-model="newCollectionName"
-                                                    type="text"
-                                                    placeholder="New collection..."
-                                                    class="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs focus:outline-none focus:border-gsmenta text-white"
-                                                    @keyup.enter="createNewCollection" />
-
-                                                <button @click="createNewCollection"
-                                                    class="bg-gsmenta text-black px-3 py-1 rounded font-bold hover:brightness-110">
-                                                    <Icon icon="mdi:plus" class="text-xl" />
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div class="overflow-y-auto p-4 space-y-4 custom-scrollbar">
-                                            <div v-for="col in collectionItemsForGame" :key="col.id"
-                                                class="border-b border-white/5 pb-4 last:border-0 last:pb-0">
-
-                                                <div class="flex justify-between items-center mb-2">
-                                                    <span class="text-sm font-bold text-gray-200 truncate">
-                                                        {{ col.name }}
-                                                    </span>
-                                                    <span v-if="col.is_private"
-                                                        class="text-[10px] text-gray-600 uppercase">
-                                                        Private
-                                                    </span>
-                                                </div>
-
-                                                <div v-for="p in game.platforms" :key="p.id" class="mt-2 space-y-1">
-
-                                                    <p class="text-[9px] text-gray-500 font-bold ml-1 uppercase">
-                                                        {{ p.name }}
-                                                    </p>
-
-                                                    <div class="flex gap-2">
-                                                        <button
-                                                            @click="toggleCollectionItem(col.id, p.id, 'D')"
-                                                            :class="isInCollection(col, p.id, 'D')
-                                                                ? 'bg-gsmenta text-black'
-                                                                : 'bg-white/5 text-gray-400'"
-                                                            class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase">
-                                                            Digital
-                                                        </button>
-
-                                                        <button
-                                                            @click="toggleCollectionItem(col.id, p.id, 'P')"
-                                                            :class="isInCollection(col, p.id, 'P')
-                                                                ? 'bg-gsmenta text-black'
-                                                                : 'bg-white/5 text-gray-400'"
-                                                            class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase">
-                                                            Physical
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <p class="text-gray-400 text-xl mb-8">{{ game.released_at }}</p>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-lg mb-8">
+                        <div class="flex flex-col gap-3 text-md mb-8 text-left">
                             <div class="flex gap-2 items-center">
-                                <span class="text-gray-400">Desarrolladora:</span>
-                                <span class="text-gsmenta">{{ formatText(game?.developers, 'developer') }}</span>
+                                <span class="text-gray-400">Developer:</span>
+                                <span v-if="formatText(game?.developers, 'developer')" class="text-gsmenta">
+                                    {{ formatText(game?.developers, 'developer') }}
+                                </span>
+                                <span v-else class="text-gray-500 italic font-semibold">TBA</span>
                             </div>
 
                             <div class="flex gap-2 items-center">
-                                <span class="text-gray-400">Distribuidora:</span>
-                                <span class="text-gsmenta">{{ formatText(game?.publishers, 'publisher') }}</span>
+                                <span class="text-gray-400">Publisher:</span>
+                                <span v-if="formatText(game?.publishers, 'publisher')" class="text-gsmenta">
+                                    {{ formatText(game?.publishers, 'publisher') }}
+                                </span>
+                                <span v-else class="text-gray-500 italic font-semibold">TBA</span>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-3 mt-1">
+                                <div
+                                    class="flex items-center bg-white/5 border border-white/10 rounded-md px-2.5 py-1 text-xs select-none">
+                                    <span class="text-gray-400 font-medium uppercase mr-1">
+                                        {{ game.region?.rating_organization || 'Rating' }}:
+                                    </span>
+                                    <span :class="game.age_rating ? 'text-gsmenta font-bold' : 'text-gray-500 italic'">
+                                        {{ game.age_rating || 'TBA' }}
+                                    </span>
+                                </div>
+
+                                <div v-if="game.mature_content !== undefined && game.mature_content !== null"
+                                    class="flex items-center border rounded-md px-2.5 py-1 text-xs select-none transition-colors"
+                                    :class="game.mature_content
+                                        ? 'bg-red-500/10 border-red-500/30 text-red-400'
+                                        : 'bg-white/5 border-white/10 text-gray-400'">
+                                    <Icon :icon="game.mature_content ? 'mdi:alert-decagram' : 'mdi:shield-check'"
+                                        class="text-sm mr-1.5" />
+                                    <span class="font-medium mr-1">Mature Content:</span>
+                                    <span class="font-bold uppercase text-[10px]">
+                                        {{ game.mature_content ? 'Yes' : 'No' }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
-                        <hr class="border-white/10 mb-8" />
-
-                        <p class="text-gray-300 leading-relaxed text-lg max-w-3xl">
+                        <p class="text-gray-300 leading-relaxed text-lg text-justify max-w-3xl mb-12">
                             {{ game.description }}
                         </p>
 
-                        <div class="mt-16 border-t border-white/10 pt-12">
-                            <h2 ref="reviewsTitle" class="text-3xl font-bold mb-8">Reviews</h2>
+                        <div class="mt-12 border-t border-white/5 pt-10">
+                            <div class="flex items-center justify-between mb-8">
+                                <h2 ref="reviewsTitle" class="text-2xl font-bold tracking-wide uppercase text-gray-100">
+                                    Reviews
+                                </h2>
+                                <span
+                                    class="text-xs bg-white/5 px-3 py-1 rounded-full border border-white/10 text-gray-400 font-medium">
+                                    {{ reviews.length }} total
+                                </span>
+                            </div>
 
-                            <div v-if="!userHasReviewed || isEditingReview" 
-                                class="bg-[#151921] p-6 rounded-lg mb-12 border border-white/10 shadow-xl">
-                                
-                                <h3 class="text-xl font-bold mb-4 text-gsmenta">
-                                    {{ isEditingReview ? 'Edit Review' : 'Write a Review' }}
-                                </h3>
-                                
-                                <textarea
-                                    v-model="reviewForm.content"
-                                    class="w-full bg-white/5 border border-white/10 rounded-lg p-4 text-white mb-4 min-h-[120px] focus:outline-none focus:border-gsmenta transition-colors"
-                                    placeholder="What do you think about this game?"
-                                ></textarea>
+                            <div v-if="reviewsLoading" class="text-gray-500 text-center py-10">
+                                Loading reviews...
+                            </div>
 
-                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                    <div class="flex items-center gap-4">
-                                        <label class="flex items-center gap-2 cursor-pointer group">
-                                            <input type="radio" v-model="reviewForm.recommend" :value="true" class="hidden peer" />
-                                            <div class="p-2 px-4 rounded border border-white/10 peer-checked:bg-gsmenta peer-checked:text-black group-hover:bg-white/5 transition-all font-bold flex items-center gap-2">
-                                                <Icon icon="mdi:thumb-up" class="text-xl" /> 
-                                                Recommend
+                            <div v-else-if="isAuthenticated">
+                                <div v-if="!userHasReviewed || isEditingReview"
+                                    class="bg-[#121620] p-5 sm:p-6 rounded-xl mb-10 border border-white/10 shadow-xl relative overflow-hidden backdrop-blur-sm">
+                                    <div class="absolute top-0 left-0 w-1 h-full"
+                                        :class="isEditingReview ? 'bg-amber-500' : 'bg-gsmenta'"></div>
+
+                                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2"
+                                        :class="isEditingReview ? 'text-amber-400' : 'text-gsmenta'">
+                                        <Icon :icon="isEditingReview ? 'mdi:pencil' : 'mdi:comment-plus-outline'" />
+                                        {{ isEditingReview ? 'Edit your review' : 'Write a review' }}
+                                    </h3>
+
+                                    <textarea v-model="reviewForm.content"
+                                        class="w-full bg-black/20 border border-white/10 rounded-lg p-4 text-white text-sm mb-4 min-h-[120px] focus:outline-none focus:border-gsmenta/60 focus:shadow-[0_0_15px_rgba(0,255,153,0.15)] transition-all resize-y"
+                                        placeholder="What did you think about this game? Share your thoughts with the community..."></textarea>
+
+                                    <div
+                                        class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
+                                        <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
+                                            <span
+                                                class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 sm:mb-0 sm:mr-2">
+                                                Do you recommend it?
+                                            </span>
+                                            <div class="grid grid-cols-2 sm:flex gap-2">
+                                                <label class="cursor-pointer group">
+                                                    <input type="radio" v-model="reviewForm.recommend" :value="true"
+                                                        class="hidden peer" />
+                                                    <div
+                                                        class="p-2 px-4 rounded-full border border-white/10 text-xs text-center peer-checked:bg-gsmenta peer-checked:text-white group-hover:bg-white/5 transition-all font-bold flex items-center justify-center gap-2">
+                                                        <Icon icon="mdi:thumb-up" class="text-sm" /> Yes
+                                                    </div>
+                                                </label>
+                                                <label class="cursor-pointer group">
+                                                    <input type="radio" v-model="reviewForm.recommend" :value="false"
+                                                        class="hidden peer" />
+                                                    <div
+                                                        class="p-2 px-4 rounded-full border border-white/10 text-xs text-center peer-checked:bg-red-500 peer-checked:text-white group-hover:bg-white/5 transition-all font-bold flex items-center justify-center gap-2">
+                                                        <Icon icon="mdi:thumb-down" class="text-sm" /> No
+                                                    </div>
+                                                </label>
                                             </div>
-                                        </label>
-                                        <label class="flex items-center gap-2 cursor-pointer group">
-                                            <input type="radio" v-model="reviewForm.recommend" :value="false" class="hidden peer" />
-                                            <div class="p-2 px-4 rounded border border-white/10 peer-checked:bg-red-500 peer-checked:text-white group-hover:bg-white/5 transition-all font-bold flex items-center gap-2">
-                                                <Icon icon="mdi:thumb-down" class="text-xl" /> 
-                                                Don't Recommend
-                                            </div>
-                                        </label>
-                                    </div>
+                                        </div>
 
-                                    <div class="flex gap-3">
-                                        <button v-if="isEditingReview" @click="cancelEdit" 
-                                            class="bg-white/10 text-white font-bold py-2 px-6 rounded hover:bg-white/20 transition-colors">
-                                            Cancel
-                                        </button>
-                                        <button @click="saveReview" 
-                                            class="bg-gsmenta text-black font-bold py-2 px-6 rounded hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,255,153,0.3)]">
-                                            {{ isEditingReview ? 'Update' : 'Post Review' }}
-                                        </button>
+                                        <div class="flex gap-2 justify-end">
+                                            <button v-if="isEditingReview" @click="cancelEdit"
+                                                class="bg-white/5 text-gray-300 font-bold text-xs py-2.5 px-4 rounded-full hover:bg-white/10 transition-colors border border-white/5">
+                                                Cancel
+                                            </button>
+                                            <button @click="saveReview"
+                                                class="bg-gsmenta text-black font-bold text-xs py-2.5 px-5 rounded-full hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,255,153,0.2)]">
+                                                {{ isEditingReview ? 'Update Review' : 'Post Review' }}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="space-y-6">
-                                <div v-if="reviews.length === 0" class="text-gray-500 italic text-center py-8">
+                            <div v-else
+                                class="bg-[#121620]/60 p-6 rounded-xl mb-10 border border-dashed border-white/10 shadow-lg text-center backdrop-blur-sm relative overflow-hidden flex flex-col items-center justify-center min-h-[140px]">
+                                <div class="bg-white/5 p-3 rounded-full mb-3 border border-white/5 text-gray-400">
+                                    <Icon icon="mdi:lock-outline" class="text-2xl text-gsmenta/80" />
+                                </div>
+                                <p class="text-sm text-gray-300 mb-4 max-w-sm">
+                                    Want to share your thoughts with the community? Join us to leave your review!
+                                </p>
+                                <div class="flex items-center gap-3">
+                                    <router-link to="/login"
+                                        class="bg-gsmenta text-black font-bold text-xs py-2 px-5 rounded-full hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,255,153,0.15)]">
+                                        Log In
+                                    </router-link>
+                                    <span class="text-xs text-gray-600 font-semibold uppercase tracking-wider">or</span>
+                                    <router-link to="/register"
+                                        class="bg-white/5 text-white font-bold text-xs py-2 px-5 rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+                                        Register
+                                    </router-link>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div v-if="reviews.length === 0"
+                                    class="text-gray-500 italic text-center py-12 border border-dashed border-white/5 rounded-xl bg-white/[0.01]">
                                     No reviews yet. Be the first to share your thoughts!
                                 </div>
 
-                                <div v-for="review in reviews" :key="review.id" 
-                                    class="bg-[#151921] p-6 rounded-lg border border-white/10">
-                                    
-                                    <div class="flex justify-between items-start mb-4">
-                                        <div class="flex items-center gap-4">
-                                            <div class="bg-white/10 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl text-gray-300">
-                                                {{ review.author?.username?.charAt(0).toUpperCase() || 'U' }}
+                                <div v-for="review in reviews" :key="review.id"
+                                    class="bg-gradient-to-b from-[#161a24] to-[#12151d] p-5 rounded-xl border border-white/10 transition-all hover:border-white/20 shadow-md">
+
+                                    <div
+                                        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5 mb-4">
+
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center border border-white/10 flex-shrink-0">
+                                                <img v-if="review.author?.avatar" :src="review.author?.avatar"
+                                                    :alt="review.author?.username || 'User avatar'"
+                                                    class="w-full h-full object-cover" />
+
+                                                <div v-else
+                                                    class="bg-gradient-to-br from-white/10 to-white/[0.02] w-full h-full flex items-center justify-center font-bold text-md text-gsmenta shadow-inner">
+                                                    {{ review.author?.username?.charAt(0).toUpperCase() || 'U' }}
+                                                </div>
                                             </div>
+
                                             <div>
-                                                <div class="flex items-baseline gap-2 flex-wrap">
-                                                    <p class="font-bold text-lg text-gray-200">
+                                                <div class="flex items-center gap-2 flex-wrap">
+                                                    <p class="font-bold text-sm text-gray-200">
                                                         {{ review.author?.username || 'Unknown User' }}
                                                     </p>
-                                                    
-                                                    <span class="text-xs text-gray-500">
-                                                        • {{ formatDate(review.updated_at) }}
+
+                                                    <i class="pi pi-circle-fill text-gray-600 self-center"
+                                                        style="font-size: 3px;"></i>
+
+                                                    <span class="text-[11px] text-gray-500">
+                                                        {{ formatDate(review.created_at) }}
+                                                    </span>
+
+                                                    <span v-if="review.created_at !== review.updated_at"
+                                                        class="text-[10px] text-gray-500 italic select-none">
+                                                        (edited)
                                                     </span>
                                                 </div>
 
-                                                <div class="flex items-center gap-1 text-sm font-bold mt-1" 
-                                                    :class="review.recommend ? 'text-gsmenta' : 'text-red-500'">
-                                                    <Icon :icon="review.recommend ? 'mdi:thumb-up' : 'mdi:thumb-down'" />
-                                                    <span>{{ review.recommend ? 'Recommended' : 'Not Recommended' }}</span>
+                                                <div class="inline-flex items-center gap-1.5 text-[11px] font-bold mt-1 px-2 py-0.5 rounded-full border"
+                                                    :class="review.recommend
+                                                        ? 'text-gsmenta bg-gsmenta/5 border-gsmenta/20'
+                                                        : 'text-red-400 bg-red-500/5 border-red-500/20'">
+                                                    <Icon :icon="review.recommend ? 'mdi:thumb-up' : 'mdi:thumb-down'"
+                                                        class="text-xs" />
+                                                    <span>{{ review.recommend ? 'Recommended' : 'Not Recommended'
+                                                    }}</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div v-if="(review.author?.id === currentUserId)" class="flex gap-2">
-                                            <button @click="startEdit(review)" 
-                                                class="p-2 bg-white/5 rounded text-gray-400 hover:text-gsmenta hover:bg-white/10 transition-all" title="Edit">
-                                                <Icon icon="mdi:pencil" class="text-xl" />
+                                        <div v-if="review.author?.id === currentUserId"
+                                            class="flex gap-1 self-end sm:self-center">
+                                            <button @click="startEdit(review)"
+                                                class="p-2 bg-white/5 rounded-md text-gray-400 hover:text-gsmenta hover:bg-white/10 transition-all"
+                                                title="Edit">
+                                                <Icon icon="mdi:pencil" class="text-lg" />
                                             </button>
-                                            <button @click="deleteReview(review.id)" 
-                                                class="p-2 bg-white/5 rounded text-gray-400 hover:text-red-500 hover:bg-white/10 transition-all" title="Delete">
-                                                <Icon icon="mdi:trash-can" class="text-xl" />
+                                            <button @click="deleteReview(review.id)"
+                                                class="p-2 bg-white/5 rounded-md text-gray-400 hover:text-red-400 hover:bg-white/10 transition-all"
+                                                title="Delete">
+                                                <Icon icon="mdi:trash-can" class="text-lg" />
                                             </button>
                                         </div>
+
                                     </div>
-                                    
-                                    <p class="text-gray-300 leading-relaxed whitespace-pre-wrap">{{ review.content }}</p>
-                                </div>
-                                <div class="space-y-6">
+
+                                    <p
+                                        class="text-gray-300 text-sm leading-relaxed text-justify whitespace-pre-wrap px-1">
+                                        {{ review.content }}
+                                    </p>
                                 </div>
 
-                                <div v-if="totalPages > 1" class="flex justify-center items-center gap-4 mt-8">
-                                    <button
-                                        @click="changePage(currentPage - 1)"
-                                        :disabled="!hasPreviousPage"
-                                        class="p-2 rounded bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed transition-all">
-                                        <Icon icon="mdi:chevron-left" class="text-3xl text-white" />
+                                <div v-if="totalPages > 1" class="flex justify-center items-center gap-3 mt-8 pt-4">
+                                    <button @click="changePage(currentPage - 1)" :disabled="!hasPreviousPage"
+                                        class="p-2 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-20 disabled:hover:bg-white/5 disabled:cursor-not-allowed transition-all border border-white/5">
+                                        <Icon icon="mdi:chevron-left" class="text-2xl text-white" />
                                     </button>
 
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-gray-400 font-bold text-sm uppercase tracking-wider">Page</span>
-                                        <span class="text-gsmenta font-bold text-lg">{{ currentPage }}</span>
-                                        <span class="text-gray-500 font-bold">/</span>
-                                        <span class="text-gray-400 font-bold">{{ totalPages }}</span>
+                                    <div
+                                        class="flex items-center gap-1.5 bg-white/5 px-4 py-2 rounded-lg border border-white/5 text-xs font-semibold uppercase tracking-wider">
+                                        <span class="text-gray-400">Page</span>
+                                        <span class="text-gsmenta font-bold text-sm">{{ currentPage }}</span>
+                                        <span class="text-gray-600">/</span>
+                                        <span class="text-gray-400">{{ totalPages }}</span>
                                     </div>
 
-                                    <button
-                                        @click="changePage(currentPage + 1)"
-                                        :disabled="!hasNextPage"
-                                        class="p-2 rounded bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed transition-all">
-                                        <Icon icon="mdi:chevron-right" class="text-3xl text-white" />
+                                    <button @click="changePage(currentPage + 1)" :disabled="!hasNextPage"
+                                        class="p-2 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-20 disabled:hover:bg-white/5 disabled:cursor-not-allowed transition-all border border-white/5">
+                                        <Icon icon="mdi:chevron-right" class="text-2xl text-white" />
                                     </button>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -381,7 +448,6 @@
         </section>
     </div>
 </template>
-
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
@@ -397,30 +463,52 @@ import { PLATFORM_MAP } from '@/constants/app';
 const route = useRoute()
 const authStore = useAuthStore()
 
-const headers = {
-    'Authorization': `Bearer ${authStore.token}`,
-    'Content-Type': 'application/json'
-}
 
 const gameId = route.params.id
 const game = ref<Game | null>(null);
 
 const loading = ref(true)
 const openDropdown = ref<null | 'favorites' | 'wishlist' | 'library' | 'collections'>(null)
+const reviewsLoading = ref(true);
+const isAuthenticated = computed(() => authStore.isLogged);
+const region = computed(() => {
+    const regionMaps: Record<string, string> = {
+        europe: 'eu',
+        north_america: 'us',
+        new_zeland: 'nz',
+        japan: 'jp',
+        china: 'cn',
+        korea: 'kr',
+        brazil: 'br',
 
+        asia: 'asia',
+        worldwide: 'world',
+
+        to_be_add: 'warning',
+    }
+
+    const regionName = game.value?.region?.name ?? 'to_be_add'
+
+    return regionMaps[regionName] || 'warning'
+})
 onMounted(async () => {
     try {
-        const data = await getGame()
-        game.value = data
-        await loadCollections();
-        await loadFavoriteStatus();
-        await loadWishlistStatus();
-        await loadLibraryStatus();
+        const data = await getGame();
+        game.value = data;
+
         await loadReviews();
+
+        if (isAuthenticated.value) {
+            await loadCollections();
+            await loadFavoriteStatus();
+            await loadWishlistStatus();
+            await loadLibraryStatus();
+        }
+
     } catch (error: any) {
-        console.error('Error:', error)
+        console.error('Error:', error);
     } finally {
-        loading.value = false
+        loading.value = false;
     }
 });
 
@@ -437,8 +525,7 @@ const loadFavoriteStatus = async () => {
     const userId = authStore.getSelfId();
 
     const response = await api.get(
-        `/api/favorites/user/${userId}/`,
-        { headers }
+        `/api/favorites/user/${userId}/`
     );
     // Filtramos los favoritos que pertenecen a este juego y guardamos sus IDs de plataforma
     favoritePlatforms.value = response.data
@@ -454,8 +541,7 @@ const toggleFavorite = async (platformId: number) => {
             {
                 pk_game: gameId,
                 pk_platform: platformId
-            },
-            { headers }
+            }
         );
 
         // Actualizamos la lista local
@@ -482,7 +568,7 @@ const showWishlistSelector = ref(false);
 const loadWishlistStatus = async () => {
     try {
         // Obtenemos la wishlist del propio usuario autenticado
-        const response = await api.get(`/api/wishlist/`, { headers });
+        const response = await api.get(`/api/wishlist/`);
 
         wishlistData.value = response.data;
 
@@ -558,7 +644,7 @@ const LIBRARY_STATUS = [
 
 const loadLibraryStatus = async () => {
     try {
-        const response = await api.get(`/api/library/`, { headers });
+        const response = await api.get(`/api/library/`);
         libraryData.value = response.data;
         // Filtramos items para este juego
         libraryItems.value = response.data.items.filter(
@@ -633,13 +719,13 @@ const loadCollections = async () => {
         const response = await api.get('/api/collections/')
         // console.log("STATUS:", response.status)
         // console.log("DATA:", response.data)
-          
+
         userCollections.value = response.data.map((col: any) => ({
             ...col,
             items: col.items ?? []
         }));
 
-// userCollections.value = response.data;
+        // userCollections.value = response.data;
         newCollectionName.value = "";
     } catch (err: any) {
         console.error("ERROR:", err.response?.status)
@@ -830,20 +916,21 @@ const userHasReviewed = computed(() => {
 
 const loadReviews = async (page = 1) => {
     try {
-        // Ahora pasamos explícitamente el game_id y la página al backend
-        const response = await api.get(`/api/reviews/?game_id=${gameId}&page=${page}`, { headers });
-        
-        // Ya no hace falta filtrar en el frontend porque el backend nos da exactamente lo que queremos
+        reviewsLoading.value = true;
+
+        const response = await api.get(`/api/reviews/?game_id=${gameId}&page=${page}`);
+
         reviews.value = response.data.results;
-        
-        // Actualizamos los controles de paginación
+
         currentPage.value = response.data.current_page;
         totalPages.value = response.data.total_pages;
         hasNextPage.value = response.data.has_next;
         hasPreviousPage.value = response.data.has_previous;
-        
+
     } catch (error) {
         console.error('Error cargando reviews:', error);
+    } finally {
+        reviewsLoading.value = false;
     }
 };
 
@@ -861,20 +948,20 @@ const saveReview = async () => {
                 recommend: reviewForm.value.recommend,
                 pk_game: Number(gameId),
                 // pk_author: authStore.getSelfId()
-            }, { headers });
+            });
         } else {
             // CREAR NUEVA (POST) - Tu backend espera game_id según el views.py
             await api.post(`/api/reviews/`, {
                 content: reviewForm.value.content,
                 recommend: reviewForm.value.recommend,
                 game_id: Number(gameId)
-            }, { headers });
+            });
         }
 
         // Limpiar estado y recargar
         cancelEdit();
         await loadReviews();
-        
+
     } catch (error: any) {
         console.error('Error guardando review:', error.response?.data);
         alert(error.response?.data?.error || "Error saving the review.");
@@ -896,15 +983,15 @@ const cancelEdit = () => {
 
 const deleteReview = async (reviewId: number) => {
     if (!confirm('Are you sure you want to delete this review?')) return;
-    
+
     try {
-        await api.delete(`/api/reviews/${reviewId}/`, { headers });
-        
+        await api.delete(`/api/reviews/${reviewId}/`);
+
         // Si estaba editando la review que acaba de borrar, reseteamos el formulario
         if (isEditingReview.value === reviewId) {
             cancelEdit();
         }
-        
+
         await loadReviews();
     } catch (error: any) {
         console.error('Error borrando review:', error.response?.data);
@@ -914,7 +1001,7 @@ const deleteReview = async (reviewId: number) => {
 const formatDate = (dateString: string | undefined) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    
+
     // Esto lo formateará automáticamente según el idioma del navegador (ej: "16 may 2026")
     return date.toLocaleDateString(undefined, {
         day: 'numeric',

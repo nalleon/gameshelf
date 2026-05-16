@@ -21,6 +21,7 @@ export interface User {
     collections: Array<Collection>
     library: Library
     wishlist: Wishlist
+    avatar: string
 }
 
 export interface FavoriteItem {

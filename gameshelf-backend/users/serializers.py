@@ -10,12 +10,15 @@ from classifications.serializers import (
 
 class UserSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
+        profile = getattr(instance, 'profile', None)
+
         return {
             'id': instance.pk,
             'username': instance.username,
             'first_name': instance.first_name,
             'last_name': instance.last_name,
             'email': instance.email,
+            'avatar': self.build_url(profile.avatar.url) if profile and profile.avatar else None,
         }
 
     @staticmethod
@@ -26,8 +29,8 @@ class UserSerializer(BaseSerializer):
             'first_name': serializers.CharField(),
             'last_name': serializers.CharField(),
             'email': serializers.EmailField(),
+            'avatar': serializers.CharField(allow_null=True),
         }
-
 
 class ProfileSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:

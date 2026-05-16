@@ -119,7 +119,7 @@ class RegionSerializer(BaseSerializer):
             'name': instance.name,
             'slug': instance.slug,
             'acronym': instance.acronym,
-            # rating     
+            'rating_organization': instance.rating_organization
         }
 
     @staticmethod
@@ -129,6 +129,7 @@ class RegionSerializer(BaseSerializer):
             'name': serializers.CharField(),
             'slug': serializers.SlugField(),
             'acronym': serializers.CharField(),
+            'rating_organization': serializers.CharField(),
         }
 
 

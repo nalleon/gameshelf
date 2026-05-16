@@ -40,6 +40,7 @@ export interface Region {
     slug: string,
     description: string,
     acronym: string,
+    rating_organization: string
 }
 
 export interface Platform {
