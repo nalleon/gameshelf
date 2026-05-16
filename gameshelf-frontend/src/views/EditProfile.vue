@@ -64,15 +64,23 @@
                 </section>
 
                 <section>
-                    <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-4">Visual Style</h3>
-                    <div class="bg-[#1a1e26] p-6 rounded-2xl border border-gsgris/10 flex items-center justify-between">
+                    <h3 class="text-xs uppercase tracking-[0.2em] text-gsmenta font-bold mb-2">Visual Style</h3>
+                    
+                    <p v-if="!profile?.verified" class="text-xs text-red-400 mb-3 font-medium italic">
+                        You have to verify your account to use this function
+                    </p>
+
+                    <div class="bg-[#1a1e26] p-6 rounded-2xl border border-gsgris/10 flex items-center justify-between transition-all"
+                        :class="{ 'opacity-50 select-none': !profile?.verified }">
                         <div>
                             <p class="font-medium">Banner Color</p>
                             <p class="text-xs text-gsgris">This color will be displayed on your profile header.</p>
                         </div>
-                        <div class="flex items-center gap-3">
+                        
+                        <div class="flex items-center gap-3" :class="{ 'pointer-events-none': !profile?.verified }">
                             <input type="color" v-model="editForm.color_bg"
-                                class="w-12 h-12 rounded-lg bg-transparent border-none cursor-pointer">
+                                :disabled="!profile?.verified"
+                                class="w-12 h-12 rounded-lg bg-transparent border-none cursor-pointer disabled:cursor-not-allowed">
                             <span class="text-sm font-mono text-gsgris uppercase">{{ editForm.color_bg }}</span>
                         </div>
                     </div>
