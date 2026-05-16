@@ -1,13 +1,12 @@
 <template>
     <Navbar />
 
-    <div class="pt-20 h-[92.5vh] bg-gsoscuro/55 flex justify-center items-start px-4">
+    <div class="min-h-screen pt-20 pb-12 bg-gsoscuro/55 flex flex-col justify-center items-center px-4">
 
         <div
-            class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-[45rem] w-full shadow-2xl border border-white/8 relative overflow-hidden">
+            class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-[45rem] w-full shadow-2xl border border-gsmenta/10 relative overflow-hidden">
 
-            <!-- Línea superior (igual que login/home card) -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta via-gsblanco/70 to-gsbosque"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta to-gsbosque"></div>
 
             <Stepper v-model:value="activeStep" class="basis-[40rem]" linear>
                 <StepList>
@@ -16,7 +15,7 @@
                             <button class="bg-transparent border-0 inline-flex flex-col gap-2" @click="activateCallback"
                                 v-bind="a11yAttrs.header">
                                 <span
-                                    :class="['rounded-full border-2 w-12 h-12 inline-flex items-center justify-center', { 'bg-gsmenta text-gsoscuro border-gsmenta': Number(value) <= activeStep, 'border-gsgris': Number(value) > activeStep }]">
+                                    :class="['rounded-full border-2 w-12 h-12 inline-flex items-center justify-center transition-colors', { 'bg-gsmenta text-gsoscuro border-gsmenta': Number(value) <= activeStep, 'border-gsgris': Number(value) > activeStep }]">
                                     <i class="pi pi-user" />
                                 </span>
                             </button>
@@ -29,7 +28,7 @@
                             <button class="bg-transparent border-0 inline-flex flex-col gap-2" @click="activateCallback"
                                 v-bind="a11yAttrs.header">
                                 <span
-                                    :class="['rounded-full border-2 w-12 h-12 inline-flex items-center justify-center', { 'bg-gsmenta text-gsoscuro border-gsmenta': Number(value) <= activeStep, 'border-gsgris': Number(value) > activeStep }]">
+                                    :class="['rounded-full border-2 w-12 h-12 inline-flex items-center justify-center transition-colors', { 'bg-gsmenta text-gsoscuro border-gsmenta': Number(value) <= activeStep, 'border-gsgris': Number(value) > activeStep }]">
                                     <i class="pi pi-star" />
                                 </span>
                             </button>
@@ -42,7 +41,7 @@
                             <button class="bg-transparent border-0 inline-flex flex-col gap-2" @click="activateCallback"
                                 v-bind="a11yAttrs.header">
                                 <span
-                                    :class="['rounded-full border-2 w-12 h-12 inline-flex items-center justify-center', { 'bg-gsmenta text-gsoscuro border-gsmenta': Number(value) <= activeStep, 'border-gsgris': Number(value) > activeStep }]">
+                                    :class="['rounded-full border-2 w-12 h-12 inline-flex items-center justify-center transition-colors', { 'bg-gsmenta text-gsoscuro border-gsmenta': Number(value) <= activeStep, 'border-gsgris': Number(value) > activeStep }]">
                                     <i class="pi pi-id-card" />
                                 </span>
                             </button>
@@ -51,66 +50,75 @@
                 </StepList>
 
                 <StepPanels>
-                    <!-- STEP 1 -->
                     <StepPanel v-slot="{ activateCallback }" :value="1">
-                        <div class="flex flex-col gap-4 mx-auto" style="min-height: 16rem; max-width: 20rem">
-                            <div class="text-center mt-4 mb-4 text-xl font-semibold">Create your account</div>
+                        <div class="flex flex-col mx-auto" style="min-height: 16rem; max-width: 20rem">
+                            <div class="text-center mt-4 mb-6 text-xl font-semibold">Create your account</div>
 
-                            <input v-model="username" class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2"
-                                placeholder="Username">
-                            <p :class="isHiddenUsernameError" class="text-red-400 text-xs">{{ usernameError }}</p>
+                            <div class="mb-4 text-left">
+                                <label class="text-xs font-bold text-gsmenta uppercase ml-1">Username</label>
+                                <input v-model="username" 
+                                    class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-4 py-3 mt-1 focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta/50 transition-all placeholder-gsgris/40"
+                                    placeholder="Username">
+                                <p :class="isHiddenUsernameError" class="text-red-400 text-xs mt-2 ml-1 italic">{{ usernameError }}</p>
+                            </div>
 
-                            <input v-model="email" type="email"
-                                class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2" placeholder="Email">
-                            <p :class="isHiddenEmailError" class="text-red-400 text-xs">{{ emailError }}</p>
+                            <div class="mb-4 text-left">
+                                <label class="text-xs font-bold text-gsmenta uppercase ml-1">Email</label>
+                                <input v-model="email" type="email"
+                                    class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-4 py-3 mt-1 focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta/50 transition-all placeholder-gsgris/40" 
+                                    placeholder="Email">
+                                <p :class="isHiddenEmailError" class="text-red-400 text-xs mt-2 ml-1 italic">{{ emailError }}</p>
+                            </div>
 
-                            <input v-model="password" type="password"
-                                class="bg-[#1a1e26] border border-gsgris/30 rounded-md px-3 py-2"
-                                placeholder="Password">
-                            <p :class="isHiddenPasswordError" class="text-red-400 text-xs">{{ passwordError }}</p>
+                            <div class="mb-4 text-left">
+                                <label class="text-xs font-bold text-gsmenta uppercase ml-1">Password</label>
+                                <input v-model="password" type="password"
+                                    class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-4 py-3 mt-1 focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta/50 transition-all placeholder-gsgris/40"
+                                    placeholder="Password">
+                                <p :class="isHiddenPasswordError" class="text-red-400 text-xs mt-2 ml-1 italic">{{ passwordError }}</p>
+                            </div>
                         </div>
 
-                        <div class="flex flex-col gap-2 mt-4 text-center">
-                            <router-link to="/login" class="text-gsgris hover:text-gsblanco text-sm">
+                        <div class="flex flex-col items-center gap-3 mt-4 mb-4">
+                            <router-link to="/login" class="text-sm text-gsgris hover:text-gsblanco transition-colors underline-offset-4 hover:underline">
                                 Already have an account? Login
                             </router-link>
                         </div>
 
                         <div class="flex pt-6 justify-end">
                             <button @click="() => { if (checkFields()) activateCallback(2); }"
-                                class="bg-gsmenta text-gsoscuro px-4 py-2  rounded-full font-bold hover:cursor-pointer">
+                                class="bg-gsmenta hover:bg-gsbosque text-gsoscuro font-bold py-2 px-6 rounded-full transition-all transform hover:scale-[1.02] active:scale-[0.99] shadow-lg cursor-pointer uppercase tracking-wider text-sm">
                                 Next
                             </button>
                         </div>
                     </StepPanel>
 
-                    <!-- STEP 2 -->
                     <StepPanel v-slot="{ activateCallback }" :value="2">
 
-                        <div class="flex flex-col gap-10 mx-auto w-full max-w-5xl px-6">
+                        <div class="flex flex-col gap-8 mx-auto w-full max-w-5xl px-6">
 
-                            <!-- TITLE -->
                             <div class="text-center mt-4 text-xl font-semibold">
                                 Personal Information
                             </div>
 
-                            <!-- GRID -->
                             <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
 
-                                <!-- IZQUIERDA (MÁS ANCHA) -->
-                                <div class="md:col-span-3 flex flex-col gap-6">
+                                <div class="md:col-span-3 flex flex-col gap-4">
+                                    <div class="text-left">
+                                        <label class="text-xs font-bold text-gsmenta uppercase ml-1">First Name (Optional)</label>
+                                        <input v-model="firstName"
+                                            class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-4 py-3 mt-1 focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta/50 transition-all placeholder-gsgris/40 text-base"
+                                            placeholder="First Name (Optional)">
+                                    </div>
 
-                                    <input v-model="firstName"
-                                        class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-5 py-4 text-base focus:outline-none focus:border-gsmenta transition-all"
-                                        placeholder="First Name (Optional)">
-
-                                    <input v-model="lastName"
-                                        class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-5 py-4 text-base focus:outline-none focus:border-gsmenta transition-all"
-                                        placeholder="Last Name (Optional)">
-
+                                    <div class="text-left">
+                                        <label class="text-xs font-bold text-gsmenta uppercase ml-1">Last Name (Optional)</label>
+                                        <input v-model="lastName"
+                                            class="w-full bg-[#1a1e26] border border-gsgris/30 rounded-xl px-4 py-3 mt-1 focus:outline-none focus:border-gsmenta focus:ring-1 focus:ring-gsmenta/50 transition-all placeholder-gsgris/40 text-base"
+                                            placeholder="Last Name (Optional)">
+                                    </div>
                                 </div>
 
-                                <!-- DERECHA (MÁS PEQUEÑA) -->
                                 <div class="md:col-span-2 flex flex-col items-center justify-center gap-4">
 
                                     <div class="relative group cursor-pointer">
@@ -139,35 +147,32 @@
 
                                 </div>
 
-
                             </div>
 
-                            <!-- LOGIN LINK -->
-                            <div class="text-center">
-                                <router-link to="/login" class="text-gsgris hover:text-gsblanco text-sm">
+                            <div class="flex flex-col items-center gap-3 mt-2">
+                                <router-link to="/login" class="text-sm text-gsgris hover:text-gsblanco transition-colors underline-offset-4 hover:underline">
                                     Already have an account? Login
                                 </router-link>
                             </div>
 
                         </div>
 
-                        <!-- BOTONES -->
                         <div class="flex pt-6 justify-between items-center px-6">
 
                             <button @click="activateCallback(1)"
-                                class="flex items-center gap-2 text-gsgris hover:text-gsblanco transition-colors">
+                                class="flex items-center gap-2 text-gsgris hover:text-gsblanco transition-colors cursor-pointer">
                                 <i class="pi pi-arrow-left text-lg" />
                             </button>
 
                             <button @click="{ activateCallback(3); submitRegister(); }"
-                                class="bg-gsmenta hover:bg-gsbosque transition-all text-gsoscuro px-6 py-2 rounded-full font-bold">
+                                class="bg-gsmenta hover:bg-gsbosque text-gsoscuro font-bold py-3.5 px-6 rounded-full transition-all transform hover:scale-[1.02] active:scale-[0.99] shadow-lg cursor-pointer uppercase tracking-wider text-sm">
                                 Register
                             </button>
 
                         </div>
 
                     </StepPanel>
-                    <!-- STEP 3 -->
+                    
                     <StepPanel v-slot="{ activateCallback }" :value="3">
                         <div class="flex flex-col gap-2 mx-auto" style="min-height: 16rem; max-width: 24rem">
                             <div class="text-center mt-4 mb-4 text-xl font-semibold">Account created successfully</div>
@@ -182,23 +187,20 @@
             </Stepper>
         </div>
     </div>
-    <!-- CROPPER MODAL -->
+    
     <div v-if="showCropper" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
 
         <div
-            class="relative w-full max-w-xl bg-gsoscuro text-gsblanco rounded-2xl shadow-2xl border border-white/8 overflow-hidden">
+            class="relative w-full max-w-xl bg-gsoscuro text-gsblanco rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
 
-            <!-- TOP BORDER (igual que cards/login/home) -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta via-gsblanco/70 to-gsbosque"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta to-gsbosque"></div>
 
-            <!-- CONTENT -->
             <div class="p-6">
 
                 <h2 class="text-center text-lg font-semibold mb-6">
                     Adjust your profile picture
                 </h2>
 
-                <!-- CROPPER -->
                 <div class="flex justify-center">
 
                     <Cropper ref="cropperRef" :src="rawImage" class="w-full h-80 rounded-xl overflow-hidden"
@@ -208,15 +210,14 @@
 
                 </div>
 
-                <!-- BUTTONS -->
                 <div class="flex justify-between mt-6">
 
-                    <button class="text-gsgris hover:text-gsblanco transition-colors" @click="showCropper = false">
+                    <button class="text-gsgris hover:text-gsblanco transition-colors cursor-pointer" @click="showCropper = false">
                         Cancel
                     </button>
 
                     <button
-                        class="bg-gsmenta hover:bg-gsbosque text-gsoscuro px-5 py-2 rounded-full font-bold transition-all"
+                        class="bg-gsmenta hover:bg-gsbosque text-gsoscuro font-bold py-2.5 px-6 rounded-full transition-all transform hover:scale-[1.02] active:scale-[0.99] shadow-lg cursor-pointer uppercase tracking-wider text-xs"
                         @click="getCroppedImage">
                         Apply
                     </button>
@@ -248,6 +249,7 @@ import axios from 'axios';
 import { Cropper, CircleStencil } from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
 import api from "@/api/client";
+
 const showCropper = ref(false)
 const rawImage = ref<string | null>(null)
 const croppedImage = ref<string | null>(null)
@@ -262,7 +264,8 @@ const password = ref('')
 const firstName = ref('')
 const lastName = ref('')
 
-const requiredFieldMessage = "Este campo es obligatorio";
+// Textos traducidos a inglés
+const requiredFieldMessage = "This field is required";
 
 const usernameError = ref('')
 const emailError = ref('')
@@ -280,9 +283,9 @@ const cropperRef = ref()
 
 const generateRandomFirstName = () => {
     return uniqueNamesGenerator({
-        dictionaries: [adjectives, animals], // Adjetivo + Nombre
+        dictionaries: [adjectives, animals],
         separator: '',
-        style: 'capital', // Para que sea AdjetivoNombre123
+        style: 'capital',
     });
 };
 
@@ -309,7 +312,6 @@ async function apiRegister() {
 
     try {
         const response = await api.post('/api/auth/register/', formData);
-
         const data = response.data;
 
         username.value = "";
@@ -319,13 +321,12 @@ async function apiRegister() {
         return data;
 
     } catch (error: unknown) {
-        console.error("Error en registro:", error);
+        console.error("Registration error:", error);
         return null;
     }
 }
 
 function checkFields() {
-    // Resetear visibilidad de errores
     isHiddenUsernameError.value = "hidden"
     isHiddenEmailError.value = "hidden"
     isHiddenPasswordError.value = "hidden"
@@ -344,28 +345,21 @@ function checkFields() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.value)) {
-        emailError.value = "El formato del correo electrónico no es válido (ej: usuario@dominio.com)";
+        emailError.value = "The email address format is invalid (e.g. user@domain.com)";
         isHiddenEmailError.value = "inline";
         return false;
     }
 
-    // 3. Validación de Password (Vacío)
     if (password.value === "") {
         passwordError.value = requiredFieldMessage
         isHiddenPasswordError.value = "inline"
         return false;
     }
 
-    // Explicación del Regex:
-    // (?=.*[a-z]) -> Al menos una minúscula
-    // (?=.*[A-Z]) -> Al menos una mayúscula
-    // (?=.*\d)     -> Al menos un número
-    // (?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]) -> Al menos un signo/carácter especial
-    // .{8,}        -> Mínimo 8 caracteres de longitud
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]).{8,}$/;
     
     if (!passwordRegex.test(password.value)) {
-        passwordError.value = "La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas, números y un carácter especial.";
+        passwordError.value = "Password must be at least 8 characters long and include uppercase, lowercase, numbers, and a special character.";
         isHiddenPasswordError.value = "inline";
         return false;
     }
@@ -397,17 +391,27 @@ function getCroppedImage() {
 }
 
 function submitRegister() {
-
     if (!checkFields()) {
         return;
     }
 
-
     apiRegister().then((data) => {
-        auth.setUserSesion(data.token)
-        router.replace('/profile')
+        if(data && data.token) {
+            auth.setUserSesion(data.token)
+            router.replace('/profile')
+        }
     })
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
