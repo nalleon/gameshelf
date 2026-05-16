@@ -11,7 +11,7 @@
                     <div>
                         <h1 class="text-3xl font-bold block mb-1">{{ game.title }}</h1>
 
-                        <div class="flex items-center gap-2 mt-1">
+                        <div class="flex flex-wrap items-center gap-2 mt-1">
                             <p class="text-gray-400 text-sm">{{ game.released_at }}</p>
 
                             <i class="pi pi-circle-fill text-gray-600" style="font-size: 3px;"></i>
@@ -32,11 +32,33 @@
                                     {{ region === 'warning' ? 'TBA' : region }}
                                 </span>
                             </div>
+
+                            <template v-if="game.platforms && game.platforms.length">
+                                <i class="pi pi-circle-fill text-gray-600" style="font-size: 3px;"></i>
+
+                                <div class="flex items-center gap-3 ml-1">
+                                    <div v-for="p in game.platforms" :key="p.id"
+                                        class="relative group flex items-center justify-center text-gray-400 hover:text-gsmenta transition-colors duration-200 cursor-pointer">
+
+                                        <Icon
+                                            :icon="PLATFORM_MAP[p.slug || ''] || PLATFORM_MAP[p.name?.toLowerCase().trim().replace(/ /g, '-') || ''] || 'mdi:gamepad-variant'"
+                                            class="text-xl" />
+
+                                        <div
+                                            class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-[#151921] border border-white/10 text-[10px] font-bold text-gray-200 uppercase tracking-wider rounded shadow-2xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-150 pointer-events-none whitespace-nowrap z-50">
+                                            {{ p.name }}
+                                            <div
+                                                class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#151921]">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
 
                     <div class="flex gap-2 sm:ml-auto z-40">
-
                         <button @click="openDropdown = openDropdown === 'favorites' ? null : 'favorites'"
                             :disabled="!isAuthenticated" class="p-2 rounded-full transition-all duration-300" :class="isAuthenticated
                                 ? 'hover:bg-white/10 active:scale-125 cursor-pointer'
@@ -189,7 +211,7 @@
                         <div v-if="game.genres && game.genres.length"
                             class="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
                             <span v-for="genre in game.genres" :key="genre.id"
-                                class="text-[11px] font-bold uppercase tracking-wider bg-white/5 border border-white/10 px-3 py-1.5 rounded-md text-gray-300 hover:border-gsmenta/40 hover:text-white transition-colors select-none">
+                                class="text-[11px] font-bold uppercase tracking-wider bg-white/5 border border-gsmenta/40 px-3 py-1.5 rounded-md text-gray-300 hover:text-white transition-colors select-none">
                                 {{ genre.name }}
                             </span>
                         </div>
@@ -388,7 +410,7 @@
                                                     <Icon :icon="review.recommend ? 'mdi:thumb-up' : 'mdi:thumb-down'"
                                                         class="text-xs" />
                                                     <span>{{ review.recommend ? 'Recommended' : 'Not Recommended'
-                                                    }}</span>
+                                                        }}</span>
                                                 </div>
                                             </div>
                                         </div>
