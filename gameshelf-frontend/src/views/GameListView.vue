@@ -1,15 +1,12 @@
 <template>
   <div class="h-screen flex flex-col bg-[#0b0e14]">
-    <!-- NAVBAR -->
     <div class="flex-shrink-0 sticky top-0 z-50">
       <Navbar />
     </div>
 
-    <!-- SCROLL AREA -->
     <section ref="scrollContainer" class="flex-1 overflow-y-auto p-6 sm:p-8 pb-28 text-gsblanco relative">
       <div class="max-w-[1600px] mx-auto pb-20">
 
-        <!-- HEADER -->
         <div class="mb-8 flex items-center justify-between text-gsmenta">
           <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
             Catalog
@@ -22,8 +19,13 @@
           </button>
         </div>
 
-        <!-- GRID -->
-        <main v-if="games && games.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
+        <div v-if="loading" class="flex flex-col items-center justify-center py-32 text-gsmenta">
+          <i class="pi pi-spin pi-spinner text-4xl mb-4"></i>
+          <span class="text-sm tracking-wider uppercase font-medium text-gsgris animate-pulse">Loading catalog...</span>
+        </div>
+
+        <main v-else-if="games && games.length > 0"
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-6">
           <div v-for="game in games" :key="game.id"
             class="group flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 hover:border-gsmenta/50 transition-all duration-300 shadow-lg">
             <GameCard :game="game" />
@@ -40,16 +42,14 @@
           </p>
         </div>
 
-        <!-- PAGINATION -->
-        <Pagination :current-page="currentPage" :total-pages="totalPages" @change="goToPage" />
+        <Pagination v-if="!loading && games && games.length > 0" :current-page="currentPage" :total-pages="totalPages"
+          @change="goToPage" />
       </div>
 
-      <!-- FLOAT BUTTON -->
       <ScrollTopButton :target="scrollContainer" :threshold="300" />
     </section>
   </div>
 
-  <!-- SETTINGS -->
   <Transition name="fade">
     <div v-if="showSettings" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
       @click.self="showSettings = false">
@@ -61,8 +61,8 @@
             Settings
           </h3>
 
-          <button @click="showSettings = false" class="text-gsgris hover:text-gsblanco transition">
-            <ion-icon name="close-outline"></ion-icon>
+          <button @click="showSettings = false" class="text-gsgris hover:text-red-400 transition">
+            <i class="pi pi-times"></i>
           </button>
         </div>
 
@@ -104,32 +104,8 @@ const matureContent = ref(false)
 
 const STORAGE_KEY = computed(() => {
   const userId = authStore.getSelfId()
-
-  return userId
-    ? `games_preferences_user_${userId}`
-    : 'games_preferences_guest'
+  return userId ? `games_preferences_user_${userId}` : 'games_preferences_guest'
 })
-onMounted(() => {
-  const saved = localStorage.getItem(STORAGE_KEY.value)
-
-  if (saved) {
-    const parsed = JSON.parse(saved)
-    matureContent.value = parsed.matureContent ?? false
-  }
-
-  loadPage(1)
-  loading.value = false
-})
-
-watch(matureContent, (val) => {
-  localStorage.setItem(
-    STORAGE_KEY.value,
-    JSON.stringify({ matureContent: val })
-  )
-
-  loadPage(1)
-})
-
 
 // --- VARIABLES DE PAGINACIÓN ---
 const currentPage = ref(1);
@@ -138,64 +114,40 @@ const totalCount = ref(0);
 const hasNext = ref(false);
 const hasPrevious = ref(false);
 
-onMounted(async () => {
-  await loadPage(1)
-  loading.value = false
-});
-
-// Detecta cambios en la URL (filtros, búsqueda, etc.) y recarga la página
-watch(
-  () => route.query,
-  async () => {
-    await loadPage(1)
-  }
-)
-
 const loadPage = async (page: number) => {
+  loading.value = true
   try {
     const data = await getGames(page)
-
     games.value = data.results
     currentPage.value = data.current_page
     totalPages.value = data.total_pages
     hasNext.value = data.has_next
     hasPrevious.value = data.has_previous
     totalCount.value = data.count
-
   } catch (error: any) {
-    console.error(error)
+    console.error("Error fetching games:", error)
+    games.value = [] // Aseguramos resetear en caso de error HTTP de la API
+  } finally {
+    loading.value = false
   }
 }
 
 async function getGames(page: number) {
-
   const params = new URLSearchParams()
 
   params.append('page', page.toString())
   params.append('page_size', '15')
   params.append('mature_content', matureContent.value ? 'true' : 'false')
 
-  if (route.query.q) {
-    params.append('q', route.query.q as string)
-  }
-
-  if (route.query.developer) {
-    params.append('developer', route.query.developer as string)
-  }
-
-  if (route.query.publisher) {
-    params.append('publisher', route.query.publisher as string)
-  }
-
-  if (route.query.year) {
-    params.append('year', route.query.year as string)
-  }
+  // Mapeamos de forma limpia los queries de la ruta actual
+  if (route.query.q) params.append('q', route.query.q as string)
+  if (route.query.developer) params.append('developer', route.query.developer as string)
+  if (route.query.publisher) params.append('publisher', route.query.publisher as string)
+  if (route.query.year) params.append('year', route.query.year as string)
+  if (route.query.region) params.append('region', route.query.region as string) // <-- SOLUCIONADO: Ahora la API recibe la región
 
   if (route.query.genres) {
-    const genres = Array.isArray(route.query.genres)
-      ? route.query.genres
-      : [route.query.genres]
-
+    const genres = Array.isArray(route.query.genres) ? route.query.genres : [route.query.genres]
     genres.forEach(g => {
       if (g) params.append('genres', g)
     })
@@ -208,16 +160,40 @@ async function getGames(page: number) {
   return response.data
 }
 
-// --- FUNCIONES DE NAVEGACIÓN ---
+// SOLUCIONADO: OnMounted recupera preferencias y deja que el watch maneje la primera carga limpia
+onMounted(() => {
+  const saved = localStorage.getItem(STORAGE_KEY.value)
+  if (saved) {
+    const parsed = JSON.parse(saved)
+    matureContent.value = parsed.matureContent ?? false
+  }
+  
+  // Si venimos de otra página y no hay queries iniciales, forzamos la carga inicial
+  if (Object.keys(route.query).length === 0) {
+    loadPage(1)
+  }
+})
 
+// Escucha cambios de filtros de madurez
+watch(matureContent, (val) => {
+  localStorage.setItem(STORAGE_KEY.value, JSON.stringify({ matureContent: val }))
+  loadPage(1)
+})
+
+// SOLUCIONADO: Centraliza la ejecución reactiva impidiendo solapamiento de hilos asíncronos
+watch(
+  () => route.query,
+  async () => {
+    await loadPage(1)
+  },
+  { immediate: true } // El immediate ejecuta la carga inicial de forma segura analizando la URL activa
+)
+
+// --- FUNCIONES DE NAVEGACIÓN ---
 const goToPage = (page: number) => {
   if (page < 1 || page > totalPages.value) return
-
   loadPage(page)
 }
-
-
-
 </script>
 
 <style scoped>

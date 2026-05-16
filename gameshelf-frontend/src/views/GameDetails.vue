@@ -205,7 +205,7 @@
                 <div class="flex flex-col md:flex-row gap-12 mb-12">
 
                     <div class="w-full md:w-[350px] flex-shrink-0">
-                        <img :src="game.cover_detail" :alt="game.title"
+                        <img :src="game.cover_detail || tbaCover" :alt="game.title"
                             class="w-full rounded shadow-2xl border-3 border-gsmenta" />
 
                         <div v-if="game.genres && game.genres.length"
@@ -481,6 +481,7 @@ import type { Developer, Game, Platform, Publisher, Review } from '@/types/gameD
 import { useAuthStore } from '@/stores/authStore';
 import type { Collection, CollectionItem, Library, LibraryItem, Wishlist, WishlistItem } from '@/types/profileTypes';
 import { PLATFORM_MAP } from '@/constants/app';
+import tbaCover from '@/assets/TBA.png';
 
 const route = useRoute()
 const authStore = useAuthStore()
