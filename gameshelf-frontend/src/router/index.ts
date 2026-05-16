@@ -92,11 +92,9 @@ router.beforeEach((to) => {
   const authStore = useAuthStore();
   const isProtected = to.matched.some(record => record.meta.requiresAuth);
 
-  // Vue 3 prefiere retornar la ruta en vez de invocar next()
   if (isProtected && !authStore.isLogged) {
     return '/login'; 
   }
-  // Si no se retorna nada, la navegación continúa normalmente
 });
 
 export default router

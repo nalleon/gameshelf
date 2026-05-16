@@ -5,7 +5,7 @@
         <!-- LOGO -->
         <router-link :to="auth.isLogged ? '/games' : '/'"
             class="flex items-center hover:opacity-90 transition-all duration-300">
-            <img src="../assets/cover-logo-cut.png" alt="" class="h-10 w-auto object-contain" />
+            <img src="../assets/logo-navbar.png" alt="" class="h-10 w-auto object-contain" />
 
             <span class="ml-3 font-bold text-xl tracking-tight hidden md:block">
                 Game<span class="text-gsmenta">Shelf</span>
