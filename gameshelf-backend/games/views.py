@@ -1,8 +1,9 @@
 from math import ceil
 
+from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import Max
+from django.db.models import Max, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -16,8 +17,6 @@ from drf_spectacular.utils import (
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
-
-from classifications.models import Developer, Edition, Genre, Platform, Publisher, Region
 from shared.decorators import require_fields, require_json_body, require_role
 from shared.serializers import ErrorResponseSerializer
 from users.decorators import auth_required
@@ -39,7 +38,7 @@ from .serializers import (
     UpdateFavoriteSchemaSerializer,
 )
 from .services.igdb import import_games, search_games_by_title
-from django.db.models import Q
+
 User = get_user_model()
 
 
@@ -225,7 +224,7 @@ def _get_int_param(request, name, default):
         ),
 
         OpenApiParameter(
-            name='genre',
+            name='genres',
             type=OpenApiTypes.STR,
             location=OpenApiParameter.QUERY,
             required=False,
@@ -300,7 +299,6 @@ def game_search(request):
     year = request.GET.get('year')
     mature_content = request.GET.get('mature_content')
     
-    print("GENRES:", genres)  # 👈 AQUÍ
 
     page = _get_int_param(request, 'page', 1)
     page_size = _get_int_param(request, 'page_size', 15)
@@ -309,14 +307,9 @@ def game_search(request):
 
     # Mature filter
     if mature_content is not None:
-
-        mature_content = mature_content.lower() == 'true'
-
-        if not mature_content:
+        mature_val = mature_content.lower() == 'true'
+        if not mature_val:
             games = games.filter(mature_content=False)
-
-    else:
-        games = games.filter(mature_content=False)
 
     # Search title
     if q:
@@ -359,6 +352,8 @@ def game_search(request):
         games = games.filter(
             released_at__year=year
         )
+    
+    
 
     games = games.distinct()
 

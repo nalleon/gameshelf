@@ -197,7 +197,7 @@ class Command(BaseCommand):
                 fields id,name,summary,first_release_date,
                 cover.image_id,
                 genres.id,genres.name,
-                platforms.id,platforms.name,
+                platforms.id,platforms.name,platforms.slug,
                 involved_companies.developer,
                 involved_companies.publisher,
                 involved_companies.company.id,
@@ -249,7 +249,7 @@ class Command(BaseCommand):
         ratings_map = {}
 
         for i in range(0, len(ids), self.AGE_RATINGS_BATCH_SIZE):
-            batch_ids = ids[i: i + self.AGE_RATINGS_BATCH_SIZE]
+            batch_ids = ids[i : i + self.AGE_RATINGS_BATCH_SIZE]
 
             query = f"""
                 fields id,rating,rating_category,organization;
@@ -266,7 +266,9 @@ class Command(BaseCommand):
 
                 if res.status_code != 200:
                     self.stdout.write(
-                        self.style.WARNING(f'Error fetching age ratings batch {i}: {res.status_code}')
+                        self.style.WARNING(
+                            f'Error fetching age ratings batch {i}: {res.status_code}'
+                        )
                     )
                     self.stdout.write(res.text)
                     continue
@@ -403,7 +405,16 @@ class Command(BaseCommand):
         with open(path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 
-    def _register_classification(self, fixture_key, model_label, igdb_id, name, name_to_pk, id_remap):
+    def _register_classification(
+        self,
+        fixture_key,
+        model_label,
+        igdb_id,
+        name,
+        name_to_pk,
+        id_remap,
+        slug=None,
+    ):
         """
         Ensure a classification row exists in the fixture and return the PK
         to use for all FK/M2M references to this item.
@@ -424,14 +435,16 @@ class Command(BaseCommand):
             id_remap[igdb_id] = canonical_pk
             return canonical_pk
 
-        self.fixtures[fixture_key].append({
-            'model': model_label,
-            'pk': igdb_id,
-            'fields': {
-                'name': name,
-                'slug': self.unique_slug(name),
-            },
-        })
+        self.fixtures[fixture_key].append(
+            {
+                'model': model_label,
+                'pk': igdb_id,
+                'fields': {
+                    'name': name,
+                    'slug': self.unique_slug(name),
+                },
+            }
+        )
         name_to_pk[norm] = igdb_id
         id_remap[igdb_id] = igdb_id
         return igdb_id
@@ -442,9 +455,12 @@ class Command(BaseCommand):
             if not g.get('id') or not g.get('name'):
                 continue
             pk = self._register_classification(
-                'genres', 'classifications.genre',
-                g['id'], g['name'],
-                self.genre_name_to_pk, self.genre_id_remap,
+                'genres',
+                'classifications.genre',
+                g['id'],
+                g['name'],
+                self.genre_name_to_pk,
+                self.genre_id_remap,
             )
             ids.append(pk)
         return ids
@@ -455,9 +471,13 @@ class Command(BaseCommand):
             if not p.get('id') or not p.get('name'):
                 continue
             pk = self._register_classification(
-                'platforms', 'classifications.platform',
-                p['id'], p['name'],
-                self.platform_name_to_pk, self.platform_id_remap,
+                'platforms',
+                'classifications.platform',
+                p['id'],
+                p['name'],
+                self.platform_name_to_pk,
+                self.platform_id_remap,
+                slug=p.get('slug'),
             )
             ids.append(pk)
         return ids
@@ -479,17 +499,23 @@ class Command(BaseCommand):
 
             if comp.get('developer'):
                 pk = self._register_classification(
-                    'developers', 'classifications.developer',
-                    cid, name,
-                    self.developer_name_to_pk, self.developer_id_remap,
+                    'developers',
+                    'classifications.developer',
+                    cid,
+                    name,
+                    self.developer_name_to_pk,
+                    self.developer_id_remap,
                 )
                 dev_ids.append(pk)
 
             if comp.get('publisher'):
                 pk = self._register_classification(
-                    'publishers', 'classifications.publisher',
-                    cid, name,
-                    self.publisher_name_to_pk, self.publisher_id_remap,
+                    'publishers',
+                    'classifications.publisher',
+                    cid,
+                    name,
+                    self.publisher_name_to_pk,
+                    self.publisher_id_remap,
                 )
                 pub_ids.append(pk)
 
