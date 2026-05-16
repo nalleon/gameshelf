@@ -46,6 +46,10 @@
                     </router-link>
                 </div>
 
+                <p :class="isHiddenGlobalError" class="text-red-400 text-sm mb-4 text-center font-semibold italic">
+                    {{ globalError }}
+                </p>
+
                 <!-- Botón Submit -->
                 <button type="submit"
                     class="bg-gsmenta hover:bg-gsbosque text-gsoscuro font-bold py-3.5 px-6 rounded-full transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg cursor-pointer uppercase tracking-wider text-sm">
@@ -75,9 +79,11 @@ const password = ref('')
 const requiredFieldMessage = "Este campo es obligatorio";
 const loginFieldError = ref('')
 const passwordError = ref('')
-const isHiddenLoginFieldError = ref('invisible')
-const isHiddenPasswordError = ref('invisible')
+const globalError = ref('') // <- Nueva variable para el error de auth
 
+const isHiddenLoginFieldError = ref('hidden')
+const isHiddenPasswordError = ref('hidden')
+const isHiddenGlobalError = ref('hidden') // <- Nueva variable de visibilidad
 
 async function apiLogin() {
     const payload = {
@@ -95,36 +101,54 @@ async function apiLogin() {
 
         return data;
     } catch (error: any) {
-        if (error.response) {
-            console.error("Error en login:", error.response.data);
-        } else {
-            console.error("Error de red o configuración:", error.message);
-        }
-        return null;
+        throw error;
     }
 }
 
-function submitLogin() {
+// Convertimos submitLogin a función async para manejar el flujo limpiamente
+async function submitLogin() {
+    // Resetear estados de error
+    isHiddenLoginFieldError.value = "hidden"
+    isHiddenPasswordError.value = "hidden"
+    isHiddenGlobalError.value = "hidden"
 
-    isHiddenLoginFieldError.value = "invisible"
-    isHiddenPasswordError.value = "invisible"
-
+    // Validaciones locales
     if (loginField.value === "") {
         loginFieldError.value = requiredFieldMessage
-        isHiddenLoginFieldError.value = "visible"
+        isHiddenLoginFieldError.value = "inline"
         return
     }
 
     if (password.value === "") {
         passwordError.value = requiredFieldMessage
-        isHiddenPasswordError.value = "visible"
+        isHiddenPasswordError.value = "inline"
         return
     }
 
-    apiLogin().then((data) => {
-        auth.setUserSesion(data.token)
-        router.replace('/profile')
-    })
+    try {
+        // Ejecutar petición
+        const data = await apiLogin();
+        
+        if (data && data.token) {
+            auth.setUserSesion(data.token)
+            router.replace('/profile')
+        }
+    } catch (error: any) {
+
+        // Manejo de errores del Backend
+        if (error.response && (error.response.status === 401 || error.response.status === 400)) {
+            // Error de credenciales incorrectas (401 Unauthorized o 400 Bad Request común en auth)
+            globalError.value = "El usuario o la contraseña no son correctos.";
+        } else {
+            // Errores de red o caídas del servidor
+            globalError.value = "Error de conexión. Por favor, inténtalo más tarde.";
+        }
+        // Hacer visible el error
+        isHiddenGlobalError.value = "inline"
+
+        // Opcional: Limpiar contraseña por seguridad si falla
+        password.value = "" 
+    }
 }
 
 </script>

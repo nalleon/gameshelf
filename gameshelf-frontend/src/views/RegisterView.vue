@@ -268,9 +268,9 @@ const usernameError = ref('')
 const emailError = ref('')
 const passwordError = ref('')
 
-const isHiddenUsernameError = ref('invisible')
-const isHiddenEmailError = ref('invisible')
-const isHiddenPasswordError = ref('invisible')
+const isHiddenUsernameError = ref('hidden')
+const isHiddenEmailError = ref('hidden')
+const isHiddenPasswordError = ref('hidden')
 
 const numberDictionary = NumberDictionary.generate({ min: 100, max: 9999 });
 
@@ -323,26 +323,50 @@ async function apiRegister() {
         return null;
     }
 }
+
 function checkFields() {
-    isHiddenUsernameError.value = "invisible"
-    isHiddenEmailError.value = "invisible"
-    isHiddenPasswordError.value = "invisible"
+    // Resetear visibilidad de errores
+    isHiddenUsernameError.value = "hidden"
+    isHiddenEmailError.value = "hidden"
+    isHiddenPasswordError.value = "hidden"
 
-    if (username.value === "") {
+    if (username.value.trim() === "") {
         usernameError.value = requiredFieldMessage
-        isHiddenUsernameError.value = "visible"
+        isHiddenUsernameError.value = "inline"
         return false;
     }
 
-    if (email.value === "") {
+    if (email.value.trim() === "") {
         emailError.value = requiredFieldMessage
-        isHiddenEmailError.value = "visible"
+        isHiddenEmailError.value = "inline"
         return false;
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.value)) {
+        emailError.value = "El formato del correo electrónico no es válido (ej: usuario@dominio.com)";
+        isHiddenEmailError.value = "inline";
+        return false;
+    }
+
+    // 3. Validación de Password (Vacío)
     if (password.value === "") {
         passwordError.value = requiredFieldMessage
-        isHiddenPasswordError.value = "visible"
+        isHiddenPasswordError.value = "inline"
+        return false;
+    }
+
+    // Explicación del Regex:
+    // (?=.*[a-z]) -> Al menos una minúscula
+    // (?=.*[A-Z]) -> Al menos una mayúscula
+    // (?=.*\d)     -> Al menos un número
+    // (?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]) -> Al menos un signo/carácter especial
+    // .{8,}        -> Mínimo 8 caracteres de longitud
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]).{8,}$/;
+    
+    if (!passwordRegex.test(password.value)) {
+        passwordError.value = "La contraseña debe tener al menos 8 caracteres e incluir mayúsculas, minúsculas, números y un carácter especial.";
+        isHiddenPasswordError.value = "inline";
         return false;
     }
 
