@@ -394,8 +394,16 @@ const limitedFavorites = computed(() => {
 })
 
 const statsData = computed(() => {
+
+    const userCollections = profile.value?.user.collections;
+    let collectionsProcessed = userCollections?.filter(c => !c.is_private)
+
+    if(isOwnProfile.value){
+        collectionsProcessed = userCollections;
+    }
+
     return {
-        collections: profile.value?.user.collections?.length ?? 0,
+        collections: collectionsProcessed?.length ?? 0,
         library: profile.value?.user.library.items?.length ?? 0,
         favorites: profile.value?.user.favorites?.length ?? 0,
         wishlist: profile.value?.user.wishlist.items?.length ?? 0,
