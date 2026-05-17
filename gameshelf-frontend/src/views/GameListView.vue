@@ -136,7 +136,7 @@ async function getGames(page: number) {
   const params = new URLSearchParams()
 
   params.append('page', page.toString())
-  params.append('page_size', '15')
+  params.append('page_size', '20')
   params.append('mature_content', matureContent.value ? 'true' : 'false')
 
   // Mapeamos de forma limpia los queries de la ruta actual

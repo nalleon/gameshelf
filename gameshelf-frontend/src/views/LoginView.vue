@@ -2,7 +2,8 @@
     <Navbar />
 
     <div class="min-h-screen pt-20 pb-12 bg-gsoscuro/55 flex flex-col justify-center items-center px-4">
-        <div class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsmenta/10 relative overflow-hidden">
+        <div
+            class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsmenta/10 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta to-gsbosque"></div>
 
             <form class="flex flex-col text-center" @submit.prevent="submitLogin">
@@ -54,11 +55,12 @@
     </div>
 
     <Transition name="fade">
-        <div v-if="showResetModal" 
+        <div v-if="showResetModal"
             class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4"
             @click.self="closeResetModal">
-            
-            <div class="bg-gsoscuro p-8 rounded-2xl border border-white/10 w-full max-w-md text-gsblanco relative shadow-2xl">
+
+            <div
+                class="bg-gsoscuro p-8 rounded-2xl border border-white/10 w-full max-w-md text-gsblanco relative shadow-2xl">
                 <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta to-gsbosque"></div>
 
                 <div class="flex items-center justify-between mb-6">
@@ -71,12 +73,14 @@
                             <span v-else-if="resetStep === 'success'">Everything is ready to roll</span>
                         </p>
                     </div>
-                    <button @click="closeResetModal" class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 text-gsgris hover:text-red-400 transition-all flex items-center justify-center border border-white/5 cursor-pointer">
+                    <button @click="closeResetModal"
+                        class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 text-gsgris hover:text-red-400 transition-all flex items-center justify-center border border-white/5 cursor-pointer">
                         <i class="pi pi-times text-xs"></i>
                     </button>
                 </div>
 
-                <div v-if="resetError" class="bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl p-3 text-xs mb-4 italic">
+                <div v-if="resetError"
+                    class="bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl p-3 text-xs mb-4 italic">
                     <i class="pi pi-exclamation-circle mr-1"></i> {{ resetError }}
                 </div>
 
@@ -88,8 +92,10 @@
                             :disabled="resetLoading" />
                     </div>
                     <div class="flex items-center justify-end gap-3 pt-2">
-                        <button type="button" @click="closeResetModal" class="border border-white/10 hover:bg-white/5 text-gsgris px-5 py-2.5 rounded-full text-xs font-bold uppercase cursor-pointer">Cancel</button>
-                        <button type="submit" :disabled="resetLoading" class="bg-gsmenta text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center cursor-pointer disabled:opacity-50">
+                        <button type="button" @click="closeResetModal"
+                            class="border border-white/10 hover:bg-white/5 text-gsgris px-5 py-2.5 rounded-full text-xs font-bold uppercase cursor-pointer">Cancel</button>
+                        <button type="submit" :disabled="resetLoading"
+                            class="bg-gsmenta text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center cursor-pointer disabled:opacity-50">
                             <i v-if="resetLoading" class="pi pi-spin pi-spinner mr-2 text-xs"></i>
                             <span>Send Code</span>
                         </button>
@@ -98,14 +104,17 @@
 
                 <form v-else-if="resetStep === 'code'" @submit.prevent="submitValidateCode" class="space-y-5">
                     <div>
-                        <label class="block text-xs font-bold text-gsgris uppercase mb-2 ml-1 text-center">Verification Code</label>
+                        <label class="block text-xs font-bold text-gsgris uppercase mb-2 ml-1 text-center">Verification
+                            Code</label>
                         <input v-model="verificationCode" type="text" maxlength="10" required placeholder="000000"
                             class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-center uppercase text-xl tracking-[0.5em] font-mono text-gsblanco focus:outline-none focus:border-gsmenta transition-all"
                             :disabled="resetLoading" />
                     </div>
                     <div class="flex items-center justify-end gap-3 pt-2">
-                        <button type="button" @click="resetStep = 'email'" class="border border-white/10 hover:bg-white/5 text-gsgris px-5 py-2.5 rounded-full text-xs font-bold uppercase cursor-pointer">Back</button>
-                        <button type="submit" :disabled="resetLoading || verificationCode.length < 4" class="bg-gsmenta text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center cursor-pointer disabled:opacity-50">
+                        <button type="button" @click="resetStep = 'email'"
+                            class="border border-white/10 hover:bg-white/5 text-gsgris px-5 py-2.5 rounded-full text-xs font-bold uppercase cursor-pointer">Back</button>
+                        <button type="submit" :disabled="resetLoading || verificationCode.length < 4"
+                            class="bg-gsmenta text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center cursor-pointer disabled:opacity-50">
                             <i v-if="resetLoading" class="pi pi-spin pi-spinner mr-2 text-xs"></i>
                             <span>Validate</span>
                         </button>
@@ -121,14 +130,16 @@
                                 :disabled="resetLoading" />
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gsgris uppercase mb-1 ml-1">Confirm New Password</label>
+                            <label class="block text-xs font-bold text-gsgris uppercase mb-1 ml-1">Confirm New
+                                Password</label>
                             <input v-model="confirmNewPassword" type="password" required placeholder="••••••••"
                                 class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-sm text-gsblanco focus:outline-none focus:border-gsmenta transition-all"
                                 :disabled="resetLoading" />
                         </div>
                     </div>
                     <div class="flex items-center justify-end gap-3 pt-2">
-                        <button type="submit" :disabled="resetLoading" class="w-full bg-gsmenta text-gsoscuro py-3 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center justify-center cursor-pointer disabled:opacity-50">
+                        <button type="submit" :disabled="resetLoading"
+                            class="w-full bg-gsmenta text-gsoscuro py-3 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center justify-center cursor-pointer disabled:opacity-50">
                             <i v-if="resetLoading" class="pi pi-spin pi-spinner mr-2 text-xs"></i>
                             <span>Update Password</span>
                         </button>
@@ -136,13 +147,16 @@
                 </form>
 
                 <div v-else-if="resetStep === 'success'" class="space-y-6 text-center py-4">
-                    <div class="w-16 h-16 bg-gsmenta/10 text-gsmenta border border-gsmenta/20 rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <div
+                        class="w-16 h-16 bg-gsmenta/10 text-gsmenta border border-gsmenta/20 rounded-full flex items-center justify-center mx-auto text-2xl">
                         <i class="pi pi-check"></i>
                     </div>
                     <p class="text-sm text-gsgris leading-relaxed px-2">
-                        Your account password has been successfully updated. You can now use your new credentials to enter your dashboard.
+                        Your account password has been successfully updated. You can now use your new credentials to
+                        enter your dashboard.
                     </p>
-                    <button @click="closeResetModal" class="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-gsblanco py-3 rounded-full text-xs font-bold uppercase cursor-pointer transition-colors">
+                    <button @click="closeResetModal"
+                        class="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-gsblanco py-3 rounded-full text-xs font-bold uppercase cursor-pointer transition-colors">
                         Got it, back to Login
                     </button>
                 </div>
@@ -163,14 +177,14 @@ const auth = useAuthStore()
 const loginField = ref('')
 const password = ref('')
 
-const requiredFieldMessage = "Este campo es obligatorio";
+const requiredFieldMessage = "This field is required";
 const loginFieldError = ref('')
 const passwordError = ref('')
-const globalError = ref('') 
+const globalError = ref('')
 
 const isHiddenLoginFieldError = ref('hidden')
 const isHiddenPasswordError = ref('hidden')
-const isHiddenGlobalError = ref('hidden') 
+const isHiddenGlobalError = ref('hidden')
 
 // --- FLUJO MULTIPASO DEL RECOVERY MODAL ---
 type ResetStep = 'email' | 'code' | 'new-password' | 'success';
@@ -205,7 +219,7 @@ async function submitPasswordReset() {
     resetError.value = ''
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!resetEmail.value.trim() || !emailRegex.test(resetEmail.value)) {
-        resetError.value = "Por favor, introduce un correo electrónico válido."
+        resetError.value = "Please enter a valid email address."
         return
     }
 
@@ -217,7 +231,9 @@ async function submitPasswordReset() {
         // Saltamos al paso del código enviado
         resetStep.value = 'code'
     } catch (error: any) {
-        resetError.value = error.response?.data?.message || "Este correo electrónico no está registrado o no pudo procesarse.";
+        resetError.value =
+            error.response?.data?.message ||
+            "This email address is not registered or could not be processed."
     } finally {
         resetLoading.value = false
     }
@@ -233,34 +249,51 @@ async function submitValidateCode() {
         })
         resetStep.value = 'new-password'
     } catch (error: any) {
-        resetError.value = error.response?.data?.error || "El código introducido no es válido o ha expirado.";
+        resetError.value =
+            error.response?.data?.error ||
+            "The verification code is invalid or has expired."
     } finally {
         resetLoading.value = false
     }
 }
 
-// 3. Modificar la contraseña definitiva
 async function submitChangePassword() {
     resetError.value = ''
-    
-    if (newPassword.value.length < 6) {
-        resetError.value = "La contraseña debe tener al menos 6 caracteres."
+
+    if (newPassword.value === "") {
+        resetError.value = "Password is required."
         return
     }
+
+    const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]).{8,}$/
+
+    if (!passwordRegex.test(newPassword.value)) {
+        resetError.value =
+            "Password must be at least 8 characters long and include uppercase, lowercase, numbers, and a special character."
+        return
+    }
+
     if (newPassword.value !== confirmNewPassword.value) {
-        resetError.value = "Las contraseñas no coinciden."
+        resetError.value = "Passwords do not match."
         return
     }
 
     resetLoading.value = true
+
     try {
         await api.post('/api/auth/change-password/', {
             token: verificationCode.value.trim().toUpperCase(),
-            password: newPassword.value
+            new_password: newPassword.value
         })
+
         resetStep.value = 'success'
+
     } catch (error: any) {
-        resetError.value = error.response?.data?.error || "No se pudo cambiar la contraseña. Inténtalo de nuevo.";
+        resetError.value =
+            error.response?.data?.error ||
+            "Unable to change password. Please try again."
+
     } finally {
         resetLoading.value = false
     }
@@ -300,12 +333,13 @@ async function submitLogin() {
         }
     } catch (error: any) {
         if (error.response && (error.response.status === 401 || error.response.status === 400)) {
-            globalError.value = "El usuario o la contraseña no son correctos.";
+            globalError.value = "Invalid username or password."
         } else {
-            globalError.value = "Error de conexión. Por favor, inténtalo más tarde.";
+            globalError.value =
+                "Connection error. Please try again later."
         }
         isHiddenGlobalError.value = "inline"
-        password.value = "" 
+        password.value = ""
     }
 }
 </script>
@@ -313,10 +347,11 @@ async function submitLogin() {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.25s ease;
+    transition: opacity 0.25s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
 </style>
