@@ -143,22 +143,42 @@
                                 </div>
                             </div>
                         </div>
-
                         <div v-if="openDropdown === 'library'" class="p-4 overflow-y-auto custom-scrollbar flex-1">
                             <p class="text-xs font-bold text-gray-500 uppercase mb-4">My library</p>
                             <div v-for="p in game.platforms" :key="p.id"
                                 class="mb-6 last:mb-0 border-b border-white/5 pb-4 last:border-0">
+
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="text-sm font-bold text-white">{{ p.name }}</span>
                                     <span v-if="libraryItems.find(i => i.platform.id === p.id)"
                                         class="text-[10px] text-[#559cf2] uppercase font-bold">In library</span>
                                 </div>
-                                <div class="grid grid-cols-2 gap-2">
+
+                                <div class="grid grid-cols-2 gap-2 mb-3">
                                     <button v-for="status in LIBRARY_STATUS" :key="status.id"
                                         @click="toggleLibrary(p.id, status.id)"
                                         :class="libraryItems.some(i => Number(i.platform.id) === Number(p.id) && i.status === status.name) ? 'bg-[#559cf2] text-black shadow-[0_0_10px_#559cf2]' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
-                                        class="text-[10px] py-1.5 rounded uppercase font-bold transition-all">{{
-                                            status.name }}</button>
+                                        class="text-[10px] py-1.5 rounded uppercase font-bold transition-all">
+                                        {{ status.name }}
+                                    </button>
+                                </div>
+
+                                <div v-if="libraryItems.some(i => i.platform.id === p.id)"
+                                    class="flex items-center gap-2 mt-2 bg-black/20 border border-white/5 rounded-lg p-2 transition-all focus-within:border-[#559cf2]/40">
+                                    <div class="flex items-center gap-1.5 text-gray-400 pl-1 shrink-0">
+                                        <Icon icon="mdi:clock-outline" class="text-sm" />
+                                        <span class="text-[11px] font-semibold uppercase tracking-wider">Hours:</span>
+                                    </div>
+
+                                    <input type="number" v-model.number="hoursInput[p.id]" min="0" placeholder="0"
+                                        class="w-full bg-transparent border-0 text-white text-sm font-bold focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+
+                                    <button @click="updateHours(p.id)"
+                                        class="p-1.5 px-2.5 rounded bg-white/5 hover:bg-[#559cf2] text-gray-400 hover:text-black text-xs font-bold transition-all shrink-0 flex items-center gap-1"
+                                        title="Save hours">
+                                        <Icon icon="mdi:check" />
+                                        <span class="text-[10px] uppercase">Save</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -412,7 +432,7 @@
                                                     <Icon :icon="review.recommend ? 'mdi:thumb-up' : 'mdi:thumb-down'"
                                                         class="text-xs" />
                                                     <span>{{ review.recommend ? 'Recommended' : 'Not Recommended'
-                                                        }}</span>
+                                                    }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -424,7 +444,7 @@
                                                 title="Edit">
                                                 <Icon icon="mdi:pencil" class="text-lg" />
                                             </button>
-                                            <button @click="deleteReview(review.id)"
+                                            <button @click="openDeleteModal(review.id)"
                                                 class="p-2 bg-white/5 rounded-md text-gray-400 hover:text-red-400 hover:bg-white/10 transition-all"
                                                 title="Delete">
                                                 <Icon icon="mdi:trash-can" class="text-lg" />
@@ -439,25 +459,8 @@
                                     </p>
                                 </div>
 
-                                <div v-if="totalPages > 1" class="flex justify-center items-center gap-3 mt-8 pt-4">
-                                    <button @click="changePage(currentPage - 1)" :disabled="!hasPreviousPage"
-                                        class="p-2 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-20 disabled:hover:bg-white/5 disabled:cursor-not-allowed transition-all border border-white/5">
-                                        <Icon icon="mdi:chevron-left" class="text-2xl text-white" />
-                                    </button>
-
-                                    <div
-                                        class="flex items-center gap-1.5 bg-white/5 px-4 py-2 rounded-lg border border-white/5 text-xs font-semibold uppercase tracking-wider">
-                                        <span class="text-gray-400">Page</span>
-                                        <span class="text-gsmenta font-bold text-sm">{{ currentPage }}</span>
-                                        <span class="text-gray-600">/</span>
-                                        <span class="text-gray-400">{{ totalPages }}</span>
-                                    </div>
-
-                                    <button @click="changePage(currentPage + 1)" :disabled="!hasNextPage"
-                                        class="p-2 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-20 disabled:hover:bg-white/5 disabled:cursor-not-allowed transition-all border border-white/5">
-                                        <Icon icon="mdi:chevron-right" class="text-2xl text-white" />
-                                    </button>
-                                </div>
+                                <Pagination v-if="totalPages > 1" :current-page="currentPage" :total-pages="totalPages"
+                                    @change="changePage" />
                             </div>
                         </div>
 
@@ -471,10 +474,84 @@
             </div>
         </section>
     </div>
+    <Teleport to="body">
+        <Transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100" leave-active-class="transition duration-200 ease-in"
+            leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+            <div v-if="showDeleteModal" class="fixed inset-0 z-[999] flex items-center justify-center px-4">
+                <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="closeDeleteModal"></div>
+
+                <div class="
+                relative
+                w-full
+                max-w-md
+                rounded-xl
+                border border-white/10
+                bg-[#121620]
+                shadow-xl
+                overflow-hidden
+                backdrop-blur-sm
+            ">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
+
+                    <div class="p-5 sm:p-6 pl-6 sm:pl-7">
+                        <h3 class="text-lg font-bold mb-3 flex items-center gap-2 text-red-400">
+                            <Icon icon="mdi:trash-can-outline" />
+                            Delete Review
+                        </h3>
+
+                        <p class="
+                        text-sm
+                        leading-relaxed
+                        text-gray-400
+                        mb-6
+                    ">
+                            Are you sure you want to permanently delete this review?
+                            This action cannot be undone.
+                        </p>
+
+                        <div class="flex gap-2 justify-end">
+                            <button @click="closeDeleteModal" class="
+                            bg-white/5 
+                            text-gray-300 
+                            font-bold 
+                            text-xs 
+                            py-2.5 
+                            px-4 
+                            rounded-full 
+                            hover:bg-white/10 
+                            transition-colors 
+                            border 
+                            border-white/5
+                        ">
+                                Cancel
+                            </button>
+
+                            <button @click="confirmDeleteReview" class="
+                            bg-red-500 
+                            text-white 
+                            font-bold 
+                            text-xs 
+                            py-2.5 
+                            px-5 
+                            rounded-full 
+                            hover:brightness-110 
+                            transition-all 
+                            shadow-[0_0_15px_rgba(239,68,68,0.2)]
+                        ">
+                                Delete Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Transition>
+    </Teleport>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router'
+import Pagination from '@/components/Pagination.vue'
 import axios from 'axios';
 import { Icon } from '@iconify/vue'
 import api from "@/api/client";
@@ -498,7 +575,8 @@ const loading = ref(true)
 const openDropdown = ref<null | 'favorites' | 'wishlist' | 'library' | 'collections'>(null)
 const reviewsLoading = ref(true);
 const isAuthenticated = computed(() => authStore.isLogged);
-
+const showDeleteModal = ref(false)
+const reviewToDelete = ref<number | null>(null)
 const region = computed(() => {
     const regionMaps: Record<string, string> = {
         europe: 'eu',
@@ -541,13 +619,30 @@ onMounted(async () => {
     }
 });
 
+
 async function getGame() {
     const response = await api.get(`/api/games/${gameId}/`)
     return response.data
 }
 
+const openDeleteModal = (id: number) => {
+    reviewToDelete.value = id
+    showDeleteModal.value = true
+}
+
+const closeDeleteModal = () => {
+    showDeleteModal.value = false
+    reviewToDelete.value = null
+}
+
+const confirmDeleteReview = async () => {
+    if (!reviewToDelete.value) return
+
+    await deleteReview(reviewToDelete.value)
+
+    closeDeleteModal()
+}
 // --- Lógica de Add into Favoritos ---
-const showPlatformSelector = ref(false);
 const favoritePlatforms = ref<number[]>([]);
 
 const loadFavoriteStatus = async () => {
@@ -667,6 +762,15 @@ const isAnyWishlist = computed(() => wishlistItems.value.length > 0);
 const libraryData = ref<Library | null>(null);
 const libraryItems = ref<LibraryItem[]>([]);
 const showLibrarySelector = ref(false);
+const hoursInput = ref<Record<number, number>>({});
+
+const syncHoursInputs = () => {
+    libraryItems.value.forEach((item: any) => {
+        hoursInput.value[item.platform.id] = item.hours_played ?? 0;
+    });
+};
+
+watch(() => libraryItems.value, syncHoursInputs, { immediate: true, deep: true });
 
 // Mapeo de estados para el select/botones
 const LIBRARY_STATUS = [
@@ -689,47 +793,62 @@ const loadLibraryStatus = async () => {
         console.error('Error cargando librería:', error);
     }
 };
+const updateHours = async (platformId: number) => {
+    const existingItem = libraryItems.value.find((item: any) => item.platform.id === platformId);
+    if (!existingItem) return;
+
+    const targetHours = hoursInput.value[platformId] || 0;
+
+    try {
+        const response = await api.patch(`/api/library/${existingItem.id}/`, {
+            hours_played: targetHours,
+            platform_id: platformId
+        });
+
+        const index = libraryItems.value.findIndex(item => item.id === existingItem.id);
+        if (index !== -1) libraryItems.value[index] = response.data;
+
+        uiStore.triggerSuccess("Hours updated successfully", '#559cf2');
+    } catch (error: any) {
+        console.error("Error updating hours:", error.response?.data);
+    }
+};
 
 const toggleLibrary = async (platformId: number, status?: string) => {
-    // 1. Buscamos si el juego ya existe en esta plataforma dentro de la librería
     const existingItem = libraryItems.value.find(
-        (item: LibraryItem) => item.platform.id === platformId
+        (item: any) => item.platform.id === platformId
     );
 
     const statusName = LIBRARY_STATUS.find(s => s.id === status)?.name;
+    // Captura las horas del input de esta plataforma (o 0 si está vacío)
+    const currentHours = hoursInput.value[platformId] || 0;
 
     try {
         if (existingItem) {
-            // Si el usuario pulsa el MISMO estado que ya tiene, lo borramos (Toggle)
-            // Si pulsa un estado diferente, lo actualizamos (PATCH)
             if (!status || existingItem.status === statusName) {
-                await api.delete(
-                    `/api/library/${existingItem.id}/`
-                );
+                // ELIMINAR (Toggle)
+                await api.delete(`/api/library/${existingItem.id}/`);
                 libraryItems.value = libraryItems.value.filter(item => item.id !== existingItem.id);
 
-                uiStore.triggerSuccess(
-                    "Deleted from library successfully",
-                    '#559cf2'
-                );
+                // Limpiamos el input de esa plataforma
+                delete hoursInput.value[platformId];
 
+                uiStore.triggerSuccess("Deleted from library successfully", '#559cf2');
             } else {
                 // ACTUALIZAR ESTADO (PATCH)
                 const response = await api.patch(
                     `/api/library/${existingItem.id}/`,
                     {
                         statusName,
-                        platform_id: platformId
+                        platform_id: platformId,
+                        hours_played: currentHours // Asegura enviar las horas actuales también en el cambio de estado
                     }
                 );
-                // Actualizamos el item en nuestro array local
+                
                 const index = libraryItems.value.findIndex(item => item.id === existingItem.id);
                 if (index !== -1) libraryItems.value[index] = response.data;
-                
-                uiStore.triggerSuccess(
-                    "Updated library successfully",
-                    '#559cf2'
-                );
+
+                uiStore.triggerSuccess("Updated library successfully", '#559cf2');
             }
         } else if (status) {
             // CREAR NUEVO (POST)
@@ -738,21 +857,14 @@ const toggleLibrary = async (platformId: number, status?: string) => {
                 platform_id: platformId,
                 status: status,
                 is_private: false,
-                hours_played: 0
+                hours_played: currentHours // Envía las horas capturadas del input
             };
 
-            await api.post(
-                `/api/library/`,
-                payload
-            );
+            await api.post(`/api/library/`, payload);
 
-            // Recargamos para traer el objeto con el formato correcto del serializador
             await loadLibraryStatus();
 
-            uiStore.triggerSuccess(
-                "Added to library successfully",
-                '#559cf2'
-            );
+            uiStore.triggerSuccess("Added to library successfully", '#559cf2');
         }
     } catch (error: any) {
         console.error("Error en Library:", error.response?.data);
@@ -989,7 +1101,6 @@ const loadReviews = async (page = 1) => {
 
 const saveReview = async () => {
     if (!reviewForm.value.content.trim() || reviewForm.value.recommend === null) {
-        alert("Please write a review and select a recommendation.");
         return;
     }
 
@@ -1016,7 +1127,7 @@ const saveReview = async () => {
 
     } catch (error: any) {
         console.error('Error guardando review:', error.response?.data);
-        alert(error.response?.data?.error || "Error saving the review.");
+        // alert(error.response?.data?.error || "Error saving the review.");
     }
 };
 
@@ -1034,12 +1145,9 @@ const cancelEdit = () => {
 };
 
 const deleteReview = async (reviewId: number) => {
-    if (!confirm('Are you sure you want to delete this review?')) return;
-
     try {
         await api.delete(`/api/reviews/${reviewId}/`);
 
-        // Si estaba editando la review que acaba de borrar, reseteamos el formulario
         if (isEditingReview.value === reviewId) {
             cancelEdit();
         }

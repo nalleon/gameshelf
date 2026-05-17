@@ -29,7 +29,7 @@
         hover:scale-105
         disabled:opacity-30
         disabled:cursor-not-allowed
-        flex-shrink-0
+        shrink-0
       "
     >
       <i class="pi pi-chevron-left"></i>
