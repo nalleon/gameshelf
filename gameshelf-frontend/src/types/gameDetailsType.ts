@@ -14,7 +14,6 @@ export interface Game {
     genres: Array<Genre>,
     developers: Array<Developer>,
     publishers: Array<Publisher>,
-    // edition: Edition,
     region: Region,
     reviews: Array<Review>,
 }

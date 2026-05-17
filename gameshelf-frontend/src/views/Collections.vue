@@ -102,7 +102,6 @@ import Navbar from '@/components/Navbar.vue';
 import type { Collection, Profile } from '@/types/profileTypes';
 import api from "@/api/client";
 
-// const profile = ref<Profile>();
 const collections = ref<Collection[]>([]);
 const authStore = useAuthStore();
 const route = useRoute();

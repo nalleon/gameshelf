@@ -87,33 +87,4 @@ export interface Platform {
     id: number,
     name: string,
     slug: string,
-    // slug_aliases: string,
 }
-
-// export interface Game {
-//     id: number,
-//     title: string,
-//     slug: string,
-//     description: string,
-//     cover_default: string,
-//     cover_detail: string,
-//     released_at: Date,
-//     edition: Edition,
-//     region: Region,
-//     mature_content: boolean,
-// }
-
-// export interface Edition {
-//     id: number,
-//     name: string,
-//     slug: string,
-//     description: string,
-// }
-
-// export interface Region {
-//     id: number,
-//     name: string,
-//     slug: string,
-//     description: string,
-//     acronym: string,
-// }

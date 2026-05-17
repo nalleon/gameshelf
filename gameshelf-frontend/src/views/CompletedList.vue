@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
 import type { Library, LibraryItem } from '@/types/profileTypes';
 import GameCard from '@/components/GameCard.vue';

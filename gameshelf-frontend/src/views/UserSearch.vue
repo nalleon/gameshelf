@@ -6,9 +6,6 @@
 
             <!-- HEADER -->
             <div class="mb-10">
-                <!-- <h1 class="text-3xl font-bold">
-                    Search Users
-                </h1> -->
 
                 <p class="text-gsgris mt-2">
                     Results for:

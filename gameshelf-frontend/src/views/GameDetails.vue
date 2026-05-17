@@ -605,10 +605,9 @@ const loadWishlistStatus = async () => {
 };
 
 const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
-    // TS sabe que existingItem será un WishlistItem o undefined
+
     const existingItem = wishlistItems.value.find(
         (item: WishlistItem) => item.platform.id === platformId && item.type === (type as any)
-        // Nota: Si 'type' en tu interfaz es string, quizás necesites un cast pequeño o actualizar la interfaz
     );
 
     try {
@@ -633,12 +632,6 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
                 `/api/wishlist/${wishlistId.value}/`,
                 payload
             );
-
-            // console.log({
-            //     game_id: game.value?.id,
-            //     platform_id: platformId,
-            //     type
-            // });
 
             // Añadimos el nuevo item (que viene con el formato WishlistItem)
             wishlistItems.value.push(response.data);
@@ -740,15 +733,12 @@ const isNewCollectionPrivate = ref(false);
 const loadCollections = async () => {
     try {
         const response = await api.get('/api/collections/')
-        // console.log("STATUS:", response.status)
-        // console.log("DATA:", response.data)
 
         userCollections.value = response.data.map((col: any) => ({
             ...col,
             items: col.items ?? []
         }));
 
-        // userCollections.value = response.data;
         newCollectionName.value = "";
     } catch (err: any) {
         console.error("ERROR:", err.response?.status)
@@ -870,7 +860,7 @@ const isInCollection = (
 const LIMIT_ICONS = 3; // Número de iconos antes de mostrar los puntos
 const showAllPlatforms = ref(false);
 
-// 2. Procesar el string de plataformas a un array de iconos
+// Procesar el string de plataformas a un array de iconos
 const processedIcons = computed(() => {
     if (!game.value?.platforms) return [];
 
@@ -882,7 +872,7 @@ const processedIcons = computed(() => {
     }));
 });
 
-// 3. Lista visible basada en el límite y el estado de expansión
+// Lista visible basada en el límite y el estado de expansión
 const visibleIcons = computed(() => {
     if (showAllPlatforms.value) return processedIcons.value;
     return processedIcons.value.slice(0, LIMIT_ICONS);
@@ -897,17 +887,6 @@ const expanded = ref({
     platform: false
 });
 
-// Comprobar la longitud del texto para decidir si mostrar el botón de expansión
-// const isLong = (list: Array<any> | undefined) => {
-//     if (!list || list.length === 0) return false;
-//     return list.map(item => item.name).join(', ').length > LIMIT;
-// };
-
-// Función para alternar el estado
-// const toggleField = (field: 'developer' | 'publisher' | 'platform') => {
-//     expanded.value[field] = !expanded.value[field];
-// };
-
 // Función para mostrar el texto procesado
 const formatText = (list: Array<Developer> | Array<Publisher> | Array<Platform> | undefined, field: 'developer' | 'publisher' | 'platform') => {
     if (!list || list.length === 0) return '';
@@ -921,7 +900,6 @@ const formatText = (list: Array<Developer> | Array<Publisher> | Array<Platform> 
 
 
 // --- LÓGICA DE REVIEWS ---
-
 const reviews = ref<Review[]>([]);
 const currentUserId = computed(() => authStore.getSelfId());
 
@@ -965,15 +943,14 @@ const saveReview = async () => {
 
     try {
         if (isEditingReview.value) {
-            // EDITAR (PATCH) - Tu backend espera pk_game según el views.py
+
             await api.patch(`/api/reviews/${isEditingReview.value}/`, {
                 content: reviewForm.value.content,
                 recommend: reviewForm.value.recommend,
                 pk_game: Number(gameId),
-                // pk_author: authStore.getSelfId()
             });
         } else {
-            // CREAR NUEVA (POST) - Tu backend espera game_id según el views.py
+
             await api.post(`/api/reviews/`, {
                 content: reviewForm.value.content,
                 recommend: reviewForm.value.recommend,
@@ -1025,7 +1002,7 @@ const formatDate = (dateString: string | undefined) => {
     if (!dateString) return '';
     const date = new Date(dateString);
 
-    // Esto lo formateará automáticamente según el idioma del navegador (ej: "16 may 2026")
+    // Formatea automáticamente según el idioma del navegador
     return date.toLocaleDateString(undefined, {
         day: 'numeric',
         month: 'short',

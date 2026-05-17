@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 import { jwtDecode } from 'jwt-decode'
 
-import type { User } from '@/types/authTypes'
-
 interface AuthState {
   token: string | null
 }

@@ -327,7 +327,7 @@ const tooltip = ref({
 const route = useRoute()
 const defaultBio = 'This collector has not yet written their story... But their shelf speaks for itself!'
 
-// NUEVO: Propiedad computada centralizada para extraer el color del usuario de forma segura
+// Propiedad computada centralizada para extraer el color del usuario de forma segura
 const userColor = computed(() => {
     return profile.value?.color_bg || '#79a998';
 });
@@ -500,7 +500,7 @@ const radarDataPoints = computed(() => {
 </script>
 
 <style scoped>
-/* ESTILOS DINÁMICOS BASADOS EN VARIABLES CSS */
+
 .dynamic-btn {
     border-color: calc(var(--user-color) + '4d');
     /* Fallback / Opacidad controlada abajo */

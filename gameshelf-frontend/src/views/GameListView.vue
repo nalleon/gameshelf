@@ -144,7 +144,7 @@ async function getGames(page: number) {
   if (route.query.developer) params.append('developer', route.query.developer as string)
   if (route.query.publisher) params.append('publisher', route.query.publisher as string)
   if (route.query.year) params.append('year', route.query.year as string)
-  if (route.query.region) params.append('region', route.query.region as string) // <-- SOLUCIONADO: Ahora la API recibe la región
+  if (route.query.region) params.append('region', route.query.region as string)
 
   if (route.query.genres) {
     const genres = Array.isArray(route.query.genres) ? route.query.genres : [route.query.genres]
@@ -160,7 +160,6 @@ async function getGames(page: number) {
   return response.data
 }
 
-// SOLUCIONADO: OnMounted recupera preferencias y deja que el watch maneje la primera carga limpia
 onMounted(() => {
   const saved = localStorage.getItem(STORAGE_KEY.value)
   if (saved) {
@@ -180,7 +179,6 @@ watch(matureContent, (val) => {
   loadPage(1)
 })
 
-// SOLUCIONADO: Centraliza la ejecución reactiva impidiendo solapamiento de hilos asíncronos
 watch(
   () => route.query,
   async () => {

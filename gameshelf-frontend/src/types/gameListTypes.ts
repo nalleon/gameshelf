@@ -7,7 +7,6 @@ export interface Game {
     cover_detail: string,
     released_at: Date,
     genres: Array<Genre>,
-    // edition: Edition,
     region: Region,
 }
 
