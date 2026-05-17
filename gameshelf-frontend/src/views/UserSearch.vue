@@ -43,8 +43,7 @@
 
                             <p class="text-xs text-gsgris mt-2 line-clamp-2">
                                 {{
-                                    profile.bio ||
-                                    'Este usuario aún no tiene biografía.'
+                                    profile.bio || defaultBio
                                 }}
                             </p>
                         </div>
@@ -77,6 +76,7 @@ const route = useRoute()
 
 const profiles = ref<Profile[]>([])
 const loading = ref(false)
+const defaultBio = 'This collector has not yet written their story... But their shelf speaks for itself!'
 
 onMounted(fetchUsers)
 

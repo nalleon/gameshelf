@@ -511,7 +511,6 @@ const radarDataPoints = computed(() => {
 
 .dynamic-btn {
     border-color: calc(var(--user-color) + '4d');
-    /* Fallback / Opacidad controlada abajo */
     border-color: var(--user-color);
     background-color: color-mix(in srgb, var(--user-color) 10%, transparent);
     color: var(--user-color);
@@ -520,7 +519,6 @@ const radarDataPoints = computed(() => {
 .dynamic-btn:hover {
     background-color: var(--user-color);
     color: #0b0e14;
-    /* Color oscuro gsoscuro */
     box-shadow: 0 0 20px color-mix(in srgb, var(--user-color) 40%, transparent);
 }
 

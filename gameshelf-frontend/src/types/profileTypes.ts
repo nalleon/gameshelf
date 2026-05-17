@@ -78,7 +78,7 @@ export interface LibraryItem {
     platform: Platform,
     status: string,
     is_private: boolean,
-    hours_played: string,
+    hours_played: number,
     created_at: string,
     updated_at: string,
 }
