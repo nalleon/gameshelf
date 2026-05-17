@@ -4,16 +4,32 @@
       <Navbar />
     </div>
 
-    <section ref="scrollContainer" class="flex-1 overflow-y-auto p-6 sm:p-8 pb-28 text-gsblanco relative">
+    <section ref="scrollContainer" class="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 pb-28 text-gsblanco relative">
       <div class="max-w-[1600px] mx-auto pb-20">
 
-        <div class="mb-8 flex items-center justify-between text-gsmenta">
-          <h2 class="text-2xl font-semibold border-l-4 border-gsmenta/50 pl-4">
-            Catalog
-          </h2>
+        <div class="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center justify-between border-b border-gsgris/10 pb-4 md:pb-6 gap-4">
+          <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
+            <div class="flex items-center gap-3 text-gsmenta">
+              <i class="pi pi-th-large text-xl md:text-2xl"></i>
+              <h2 class="text-xl md:text-2xl font-semibold border-l-4 border-gsmenta/50 pl-3 md:pl-4">
+                Catalog
+              </h2>
+            </div>
+
+            <div v-if="activeFilters.length > 0" class="flex flex-wrap items-center gap-2">
+              <div v-for="(filter, index) in activeFilters" :key="index"
+                class="flex items-center gap-2 text-xs md:text-sm text-gsgris bg-[#161a21]/60 px-3 py-1.5 rounded-xl border border-gsgris/10 w-fit">
+                <i class="pi pi-tag text-[10px] md:text-xs text-gsmenta/70"></i>
+                <span>{{ filter.label }}:</span>
+                <span class="text-gsmenta font-bold tracking-wide">
+                  {{ filter.value }}
+                </span>
+              </div>
+            </div>
+          </div>
 
           <button @click="showSettings = true"
-            class="flex items-center gap-2 text-sm px-3 py-2 rounded-full border border-gsgris/30 hover:border-gsmenta hover:text-gsmenta transition">
+            class="flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-gsgris/30 hover:border-gsmenta hover:text-gsmenta bg-[#161a21]/50 transition self-start sm:self-auto shadow-sm">
             <i class="pi pi-cog"></i>
             Settings
           </button>
@@ -33,12 +49,14 @@
         </main>
 
         <div v-else
-          class="flex flex-col items-center justify-center text-center py-20 px-4 bg-[#161a21]/30 rounded-2xl border border-white/5 backdrop-blur-sm">
-          <Icon icon="mdi:magnify-close" class="text-5xl text-gray-600 mb-4" />
-          <h3 class="text-xl font-bold text-gsmenta mb-1">No results found</h3>
-          <p class="text-sm text-gray-500 max-w-sm">
-            We couldn't find any games matching your search criteria. Try checking your spelling or using different
-            keywords.
+          class="flex flex-col items-center justify-center py-16 md:py-24 text-gsgris border border-dashed border-gsgris/10 rounded-2xl bg-[#161a21]/30 backdrop-blur-sm px-4">
+          <div class="bg-[#161a21] border border-gsgris/10 p-5 rounded-full shadow-md mb-4 flex items-center justify-center">
+            <i class="pi pi-search-minus text-3xl text-gsmenta/40"></i>
+          </div>
+          
+          <h3 class="text-base md:text-lg font-semibold text-gsblanco mb-1 text-center">No results found</h3>
+          <p class="text-xs md:text-sm text-gsgris text-center max-w-sm">
+            We couldn't find any games matching your search criteria. Try checking your spelling or using different keywords.
           </p>
         </div>
 
@@ -66,10 +84,9 @@
           </button>
         </div>
 
-        <label class="flex items-center justify-between gap-4">
+        <label class="flex items-center justify-between gap-4 cursor-pointer">
           <span class="text-sm">Show mature content</span>
-
-          <input type="checkbox" v-model="matureContent" class="w-5 h-5 accent-gsmenta" />
+          <input type="checkbox" v-model="matureContent" class="w-5 h-5 accent-gsmenta cursor-pointer" />
         </label>
 
         <p class="text-xs text-gsgris mt-3 leading-relaxed">
@@ -84,7 +101,6 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import ScrollTopButton from '@/components/ScrollTopButton.vue'
-import axios from 'axios';
 
 import GameCard from '@/components/GameCard.vue';
 import Navbar from '@/components/Navbar.vue';
@@ -107,6 +123,26 @@ const STORAGE_KEY = computed(() => {
   return userId ? `games_preferences_user_${userId}` : 'games_preferences_guest'
 })
 
+// Mapea dinámicamente los queries activos para renderizar las etiquetas en la cabecera
+const activeFilters = computed(() => {
+  const filters: Array<{ label: string; value: string }> = []
+  
+  if (route.query.q) filters.push({ label: 'Results for', value: route.query.q as string })
+  if (route.query.developer) filters.push({ label: 'Developer', value: route.query.developer as string })
+  if (route.query.publisher) filters.push({ label: 'Publisher', value: route.query.publisher as string })
+  if (route.query.year) filters.push({ label: 'Year', value: route.query.year as string })
+  if (route.query.region) filters.push({ label: 'Region', value: route.query.region as string })
+  
+  if (route.query.genres) {
+    const genres = Array.isArray(route.query.genres) ? route.query.genres : [route.query.genres]
+    genres.forEach(g => {
+      if (g) filters.push({ label: 'Genre', value: g as string })
+    })
+  }
+  
+  return filters
+})
+
 // --- VARIABLES DE PAGINACIÓN ---
 const currentPage = ref(1);
 const totalPages = ref(1);
@@ -126,7 +162,7 @@ const loadPage = async (page: number) => {
     totalCount.value = data.count
   } catch (error: any) {
     console.error("Error fetching games:", error)
-    games.value = [] // Aseguramos resetear en caso de error HTTP de la API
+    games.value = []
   } finally {
     loading.value = false
   }
@@ -139,7 +175,6 @@ async function getGames(page: number) {
   params.append('page_size', '20')
   params.append('mature_content', matureContent.value ? 'true' : 'false')
 
-  // Mapeamos de forma limpia los queries de la ruta actual
   if (route.query.q) params.append('q', route.query.q as string)
   if (route.query.developer) params.append('developer', route.query.developer as string)
   if (route.query.publisher) params.append('publisher', route.query.publisher as string)
@@ -167,13 +202,11 @@ onMounted(() => {
     matureContent.value = parsed.matureContent ?? false
   }
   
-  // Si venimos de otra página y no hay queries iniciales, forzamos la carga inicial
   if (Object.keys(route.query).length === 0) {
     loadPage(1)
   }
 })
 
-// Escucha cambios de filtros de madurez
 watch(matureContent, (val) => {
   localStorage.setItem(STORAGE_KEY.value, JSON.stringify({ matureContent: val }))
   loadPage(1)
@@ -184,10 +217,9 @@ watch(
   async () => {
     await loadPage(1)
   },
-  { immediate: true } // El immediate ejecuta la carga inicial de forma segura analizando la URL activa
+  { immediate: true }
 )
 
-// --- FUNCIONES DE NAVEGACIÓN ---
 const goToPage = (page: number) => {
   if (page < 1 || page > totalPages.value) return
   loadPage(page)
