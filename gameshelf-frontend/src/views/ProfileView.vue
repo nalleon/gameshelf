@@ -310,8 +310,11 @@ import Navbar from '@/components/Navbar.vue';
 import Badge from '@/components/Badge.vue';
 import GameCard from '@/components/GameCard.vue';
 import api from "@/api/client";
+import { useUiStore } from '@/stores/uiStore';
 
 const authStore = useAuthStore()
+const uiStore = useUiStore();
+
 const profile = ref<Profile | null>(null);
 const loading = ref(true)
 const showSuccessMessage = ref(false)
@@ -348,18 +351,18 @@ watch(
 )
 
 onMounted(() => {
-    if (route.query.updated === 'true') {
-        showSuccessMessage.value = true
+    // 1. Verificamos si existe un mensaje de éxito retenido en el store global
+    if (uiStore.flashSuccessMessage) {
+        showSuccessMessage.value = true;
 
-        window.history.replaceState(
-            {},
-            '',
-            route.path
-        )
+        // 2. CONSUMO INMEDIATO: Lo limpiamos del store al instante.
+        // Si el usuario refresca o vuelve atrás en el historial, ya no existirá.
+        uiStore.clearSuccess();
 
+        // 3. Dejamos el temporizador existente para ocultar el Toast visualmente
         setTimeout(() => {
-            showSuccessMessage.value = false
-        }, 3000)
+            showSuccessMessage.value = false;
+        }, 3000);
     }
 })
 

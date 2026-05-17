@@ -293,9 +293,11 @@ import type { Profile } from '@/types/profileTypes';
 import { Cropper, CircleStencil } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 import api from "@/api/client";
+import { useUiStore } from '@/stores/uiStore';
 
 const router = useRouter();
 const auth = useAuthStore();
+const uiStore = useUiStore();
 
 const profile = ref<Profile | null>(null);
 const avatarPreview = ref<string | null>(null);
@@ -440,10 +442,10 @@ async function saveProfile() {
 
     try {
         await api.patch(`/api/users/${profile.value.id}/`, formData);
-        router.push({
-            path: '/profile',
-            query: { updated: 'true' }
-        });
+
+        uiStore.triggerSuccess("Profile updated successfully");
+
+        router.push('/profile');
     } catch (error: any) {
         errorMessage.value = error.response?.data?.error || "Error saving profile data";
     }
@@ -497,7 +499,7 @@ function getCroppedImage() {
 }
 
 .dynamic-btn-submit:hover {
-    background-color: color-mix(in srgb, var(--user-color) 85%, white);
+    background-color: color-mix(in srgb, var(--user-color) 85%, white   );
     box-shadow: 0 10px 25px color-mix(in srgb, var(--user-color) 20%, transparent);
 }
 
