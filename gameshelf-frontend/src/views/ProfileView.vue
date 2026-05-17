@@ -31,7 +31,7 @@
         </div>
     </transition>
 
-    <div class="min-h-screen bg-[#0b0e14] text-gsblanco font-sans pb-20" :style="{ '--user-color': userColor }">
+    <div class="min-h-screen  bg-gsoscuro text-gsblanco font-sans pb-20" :style="{ '--user-color': userColor }">
         <header class="relative">
             <div class="h-48 md:h-55" :style="{ backgroundColor: userColor }" />
 
