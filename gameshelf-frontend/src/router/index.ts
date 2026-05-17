@@ -16,9 +16,9 @@ import Collections from '@/views/Collections.vue';
 import CollectionDetails from '@/views/CollectionDetails.vue';
 
 const routes = [
-  { path: '/', component: HomeView },
-  { path: '/login', component: LoginView },
-  { path: '/register', component: RegisterView },
+  { path: '/', component: HomeView, meta: { requiresGuest: true } },
+  { path: '/login', component: LoginView, meta: { requiresGuest: true } },
+  { path: '/register', component: RegisterView, meta: { requiresGuest: true } },
   { 
     path: '/games', 
     component: GameListView
@@ -86,9 +86,14 @@ const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore();
   const isProtected = to.matched.some(record => record.meta.requiresAuth);
+  const isGuestOnly = to.matched.some(record => record.meta.requiresGuest);
 
   if (isProtected && !authStore.isLogged) {
     return '/login'; 
+  }
+
+  if (isGuestOnly && authStore.isLogged) {
+    return '/games';
   }
 });
 
