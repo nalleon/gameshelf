@@ -171,11 +171,13 @@
                         class="bg-red-500/5 p-4 rounded-2xl border border-red-500/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
                             <p class="font-medium text-gsblanco text-sm sm:text-base">Deactivate account</p>
-                            <p class="text-xs text-gsgris mt-0.5">Temporarily hide your profile. You can recover
-                                everything whenever you want.</p>
+                            <p v-if="profile?.verified" class="text-xs text-gsgris mt-0.5">Temporarily hide your profile. You can recover everything whenever you want.</p>
+                            <p v-else class="text-xs text-red-400 font-medium italic mt-0.5">You must verify your email before you can deactivate your account.</p>
                         </div>
+                        
                         <button type="button" @click="showDeactivateModal = true"
-                            class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-red-500/30 text-red-400 font-semibold text-xs hover:bg-red-500/10 active:scale-95 transition-all text-center shrink-0 cursor-pointer">
+                            :disabled="!profile?.verified"
+                            class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-red-500/30 text-red-400 font-semibold text-xs hover:bg-red-500/10 active:scale-95 transition-all text-center shrink-0 disabled:opacity-30 disabled:pointer-events-none disabled:border-gsgris/20 disabled:text-gsgris">
                             Deactivate Account
                         </button>
                     </div>
@@ -233,6 +235,8 @@
 
                 <div class="space-y-2 mb-6">
                     <input v-model="verificationCode" type="text" maxlength="10"
+                        @keydown.space.prevent
+                        @input="handleCodeInput"
                         class="w-full bg-[#161a21] border border-gsgris/20 rounded-xl px-4 py-3 text-center text-xl uppercase tracking-[0.5em] font-mono focus:outline-none focus:border-amber-500 transition-colors"
                         placeholder="000000">
                 </div>
@@ -333,6 +337,12 @@ onMounted(async () => {
     await fetchProfileData();
 });
 
+// FUNCIÓN PARA FILTRAR ESPACIOS EN EL CÓDIGO
+function handleCodeInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    verificationCode.value = target.value.replace(/\s+/g, '');
+}
+
 async function fetchProfileData() {
     try {
         const data = await apiProfileMe();
@@ -362,13 +372,11 @@ function handleLogout() {
     router.replace('/login')
 }
 
-// 1. SOLICITAR CÓDIGO DE VERIFICACIÓN (POST inicial)
 async function requestEmailVerification() {
     errorMessage.value = null;
     successMessage.value = null;
     loadingVerify.value = true;
     try {
-        // Ejecuta el envío de código
         await api.post('/api/auth/verify-email/');
         verificationCode.value = '';
         showVerifyModal.value = true;
@@ -379,12 +387,10 @@ async function requestEmailVerification() {
     }
 }
 
-// 2. ENVIAR EL CÓDIGO INTRODUCIDO POR EL USUARIO
 async function confirmEmailVerification() {
     errorMessage.value = null;
     successMessage.value = null;
     loadingVerifySubmit.value = true;
-
     
     try {
         await api.post('/api/auth/verify-email/validate/', { token: verificationCode.value.toUpperCase() });
@@ -399,19 +405,15 @@ async function confirmEmailVerification() {
     }
 }
 
-// 3. DESACTIVACIÓN DE CUENTA
 async function deactivateAccount() {
     errorMessage.value = null;
     loadingDeactivate.value = true;
     try {
-        await api.post('/api/auth/deactivate/');
+        await api.delete('/api/auth/deactivate/');
         showDeactivateModal.value = false;
 
-        // Si tienes una función logout centralizada en tu authStore, ejecútala aquí
-        handleLogout
-
-        // Redirigir fuera de la aplicación protegida
-        router.push('/login');
+        auth.removeUserSesion()
+        router.replace('/')
     } catch (error: any) {
         showDeactivateModal.value = false;
         errorMessage.value = error.response?.data?.error || "An error occurred during account deactivation.";

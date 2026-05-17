@@ -105,6 +105,8 @@
                         <label class="block text-xs font-bold text-gsgris uppercase mb-2 ml-1 text-center">Verification
                             Code</label>
                         <input v-model="verificationCode" type="text" maxlength="10" required placeholder="000000"
+                            @keydown.space.prevent
+                            @input="handleCodeInput"
                             class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-center uppercase text-xl tracking-[0.5em] font-mono text-gsblanco focus:outline-none focus:border-gsmenta transition-all"
                             :disabled="resetLoading" />
                     </div>
@@ -212,6 +214,12 @@ function closeResetModal() {
     showResetModal.value = false
 }
 
+// FILTRADO DINÁMICO DE ESPACIOS
+function handleCodeInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    verificationCode.value = target.value.replace(/\s+/g, '');
+}
+
 // 1. Enviar Email para solicitar Código
 async function submitPasswordReset() {
     resetError.value = ''
@@ -226,7 +234,6 @@ async function submitPasswordReset() {
         await api.post('/api/auth/password-reset/', {
             email: resetEmail.value.trim()
         })
-        // Saltamos al paso del código enviado
         resetStep.value = 'code'
     } catch (error: any) {
         resetError.value =

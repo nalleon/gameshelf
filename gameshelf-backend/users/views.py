@@ -26,6 +26,7 @@ from .serializers import (
     RegisterSchemaSerializer,
     TokenResponseSerializer,
     UpdateProfileSerializer,
+    ActivateAccountSerializer
 )
 from .tasks import (
     deliver_activation_email,
@@ -482,6 +483,7 @@ def verify_email(request):
     responses={
         200: MessageResponseSerializer,
         401: ErrorResponseSerializer,
+        404: ErrorResponseSerializer
     },
     description='Deactivate account (soft delete profile)',
     operation_id='deactivateAccount',
@@ -496,6 +498,9 @@ def deactivate_account(request):
         profile = user.profile
     except ObjectDoesNotExist:
         return Response({'error': 'Profile not found'}, status=404)
+
+    if not profile.verified:
+        return Response({'error': 'Profile not verified'}, status=401)
 
     profile.delete()
 
@@ -534,7 +539,7 @@ def send_activation_email(request):
 
 @extend_schema(
     tags=['auth'],
-    request=TokenResponseSerializer,
+    request=ActivateAccountSerializer,
     responses={
         200: MessageResponseSerializer,
         400: ErrorResponseSerializer,
@@ -543,17 +548,23 @@ def send_activation_email(request):
     operation_id='restoreAccount',
 )
 @api_view(['POST'])
+@require_json_body
+@require_fields('token', 'email')
 @csrf_exempt
 def restore_account(request):
-    token = request.data.get('token')
+    payload = request.data
 
-    if not token:
-        return Response({'error': 'Token is required'}, status=400)
+    token = payload.get('token', '').strip().upper()
+    email = payload.get('email', '').strip().lower()
 
     try:
-        token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.ACTIVATE_ACCOUNT)
+        token_obj = UserToken.objects.get(
+            token=token,
+            type=UserToken.TokenType.ACTIVATE_ACCOUNT,
+            user__email=email
+        )
     except UserToken.DoesNotExist:
-        return Response({'error': 'Invalid token'}, status=400)
+        return Response({'error': 'Invalid token or email'}, status=400)
 
     if not token_obj.is_valid():
         return Response({'error': 'Token expired'}, status=400)
@@ -564,7 +575,6 @@ def restore_account(request):
         return Response({'message': 'Account already active'}, status=200)
 
     profile.restore()
-
     token_obj.delete()
 
     return Response({'message': 'Account restored'}, status=200)

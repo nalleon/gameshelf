@@ -83,6 +83,11 @@
                             <router-link to="/login" class="text-sm text-gsgris hover:text-gsblanco transition-colors underline-offset-4 hover:underline">
                                 Already have an account? Login
                             </router-link>
+                            
+                            <button type="button" @click="openActivationModal"
+                                class="text-sm text-gsgris hover:text-gsmenta transition-colors underline-offset-4 hover:underline cursor-pointer">
+                                Want to activate your account?
+                            </button>
                         </div>
 
                         <div class="flex pt-6 justify-end">
@@ -229,6 +234,91 @@
         </div>
 
     </div>
+
+    <Transition name="fade">
+        <div v-if="showActivationModal"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4"
+            @click.self="closeActivationModal">
+
+            <div class="bg-gsoscuro p-8 rounded-2xl border border-white/10 w-full max-w-md text-gsblanco relative shadow-2xl">
+                <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta to-gsbosque"></div>
+
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-gsmenta uppercase tracking-wider">Activate Account</h3>
+                        <p class="text-xs text-gsgris mt-1">
+                            <span v-if="activationStep === 'email'">Request an activation code to your email</span>
+                            <span v-else-if="activationStep === 'code'">Verify your identity with the code sent</span>
+                            <span v-else-if="activationStep === 'success'">Everything is ready to roll</span>
+                        </p>
+                    </div>
+                    <button @click="closeActivationModal"
+                        class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 text-gsgris hover:text-red-400 transition-all flex items-center justify-center border border-white/5 cursor-pointer">
+                        <i class="pi pi-times text-xs"></i>
+                    </button>
+                </div>
+
+                <div v-if="activationError"
+                    class="bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl p-3 text-xs mb-4 italic">
+                    <i class="pi pi-exclamation-circle mr-1"></i> {{ activationError }}
+                </div>
+
+                <form v-if="activationStep === 'email'" @submit.prevent="submitRequestActivation" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-gsgris uppercase mb-2 ml-1">Email Address</label>
+                        <input v-model="activationEmail" type="email" required placeholder="your-email@example.com"
+                            class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/40 focus:outline-none focus:border-gsmenta transition-all"
+                            :disabled="activationLoading" />
+                    </div>
+                    <div class="flex items-center justify-end gap-3 pt-2">
+                        <button type="button" @click="closeActivationModal"
+                            class="border border-white/10 hover:bg-white/5 text-gsgris px-5 py-2.5 rounded-full text-xs font-bold uppercase cursor-pointer">Cancel</button>
+                        <button type="submit" :disabled="activationLoading"
+                            class="bg-gsmenta text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center cursor-pointer disabled:opacity-50">
+                            <i v-if="activationLoading" class="pi pi-spin pi-spinner mr-2 text-xs"></i>
+                            <span>Send Code</span>
+                        </button>
+                    </div>
+                </form>
+
+                <form v-else-if="activationStep === 'code'" @submit.prevent="submitValidateActivation" class="space-y-5">
+                    <div>
+                        <p class="text-xs text-gsgris text-center mb-2">Code sent to: <span class="text-gsblanco font-semibold">{{ activationEmail }}</span></p>
+                        <label class="block text-xs font-bold text-gsgris uppercase mb-2 ml-1 text-center">Verification Code</label>
+                        
+                        <input v-model="activationCode" type="text" maxlength="10" required placeholder="000000"
+                            @keydown.space.prevent
+                            @input="handleCodeInput"
+                            class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-center uppercase text-xl tracking-[0.5em] font-mono text-gsblanco focus:outline-none focus:border-gsmenta transition-all"
+                            :disabled="activationLoading" />
+                    </div>
+                    <div class="flex items-center justify-end gap-3 pt-2">
+                        <button type="button" @click="activationStep = 'email'"
+                            class="border border-white/10 hover:bg-white/5 text-gsgris px-5 py-2.5 rounded-full text-xs font-bold uppercase cursor-pointer">Back</button>
+                        <button type="submit" :disabled="activationLoading || activationCode.length < 4"
+                            class="bg-gsmenta text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center cursor-pointer disabled:opacity-50">
+                            <i v-if="activationLoading" class="pi pi-spin pi-spinner mr-2 text-xs"></i>
+                            <span>Activate</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div v-else-if="activationStep === 'success'" class="space-y-6 text-center py-4">
+                    <div class="w-16 h-16 bg-gsmenta/10 text-gsmenta border border-gsmenta/20 rounded-full flex items-center justify-center mx-auto text-2xl">
+                        <i class="pi pi-check"></i>
+                    </div>
+                    <p class="text-sm text-gsgris leading-relaxed px-2">
+                        Your account has been successfully verified and activated. You can now use your credentials to log in.
+                    </p>
+                    <button @click="redirectToLogin"
+                        class="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-gsblanco py-3 rounded-full text-xs font-bold uppercase cursor-pointer transition-colors">
+                        Go to Login
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </Transition>
 </template>
 
 <script setup lang="ts">
@@ -264,7 +354,13 @@ const password = ref('')
 const firstName = ref('')
 const lastName = ref('')
 
-// Textos traducidos a inglés
+const showActivationModal = ref(false)
+const activationStep = ref<'email' | 'code' | 'success'>('email')
+const activationEmail = ref('')
+const activationCode = ref('')
+const activationLoading = ref(false)
+const activationError = ref('')
+
 const requiredFieldMessage = "This field is required";
 
 const usernameError = ref('')
@@ -278,7 +374,6 @@ const isHiddenPasswordError = ref('hidden')
 const numberDictionary = NumberDictionary.generate({ min: 100, max: 9999 });
 
 const avatarFile = ref<File | null>(null)
-const avatarPreview = ref<string | null>(null)
 const cropperRef = ref()
 
 const generateRandomFirstName = () => {
@@ -401,6 +496,59 @@ function submitRegister() {
             router.replace('/profile')
         }
     })
+}
+
+function openActivationModal() {
+    activationStep.value = 'email'
+    activationEmail.value = email.value
+    activationCode.value = ''
+    activationError.value = ''
+    showActivationModal.value = true
+}
+
+// FILTRADO DINÁMICO DE ESPACIOS (Evita copypastes con espacios)
+function handleCodeInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    // Remueve de golpe cualquier tipo de espacio en blanco
+    activationCode.value = target.value.replace(/\s+/g, '');
+}
+
+function closeActivationModal() {
+    showActivationModal.value = false
+}
+
+async function submitRequestActivation() {
+    activationError.value = ""
+    activationLoading.value = true
+    try {
+        await api.post('/api/auth/activate/', { email: activationEmail.value })
+        activationStep.value = 'code'
+    } catch (error: any) {
+        activationError.value = error.response?.data?.message || "Error sending activation code. Please verify your email."
+    } finally {
+        activationLoading.value = false
+    }
+}
+
+async function submitValidateActivation() {
+    activationError.value = ""
+    activationLoading.value = true
+    try {
+        await api.post('/api/auth/activate/validate/', {
+            email: activationEmail.value,
+            token: activationCode.value.toUpperCase()
+        })
+        activationStep.value = 'success'
+    } catch (error: any) {
+        activationError.value = error.response?.data?.message || "Invalid or expired activation code."
+    } finally {
+        activationLoading.value = false
+    }
+}
+
+function redirectToLogin() {
+    showActivationModal.value = false;
+    router.replace('/login');
 }
 </script>
 

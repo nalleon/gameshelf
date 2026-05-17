@@ -289,6 +289,11 @@ class TokenResponseSerializer(serializers.Serializer):
 class ChangePasswordSerializer(serializers.Serializer):
     token = serializers.CharField()
     new_password = serializers.CharField()
+
+
+class ActivateAccountSerializer(serializers.Serializer):
+    token = serializers.CharField()
+    email = serializers.EmailField()
     
 class EmailRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
