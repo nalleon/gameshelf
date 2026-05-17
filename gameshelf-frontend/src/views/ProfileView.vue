@@ -3,7 +3,7 @@
 
     <ToastModern title="Success!" :color="userColor" :duration="3000" />
 
-    <div class="min-h-screen  bg-gsoscuro text-gsblanco font-sans pb-20" :style="{ '--user-color': userColor }">
+    <div class="min-h-screen bg-gsoscuro text-gsblanco font-sans pb-20" :style="{ '--user-color': userColor }">
         <header class="relative">
             <div class="h-48 md:h-55" :style="{ backgroundColor: userColor }" />
 
@@ -249,26 +249,28 @@
                 </div>
             </section>
 
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold border-l-4 pl-4" :style="{ borderColor: userColor }">Favorites</h2>
-                <router-link :to="`/favorites/${profile?.user.id}`"
-                    class="text-sm font-medium transition-colors opacity-90 hover:opacity-100"
-                    :style="{ color: userColor }">
-                    View all →
-                </router-link>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                <template v-if="profile && limitedFavorites.length > 0">
-                    <div v-for="game in limitedFavorites" :key="game.id"
-                        class="group cursor-pointer flex flex-col bg-[#161a21] rounded-xl border border-gsgris/20 transition-all duration-300 shadow-lg dynamic-card">
-                        <GameCard :game="game.game" />
+            <section v-if="profile && limitedFavorites.length > 0" class="mb-12">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-1.5 h-6 rounded-full" :style="{ backgroundColor: userColor }"></div>
+                        <h2 class="text-xl md:text-2xl font-bold tracking-tight">Favorites</h2>
                     </div>
-                </template>
-                <div v-else class="col-span-full flex justify-center items-center">
-                    <img alt="no recent games" src="@/assets/Empty-cuate.svg" class="w-sm" />
+                    <router-link :to="`/favorites/${profile?.user.id}`"
+                        class="text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl border border-gsgris/10 bg-gsoscuro/20 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+                        :style="{ color: userColor, borderColor: `${userColor}33` }">
+                        View all →
+                    </router-link>
                 </div>
-            </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div v-for="game in limitedFavorites" :key="game.id"
+                        class="group cursor-pointer flex flex-col bg-gsoscuro/40 backdrop-blur-md rounded-2xl border border-gsgris/10 p-2 transition-all duration-500 hover:-translate-y-1.5 shadow-[0_8px_30px_rgb(0,0,0,0.3)] dynamic-card">
+                        <div class="overflow-hidden rounded-xl relative">
+                            <GameCard :game="game.game" />
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 </template>
@@ -303,7 +305,6 @@ const tooltip = ref({
 const route = useRoute()
 const defaultBio = 'This collector has not yet written their story... But their shelf speaks for itself!'
 
-// Propiedad computada centralizada para extraer el color del usuario de forma segura
 const userColor = computed(() => {
     return profile.value?.color_bg || '#79a998';
 });
@@ -322,18 +323,6 @@ watch(
     fetchProfile,
     { immediate: true }
 )
-
-// onMounted(() => {
-//     if (uiStore.flashSuccessMessage) {
-//         showSuccessMessage.value = true;
-
-//         uiStore.clearSuccess();
-
-//         setTimeout(() => {
-//             showSuccessMessage.value = false;
-//         }, 3000);
-//     }
-// })
 
 async function fetchProfile() {
     loading.value = true;
@@ -366,7 +355,6 @@ const limitedFavorites = computed(() => {
 })
 
 const statsData = computed(() => {
-
     const userCollections = profile.value?.user.collections;
     let collectionsProcessed = userCollections?.filter(c => !c.is_private)
 
@@ -480,9 +468,7 @@ const radarDataPoints = computed(() => {
 </script>
 
 <style scoped>
-
 .dynamic-btn {
-    border-color: calc(var(--user-color) + '4d');
     border-color: var(--user-color);
     background-color: color-mix(in srgb, var(--user-color) 10%, transparent);
     color: var(--user-color);
@@ -505,7 +491,6 @@ const radarDataPoints = computed(() => {
     color: #0b0e14;
 }
 
-/* Tarjetas de estadísticas inactivas */
 .inactive-stat-card {
     border-color: rgba(156, 163, 175, 0.1);
     background-color: rgba(11, 14, 20, 0.3);
@@ -520,7 +505,6 @@ const radarDataPoints = computed(() => {
     color: var(--user-color);
 }
 
-/* Tarjetas de estadísticas activas (Hover/Focus) */
 .active-stat-card {
     border-color: color-mix(in srgb, var(--user-color) 30%, transparent);
     background-color: color-mix(in srgb, var(--user-color) 10%, transparent);
@@ -535,9 +519,33 @@ const radarDataPoints = computed(() => {
     color: var(--user-color);
 }
 
-/* Hover de las GameCards en favoritos */
+/* NUEVOS ESTILOS RE-DISEÑADOS PARA LOS FAVORITOS */
+.dynamic-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.dynamic-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    padding: 1px; 
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: background 0.5s ease;
+}
+
 .dynamic-card:hover {
-    border-color: color-mix(in srgb, var(--user-color) 50%, transparent);
+    border-color: color-mix(in srgb, var(--user-color) 40%, transparent);
+    box-shadow: 0 12px 40px color-mix(in srgb, var(--user-color) 12%, transparent);
+}
+
+.dynamic-card:hover::before {
+    background: linear-gradient(to bottom, var(--user-color), transparent);
 }
 
 /* TOAST ANIMATIONS */
@@ -560,7 +568,6 @@ const radarDataPoints = computed(() => {
     from {
         width: 100%;
     }
-
     to {
         width: 0%;
     }

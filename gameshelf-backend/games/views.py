@@ -38,9 +38,12 @@ from .serializers import (
     UpdateFavoriteSchemaSerializer,
 )
 from .services.igdb import import_games, search_games_by_title
-
+import unicodedata
 User = get_user_model()
 
+
+def normalize(text):
+    return unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode('utf-8').lower()
 
 # Fetch games from IGDB
 @extend_schema(
@@ -332,14 +335,12 @@ def game_search(request):
     # Genre
     if genres:
 
-        # genre_query = Q()
 
         for genre in genres:
             games = games.filter(
                 genres__name__icontains=genre
             )
 
-        # games = games.filter(genre_query)
 
     # Region
     if region:
