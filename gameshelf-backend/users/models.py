@@ -1,5 +1,4 @@
 import secrets
-import string
 
 from colorfield.fields import ColorField
 from django.conf import settings
@@ -36,20 +35,25 @@ class UserToken(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    token = models.CharField(
-        max_length=10, unique=True, editable=False
-    )
+    token = models.CharField(max_length=10, unique=True, editable=False)
 
     type = models.CharField(max_length=32, choices=TokenType.choices)
 
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
+
     validated = models.BooleanField(default=False)
 
+    def is_valid(self):
+        return not self.validated and timezone.now() < self.expires_at
+    
     @staticmethod
     def generate_token(length=10):
-        chars = string.ascii_uppercase + string.digits
+        chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
         return ''.join(secrets.choice(chars) for _ in range(length))
 
-    def is_valid(self):
-        return timezone.now() < self.expires_at
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = UserToken.generate_token()
+        super().save(*args, **kwargs)
+

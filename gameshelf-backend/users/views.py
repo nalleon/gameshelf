@@ -336,13 +336,12 @@ def request_password_reset(request):
     email = payload['email']
 
     user = User.objects.filter(email=email).first()
-    
+
     if user:
         token = UserToken.objects.create(
             user=user,
             type=UserToken.TokenType.CHANGE_PASSWORD,
-            expires_at=timezone.now() + timedelta(minutes=5),
-            token=UserToken.generate_token(),
+            expires_at=timezone.now() + timedelta(minutes=10),
         )
 
         deliver_password_reset_email.delay(user=user, token=str(token.token))
@@ -352,7 +351,7 @@ def request_password_reset(request):
 
 @extend_schema(
     tags=['auth'],
-    request=TokenResponseSerializer, 
+    request=TokenResponseSerializer,
     responses={
         200: MessageResponseSerializer,
         400: ErrorResponseSerializer,
@@ -364,13 +363,12 @@ def request_password_reset(request):
 @require_json_body
 @require_fields('token')
 def validate_password_reset_token(request):
-    token = request.json['token']
+
+    token = request.json['token'].strip().upper()
 
     try:
-        token_obj = UserToken.objects.get(
-            token=token,
-            type=UserToken.TokenType.CHANGE_PASSWORD
-        )
+        token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.CHANGE_PASSWORD)
+
     except UserToken.DoesNotExist:
         return Response({'error': 'Invalid token'}, status=400)
 
@@ -378,11 +376,10 @@ def validate_password_reset_token(request):
         return Response({'error': 'Token expired'}, status=400)
 
     token_obj.validated = True
-    token_obj.save()
-    
-    return Response({
-        'message': 'Token valid'
-    })
+    token_obj.save(update_fields=['validated'])
+
+    return Response({'message': 'Token valid'})
+
 
 @extend_schema(
     tags=['auth'],
@@ -399,15 +396,13 @@ def validate_password_reset_token(request):
 @csrf_exempt
 @require_json_body
 @require_fields('token', 'new_password')
-@auth_required
 def change_password(request):
     payload = request.json
     token = payload['token']
-    
+
     token = UserToken.objects.get(token=token, type=UserToken.TokenType.CHANGE_PASSWORD)
-    
     if not token.validated:
-        return Response({'error': 'Invalid token'}, status=400)
+        return Response({'error': 'Invalid token'}, status=401)
 
     user = token.user
 
@@ -416,6 +411,7 @@ def change_password(request):
     token.delete()
 
     return Response({'message': 'Password updated successfully'}, status=200)
+
 
 @extend_schema(
     tags=['auth'],
@@ -438,8 +434,7 @@ def send_verification_email(request):
     token = UserToken.objects.create(
         user=user,
         type=UserToken.TokenType.VERIFY_EMAIL,
-        expires_at=timezone.now() + timedelta(hours=24),
-        token=UserToken.generate_token(),
+        expires_at=timezone.now() + timedelta(minutes=10),
     )
 
     deliver_verification_email.delay(user=user, token=str(token.token))
@@ -529,8 +524,7 @@ def send_activation_email(request):
         token = UserToken.objects.create(
             user=user,
             type=UserToken.TokenType.ACTIVATE_ACCOUNT,
-            expires_at=timezone.now() + timedelta(hours=24),
-            token=UserToken.generate_token(),
+            expires_at=timezone.now() + timedelta(minutes=10),
         )
 
         deliver_activation_email.delay(user=user, token=str(token.token))
