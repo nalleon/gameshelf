@@ -5,7 +5,7 @@
         <div v-if="showSuccessMessage"
             class="fixed top-6 right-6 z-50 flex items-center gap-4 p-4 rounded-2xl border bg-gsoscuro/80 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.5)] min-w-[320px] overflow-hidden"
             :style="{ borderColor: `${userColor}30` }">
-            <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.2)]"
+            <div class="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.2)]"
                 :style="{ backgroundColor: `${userColor}20`, color: userColor }">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="3">
@@ -13,7 +13,7 @@
                 </svg>
             </div>
 
-            <div class="flex-grow">
+            <div class="grow">
                 <p class="text-gsblanco font-bold text-sm leading-tight">Success!</p>
                 <p class="text-gsgris text-xs mt-0.5">Profile updated successfully</p>
             </div>
@@ -31,8 +31,8 @@
         </div>
     </transition>
 
-    <div class="min-h-screen bg-gsoscuro text-gsblanco font-sans pb-20" :style="{ '--user-color': userColor }">
-        <header class="relative bg-[#1a1e26]">
+    <div class="min-h-screen bg-[#0b0e14] text-gsblanco font-sans pb-20" :style="{ '--user-color': userColor }">
+        <header class="relative">
             <div class="h-48 md:h-55" :style="{ backgroundColor: userColor }" />
 
             <div class="max-w-5xl mx-auto px-6 relative">
@@ -79,10 +79,10 @@
             </div>
         </header>
 
-        <div class="w-full h-[1px]"
+        <div class="w-full h-px"
             :style="{ backgroundImage: `linear-gradient(to right, transparent, ${userColor}33, transparent)` }"></div>
 
-        <section class="bg-[#161a21] border-b border-gsgris/10 py-10 relative" v-if="profile">
+        <section class=" border-b border-gsgris/10 py-10 relative" v-if="profile">
             <div class="max-w-5xl mx-auto px-6 flex flex-col items-center justify-center gap-6 md:gap-12">
 
                 <button @click="showRadarMobile = !showRadarMobile"
