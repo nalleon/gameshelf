@@ -88,7 +88,7 @@
                             :title="isAuthenticated ? 'Add into my collection' : 'Log in to add to your library'">
                             <Icon :icon="isInLibrary && isAuthenticated ? 'mdi:library-shelves' : 'mdi:library-outline'"
                                 class="text-4xl"
-                                :class="isInLibrary && isAuthenticated ? 'text-gsmenta' : 'text-gray-400' + (isAuthenticated ? ' hover:text-gsmenta' : '')" />
+                                :class="isInLibrary && isAuthenticated ? 'text-[#559cf2]' : 'text-gray-400' + (isAuthenticated ? ' hover:text-[#559cf2]' : '')" />
                         </button>
 
                         <button @click="openDropdown = openDropdown === 'collections' ? null : 'collections'"
@@ -99,7 +99,7 @@
                             <Icon
                                 :icon="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) && isAuthenticated ? 'mdi:folder-star' : 'mdi:folder-plus-outline'"
                                 class="text-4xl"
-                                :class="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) && isAuthenticated ? 'text-gsmenta' : 'text-gray-400' + (isAuthenticated ? ' hover:text-gsmenta' : '')" />
+                                :class="userCollections.some(c => c.items.some(i => i.game.id === game?.id)) && isAuthenticated ? 'text-[#d1a664]' : 'text-gray-400' + (isAuthenticated ? ' hover:text-[#d1a664]' : '')" />
                         </button>
                     </div>
 
@@ -117,13 +117,13 @@
                                 <button v-for="p in game.platforms" :key="p.id" @click="toggleFavorite(p.id)"
                                     class="flex justify-between items-center px-3 py-2 rounded-md hover:bg-white/5 transition-colors group">
                                     <span
-                                        :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta font-bold' : 'text-gray-300 group-hover:text-white'">
+                                        :class="favoritePlatforms.includes(p.id) ? 'text-red-400 font-bold' : 'text-gray-300 group-hover:text-white'">
                                         {{ p.name }}
                                     </span>
                                     <Icon
                                         :icon="favoritePlatforms.includes(p.id) ? 'mdi:check-circle' : 'mdi:plus-circle-outline'"
                                         class="text-xl"
-                                        :class="favoritePlatforms.includes(p.id) ? 'text-gsmenta' : 'text-gray-600 group-hover:text-gray-400'" />
+                                        :class="favoritePlatforms.includes(p.id) ? 'text-red-400' : 'text-gray-600 group-hover:text-gray-400'" />
                                 </button>
                             </div>
                         </div>
@@ -151,12 +151,12 @@
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="text-sm font-bold text-white">{{ p.name }}</span>
                                     <span v-if="libraryItems.find(i => i.platform.id === p.id)"
-                                        class="text-[10px] text-gsmenta uppercase font-bold">In library</span>
+                                        class="text-[10px] text-[#559cf2] uppercase font-bold">In library</span>
                                 </div>
                                 <div class="grid grid-cols-2 gap-2">
                                     <button v-for="status in LIBRARY_STATUS" :key="status.id"
                                         @click="toggleLibrary(p.id, status.id)"
-                                        :class="libraryItems.some(i => Number(i.platform.id) === Number(p.id) && i.status === status.name) ? 'bg-gsmenta text-black shadow-[0_0_10px_#00ff99]' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                                        :class="libraryItems.some(i => Number(i.platform.id) === Number(p.id) && i.status === status.name) ? 'bg-[#559cf2] text-black shadow-[0_0_10px_#559cf2]' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
                                         class="text-[10px] py-1.5 rounded uppercase font-bold transition-all">{{
                                             status.name }}</button>
                                 </div>
@@ -168,10 +168,10 @@
                                 <p class="text-xs font-bold text-gray-500 uppercase mb-3">Add into collection</p>
                                 <div class="flex gap-2">
                                     <input v-model="newCollectionName" type="text" placeholder="New collection..."
-                                        class="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs focus:outline-none focus:border-gsmenta text-white"
+                                        class="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-xs focus:outline-none focus:border-[#d1a664] text-white"
                                         @keyup.enter="createNewCollection" />
                                     <button @click="createNewCollection"
-                                        class="bg-gsmenta text-black px-3 py-1 rounded font-bold hover:brightness-110">
+                                        class="bg-[#d1a664] text-black px-3 py-1 rounded font-bold hover:brightness-110">
                                         <Icon icon="mdi:plus" class="text-xl" />
                                     </button>
                                 </div>
@@ -188,10 +188,10 @@
                                         <p class="text-[9px] text-gray-500 font-bold ml-1 uppercase">{{ p.name }}</p>
                                         <div class="flex gap-2">
                                             <button @click="toggleCollectionItem(col.id, p.id, 'D')"
-                                                :class="isInCollection(col, p.id, 'D') ? 'bg-gsmenta text-black' : 'bg-white/5 text-gray-400'"
+                                                :class="isInCollection(col, p.id, 'D') ? 'bg-[#d1a664] text-black' : 'bg-white/5 text-gray-400'"
                                                 class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase">Digital</button>
                                             <button @click="toggleCollectionItem(col.id, p.id, 'P')"
-                                                :class="isInCollection(col, p.id, 'P') ? 'bg-gsmenta text-black' : 'bg-white/5 text-gray-400'"
+                                                :class="isInCollection(col, p.id, 'P') ? 'bg-[#d1a664] text-black' : 'bg-white/5 text-gray-400'"
                                                 class="flex-1 text-[9px] py-1.5 rounded font-bold transition-all uppercase">Physical</button>
                                         </div>
                                     </div>
@@ -696,11 +696,13 @@ const toggleLibrary = async (platformId: number, status?: string) => {
         (item: LibraryItem) => item.platform.id === platformId
     );
 
+    const statusName = LIBRARY_STATUS.find(s => s.id === status)?.name;
+
     try {
         if (existingItem) {
             // Si el usuario pulsa el MISMO estado que ya tiene, lo borramos (Toggle)
             // Si pulsa un estado diferente, lo actualizamos (PATCH)
-            if (!status || existingItem.status === status) {
+            if (!status || existingItem.status === statusName) {
                 await api.delete(
                     `/api/library/${existingItem.id}/`
                 );
@@ -716,7 +718,7 @@ const toggleLibrary = async (platformId: number, status?: string) => {
                 const response = await api.patch(
                     `/api/library/${existingItem.id}/`,
                     {
-                        status,
+                        statusName,
                         platform_id: platformId
                     }
                 );
