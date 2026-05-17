@@ -1,9 +1,7 @@
 <template>
     <Navbar />
-
-    <div class="min-h-screen pt-20 pb-12 bg-gsoscuro/55 flex flex-col justify-center items-center px-4">
-        <div
-            class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsmenta/10 relative overflow-hidden">
+    <div class="min-h-[calc(100vh-80px)] pt-20 pb-12 bg-gsoscuro/55 flex flex-col justify-center items-center px-4">
+        <div class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsmenta/10 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta to-gsbosque"></div>
 
             <form class="flex flex-col text-center" @submit.prevent="submitLogin">

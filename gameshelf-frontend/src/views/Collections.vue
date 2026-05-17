@@ -15,7 +15,7 @@
 
                 <div class="space-y-6">
                     <details
-                        v-for="collection in collections" 
+                        v-for="collection in visibleCollections"
                         :key="collection.id" 
                         class="group bg-[#161a21] rounded-xl border border-gsgris/20 overflow-hidden transition-all duration-300 open:border-gsmenta/30"
                         open
