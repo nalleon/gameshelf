@@ -8,14 +8,10 @@ User = get_user_model()
 
 
 @job
-def deliver_verification_email(base_url, user, token):
+def deliver_verification_email(user, token):
     subject = 'Verify your account at GameShelf'
 
-    verification_url = f'{base_url}{token}'
-
-    body = render_to_string(
-        'users/emails/verification_email.html', {'user': user, 'verification_url': verification_url}
-    )
+    body = render_to_string('users/emails/verification_email.html', {'user': user, 'code': token})
 
     email = EmailMessage(
         subject=subject,
@@ -28,30 +24,30 @@ def deliver_verification_email(base_url, user, token):
 
 
 @job
-def deliver_password_reset_email(base_url, user, token):
-    subject = 'Reset your password'
+def deliver_password_reset_email(user, token):
+        subject = 'Reset your password at GameShelf'
 
-    url = f'{base_url}{token}'
+        body = render_to_string('users/emails/reset_password.html', {'user': user, 'code': token})
 
-    body = render_to_string('users/emails/reset_password.html', {'user': user, 'reset_url': url})
+        email = EmailMessage(
+            subject=subject,
+            body=body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[user.email],
+        )
 
-    email = EmailMessage(
-        subject=subject,
-        body=body,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[user.email],
-    )
-    email.content_subtype = 'html'
-    email.send()
+        email.content_subtype = 'html'
+        email.send()
+
+
+
 
 
 @job
-def deliver_activation_email(base_url, user, token):
-    subject = 'Reactivate your account'
+def deliver_activation_email(user, token):
+    subject = 'Reactivate your account at GameShelf'
 
-    url = f'{base_url}{token}'
-
-    body = render_to_string('users/emails/activate_account.html', {'user': user, 'activation_url': url})
+    body = render_to_string('users/emails/activate_account.html', {'user': user, 'code': token})
 
     email = EmailMessage(
         subject=subject,

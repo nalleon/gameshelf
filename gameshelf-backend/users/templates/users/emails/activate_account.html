@@ -1,16 +1,17 @@
 {% extends "users/emails/base_email.html" %}
 
 {% block content %}
-<p>Hi {{ user.username }},</p>
+<p>Hi <strong>{{ user.username }}</strong>,</p>
+
 <p>Your account is currently deactivated.</p>
 
-<p>You can reactivate it by clicking the button below:</p>
+<p>You can easily reactivate your status and recover your shelf using this restoration code:</p>
 
-<p style="text-align:center;">
-    <a href="{{ activation_url }}" class="button">
-        Reactivate Account
-    </a>
-</p>
+<div class="code-display">
+    <strong>{{ code }}</strong>
+</div>
 
-<p>We’d love to have you back 🎮</p>
+<p>Enter this validation code back in the app to restore your custom library and statistics.</p>
+
+<p>We’d love to have you back in the community!</p>
 {% endblock %}

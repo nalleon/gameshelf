@@ -7,15 +7,16 @@ urlpatterns = [
 
     # verify email
     path('verify-email/', views.send_verification_email),
-    path('verify-email/<uuid:token>/', views.verify_email),
+    path('verify-email/validate/', views.verify_email),
 
     # password reset
     path('password-reset/', views.request_password_reset),
+    path('password-reset/validate/', views.validate_password_reset_token),
     path('change-password/', views.change_password),
 
     # activation
     path('activate/', views.send_activation_email),
-    path('activate/<uuid:token>/', views.restore_account),
+    path('activate/validate/', views.restore_account),
 
     # account
     path('deactivate/', views.deactivate_account),

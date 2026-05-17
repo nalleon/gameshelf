@@ -2,9 +2,7 @@
     <Navbar />
 
     <div class="min-h-screen pt-20 pb-12 bg-gsoscuro/55 flex flex-col justify-center items-center px-4">
-        <div
-            class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsmenta/10 relative overflow-hidden">
-
+        <div class="bg-gsoscuro p-10 rounded-2xl text-gsblanco mx-auto max-w-md w-full shadow-2xl border border-gsmenta/10 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-gsmenta to-gsbosque"></div>
 
             <form class="flex flex-col text-center" @submit.prevent="submitLogin">
@@ -66,50 +64,89 @@
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <h3 class="text-lg font-bold text-gsmenta uppercase tracking-wider">Reset Password</h3>
-                        <p class="text-xs text-gsgris mt-1">We will send a recovery link to your email</p>
+                        <p class="text-xs text-gsgris mt-1">
+                            <span v-if="resetStep === 'email'">We will send a recovery code to your email</span>
+                            <span v-else-if="resetStep === 'code'">Verify your identity with the code sent</span>
+                            <span v-else-if="resetStep === 'new-password'">Secure your shelf with a new password</span>
+                            <span v-else-if="resetStep === 'success'">Everything is ready to roll</span>
+                        </p>
                     </div>
                     <button @click="closeResetModal" class="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 text-gsgris hover:text-red-400 transition-all flex items-center justify-center border border-white/5 cursor-pointer">
                         <i class="pi pi-times text-xs"></i>
                     </button>
                 </div>
 
-                <div v-if="resetSuccess" class="bg-gsmenta/10 border border-gsmenta/30 rounded-xl p-4 mb-6 text-center text-sm text-gsmenta">
-                    <i class="pi pi-check-circle mr-2"></i> {{ resetStatusMessage }}
+                <div v-if="resetError" class="bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl p-3 text-xs mb-4 italic">
+                    <i class="pi pi-exclamation-circle mr-1"></i> {{ resetError }}
                 </div>
 
-                <form v-else @submit.prevent="submitPasswordReset" class="space-y-5">
+                <form v-if="resetStep === 'email'" @submit.prevent="submitPasswordReset" class="space-y-5">
                     <div>
                         <label class="block text-xs font-bold text-gsgris uppercase mb-2 ml-1">Email Address</label>
-                        <input v-model="resetEmail" type="email" required
-                            placeholder="your-email@example.com"
-                            class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/40 focus:outline-none focus:border-gsmenta focus:ring-4 focus:ring-gsmenta/10 transition-all duration-200"
+                        <input v-model="resetEmail" type="email" required placeholder="your-email@example.com"
+                            class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-sm text-gsblanco placeholder-gsgris/40 focus:outline-none focus:border-gsmenta transition-all"
                             :disabled="resetLoading" />
-                        
-                        <p v-if="resetError" class="text-red-400 text-xs mt-2 ml-1 italic">
-                            {{ resetError }}
-                        </p>
                     </div>
-
                     <div class="flex items-center justify-end gap-3 pt-2">
-                        <button type="button" @click="closeResetModal" :disabled="resetLoading"
-                            class="border-2 border-white/10 hover:border-white/20 bg-white/5 text-gsgris hover:text-gsblanco px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 cursor-pointer disabled:opacity-50">
-                            Cancel
-                        </button>
-                        
-                        <button type="submit" :disabled="resetLoading"
-                            class="border-2 border-gsmenta/30 hover:border-gsmenta bg-gsmenta/5 hover:bg-gsmenta text-gsblanco hover:text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 shadow-md shadow-gsmenta/5 hover:shadow-lg hover:shadow-gsmenta/20 active:scale-95 flex items-center justify-center min-w-[120px] cursor-pointer disabled:opacity-50">
+                        <button type="button" @click="closeResetModal" class="border border-white/10 hover:bg-white/5 text-gsgris px-5 py-2.5 rounded-full text-xs font-bold uppercase cursor-pointer">Cancel</button>
+                        <button type="submit" :disabled="resetLoading" class="bg-gsmenta text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center cursor-pointer disabled:opacity-50">
                             <i v-if="resetLoading" class="pi pi-spin pi-spinner mr-2 text-xs"></i>
-                            <span>{{ resetLoading ? 'Sending...' : 'Send Link' }}</span>
+                            <span>Send Code</span>
                         </button>
                     </div>
                 </form>
 
-                <div v-if="resetSuccess" class="flex justify-end mt-4">
-                    <button @click="closeResetModal"
-                        class="bg-white/5 border border-white/10 hover:bg-white/10 text-gsblanco px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer">
-                        Close
+                <form v-else-if="resetStep === 'code'" @submit.prevent="submitValidateCode" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-gsgris uppercase mb-2 ml-1 text-center">Verification Code</label>
+                        <input v-model="verificationCode" type="text" maxlength="10" required placeholder="000000"
+                            class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-center uppercase text-xl tracking-[0.5em] font-mono text-gsblanco focus:outline-none focus:border-gsmenta transition-all"
+                            :disabled="resetLoading" />
+                    </div>
+                    <div class="flex items-center justify-end gap-3 pt-2">
+                        <button type="button" @click="resetStep = 'email'" class="border border-white/10 hover:bg-white/5 text-gsgris px-5 py-2.5 rounded-full text-xs font-bold uppercase cursor-pointer">Back</button>
+                        <button type="submit" :disabled="resetLoading || verificationCode.length < 4" class="bg-gsmenta text-gsoscuro px-6 py-2.5 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center cursor-pointer disabled:opacity-50">
+                            <i v-if="resetLoading" class="pi pi-spin pi-spinner mr-2 text-xs"></i>
+                            <span>Validate</span>
+                        </button>
+                    </div>
+                </form>
+
+                <form v-else-if="resetStep === 'new-password'" @submit.prevent="submitChangePassword" class="space-y-5">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gsgris uppercase mb-1 ml-1">New Password</label>
+                            <input v-model="newPassword" type="password" required placeholder="••••••••"
+                                class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-sm text-gsblanco focus:outline-none focus:border-gsmenta transition-all"
+                                :disabled="resetLoading" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gsgris uppercase mb-1 ml-1">Confirm New Password</label>
+                            <input v-model="confirmNewPassword" type="password" required placeholder="••••••••"
+                                class="w-full bg-[#1a1e26] border border-white/10 rounded-xl px-4 py-3 text-sm text-gsblanco focus:outline-none focus:border-gsmenta transition-all"
+                                :disabled="resetLoading" />
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end gap-3 pt-2">
+                        <button type="submit" :disabled="resetLoading" class="w-full bg-gsmenta text-gsoscuro py-3 rounded-full text-xs font-black uppercase transition-all shadow-md active:scale-95 flex items-center justify-center cursor-pointer disabled:opacity-50">
+                            <i v-if="resetLoading" class="pi pi-spin pi-spinner mr-2 text-xs"></i>
+                            <span>Update Password</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div v-else-if="resetStep === 'success'" class="space-y-6 text-center py-4">
+                    <div class="w-16 h-16 bg-gsmenta/10 text-gsmenta border border-gsmenta/20 rounded-full flex items-center justify-center mx-auto text-2xl">
+                        <i class="pi pi-check"></i>
+                    </div>
+                    <p class="text-sm text-gsgris leading-relaxed px-2">
+                        Your account password has been successfully updated. You can now use your new credentials to enter your dashboard.
+                    </p>
+                    <button @click="closeResetModal" class="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-gsblanco py-3 rounded-full text-xs font-bold uppercase cursor-pointer transition-colors">
+                        Got it, back to Login
                     </button>
                 </div>
+
             </div>
         </div>
     </Transition>
@@ -118,12 +155,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore'
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'
-
 import Navbar from '@/components/Navbar.vue';
 import router from '@/router';
-
 import api from "@/api/client"
 
 const auth = useAuthStore()
@@ -139,18 +172,26 @@ const isHiddenLoginFieldError = ref('hidden')
 const isHiddenPasswordError = ref('hidden')
 const isHiddenGlobalError = ref('hidden') 
 
-// --- ESTADOS PARA EL MODAL DE RECUPERACIÓN ---
+// --- FLUJO MULTIPASO DEL RECOVERY MODAL ---
+type ResetStep = 'email' | 'code' | 'new-password' | 'success';
 const showResetModal = ref(false)
-const resetEmail = ref('')
+const resetStep = ref<ResetStep>('email')
 const resetLoading = ref(false)
 const resetError = ref('')
-const resetSuccess = ref(false)
-const resetStatusMessage = ref('')
+
+// Campos del formulario secuencial
+const resetEmail = ref('')
+const verificationCode = ref('')
+const newPassword = ref('')
+const confirmNewPassword = ref('')
 
 function openResetModal() {
+    resetStep.value = 'email'
     resetEmail.value = ''
+    verificationCode.value = ''
+    newPassword.value = ''
+    confirmNewPassword.value = ''
     resetError.value = ''
-    resetSuccess.value = false
     resetLoading.value = false
     showResetModal.value = true
 }
@@ -159,9 +200,9 @@ function closeResetModal() {
     showResetModal.value = false
 }
 
+// 1. Enviar Email para solicitar Código
 async function submitPasswordReset() {
     resetError.value = ''
-    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!resetEmail.value.trim() || !emailRegex.test(resetEmail.value)) {
         resetError.value = "Por favor, introduce un correo electrónico válido."
@@ -170,21 +211,56 @@ async function submitPasswordReset() {
 
     resetLoading.value = true
     try {
-        const response = await api.post('/api/auth/password-reset/', {
+        await api.post('/api/auth/password-reset/', {
             email: resetEmail.value.trim()
         })
-
-        resetSuccess.value = true
-        resetStatusMessage.value = response.data?.message || "Si el correo está registrado, recibirás un enlace de recuperación pronto."
+        // Saltamos al paso del código enviado
+        resetStep.value = 'code'
     } catch (error: any) {
-        console.error(error)
-        if (error.response && error.response.data && error.response.data.message) {
-            resetError.value = error.response.data.message
-        } else if (error.response && error.response.status === 404) {
-            resetError.value = "Este correo electrónico no está registrado en el sistema."
-        } else {
-            resetError.value = "Hubo un problema al procesar tu solicitud. Inténtalo de nuevo."
-        }
+        resetError.value = error.response?.data?.message || "Este correo electrónico no está registrado o no pudo procesarse.";
+    } finally {
+        resetLoading.value = false
+    }
+}
+
+// 2. Validar Código Temporal recibido por Correo
+async function submitValidateCode() {
+    resetError.value = ''
+    resetLoading.value = true
+    try {
+        await api.post('/api/auth/password-reset/validate/', {
+            token: verificationCode.value.trim().toUpperCase()
+        })
+        resetStep.value = 'new-password'
+    } catch (error: any) {
+        resetError.value = error.response?.data?.error || "El código introducido no es válido o ha expirado.";
+    } finally {
+        resetLoading.value = false
+    }
+}
+
+// 3. Modificar la contraseña definitiva
+async function submitChangePassword() {
+    resetError.value = ''
+    
+    if (newPassword.value.length < 6) {
+        resetError.value = "La contraseña debe tener al menos 6 caracteres."
+        return
+    }
+    if (newPassword.value !== confirmNewPassword.value) {
+        resetError.value = "Las contraseñas no coinciden."
+        return
+    }
+
+    resetLoading.value = true
+    try {
+        await api.post('/api/auth/change-password/', {
+            token: verificationCode.value.trim().toUpperCase(),
+            password: newPassword.value
+        })
+        resetStep.value = 'success'
+    } catch (error: any) {
+        resetError.value = error.response?.data?.error || "No se pudo cambiar la contraseña. Inténtalo de nuevo.";
     } finally {
         resetLoading.value = false
     }
@@ -196,14 +272,8 @@ async function apiLogin() {
         login: loginField.value,
         password: password.value
     }
-
     const response = await api.post('/api/auth/login/', payload);
-    const data = response.data;
-
-    loginField.value = "";
-    password.value = "";
-
-    return data;
+    return response.data;
 }
 
 async function submitLogin() {
@@ -216,7 +286,6 @@ async function submitLogin() {
         isHiddenLoginFieldError.value = "inline"
         return
     }
-
     if (password.value === "") {
         passwordError.value = requiredFieldMessage
         isHiddenPasswordError.value = "inline"
@@ -225,7 +294,6 @@ async function submitLogin() {
 
     try {
         const data = await apiLogin();
-        
         if (data && data.token) {
             auth.setUserSesion(data.token)
             router.replace('/profile')
@@ -247,7 +315,6 @@ async function submitLogin() {
 .fade-leave-active {
   transition: opacity 0.25s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

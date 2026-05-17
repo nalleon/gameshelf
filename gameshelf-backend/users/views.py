@@ -8,13 +8,12 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import OpenApiParameter, OpenApiRequest, OpenApiTypes, extend_schema
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+
 from shared.decorators import require_fields, require_json_body
 from shared.serializers import ErrorResponseSerializer, MessageResponseSerializer
-
 from users.decorators import auth_required
 
 from .models import Profile, UserToken
@@ -146,8 +145,8 @@ def profile_edit(request, pk_profile: int):
         return Response({'error': 'Forbidden'}, status=403)
 
     data = request.data
-    files = request.FILES   
-    
+    files = request.FILES
+
     if 'library_private' in data:
         val = str(data['library_private']).lower() == 'true'
         library = request.user.library
@@ -337,20 +336,53 @@ def request_password_reset(request):
     email = payload['email']
 
     user = User.objects.filter(email=email).first()
-
+    
     if user:
         token = UserToken.objects.create(
             user=user,
             type=UserToken.TokenType.CHANGE_PASSWORD,
-            expires_at=timezone.now() + timedelta(hours=1),
+            expires_at=timezone.now() + timedelta(minutes=5),
+            token=UserToken.generate_token(),
         )
 
-        deliver_password_reset_email.delay(
-            base_url=request.build_absolute_uri(), user=user, token=str(token.token)
-        )
+        deliver_password_reset_email.delay(user=user, token=str(token.token))
 
     return Response({'message': 'If account exists, email sent'})
 
+
+@extend_schema(
+    tags=['auth'],
+    request=TokenResponseSerializer, 
+    responses={
+        200: MessageResponseSerializer,
+        400: ErrorResponseSerializer,
+    },
+    description='Validate password reset token',
+    operation_id='validatePasswordResetToken',
+)
+@api_view(['POST'])
+@require_json_body
+@require_fields('token')
+def validate_password_reset_token(request):
+    token = request.json['token']
+
+    try:
+        token_obj = UserToken.objects.get(
+            token=token,
+            type=UserToken.TokenType.CHANGE_PASSWORD
+        )
+    except UserToken.DoesNotExist:
+        return Response({'error': 'Invalid token'}, status=400)
+
+    if not token_obj.is_valid():
+        return Response({'error': 'Token expired'}, status=400)
+
+    token_obj.validated = True
+    token_obj.save()
+    
+    return Response({
+        'message': 'Token valid'
+    })
 
 @extend_schema(
     tags=['auth'],
@@ -366,28 +398,31 @@ def request_password_reset(request):
 @api_view(['POST'])
 @csrf_exempt
 @require_json_body
-@require_fields('old_password', 'new_password')
+@require_fields('token', 'new_password')
 @auth_required
 def change_password(request):
-    user = request.user
     payload = request.json
+    token = payload['token']
+    
+    token = UserToken.objects.get(token=token, type=UserToken.TokenType.CHANGE_PASSWORD)
+    
+    if not token.validated:
+        return Response({'error': 'Invalid token'}, status=400)
 
-    if not user.check_password(payload['old_password']):
-        return Response({'error': 'Invalid old password'}, status=400)
+    user = token.user
 
     user.set_password(payload['new_password'])
     user.save()
-    UserToken.objects.filter(user=user, type=UserToken.TokenType.CHANGE_PASSWORD).delete()
+    token.delete()
 
     return Response({'message': 'Password updated successfully'}, status=200)
-
 
 @extend_schema(
     tags=['auth'],
     request=None,
     responses={
         200: MessageResponseSerializer,
-        401: ErrorResponseSerializer,
+        400: ErrorResponseSerializer,
     },
     description='Send verification email to the authenticated user',
     operation_id='sendVerificationEmail',
@@ -397,23 +432,39 @@ def change_password(request):
 def send_verification_email(request):
     user = request.user
 
+    if user.profile.verified:
+        return Response({'error': 'Account already verified'}, status=400)
+
     token = UserToken.objects.create(
         user=user,
         type=UserToken.TokenType.VERIFY_EMAIL,
         expires_at=timezone.now() + timedelta(hours=24),
+        token=UserToken.generate_token(),
     )
 
-    deliver_verification_email.delay(
-        base_url=request.build_absolute_uri(), user=user, token=str(token.token)
-    )
+    deliver_verification_email.delay(user=user, token=str(token.token))
 
     return Response({'message': 'Verification email sent'})
 
 
-@api_view(['GET'])
-@renderer_classes([JSONRenderer])
+@extend_schema(
+    tags=['auth'],
+    request=TokenResponseSerializer,
+    responses={
+        200: MessageResponseSerializer,
+        400: ErrorResponseSerializer,
+    },
+    description='Verify user email using 10-char code',
+    operation_id='verifyEmail',
+)
+@api_view(['POST'])
 @csrf_exempt
-def verify_email(request, token):
+def verify_email(request):
+    token = request.data.get('token')
+
+    if not token:
+        return Response({'error': 'Token is required'}, status=400)
+
     try:
         token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.VERIFY_EMAIL)
     except UserToken.DoesNotExist:
@@ -472,7 +523,6 @@ def send_activation_email(request):
     email = request.json['email']
 
     profile = Profile.all_objects.select_related('user').filter(user__email=email).first()
-
     user = profile.user if profile else None
 
     if user:
@@ -480,21 +530,34 @@ def send_activation_email(request):
             user=user,
             type=UserToken.TokenType.ACTIVATE_ACCOUNT,
             expires_at=timezone.now() + timedelta(hours=24),
+            token=UserToken.generate_token(),
         )
 
-        deliver_activation_email.delay(
-            base_url=request.build_absolute_uri(), user=user, token=str(token.token)
-        )
+        deliver_activation_email.delay(user=user, token=str(token.token))
 
     return Response({'message': 'If account exists, email sent'})
 
 
-@api_view(['GET'])
-@renderer_classes([JSONRenderer])
+@extend_schema(
+    tags=['auth'],
+    request=TokenResponseSerializer,
+    responses={
+        200: MessageResponseSerializer,
+        400: ErrorResponseSerializer,
+    },
+    description='Restore previously deleted account using activation code',
+    operation_id='restoreAccount',
+)
+@api_view(['POST'])
 @csrf_exempt
-def restore_account(request, token):
+def restore_account(request):
+    token = request.data.get('token')
+
+    if not token:
+        return Response({'error': 'Token is required'}, status=400)
+
     try:
-        token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.VERIFY_EMAIL)
+        token_obj = UserToken.objects.get(token=token, type=UserToken.TokenType.ACTIVATE_ACCOUNT)
     except UserToken.DoesNotExist:
         return Response({'error': 'Invalid token'}, status=400)
 
@@ -502,12 +565,12 @@ def restore_account(request, token):
         return Response({'error': 'Token expired'}, status=400)
 
     profile = token_obj.user.profile
-    token_obj.delete()
 
     if profile.deleted_at is None:
         return Response({'message': 'Account already active'}, status=200)
 
     profile.restore()
+
     token_obj.delete()
 
     return Response({'message': 'Account restored'}, status=200)
