@@ -1,35 +1,7 @@
 <template>
     <Navbar />
 
-    <transition name="toast-modern">
-        <div v-if="showSuccessMessage"
-            class="fixed top-6 right-6 z-50 flex items-center gap-4 p-4 rounded-2xl border bg-gsoscuro/80 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.5)] min-w-[320px] overflow-hidden"
-            :style="{ borderColor: `${userColor}30` }">
-            <div class="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.2)]"
-                :style="{ backgroundColor: `${userColor}20`, color: userColor }">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-            </div>
-
-            <div class="grow">
-                <p class="text-gsblanco font-bold text-sm leading-tight">Success!</p>
-                <p class="text-gsgris text-xs mt-0.5">Profile updated successfully</p>
-            </div>
-
-            <button @click="showSuccessMessage = false"
-                class="text-gsgris hover:text-gsblanco transition-colors p-1 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-
-            <div class="absolute bottom-0 left-0 h-[3px] shadow-[0_0_10px_rgba(0,0,0,0.5)] progress-bar"
-                :style="{ backgroundColor: userColor }"></div>
-        </div>
-    </transition>
+    <ToastModern title="Success!" :color="userColor" :duration="3000" />
 
     <div class="min-h-screen  bg-gsoscuro text-gsblanco font-sans pb-20" :style="{ '--user-color': userColor }">
         <header class="relative">
@@ -311,6 +283,7 @@ import Badge from '@/components/Badge.vue';
 import GameCard from '@/components/GameCard.vue';
 import api from "@/api/client";
 import { useUiStore } from '@/stores/uiStore';
+import ToastModern from '@/components/ToastModern.vue';
 
 const authStore = useAuthStore()
 const uiStore = useUiStore();
@@ -350,21 +323,17 @@ watch(
     { immediate: true }
 )
 
-onMounted(() => {
-    // 1. Verificamos si existe un mensaje de éxito retenido en el store global
-    if (uiStore.flashSuccessMessage) {
-        showSuccessMessage.value = true;
+// onMounted(() => {
+//     if (uiStore.flashSuccessMessage) {
+//         showSuccessMessage.value = true;
 
-        // 2. CONSUMO INMEDIATO: Lo limpiamos del store al instante.
-        // Si el usuario refresca o vuelve atrás en el historial, ya no existirá.
-        uiStore.clearSuccess();
+//         uiStore.clearSuccess();
 
-        // 3. Dejamos el temporizador existente para ocultar el Toast visualmente
-        setTimeout(() => {
-            showSuccessMessage.value = false;
-        }, 3000);
-    }
-})
+//         setTimeout(() => {
+//             showSuccessMessage.value = false;
+//         }, 3000);
+//     }
+// })
 
 async function fetchProfile() {
     loading.value = true;

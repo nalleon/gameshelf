@@ -170,8 +170,11 @@ import { useAuthStore } from '@/stores/authStore'
 import Navbar from '@/components/Navbar.vue';
 import router from '@/router';
 import api from "@/api/client"
+import { useUiStore } from '@/stores/uiStore';
 
 const auth = useAuthStore()
+const uiStore = useUiStore()
+
 const loginField = ref('')
 const password = ref('')
 
@@ -327,6 +330,9 @@ async function submitLogin() {
         const data = await apiLogin();
         if (data && data.token) {
             auth.setUserSesion(data.token)
+
+            uiStore.triggerSuccess("Logged in successfully");
+
             router.replace('/profile')
         }
     } catch (error: any) {

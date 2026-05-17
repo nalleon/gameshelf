@@ -443,7 +443,7 @@ async function saveProfile() {
     try {
         await api.patch(`/api/users/${profile.value.id}/`, formData);
 
-        uiStore.triggerSuccess("Profile updated successfully");
+        uiStore.triggerSuccess("Profile edited successfully", profile.value.color_bg);
 
         router.push('/profile');
     } catch (error: any) {
