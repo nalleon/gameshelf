@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { jwtDecode } from 'jwt-decode'
+import { useSearchStore } from './searchStore' // 1. Importa tu store de búsqueda (ajusta la ruta)
 
 interface AuthState {
   token: string | null
@@ -29,6 +30,10 @@ export const useAuthStore = defineStore('auth', {
     removeUserSesion() {
       this.token = null
       localStorage.removeItem('token')
+      
+      // Search Store 
+      const searchStore = useSearchStore()
+      searchStore.searchType = 'games' // Valor por defecto
     },
 
     getSelfId(){

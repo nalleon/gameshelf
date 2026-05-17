@@ -339,12 +339,15 @@ import axios from 'axios';
 import { Cropper, CircleStencil } from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
 import api from "@/api/client";
+import { useUiStore } from '@/stores/uiStore';
 
 const showCropper = ref(false)
 const rawImage = ref<string | null>(null)
 const croppedImage = ref<string | null>(null)
 
 const auth = useAuthStore()
+const uiStore = useUiStore();
+
 const activeStep = ref(1);
 
 const username = ref('')
@@ -493,6 +496,9 @@ function submitRegister() {
     apiRegister().then((data) => {
         if(data && data.token) {
             auth.setUserSesion(data.token)
+
+            uiStore.triggerSuccess("Registered successfully");
+
             router.replace('/profile')
         }
     })

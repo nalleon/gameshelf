@@ -4,6 +4,8 @@
             <Navbar />
         </div>
 
+        <ToastModern title="Success!" :duration="3000" />
+
         <section ref="scrollContainer" class="flex-1 overflow-y-auto p-6 sm:p-12 text-white relative">
             <div v-if="game" class="max-w-[1200px] mx-auto">
 
@@ -482,10 +484,12 @@ import { useAuthStore } from '@/stores/authStore';
 import type { Collection, CollectionItem, Library, LibraryItem, Wishlist, WishlistItem } from '@/types/profileTypes';
 import { PLATFORM_MAP } from '@/constants/app';
 import tbaCover from '@/assets/TBA.png';
+import { useUiStore } from '@/stores/uiStore';
+import ToastModern from '@/components/ToastModern.vue';
 
 const route = useRoute()
 const authStore = useAuthStore()
-
+const uiStore = useUiStore()
 
 const gameId = route.params.id
 const game = ref<Game | null>(null);
@@ -494,6 +498,7 @@ const loading = ref(true)
 const openDropdown = ref<null | 'favorites' | 'wishlist' | 'library' | 'collections'>(null)
 const reviewsLoading = ref(true);
 const isAuthenticated = computed(() => authStore.isLogged);
+
 const region = computed(() => {
     const regionMaps: Record<string, string> = {
         europe: 'eu',
@@ -514,6 +519,7 @@ const region = computed(() => {
 
     return regionMaps[regionName] || 'warning'
 })
+
 onMounted(async () => {
     try {
         const data = await getGame();
@@ -573,6 +579,11 @@ const toggleFavorite = async (platformId: number) => {
         } else {
             favoritePlatforms.value = favoritePlatforms.value.filter(id => id !== platformId);
         }
+
+        uiStore.triggerSuccess(
+            response.data.is_favorite ? 'Added to favorites' : 'Removed from favorites',
+            '#f25555'
+        );
     } catch (error: any) {
         alert(error.response?.data?.error || "Error al marcar favorito");
     }
@@ -616,6 +627,10 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
                 `/api/wishlist/items/${existingItem.id}/`
             );
             wishlistItems.value = wishlistItems.value.filter(item => item.id !== existingItem.id);
+
+            uiStore.triggerSuccess(
+                "Deleted from wishlist successfully"
+            );
         } else {
             if (!wishlistId.value) return;
 
@@ -635,6 +650,10 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
 
             // Añadimos el nuevo item (que viene con el formato WishlistItem)
             wishlistItems.value.push(response.data);
+
+            uiStore.triggerSuccess(
+                "Added to wishlist successfully"
+            );
         }
     } catch (error: any) {
         console.error(error);
@@ -686,6 +705,12 @@ const toggleLibrary = async (platformId: number, status?: string) => {
                     `/api/library/${existingItem.id}/`
                 );
                 libraryItems.value = libraryItems.value.filter(item => item.id !== existingItem.id);
+
+                uiStore.triggerSuccess(
+                    "Deleted from library successfully",
+                    '#559cf2'
+                );
+
             } else {
                 // ACTUALIZAR ESTADO (PATCH)
                 const response = await api.patch(
@@ -698,6 +723,11 @@ const toggleLibrary = async (platformId: number, status?: string) => {
                 // Actualizamos el item en nuestro array local
                 const index = libraryItems.value.findIndex(item => item.id === existingItem.id);
                 if (index !== -1) libraryItems.value[index] = response.data;
+                
+                uiStore.triggerSuccess(
+                    "Updated library successfully",
+                    '#559cf2'
+                );
             }
         } else if (status) {
             // CREAR NUEVO (POST)
@@ -716,6 +746,11 @@ const toggleLibrary = async (platformId: number, status?: string) => {
 
             // Recargamos para traer el objeto con el formato correcto del serializador
             await loadLibraryStatus();
+
+            uiStore.triggerSuccess(
+                "Added to library successfully",
+                '#559cf2'
+            );
         }
     } catch (error: any) {
         console.error("Error en Library:", error.response?.data);
@@ -778,6 +813,11 @@ const createNewCollection = async () => {
 
         newCollectionName.value = "";
 
+        uiStore.triggerSuccess(
+            "Created collection successfully",
+            '#d1a664'
+        );
+
     } catch (error: any) {
 
         alert("Error al crear la colección");
@@ -813,6 +853,11 @@ const toggleCollectionItem = async (
                 `/api/collections/${collectionId}/items/${existingItem.id}/`
             );
 
+            uiStore.triggerSuccess(
+                "Deleted from collection successfully",
+                '#d1a664'
+            );
+
         } else {
 
             await api.post(
@@ -823,6 +868,11 @@ const toggleCollectionItem = async (
                     is_private: false,
                     type: type
                 }
+            );
+
+            uiStore.triggerSuccess(
+                "Added to collection successfully",
+                '#d1a664'
             );
         }
 
