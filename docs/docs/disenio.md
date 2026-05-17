@@ -464,100 +464,118 @@ classDiagram
 - `/api/docs/`: url para comprobar todos los endpoints de la API mediante la librería de Swagger
 
 - `/api/auth/`
+    - POST - `/api/auth/activate/`: Envia el email de activacion si la cuenta existe.
+    - POST - `/api/auth/activate/validate/`: Activa correctamente la cuenta si existe.
+    - POST - `/api/auth/change-password/`: Cambia la contraseña del usuario.
+    - DELETE - `/api/auth/deactivate/`: Desactiva la cuenta del usuario (soft delete).  
+    - POST - `/api/auth/login/`: Hace el login.
+    - POST - `/api/auth/password-reset/`: Envia el email de restablecer la contraseña.
+    - POST - `/api/auth/password-reset/validate/`: Valida el restablecimiento de la contraseña.
+    - POST - `/api/auth/register/`: Registra un nuevo usuario.
+    - POST - `/api/auth/verify-email/`: Envia el email de verificacion del usuario.
+    - POST - `/api/auth/verify-email/validate/`: Verifica correctamente la cuenta si existe.
 
 
 - `/api/users/`
+    - GET - `/api/users/`: Lista todos los usuarios.
+    - GET - `/api/users/{id}/`: Devuelve la informacion de un usuario con la id especificada.  
+    - PATCH - `/api/users/{id}/`: Actualiza la informacion de un usuario.
+    - GET - `/api/users/me/`: Devuelve la informacion del propio usuario.
+    - GET - `/api/users/search/`: Busca un usuario.
 
 - `/api/games/`
-    - `/api/games/`: listado de todos los videojuegos
-    - `/api/games/add/`: añadir uno videojuego nuevo
-    - `/api/games/<int:pk_game>/edit/`: edita un videojuego existente
-    - `/api/games/<int:pk_game>/delete/`: borra un videojuego existente
+    - GET - `/api/games/`: Devuelve todos los videojuegos.
+    - GET - `/api/games/{id}/`: Devuelve la información de un videojuego con la id especificada.
+    - PUT - `/api/games/{id}/`: Actualiza un videojuego existente.
+    - DELETE - `/api/games/{id}/`: Elimina un videojuego existente.
+    - GET - `/api/games/igdb/`: Devuelve los juegos de IGDB por titulo. 
+    - POST - `/api/games/igdb/`: Añade los juegos de IGDB en la base de datos.
+    - GET `/api/games/search/`: Busqueda de juegos con filtros.
 
 - `/api/reviews/`
-    - `/api/reviews/`: listado de todas las reviews
-    - `/api/reviews/add/`: añadir una review nueva
-    - `/api/reviews/<int:pk_review>/edit/`: edita una review existente
-    - `/api/reviews/<int:pk_review>/delete/`: borra una review existente
-
-- `/api/medias/`
-    - `/api/medias/`: listado de todas las medias
-    - `/api/medias/add/`: añadir una media nueva
-    - `/api/medias/<int:pk_media>/edit/`: edita una media existente
-    - `/api/medias/<int:pk_media>/delete/`: borra una media existente
+    - GET - `/api/reviews/`: Devuelve todas las reviews.
+    - POST -  `/api/reviews`: Crea una nueva review.
+    - GET - `/api/reviews/{id}/`: Devuelve la información de una review con la id especificada.
+    - PATCH - `/api/reviews/{id}/`: Actualiza una review con la id especificada.
+    - DELETE - `/api/reviews/{id}/`: Elimina una review con la id especificada.
+    - POST - `/api/reviews/{id}/media/`: Añade media a una review con la id especificada.
+    - DELETE - `/api/reviews/media/{id}/`: Elimina la media de una review con la id especificada.
 
 - `/api/favorites/`
-    - `/api/favorites/`: listado de todos los favoritos
-    - `/api/favorites/add/`: añadir un favorito nuevo
-    - `/api/favorites/self-add/`: añadir un favorito a la lista del propio usuario
-    - `/api/favorites/<int:pk_favorite>/edit/`: edita un favorito existente
-    - `/api/favorites/<int:pk_favorite>/delete/`: borra un favorito existente
+    - PATCH - `/api/favorites/{id}/`: Actualiza un favorito existente con la id especificada.
+    - DELETE - `/api/favorites/{id}/`: Elimina un favorito existente con la id especificada.
+    - POST - `/api/favorites/toggle/`: Alterna el estado de un favorito.
+    - GET `/api/favorites/user/{id}/`: Lista todos los favoritos del usuario con la id especificada.
+    - POST `/api/favorites/user/{id}/`: Añade un favorito al usuario con la id especificada.
 
 - `/api/platforms/`
-    - `/api/platforms/`: listado de todas las plataformas
-    - `/api/platforms/add/`: añadir una plataforma nueva
-    - `/api/platforms/<int:pk_platform>/edit/`: edita una plataforma existente
-    - `/api/platforms/<int:pk_platform>/delete/`: borra una plataforma existente
+    - GET - `/api/platforms/`: Lista todas las plataformas.
+    - GET - `/api/platforms/{id}/`: Devuelve la informacion de una plataforma con la id especificada.
+    - PUT - `/api/platforms/{id}/`: Actualiza la plataforma con la id especificada.
+    - DELETE - `/api/platforms/{id}/`: Elimina la plataforma con la id especificada.
 
 - `/api/genres/`
-    - `/api/genres/`: listado de todos los géneros de videojuegos
-    - `/api/genres/add/`: añadir un género de videojuego
-    - `/api/genres/<int:pk_genre>/edit/`: edita un género existente
-    - `/api/genres/<int:pk_genre>/delete/`: borra un género existente
+    - GET - `/api/genres/`: Lista todos los géneros.
+    - GET - `/api/genres/{id}/`: Devuelve la información del genero con la id especificada.
+    - PUT - `/api/genres/{id}/`: Actualiza el genero con la id especificada.
+    - DELETE - `/api/genres/{id}/`: Elimina el genero con la id especificada
 
 - `/api/developers/`
-    - `/api/developers/`
-    - `/api/developers/`: listado de todos los desarrolladores de videojuegos
-    - `/api/developers/add/`: añadir un desarrolladores de videojuegos
-    - `/api/developers/<int:pk_developer>/edit/`: edita un desarrollador existente
-    - `/api/developers/<int:pk_developer>/delete/`: borra un desarrollador existente
+    - GET - `/api/developers/`: Lista todos los desarrolladores.
+    - GET - `/api/developers/{id}/`: Devuelve la información del desarrollador con la id especificada.
+    - PUT - `/api/developers/{id}/`: Actualiza el desarrollador con la id especificada.
+    - DELETE - `/api/developers/{id}/`: Elimina el desarrollador con la id especificada.
 
 - `/api/publishers/`
-    - `/api/publishers/`
-    - `/api/publishers/`: listado de todos los publishers de videojuegos
-    - `/api/publishers/add/`: añadir un publishers de videojuegos
-    - `/api/publishers/<int:pk_publisher>/edit/`: edita un publishers existente
-    - `/api/publishers/<int:pk_publisher>/delete/`: borra un publishers existente
+    - GET - `/api/publishers/`: Lista todas las editoriales.
+    - GET - `/api/publishers/{id}/`: Devuelve la información de la editorial con la id especificada.
+    - PUT - `/api/publishers/{id}/`: Actualiza la editorial con la id especificada.
+    - DELETE - `/api/publishers/{id}/`: Elimina la editorial con la id especificada.
 
 - `/api/editions/`
-    - `/api/editions/`
-    - `/api/editions/`: listado de todas las ediciones de videojuegos
-    - `/api/editions/add/`: añadir una edición de videojuego
-    - `/api/editions/<int:pk_edition>/edit/`: edita una edición existente
-    - `/api/editions/<int:pk_edition>/delete/`: borra una edición existente
+    - GET - `/api/editions/`: Lista todas las ediciones.
+    - POST - `/api/editions/`: Crea una nueva edicion
+    - GET - `/api/editions/{id}/`: Devuelve la información de la edicion con la id especificada.
+    - PUT - `/api/editions/{id}/`: Actualiza la edicion con la id especificada.
+    - DELETE - `/api/editions/{id}/`: Elimina la edicion con la id especificada.
 
 - `/api/regions/`
-    - `/api/regions/`
-    - `/api/regions/`: listado de todas las regiones de videojuegos
-    - `/api/regions/add/`: añadir una region de videojuego
-    - `/api/regions/<int:pk_region>/edit/`: edita una region existente
-    - `/api/regions/<int:pk_region>/delete/`: borra una region existente
+    - GET - `/api/regions/`: Lista todas las regiones.
+    - GET - `/api/regions/{id}/`: Devuelve la informacion de la region con la id especificada.
+    - PUT - `/api/regions/{id}/`: Actualiza la region con la id especificada.
+    - DELETE - `/api/regions/{id}/`: Elimina la region con la id especificada.
 
-- `/api/libraries/`
-    - `/api/libraries/`
-    - `/api/libraries/`: listado de todos los item de bibliotecas
-    - `/api/libraries/add/`: añadir un item de bibliotecas
-    - `/api/libraries/<int:pk_library_item>/edit/`: edita un item de bibliotecas
-    - `/api/libraries/<int:pk_library_item>/delete/`: borra un item de bibliotecas
+- `/api/library/`
+    - GET - `/api/library/`: Lista todas las librerias.
+    - POST - `/api/library/`: Añade un videojuego a la libreria.
+    - PATCH - `/api/library/`: Actualiza la libreria.
+    - GET - `/api/library/{id}/`: Devuelve la informacion de un videojuego con la id especificada de la libreria.
+    - PATCH - `/api/library/{id}/`: Actualiza el videojuego con la id especificada de la libreria.
+    - DELETE - `/api/library/{id}/`: Elimina el videojuego con la id especificada de la libreria.
+    - GET - `/api/library/user/{id}/`: Devuelve la informacion de la libreria de un usuario con la id especificada
 
 - `/api/collections/`
-    - `/api/collections/`
-    - `/api/collections/`: listado de todos los items de colección
-    - `/api/collections/add/`: añadir un item de colección
-    - `/api/collections/self-add/`: añadir un item a la colección del propio usuario
-    - `/api/collections/<int:pk_collection_item>/edit/`: editar un item de colección
-    - `/api/collections/<int:pk_collection_item>/delete/`: borra un item de colección
+    - GET - `/api/collections/`: Lista todas las colecciones.
+    - POST - `/api/collections/`: Crea una coleccion.
+    - POST - `/api/collections/{id}/`: Añade un videojuego a tu coleccion.
+    - PATCH - `/api/collections/{id}/`: Actualiza la coleccion con la id especificada.
+    - DELETE - `/api/collections/{id}/`: Elimina un videojuego de la colección
+    - GET - `/api/collections/{id}/items/{id}/`: Obtiene el videojuego con una id especificada de una coleccion con tambien una id especificada.
+    - PATCH - `/api/collections/{id}/items/{id}/`: Actualiza la informacion de un item con una id especificada de una coleccion con tambien una id especificada.
+    - DELETE - `/api/collections/{id}/items/{id}/`: Elimina un videojuego con una id especificada de una coleccion con tambien una id especificada.
+    - GET - `/api/collections/{id}/user/{id}/`: Devuelve la información de la coleccion con una id especificada de un usuario con la id tambien especificada.
 
 - `/api/wishlists/`
-    - `/api/wishlists/`
-    - `/api/wishlists/`: listado de todos los items de wishlists
-    - `/api/wishlists/add/`: añadir un item de wishlist
-    - `/api/wishlists/self-add/`: añadir un item a la wishlist del propio usuario
-    - `/api/wishlists/<int:pk_wishlist_item>/edit/`: editar un item de wishlist
-    - `/api/wishlists/<int:pk_wishlist_item>/delete/`: borra un item de wishlist
+    - GET - `/api/wishlist/`: Devuelve la wishlist del usuario.
+    - GET - `/api/wishlist/{id}/`: Devuelve la wishlist del usuario con la id especificada.
+    - POST - `/api/wishlist/{id}/`: Añade un videojuego con la id especificada a la wishlist.
+    - PATCH - `/api/wishlist/{id}/`: Actualiza la informacion de la wishlist.
+    - GET - `/api/wishlist/items/{id}/`: Devuelve un videojuego con la id especificada de la wishlist.
+    - PATCH - `/api/wishlist/items/{id}/`: Actualiza la informacion de un videojuego con la id especificada en la wishlist.
+    - DELETE - `/api/wishlist/items/{id}/`: Elimina un videojuego con la id especificada de la wishlist.
 
 !!! info "Interacción con la API"
-    Se puede interactuar con la API utilizando el Swagger. Para hacerlo, acceda a este [enlace]().
+    Se puede interactuar con la API utilizando el Swagger. Para hacerlo, acceda a este [enlace](https://grupo10.tail647188.ts.net/api/docs/).
 ---
 
 ## :lucide-paintbrush: Diseño de interfaz

@@ -26,7 +26,7 @@ Gracias a Docker y Docker Compose, todo el entorno puede iniciarse de manera rá
 El backend utiliza una imagen ligera basada en Python Slim.  
 Además, se emplea `uv` como gestor moderno de dependencias y entornos virtuales, permitiendo instalaciones más rápidas y eficientes.
 
-```dockerfile title="Dockerfile"
+```dockerfile title="Dockerfile.backend"
 FROM python:3.14-slim
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -42,6 +42,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y just
+RUN apt-get update && apt-get install -y sqlite3
 
 COPY gameshelf-backend/pyproject.toml .
 COPY gameshelf-backend/uv.lock .
@@ -53,9 +54,10 @@ COPY gameshelf-backend/ .
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+
 RUN adduser --disabled-password --gecos "" django_user
 
-RUN mkdir -p /app/staticfiles /app/media
+RUN mkdir -p /app/staticfiles /app/media /app/data
 
 RUN chown -R django_user:django_user /app
 
@@ -103,6 +105,120 @@ exec uv run gunicorn main.wsgi:application \
     Las operaciones `reset-db`, `seed` y `create-su` se encargan de ejecutar las migraciones y poblar la base de datos.
 
 ---
+
+# Dockerfile del frontend
+
+El frontend a su vez, utiliza una imagen ligera basada en Node 20 y construida sobre Alpine Linux.  
+Por su parte, utiliza npm como gestor de dependencias.
+
+```dockerfile title="Dockerfile.frontend"
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+COPY gameshelf-frontend/package*.json ./
+RUN npm install
+
+COPY gameshelf-frontend/ .
+
+RUN npm run build
+```
+
+!!! tip "Uso de imágenes ligeras"
+    `node:20-alpine` se usa mucho para contenedores pequeños y rápidos porque Alpine ocupa muy poco espacio comparado con Debian o Ubuntu.
+
+---
+
+# Docker-compose
+
+Cada Dockerfile es empleado en sus respectivos volúmenes, organizados en el siguiente docker-compose:
+
+```docker-compose title="docker-compose"
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: gameshelf_backend
+    restart: always
+
+    env_file:
+      - ./gameshelf-backend/.env
+
+    user: "1000:1000"
+
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - db_volume:/app/data
+
+    expose:
+      - 8000
+
+    depends_on:
+      - redis
+
+    command: uv run gunicorn main.wsgi:application --bind 0.0.0.0:8000 --workers 3
+
+  rqworker:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: gameshelf_rqworker
+    restart: always
+
+    env_file:
+      - ./gameshelf-backend/.env
+
+    user: "1000:1000"
+
+    depends_on:
+      - redis
+
+    command: uv run python manage.py rqworker default
+
+
+  redis:
+    image: redis:7-alpine
+    container_name: gameshelf_redis
+
+    restart: always
+
+    volumes:
+      - redis_data:/data
+
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: gameshelf_nginx
+    restart: always
+
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - frontend_dist:/usr/share/nginx/html
+    depends_on:
+      - django
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - frontend_dist:/app/dist
+
+volumes:
+  static_volume:
+  media_volume:
+  redis_data:
+  db_volume:
+  frontend_dist:
+```
 
 # Configuración de Nginx
 
