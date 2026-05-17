@@ -35,7 +35,7 @@ const routes = [
   { 
     path: '/profile/:id', 
     component: ProfileView,
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   },
   { 
     path: '/profile/edit', 
