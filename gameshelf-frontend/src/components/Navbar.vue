@@ -243,11 +243,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
+import { useSearchStore } from '@/stores/searchStore'
+import { storeToRefs } from 'pinia'
 import router from '@/router'
 
 const auth = useAuthStore()
 const searchQuery = ref('')
-const searchType = ref<'games' | 'users'>('games')
+
+const searchStore = useSearchStore()
+const { searchType } = storeToRefs(searchStore)
 
 const showFilters = ref(false)
 const showMobileMenu = ref(false)   
