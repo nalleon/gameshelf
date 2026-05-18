@@ -112,18 +112,6 @@ class Command(BaseCommand):
         self.used_slugs = set()
         self.seen_games = set()
 
-        # --- Deduplication state for classification models ---
-        #
-        # The Classification model has a UniqueConstraint on name (active rows).
-        # Two different IGDB IDs can share the same display name. When that
-        # happens we cannot insert two rows. Strategy: the first IGDB ID that
-        # owns a given name wins and gets the real PK; any later IGDB ID with
-        # the same name is silently remapped to that first PK so M2M references
-        # stay valid without duplicating the row.
-        #
-        # name_to_pk : normalised name -> canonical PK written to the fixture
-        # id_remap   : igdb id         -> PK we actually use for references
-
         self.developer_name_to_pk = {}
         self.publisher_name_to_pk = {}
         self.genre_name_to_pk = {}
@@ -134,9 +122,8 @@ class Command(BaseCommand):
         self.genre_id_remap = {}
         self.platform_id_remap = {}
 
-        # Unique auto-incremented PK for Game rows (FIX 2).
         self.game_pk_counter = 1
-        # Maps igdb game id -> PK of first fixture row for that game (FIX 3).
+
         self.igdb_id_to_first_pk = {}
 
         output_dir = os.path.join(settings.BASE_DIR, 'fixtures')
@@ -152,8 +139,7 @@ class Command(BaseCommand):
         for g in games:
             self.process_game(g, age_ratings_map)
 
-        # Single ordered file so Django loaddata never hits a FK before the
-        # referenced row exists (FIX 1).
+
         ordered_fixtures = (
             self.fixtures['regions']
             + self.fixtures['genres']
@@ -316,7 +302,6 @@ class Command(BaseCommand):
             released_at = datetime.utcfromtimestamp(ts).date()
             release_region_id = rd.get('release_region')
 
-            # Deduplication key matches unique_together = ['title', 'released_at', 'region'].
             key = (
                 g['name'].strip().lower(),
                 released_at.isoformat(),
@@ -362,11 +347,9 @@ class Command(BaseCommand):
                 rating_value = label
                 mature = label in self.MATURE_THRESHOLDS.get(org, [])
 
-            # FIX 2: unique PK per release row.
             pk = self.game_pk_counter
             self.game_pk_counter += 1
 
-            # FIX 3: correct parent using fixture PKs, not IGDB IDs.
             if igdb_id not in self.igdb_id_to_first_pk:
                 self.igdb_id_to_first_pk[igdb_id] = pk
                 parent_pk = None
