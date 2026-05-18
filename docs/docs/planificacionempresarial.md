@@ -18,9 +18,9 @@ Además, a nivel financiero, hemos calculado un presupuesto base estimado de 292
 
 Este plan se complementa con la posibilidad de acceder a diversas ayudas públicas:
 	
-- **Canarias Emprende Tech:** Subvención no reembolsable de hasta 50.000 €, ampliable en 10.000 € si el equipo está liderado por mujeres. Aplicable por contar con un MVP claro y base tecnológica móvil. Convocatoria abierta hasta el 30/09/2025.
+- **Canarias Emprende Tech:** Subvención no reembolsable de hasta 50.000 €, ampliable en 10.000 € si el equipo está liderado por mujeres. Aplicable por contar con un MVP claro y base tecnológica móvil. 
 
-- **Kit Digital:** Hasta 12.000 € en ayudas para servicios como hosting, CRM o gestión digital. Requiere inscripción previa en Acelera Pyme y diagnóstico online. Vigente hasta noviembre 2025.
+- **Kit Digital:** Hasta 12.000 € en ayudas para servicios como hosting, CRM o gestión digital. Requiere inscripción previa en Acelera Pyme y diagnóstico online. 
 
 - **Minimis Tech:** Hasta 25.000 € para prototipos tecnológicos como apps móviles centradas en nichos (coleccionismo), con requisitos sencillos como un informe de innovación.
 

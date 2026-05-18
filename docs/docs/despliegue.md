@@ -229,9 +229,28 @@ Además, sirve directamente los archivos estáticos y multimedia para mejorar el
 server {
     listen 80;
 
-    server_name _;
+    server_name gameshelf.arkania.es;
 
     client_max_body_size 20M;
+
+    location / {
+        root /usr/share/nginx/html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://django:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /admin/ {
+        proxy_pass http://django:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
 
     location /static/ {
         alias /app/staticfiles/;
@@ -239,14 +258,6 @@ server {
 
     location /media/ {
         alias /app/media/;
-    }
-
-    location / {
-        proxy_pass http://django:8000;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 ```
