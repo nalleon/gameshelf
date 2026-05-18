@@ -97,7 +97,6 @@ onUnmounted(() => {
 }
 
 .progress-bar {
-    /* Usamos la Variable CSS inyectada desde el template, con 3000ms de respaldo */
     animation: progress var(--anim-duration, 3000ms) linear forwards;
 }
 </style>

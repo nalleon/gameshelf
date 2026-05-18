@@ -50,6 +50,15 @@
                                     {{ collection.is_private ? 'Private' : 'Public' }}
                                 </button>
 
+                                <button
+                                    v-if="authStore.isOwnProfile(userId)"
+                                    @click="openDeleteModal(collection.id)"
+                                    class="text-[11px] sm:text-xs px-2.5 py-1 sm:py-1.5 rounded-xl border border-red-500/30 text-red-400 bg-red-500/5 hover:bg-red-500/20 transition-all duration-300 flex items-center gap-1.5 font-medium"
+                                >
+                                    <i class="pi pi-trash text-[10px]"></i>
+                                    <span>Delete</span>
+                                </button>
+
                                 <router-link 
                                     :to="`/collections/${userId}/${collection.id}/`" 
                                     class="text-xs sm:text-sm text-gsgris hover:text-gsmenta font-medium flex items-center gap-1.5 group/link transition-colors ml-auto sm:ml-0"
@@ -100,9 +109,49 @@
 
             <ScrollTopButton :target="scrollContainer" :threshold="300" />
         </section>
+
+        <Teleport to="body">
+            <Transition 
+                enter-active-class="transition duration-300 ease-out" 
+                enter-from-class="opacity-0 scale-95"
+                enter-to-class="opacity-100 scale-100" 
+                leave-active-class="transition duration-200 ease-in"
+                leave-from-class="opacity-100 scale-100" 
+                leave-to-class="opacity-0 scale-95"
+            >
+                <div v-if="showDeleteModal" class="fixed inset-0 z-[999] flex items-center justify-center px-4">
+                    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="closeDeleteModal"></div>
+
+                    <div class="relative w-full max-w-md rounded-xl border border-white/10 bg-[#121620] shadow-xl overflow-hidden backdrop-blur-sm">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
+
+                        <div class="p-5 sm:p-6 pl-6 sm:pl-7">
+                            <h3 class="text-lg font-bold mb-3 flex items-center gap-2 text-red-400">
+                                <i class="pi pi-trash text-lg"></i>
+                                Delete Collection
+                            </h3>
+
+                            <p class="text-sm leading-relaxed text-gray-400 mb-6">
+                                Are you sure you want to permanently delete this collection?
+                                This action cannot be undone.
+                            </p>
+
+                            <div class="flex gap-2 justify-end">
+                                <button @click="closeDeleteModal" class="bg-white/5 text-gray-300 font-bold text-xs py-2.5 px-4 rounded-full hover:bg-white/10 transition-colors border border-white/5">
+                                    Cancel
+                                </button>
+
+                                <button @click="confirmDeleteCollection" class="bg-red-500 text-white font-bold text-xs py-2.5 px-5 rounded-full hover:brightness-110 transition-all shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                                    Delete Collection
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Transition>
+        </Teleport>
     </div>
 </template>
-
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -120,6 +169,9 @@ const route = useRoute();
 const userId = Number(route.params.user_id);
 
 const scrollContainer = ref<HTMLElement | null>(null);
+
+const showDeleteModal = ref(false);
+const collectionIdToDelete = ref<number | null>(null);
 
 onMounted(async () => {
     await loadCollections();
@@ -159,12 +211,37 @@ async function toggleCollectionPrivacy(collection: Collection) {
         console.error('Error updating collection privacy', error);
     }
 }
+
+
+function openDeleteModal(collectionId: number) {
+    collectionIdToDelete.value = collectionId;
+    showDeleteModal.value = true;
+}
+
+function closeDeleteModal() {
+    showDeleteModal.value = false;
+    collectionIdToDelete.value = null;
+}
+
+async function confirmDeleteCollection() {
+    if (!collectionIdToDelete.value) return;
+
+    try {
+        await api.delete(`/api/collections/${collectionIdToDelete.value}/`);
+                collections.value = collections.value.filter(c => c.id !== collectionIdToDelete.value);
+    } catch (error) {
+        console.error('Error deleting collection:', error);
+    } finally {
+        closeDeleteModal();
+    }
+}
 </script>
 
 <style scoped>
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
+
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -173,6 +250,7 @@ async function toggleCollectionPrivacy(collection: Collection) {
 summary::-webkit-details-marker {
     display: none;
 }
+
 summary {
     list-style: none;
 }

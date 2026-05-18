@@ -432,7 +432,7 @@
                                                     <Icon :icon="review.recommend ? 'mdi:thumb-up' : 'mdi:thumb-down'"
                                                         class="text-xs" />
                                                     <span>{{ review.recommend ? 'Recommended' : 'Not Recommended'
-                                                    }}</span>
+                                                        }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -547,6 +547,63 @@
             </div>
         </Transition>
     </Teleport>
+    <Teleport to="body">
+        <Transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100" leave-active-class="transition duration-200 ease-in"
+            leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+            <div v-if="showErrorModal" class="fixed inset-0 z-[999] flex items-center justify-center px-4">
+                <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="closeErrorModal"></div>
+
+                <div class="
+                    relative
+                    w-full
+                    max-w-md
+                    rounded-xl
+                    border border-red-500/20
+                    bg-[#121620]
+                    shadow-xl
+                    overflow-hidden
+                    backdrop-blur-sm
+                ">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
+
+                    <div class="p-5 sm:p-6 pl-6 sm:pl-7">
+                        <h3 class="text-lg font-bold mb-3 flex items-center gap-2 text-red-400">
+                            <Icon icon="mdi:alert-circle-outline" />
+                            Error
+                        </h3>
+
+                        <p class="
+                            text-sm
+                            leading-relaxed
+                            text-gray-300
+                            mb-6
+                            whitespace-pre-wrap
+                        ">
+                            {{ errorMessage }}
+                        </p>
+
+                        <div class="flex justify-end">
+                            <button @click="closeErrorModal" class="
+                                bg-red-500
+                                text-white
+                                font-bold
+                                text-xs
+                                py-2.5
+                                px-5
+                                rounded-full
+                                hover:brightness-110
+                                transition-all
+                                shadow-[0_0_15px_rgba(239,68,68,0.2)]
+                            ">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Transition>
+    </Teleport>
 </template>
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
@@ -577,6 +634,18 @@ const reviewsLoading = ref(true);
 const isAuthenticated = computed(() => authStore.isLogged);
 const showDeleteModal = ref(false)
 const reviewToDelete = ref<number | null>(null)
+const showErrorModal = ref(false)
+const errorMessage = ref('')
+
+const openErrorModal = (message: string) => {
+    errorMessage.value = message
+    showErrorModal.value = true
+}
+
+const closeErrorModal = () => {
+    showErrorModal.value = false
+    errorMessage.value = ''
+}
 const region = computed(() => {
     const regionMaps: Record<string, string> = {
         europe: 'eu',
@@ -642,7 +711,6 @@ const confirmDeleteReview = async () => {
 
     closeDeleteModal()
 }
-// --- Lógica de Add into Favoritos ---
 const favoritePlatforms = ref<number[]>([]);
 
 const loadFavoriteStatus = async () => {
@@ -651,7 +719,6 @@ const loadFavoriteStatus = async () => {
     const response = await api.get(
         `/api/favorites/user/${userId}/`
     );
-    // Filtramos los favoritos que pertenecen a este juego y guardamos sus IDs de plataforma
     favoritePlatforms.value = response.data
         .filter((fav: any) => fav.game.id === game.value?.id)
         .map((fav: any) => fav.platform.id);
@@ -668,7 +735,6 @@ const toggleFavorite = async (platformId: number) => {
             }
         );
 
-        // Actualizamos la lista local
         if (response.data.is_favorite) {
             favoritePlatforms.value.push(platformId);
         } else {
@@ -680,13 +746,18 @@ const toggleFavorite = async (platformId: number) => {
             '#f25555'
         );
     } catch (error: any) {
-        alert(error.response?.data?.error || "Error al marcar favorito");
+        console.error(error.response?.data?.error);
+
+        openErrorModal(
+            error.response?.data?.error ||
+            'Error while trying to toggle favorite'
+        )
     }
+
 };
 
 const isGameFavorite = computed(() => favoritePlatforms.value.length > 0);
 
-// --- LÓGICA DE WISHLIST ---
 const isInWishlist = ref(false);
 const wishlistData = ref<Wishlist | null>(null);
 const wishlistItems = ref<WishlistItem[]>([]);
@@ -696,12 +767,10 @@ const showWishlistSelector = ref(false);
 
 const loadWishlistStatus = async () => {
     try {
-        // Obtenemos la wishlist del propio usuario autenticado
         const response = await api.get(`/api/wishlist/`);
 
         wishlistData.value = response.data;
 
-        // Filtramos los items del game actual
         wishlistItems.value = response.data.items.filter(
             (item: WishlistItem) => item.game.id === game.value?.id
         );
@@ -743,7 +812,6 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
                 payload
             );
 
-            // Añadimos el nuevo item (que viene con el formato WishlistItem)
             wishlistItems.value.push(response.data);
 
             uiStore.triggerSuccess(
@@ -755,10 +823,8 @@ const toggleWishlist = async (platformId: number, type: 'P' | 'D') => {
     }
 };
 
-// Computed para saber si el icono de wishlist debe resaltar
 const isAnyWishlist = computed(() => wishlistItems.value.length > 0);
 
-// --- LÓGICA DE LIBRERÍA ---
 const libraryData = ref<Library | null>(null);
 const libraryItems = ref<LibraryItem[]>([]);
 const showLibrarySelector = ref(false);
@@ -772,7 +838,6 @@ const syncHoursInputs = () => {
 
 watch(() => libraryItems.value, syncHoursInputs, { immediate: true, deep: true });
 
-// Mapeo de estados para el select/botones
 const LIBRARY_STATUS = [
     { id: 'PLN', name: 'Planning' },
     { id: 'PLY', name: 'Playing' },
@@ -785,7 +850,6 @@ const loadLibraryStatus = async () => {
     try {
         const response = await api.get(`/api/library/`);
         libraryData.value = response.data;
-        // Filtramos items para este juego
         libraryItems.value = response.data.items.filter(
             (item: LibraryItem) => item.game.id === game.value?.id
         );
@@ -844,7 +908,7 @@ const toggleLibrary = async (platformId: number, status?: string) => {
                         hours_played: currentHours // Asegura enviar las horas actuales también en el cambio de estado
                     }
                 );
-                
+
                 const index = libraryItems.value.findIndex(item => item.id === existingItem.id);
                 if (index !== -1) libraryItems.value[index] = response.data;
 
@@ -889,9 +953,9 @@ const loadCollections = async () => {
         }));
 
         newCollectionName.value = "";
-    } catch (err: any) {
-        console.error("ERROR:", err.response?.status)
-        console.error("DETAIL:", err.response?.data)
+    } catch (error: any) {
+        console.error("ERROR:", error.response?.status)
+        console.error("DETAIL:", error.response?.data)
     }
 }
 
@@ -934,8 +998,8 @@ const createNewCollection = async () => {
 
     } catch (error: any) {
 
-        alert("Error al crear la colección");
-
+        console.error("ERROR:", error.response?.status)
+        console.error("DETAIL:", error.response?.data)
     }
 };
 
@@ -995,15 +1059,9 @@ const toggleCollectionItem = async (
     } catch (error: any) {
 
         console.error(error.response?.data);
-
-        alert(
-            error.response?.data?.error ||
-            "Error al gestionar colección"
-        );
     }
 };
 
-// Helper para saber si un juego está en una colección específica
 const isInCollection = (
     collection: Collection,
     platformId: number,
@@ -1018,32 +1076,21 @@ const isInCollection = (
     );
 };
 
-// --- Details del Game
 
-// --- LÓGICA DE PLATAFORMAS ---
-const LIMIT_ICONS = 3; // Número de iconos antes de mostrar los puntos
+const LIMIT_ICONS = 3;
 const showAllPlatforms = ref(false);
 
-// Procesar el string de plataformas a un array de iconos
 const processedIcons = computed(() => {
     if (!game.value?.platforms) return [];
 
-    const slugs = game.value.platforms.map(p => p.slug.trim()) // Extraemos solo el nombre de cada plataforma
+    const slugs = game.value.platforms.map(p => p.slug.trim())
 
     return slugs.map(slug => ({
         slug: slug,
-        icon: PLATFORM_MAP[slug] || 'mdi:controller-classic' // Icono por defecto si no existe en el mapa
+        icon: PLATFORM_MAP[slug] || 'mdi:controller-classic'
     }));
 });
 
-// Lista visible basada en el límite y el estado de expansión
-const visibleIcons = computed(() => {
-    if (showAllPlatforms.value) return processedIcons.value;
-    return processedIcons.value.slice(0, LIMIT_ICONS);
-});
-
-
-// --- LÓGICA DE INFORMACIÓN AMPLIADA ---
 const LIMIT = 20;
 const expanded = ref({
     developer: false,
@@ -1051,7 +1098,6 @@ const expanded = ref({
     platform: false
 });
 
-// Función para mostrar el texto procesado
 const formatText = (list: Array<Developer> | Array<Publisher> | Array<Platform> | undefined, field: 'developer' | 'publisher' | 'platform') => {
     if (!list || list.length === 0) return '';
 
@@ -1062,19 +1108,14 @@ const formatText = (list: Array<Developer> | Array<Publisher> | Array<Platform> 
     return text.substring(0, LIMIT);
 };
 
-
-// --- LÓGICA DE REVIEWS ---
 const reviews = ref<Review[]>([]);
 const currentUserId = computed(() => authStore.getSelfId());
-
-// Formulario
 const reviewForm = ref({
     content: '',
     recommend: true as boolean | null
 });
 const isEditingReview = ref<number | null>(null);
 
-// Comprobamos si el usuario actual ya ha escrito una review
 const userHasReviewed = computed(() => {
     return reviews.value.some(r => r.author?.id === currentUserId.value);
 });
@@ -1121,13 +1162,11 @@ const saveReview = async () => {
             });
         }
 
-        // Limpiar estado y recargar
         cancelEdit();
         await loadReviews();
 
     } catch (error: any) {
         console.error('Error guardando review:', error.response?.data);
-        // alert(error.response?.data?.error || "Error saving the review.");
     }
 };
 
@@ -1161,8 +1200,6 @@ const deleteReview = async (reviewId: number) => {
 const formatDate = (dateString: string | undefined) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-
-    // Formatea automáticamente según el idioma del navegador
     return date.toLocaleDateString(undefined, {
         day: 'numeric',
         month: 'short',
