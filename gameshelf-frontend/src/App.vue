@@ -1,5 +1,5 @@
 <template>
-  <div :class="['h-screen', 'bg-gsoscuro', fondoClase]">
+  <div :class="['min-h-dvh', 'bg-gsoscuro', fondoClase]">
     <router-view />
   </div>
 </template>
@@ -25,10 +25,14 @@ const fondoClase = computed(() => {
 
 <style>
 .contenedorFoto {
-  height: 100vh;
+  /* Cambiado height por min-height */
+  min-height: 100dvh;
   background-image: url("/src/assets/background.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  /* IMPORTANTE: Esto hace que la imagen se quede congelada en la pantalla 
+     mientras el contenido pasa por encima flotando */
+  background-attachment: fixed;
 }
 </style>
