@@ -1,0 +1,28 @@
+version = "0.1.2"
+slug = "lumino-docs"
+bundle = [
+    "/docs/README.pdf",
+    "/zensical.toml",
+    "/.gitignore",
+    "/pyproject.toml",
+    "/uv.lock",
+    "/justfile",
+]
+backup_on_update = ["/.gitignore", "/pyproject.toml", "/uv.lock", "/justfile"]
+exclude_from_zip = [
+    "*.pyc",
+    ".DS_Store",
+    "/.git",
+    "*.bak",
+    ".venv",
+    ".env",
+    "/site",
+    "/.cache",
+    "*cache*",
+]
+test_cmd = "uv run pytest -s"
+
+[release_notes]
+"0.1.0" = "Primera versión"
+"0.1.1" = "Ignora carpetas cache al crear el zip"
+"0.1.2" = "Ajusta carpeta de destino en despliegue"

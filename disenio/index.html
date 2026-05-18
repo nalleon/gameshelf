@@ -1,0 +1,2081 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación para la aplicación GameShelf">
+      
+      
+        <meta name="author" content="Nabil León Álvarez y Pedro Martín Escuela">
+      
+      
+      
+        <link rel="prev" href="../tecnologias/">
+      
+      
+        <link rel="next" href="../tareas/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.11">
+    
+    
+      
+        <title>Diseño - GameShelf</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.bd6182e7.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.dfe2e883.min.css">
+      
+      
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  <style>:root{}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#diseno" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="GameShelf" class="md-header__button md-logo" aria-label="GameShelf" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GameShelf
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Diseño
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Buscar">
+  <button type="button" class="md-search__button">
+    Buscar
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/nalleon/gameshelf" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nalleon/gameshelf
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="GameShelf" class="md-nav__button md-logo" aria-label="GameShelf" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    GameShelf
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nalleon/gameshelf" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nalleon/gameshelf
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-square-library" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7v10M11 7v10M15 7l2 10"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    GameShelf
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduccion/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Intro
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../origen/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open-text" viewBox="0 0 24 24"><path d="M12 7v14M16 12h2M16 8h2M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3zM6 12h2M6 8h2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Origen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../objetivo-general/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-clipboard-check" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Objetivo general
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tecnologias/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-monitor-cog" viewBox="0 0 24 24"><path d="M12 17v4M14.305 7.53l.923-.382M15.228 4.852l-.923-.383M16.852 3.228l-.383-.924M16.852 8.772l-.383.923M19.148 3.228l.383-.924M19.53 9.696l-.382-.924M20.772 4.852l.924-.383M20.772 7.148l.924.383M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7M8 21h8"/><circle cx="18" cy="6" r="3"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Tecnologías
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-pencil-ruler" viewBox="0 0 24 24"><path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13M8 6l2-2M18 16l2-2M17 11l4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497zM15 5l4 4"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Diseño
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-pencil-ruler" viewBox="0 0 24 24"><path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13M8 6l2-2M18 16l2-2M17 11l4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497zM15 5l4 4"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Diseño
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura del sistema
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arquitectura del sistema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esquema-general-de-la-arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Esquema general de la arquitectura
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definicion-de-la-estructura-del-proyecto-y-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definición de la estructura del proyecto y base de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Definición de la estructura del proyecto y base de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diagrama-de-casos-de-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de Casos de Uso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagrama-de-entidadrelacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de Entidad/Relación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagrama de Entidad&#x2f;Relación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuarios-y-perfiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios y Perfiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#juegos-y-clasificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Juegos y Clasificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coleccion-lista-de-deseos-y-reviews" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colección, Lista de Deseos y Reviews
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagrama-de-clases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de Clases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagrama de Clases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuarios-y-perfiles_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios y Perfiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#juegos-y-clasificacion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Juegos y Clasificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coleccion-lista-de-deseos-y-reviews_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colección, Lista de Deseos y Reviews
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diseno-de-interfaz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diseño de interfaz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diseño de interfaz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principios-del-diseno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principios del diseño
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paleta-de-colores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paleta de colores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vistas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vistas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vistas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mapa-de-navegacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapa de Navegación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sketch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wireframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wireframe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mockup-y-prototipo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MockUp y Prototipo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MockUp y Prototipo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mockup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mockup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototipo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prototipo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tareas/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-clipboard-check" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Tareas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../despliegue/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-server-cog" viewBox="0 0 24 24"><path d="m10.852 14.772-.383.923M13.148 14.772a3 3 0 1 0-2.296-5.544l-.383-.923M13.148 9.228l.383-.923"/><path d="m13.53 15.696-.382-.924a3 3 0 1 1-2.296-5.544M14.772 10.852l.923-.383M14.772 13.148l.923.383"/><path d="M4.5 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-.5M4.5 14H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-.5M6 18h.01M6 6h.01M9.228 10.852l-.923-.383M9.228 13.148l-.923.383"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Despliegue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../planificacionempresarial/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-briefcase-business" viewBox="0 0 24 24"><path d="M12 12h.01M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M22 13a18.15 18.15 0 0 1-20 0"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Planificación empresarial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manualusr/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-user" viewBox="0 0 24 24"><path d="M15 13a3 3 0 1 0-6 0"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><circle cx="12" cy="8" r="2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Manuales de usuario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conclusion/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-handshake" viewBox="0 0 24 24"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3M3 4h8"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Conclusiones y futuro
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arquitectura-del-sistema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arquitectura del sistema
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arquitectura del sistema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#esquema-general-de-la-arquitectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Esquema general de la arquitectura
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definicion-de-la-estructura-del-proyecto-y-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definición de la estructura del proyecto y base de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Definición de la estructura del proyecto y base de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diagrama-de-casos-de-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de Casos de Uso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagrama-de-entidadrelacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de Entidad/Relación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagrama de Entidad&#x2f;Relación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuarios-y-perfiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios y Perfiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#juegos-y-clasificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Juegos y Clasificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coleccion-lista-de-deseos-y-reviews" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colección, Lista de Deseos y Reviews
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagrama-de-clases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagrama de Clases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagrama de Clases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuarios-y-perfiles_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios y Perfiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#juegos-y-clasificacion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Juegos y Clasificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coleccion-lista-de-deseos-y-reviews_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colección, Lista de Deseos y Reviews
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diseno-de-interfaz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diseño de interfaz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diseño de interfaz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principios-del-diseno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principios del diseño
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paleta-de-colores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paleta de colores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vistas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vistas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vistas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mapa-de-navegacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapa de Navegación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sketch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wireframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wireframe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mockup-y-prototipo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MockUp y Prototipo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MockUp y Prototipo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mockup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mockup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototipo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prototipo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="diseno">Diseño<a class="headerlink" href="#diseno" title="Permanent link">&para;</a></h1>
+<h2 id="arquitectura-del-sistema"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-pyramid" viewBox="0 0 24 24"><path d="M2.5 16.88a1 1 0 0 1-.32-1.43l9-13.02a1 1 0 0 1 1.64 0l9 13.01a1 1 0 0 1-.32 1.44l-8.51 4.86a2 2 0 0 1-1.98 0ZM12 2v20"/></svg></span> Arquitectura del sistema<a class="headerlink" href="#arquitectura-del-sistema" title="Permanent link">&para;</a></h2>
+<div class="admonition success">
+<p class="admonition-title">Visión general</p>
+<p>GameShelf está diseñado como una aplicación web basada en <strong>VUE</strong> y <strong>Django</strong>, siguiendo una arquitectura clara, modular y escalable.</p>
+</div>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg></span> <strong>Capa de presentación</strong>  </p>
+<hr />
+<p>Interfaz web accesible desde el navegador, construida con VUE y TailwindCSS.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-cpu" viewBox="0 0 24 24"><path d="M12 20v2M12 2v2M17 20v2M17 2v2M2 12h2M2 17h2M2 7h2M20 12h2M20 17h2M20 7h2M7 20v2M7 2v2"/><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="8" height="8" x="8" y="8" rx="1"/></svg></span> <strong>Capa de aplicación</strong>  </p>
+<hr />
+<p>Lógica de negocio implementada mediante vistas, formularios y servicios de Django.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span> <strong>Capa de datos</strong>  </p>
+<hr />
+<p>Persistencia de información mediante Django ORM y base de datos relacional.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><path d="M6 6h.01M6 18h.01"/></svg></span> <strong>Servicios auxiliares</strong>  </p>
+<hr />
+<p>Procesamiento en segundo plano y envío de correos mediante Redis y Django-RQ.</p>
+</li>
+</ul>
+</div>
+<h3 id="esquema-general-de-la-arquitectura">Esquema general de la arquitectura<a class="headerlink" href="#esquema-general-de-la-arquitectura" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    Browser["Usuario&lt;br/&gt;(Navegador)"]
+    Vue["Cliente de la aplicación - VUE"]
+    Django["Servidor de la aplicación - Django"]
+    DB["Base de datos"]
+    Redis["Redis + RQ"]
+    Email["Servicio de correo"]
+
+    Browser --&gt; Vue
+    Vue --&gt; Django
+    Django --&gt; DB
+    Django --&gt; Redis
+    Redis --&gt; Email</code></pre>
+<h2 id="definicion-de-la-estructura-del-proyecto-y-base-de-datos"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-chart-network" viewBox="0 0 24 24"><path d="m13.11 7.664 1.78 2.672M14.162 12.788l-3.324 1.424M20 4l-6.06 1.515M3 3v16a2 2 0 0 0 2 2h16"/><circle cx="12" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="9" cy="15" r="2"/></svg></span> Definición de la estructura del proyecto y base de datos<a class="headerlink" href="#definicion-de-la-estructura-del-proyecto-y-base-de-datos" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">División de los diagramas</p>
+<p>Para facilitar la lectura y comprensión de la estructura, se optó por dividir tanto el diagrama E/R como el de clases en tres módulos principales para poder ver las relaciones principales sin saturar la visualización. </p>
+<p>Estos módulos son los siguientes:</p>
+<ul>
+<li><code>Usuarios y perfiles</code> – Gestión de usuarios, perfiles, roles y favoritos.</li>
+<li><code>Juegos y clasificación</code> – Juegos, géneros, desarrolladoras, distribuidoras, plataformas, regiones y ediciones.</li>
+<li><code>Colección, lista de deseos y reviews</code> – Colecciones del usuario, listas de deseos, biblioteca y reseñas.</li>
+</ul>
+</div>
+<hr />
+<div class="admonition warning">
+<p class="admonition-title">Consecuencias de la división</p>
+<p>Esto solo afecta a la visualización de la documentación, <strong>NO</strong> influye en el diseño final de la aplicación.</p>
+</div>
+<h3 id="diagrama-de-casos-de-uso">Diagrama de Casos de Uso<a class="headerlink" href="#diagrama-de-casos-de-uso" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TB
+    %% Actor
+    Usuario([Usuario **SIN** privilegios])
+
+    %% Casos de uso
+    Registrarse(["Registrarse"])
+    IniciarSesion(["Iniciar sesión"])
+    ActualizarPerfil(["Actualizar perfil"])
+    VerPerfil(["Ver perfil"])
+    VerJuego(["Ver juego"])
+    MarcarFavorito(["Marcar favorito"])
+    AniadirBiblioteca(["Añadir a biblioteca"])
+    AniadirColeccion(["Añadir a colección"])
+    AniadirResenia(["Añadir una reseña"])
+    AniadirListaDeseos(["Añadir a lista de deseados"])
+
+    %% Conexiones
+    Usuario --&gt; Registrarse
+    Usuario --&gt; IniciarSesion
+
+    Usuario --&gt; VerPerfil
+    VerPerfil --&gt; ActualizarPerfil
+    Usuario --&gt; VerJuego
+    VerJuego --&gt; AniadirBiblioteca
+    VerJuego --&gt; AniadirColeccion
+    VerJuego --&gt; AniadirResenia
+    VerJuego --&gt; AniadirListaDeseos
+    VerJuego --&gt; MarcarFavorito</code></pre>
+<hr />
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Registrarse</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Permite crear una cuenta en el sistema</li>
+<li>Dependencias: Ninguna</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Iniciar sesión</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Acceder a la cuenta creada</li>
+<li>Dependencias: Ninguna</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Ver perfil</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Consultar información de su perfil</li>
+<li>Dependencias: Ninguna</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Actualizar perfil</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Modificar sus datos personales</li>
+<li>Dependencias: Depende de Ver perfil</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-gamepad" viewBox="0 0 24 24"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg></span> Ver juego</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Consultar la información de un juego</li>
+<li>Dependencias: Ninguna</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.12 2.12 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.12 2.12 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.12 2.12 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.12 2.12 0 0 0 1.597-1.16z"/></svg></span> Marcar favorito</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Añadir un juego a favoritos</li>
+<li>Dependencias: Depende de Ver juego</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-archive" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></span> Añadir a biblioteca</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Registrar que ha jugado/jugará el juego y sus horas jugadas</li>
+<li>Dependencias: Depende de Ver juego</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-archive" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></span> Añadir a colección</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Incluir un juego dentro de su colección</li>
+<li>Dependencias: Depende de Ver juego</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-edit" viewBox="0 0 24 24"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></span> Añadir una reseña</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Escribir una reseña sobre un juego</li>
+<li>Dependencias: Depende de Ver juego</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-edit" viewBox="0 0 24 24"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></span> Editar una reseña</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Escribir una reseña sobre un juego</li>
+<li>Dependencias: Depende de Añadir reseñar (<em>que sea del <strong>propio usuario</strong></em>)</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-heart" viewBox="0 0 24 24"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg></span> Añadir a lista de deseos</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Añadir el juego a su lista de deseados</li>
+<li>Dependencias: Depende de Ver juego</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-heart" viewBox="0 0 24 24"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg></span> Editar lista de deseos</p>
+<ul>
+<li>Actor: Usuario SIN privilegios</li>
+<li>Descripción: Añadir el juego a su lista de deseados</li>
+<li>Dependencias: Depende de Añadir a lista de deseos (<em>que sea del <strong>propio usuario</strong></em>)</li>
+</ul>
+</li>
+</ul>
+</div>
+<hr />
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-gamepad" viewBox="0 0 24 24"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg></span> Crear juego</p>
+<ul>
+<li>Actor: Usuario CON privilegios</li>
+<li>Descripción: Crear un juego</li>
+<li>Dependencias: Ninguna</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-gamepad" viewBox="0 0 24 24"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg></span> Editar juego</p>
+<ul>
+<li>Actor: Usuario CON privilegios</li>
+<li>Descripción: Editar un juego</li>
+<li>Dependencias: Ninguna</li>
+</ul>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-gamepad" viewBox="0 0 24 24"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg></span> Editar juego</p>
+<ul>
+<li>Actor: Usuario CON privilegios</li>
+<li>Descripción: Editar un juego</li>
+<li>Dependencias: Ninguna</li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="diagrama-de-entidadrelacion">Diagrama de Entidad/Relación<a class="headerlink" href="#diagrama-de-entidadrelacion" title="Permanent link">&para;</a></h3>
+<h4 id="usuarios-y-perfiles"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span> Usuarios y Perfiles<a class="headerlink" href="#usuarios-y-perfiles" title="Permanent link">&para;</a></h4>
+<hr />
+<div align="center">
+
+<pre class="mermaid"><code>erDiagram
+    USUARIO {
+    }
+
+    PERFIL {
+    }
+
+    ROL {
+    }
+
+    FAVORITO {}
+
+    %% Relaciones
+    USUARIO ||--|| PERFIL : tiene
+    PERFIL ||--|| ROL : tiene
+    USUARIO ||--o{ FAVORITO : tiene</code></pre>
+
+</div>
+
+<p><br></p>
+<h4 id="juegos-y-clasificacion"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-gamepad" viewBox="0 0 24 24"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg></span> Juegos y Clasificación<a class="headerlink" href="#juegos-y-clasificacion" title="Permanent link">&para;</a></h4>
+<hr />
+<pre class="mermaid"><code>erDiagram
+    JUEGO {
+    }
+
+    GÉNERO {}
+    DESARROLLADORA {}
+    DISTRIBUIDORA {}
+    PLATAFORMA {}
+    REGIÓN {
+    }
+    EDICIÓN {}
+    CLASIFICACIÓN {
+    }
+
+    %% Herencia
+    GÉNERO ||--|| CLASIFICACIÓN : "hereda de"
+    DESARROLLADORA ||--|| CLASIFICACIÓN : "hereda de"
+    DISTRIBUIDORA ||--|| CLASIFICACIÓN : "hereda de"
+    PLATAFORMA ||--|| CLASIFICACIÓN : "hereda de"
+    REGIÓN ||--|| CLASIFICACIÓN : "hereda de"
+    EDICIÓN ||--|| CLASIFICACIÓN : "hereda de"
+
+    %% Relaciones
+    JUEGO }|--|{ GÉNERO : tiene
+    JUEGO }|--|{ DESARROLLADORA : tiene
+    JUEGO }|--|{ DISTRIBUIDORA : tiene
+    JUEGO }|--|{ PLATAFORMA : tiene
+    JUEGO ||--o{ EDICIÓN : tiene
+    JUEGO ||--o{ REGIÓN : tiene</code></pre>
+<p><br></p>
+<h4 id="coleccion-lista-de-deseos-y-reviews"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-archive" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></span> Colección, Lista de Deseos y Reviews<a class="headerlink" href="#coleccion-lista-de-deseos-y-reviews" title="Permanent link">&para;</a></h4>
+<hr />
+<pre class="mermaid"><code>erDiagram
+    USUARIO {
+    }
+
+    COLECCION {
+    }
+
+    LISTA_DESEOS {
+    }
+
+    BIBLIOTECA {
+    }
+
+    ESTADO {
+    }
+
+    REVIEW {
+    }
+
+    MEDIA {
+    }
+
+    JUEGO {
+    }
+
+    %% Relaciones
+    USUARIO ||--o{ COLECCION : posee
+    JUEGO ||--o{ COLECCION : "forma parte"
+    USUARIO ||--o{ LISTA_DESEOS : crea
+    JUEGO ||--o{ LISTA_DESEOS : contiene
+    USUARIO ||--o{ BIBLIOTECA : gestiona
+    JUEGO ||--o{ BIBLIOTECA : "aparece en"
+    ESTADO ||--o{ BIBLIOTECA : define
+    USUARIO ||--o{ REVIEW : escribe
+    REVIEW }o--|| JUEGO : sobre
+    REVIEW ||--o{ MEDIA : contiene
+</code></pre>
+<p><br></p>
+<h3 id="diagrama-de-clases">Diagrama de Clases<a class="headerlink" href="#diagrama-de-clases" title="Permanent link">&para;</a></h3>
+<h4 id="usuarios-y-perfiles_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span> Usuarios y Perfiles<a class="headerlink" href="#usuarios-y-perfiles_1" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>classDiagram
+    %% Módulo Usuarios y Perfiles
+    class USUARIO {
+        user: Django
+    }
+
+    class PERFIL {
+        Avatar: ImageField
+        Biografia: TextField
+        Verificado: BooleanField
+    }
+
+    class ROL {
+        Nombre: CharField
+    }
+
+    class FAVORITO
+
+    %% Relaciones
+    USUARIO "1" -- "1" PERFIL : tiene
+    PERFIL "1" -- "1" ROL : tiene
+    USUARIO "1" -- "*" FAVORITO : tiene</code></pre>
+<p><br></p>
+<h4 id="juegos-y-clasificacion_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-gamepad" viewBox="0 0 24 24"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg></span> Juegos y Clasificación<a class="headerlink" href="#juegos-y-clasificacion_1" title="Permanent link">&para;</a></h4>
+<hr />
+<pre class="mermaid"><code>classDiagram
+    %% Módulo Juegos y Clasificación
+    class JUEGO {
+        Titulo: CharField
+        Slug: SlugField
+        Descripcion: TextField
+        Caratula: ImageField
+        Fecha_lanzamiento: DateField
+    }
+
+    class GÉNERO
+    class DESARROLLADORA
+    class DISTRIBUIDORA
+    class PLATAFORMA
+    class REGIÓN {
+        Siglas: CharField
+        Icono: ImageField
+    }
+    class EDICIÓN
+    class CLASIFICACIÓN {
+        Nombre: CharField
+        Descripcion: TextField
+    }
+
+    %% Herencia
+    GÉNERO --|&gt; CLASIFICACIÓN
+    DESARROLLADORA --|&gt; CLASIFICACIÓN
+    DISTRIBUIDORA --|&gt; CLASIFICACIÓN
+    PLATAFORMA --|&gt; CLASIFICACIÓN
+    REGIÓN --|&gt; CLASIFICACIÓN
+    EDICIÓN --|&gt; CLASIFICACIÓN
+
+    %% Relaciones
+    JUEGO "*" -- "*" GÉNERO : tiene
+    JUEGO "*" -- "*" DESARROLLADORA : tiene
+    JUEGO "*" -- "*" DISTRIBUIDORA : tiene
+    JUEGO "*" -- "*" PLATAFORMA : tiene
+    JUEGO "1" -- "*" EDICIÓN : tiene
+    JUEGO "*" -- "*" REGIÓN : tiene</code></pre>
+<p><br></p>
+<h4 id="coleccion-lista-de-deseos-y-reviews_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-archive" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg></span> Colección, Lista de Deseos y Reviews<a class="headerlink" href="#coleccion-lista-de-deseos-y-reviews_1" title="Permanent link">&para;</a></h4>
+<hr />
+<pre class="mermaid"><code>classDiagram
+    %% Módulo Colecciones y Reviews
+    class COLECCION {
+        Tipo: CharField
+        Fecha_adquisicion: DateField
+    }
+
+    class LISTA_DESEOS {
+        Prioridad: SmallPositiveIntegerField
+        Anotacion: CharField
+        Fecha_creacion: DateField
+    }
+
+    class BIBLIOTECA {
+        Horas_jugadas: DecimalField
+        Fecha_creacion: DateField
+        Fecha_actualizacion: DateField
+    }
+
+    class ESTADO {
+        Nombre: CharField
+    }
+
+    class REVIEW {
+        Contenido: TextField
+        Recomendado: BooleanField
+        Fecha_actualizacion: DateField
+        Fecha_creacion: DateField
+    }
+
+    class MEDIA {
+        Image: ImageField
+    }
+
+    class JUEGO {
+        Titulo: CharField
+    }
+
+    class USUARIO {
+        user: Django
+    }
+
+    %% Relaciones
+    USUARIO "1" -- "*" COLECCION : posee
+    JUEGO "1" -- "*" COLECCION : forma_parte
+    USUARIO "1" -- "*" LISTA_DESEOS : crea
+    JUEGO "1" -- "*" LISTA_DESEOS : contiene
+    USUARIO "1" -- "*" BIBLIOTECA : gestiona
+    JUEGO "1" -- "*" BIBLIOTECA : aparece_en
+    ESTADO "1" -- "*" BIBLIOTECA : define
+    USUARIO "1" -- "*" REVIEW : escribe
+    REVIEW "1" -- "1" JUEGO : sobre
+    REVIEW "1" -- "*" MEDIA : contiene</code></pre>
+<h2 id="api"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg></span> API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<h3 id="endpoints">Endpoints<a class="headerlink" href="#endpoints" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><code>/api/admin/</code>: url para la vista de administración que viene por defecto en Django</p>
+</li>
+<li>
+<p><code>/api/schema/</code></p>
+</li>
+<li>
+<p><code>/api/docs/</code>: url para comprobar todos los endpoints de la API mediante la librería de Swagger</p>
+</li>
+<li>
+<p><code>/api/auth/</code></p>
+<ul>
+<li>POST - <code>/api/auth/activate/</code>: Envia el email de activacion si la cuenta existe.</li>
+<li>POST - <code>/api/auth/activate/validate/</code>: Activa correctamente la cuenta si existe.</li>
+<li>POST - <code>/api/auth/change-password/</code>: Cambia la contraseña del usuario.</li>
+<li>DELETE - <code>/api/auth/deactivate/</code>: Desactiva la cuenta del usuario (soft delete).  </li>
+<li>POST - <code>/api/auth/login/</code>: Hace el login.</li>
+<li>POST - <code>/api/auth/password-reset/</code>: Envia el email de restablecer la contraseña.</li>
+<li>POST - <code>/api/auth/password-reset/validate/</code>: Valida el restablecimiento de la contraseña.</li>
+<li>POST - <code>/api/auth/register/</code>: Registra un nuevo usuario.</li>
+<li>POST - <code>/api/auth/verify-email/</code>: Envia el email de verificacion del usuario.</li>
+<li>POST - <code>/api/auth/verify-email/validate/</code>: Verifica correctamente la cuenta si existe.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/users/</code></p>
+<ul>
+<li>GET - <code>/api/users/</code>: Lista todos los usuarios.</li>
+<li>GET - <code>/api/users/{id}/</code>: Devuelve la informacion de un usuario con la id especificada.  </li>
+<li>PATCH - <code>/api/users/{id}/</code>: Actualiza la informacion de un usuario.</li>
+<li>GET - <code>/api/users/me/</code>: Devuelve la informacion del propio usuario.</li>
+<li>GET - <code>/api/users/search/</code>: Busca un usuario.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/games/</code></p>
+<ul>
+<li>GET - <code>/api/games/</code>: Devuelve todos los videojuegos.</li>
+<li>GET - <code>/api/games/{id}/</code>: Devuelve la información de un videojuego con la id especificada.</li>
+<li>PUT - <code>/api/games/{id}/</code>: Actualiza un videojuego existente.</li>
+<li>DELETE - <code>/api/games/{id}/</code>: Elimina un videojuego existente.</li>
+<li>GET - <code>/api/games/igdb/</code>: Devuelve los juegos de IGDB por titulo. </li>
+<li>POST - <code>/api/games/igdb/</code>: Añade los juegos de IGDB en la base de datos.</li>
+<li>GET <code>/api/games/search/</code>: Busqueda de juegos con filtros.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/reviews/</code></p>
+<ul>
+<li>GET - <code>/api/reviews/</code>: Devuelve todas las reviews.</li>
+<li>POST -  <code>/api/reviews</code>: Crea una nueva review.</li>
+<li>GET - <code>/api/reviews/{id}/</code>: Devuelve la información de una review con la id especificada.</li>
+<li>PATCH - <code>/api/reviews/{id}/</code>: Actualiza una review con la id especificada.</li>
+<li>DELETE - <code>/api/reviews/{id}/</code>: Elimina una review con la id especificada.</li>
+<li>POST - <code>/api/reviews/{id}/media/</code>: Añade media a una review con la id especificada.</li>
+<li>DELETE - <code>/api/reviews/media/{id}/</code>: Elimina la media de una review con la id especificada.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/favorites/</code></p>
+<ul>
+<li>PATCH - <code>/api/favorites/{id}/</code>: Actualiza un favorito existente con la id especificada.</li>
+<li>DELETE - <code>/api/favorites/{id}/</code>: Elimina un favorito existente con la id especificada.</li>
+<li>POST - <code>/api/favorites/toggle/</code>: Alterna el estado de un favorito.</li>
+<li>GET <code>/api/favorites/user/{id}/</code>: Lista todos los favoritos del usuario con la id especificada.</li>
+<li>POST <code>/api/favorites/user/{id}/</code>: Añade un favorito al usuario con la id especificada.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/platforms/</code></p>
+<ul>
+<li>GET - <code>/api/platforms/</code>: Lista todas las plataformas.</li>
+<li>GET - <code>/api/platforms/{id}/</code>: Devuelve la informacion de una plataforma con la id especificada.</li>
+<li>PUT - <code>/api/platforms/{id}/</code>: Actualiza la plataforma con la id especificada.</li>
+<li>DELETE - <code>/api/platforms/{id}/</code>: Elimina la plataforma con la id especificada.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/genres/</code></p>
+<ul>
+<li>GET - <code>/api/genres/</code>: Lista todos los géneros.</li>
+<li>GET - <code>/api/genres/{id}/</code>: Devuelve la información del genero con la id especificada.</li>
+<li>PUT - <code>/api/genres/{id}/</code>: Actualiza el genero con la id especificada.</li>
+<li>DELETE - <code>/api/genres/{id}/</code>: Elimina el genero con la id especificada</li>
+</ul>
+</li>
+<li>
+<p><code>/api/developers/</code></p>
+<ul>
+<li>GET - <code>/api/developers/</code>: Lista todos los desarrolladores.</li>
+<li>GET - <code>/api/developers/{id}/</code>: Devuelve la información del desarrollador con la id especificada.</li>
+<li>PUT - <code>/api/developers/{id}/</code>: Actualiza el desarrollador con la id especificada.</li>
+<li>DELETE - <code>/api/developers/{id}/</code>: Elimina el desarrollador con la id especificada.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/publishers/</code></p>
+<ul>
+<li>GET - <code>/api/publishers/</code>: Lista todas las editoriales.</li>
+<li>GET - <code>/api/publishers/{id}/</code>: Devuelve la información de la editorial con la id especificada.</li>
+<li>PUT - <code>/api/publishers/{id}/</code>: Actualiza la editorial con la id especificada.</li>
+<li>DELETE - <code>/api/publishers/{id}/</code>: Elimina la editorial con la id especificada.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/editions/</code></p>
+<ul>
+<li>GET - <code>/api/editions/</code>: Lista todas las ediciones.</li>
+<li>POST - <code>/api/editions/</code>: Crea una nueva edicion</li>
+<li>GET - <code>/api/editions/{id}/</code>: Devuelve la información de la edicion con la id especificada.</li>
+<li>PUT - <code>/api/editions/{id}/</code>: Actualiza la edicion con la id especificada.</li>
+<li>DELETE - <code>/api/editions/{id}/</code>: Elimina la edicion con la id especificada.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/regions/</code></p>
+<ul>
+<li>GET - <code>/api/regions/</code>: Lista todas las regiones.</li>
+<li>GET - <code>/api/regions/{id}/</code>: Devuelve la informacion de la region con la id especificada.</li>
+<li>PUT - <code>/api/regions/{id}/</code>: Actualiza la region con la id especificada.</li>
+<li>DELETE - <code>/api/regions/{id}/</code>: Elimina la region con la id especificada.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/library/</code></p>
+<ul>
+<li>GET - <code>/api/library/</code>: Lista todas las librerias.</li>
+<li>POST - <code>/api/library/</code>: Añade un videojuego a la libreria.</li>
+<li>PATCH - <code>/api/library/</code>: Actualiza la libreria.</li>
+<li>GET - <code>/api/library/{id}/</code>: Devuelve la informacion de un videojuego con la id especificada de la libreria.</li>
+<li>PATCH - <code>/api/library/{id}/</code>: Actualiza el videojuego con la id especificada de la libreria.</li>
+<li>DELETE - <code>/api/library/{id}/</code>: Elimina el videojuego con la id especificada de la libreria.</li>
+<li>GET - <code>/api/library/user/{id}/</code>: Devuelve la informacion de la libreria de un usuario con la id especificada</li>
+</ul>
+</li>
+<li>
+<p><code>/api/collections/</code></p>
+<ul>
+<li>GET - <code>/api/collections/</code>: Lista todas las colecciones.</li>
+<li>POST - <code>/api/collections/</code>: Crea una coleccion.</li>
+<li>POST - <code>/api/collections/{id}/</code>: Añade un videojuego a tu coleccion.</li>
+<li>PATCH - <code>/api/collections/{id}/</code>: Actualiza la coleccion con la id especificada.</li>
+<li>DELETE - <code>/api/collections/{id}/</code>: Elimina un videojuego de la colección</li>
+<li>GET - <code>/api/collections/{id}/items/{id}/</code>: Obtiene el videojuego con una id especificada de una coleccion con tambien una id especificada.</li>
+<li>PATCH - <code>/api/collections/{id}/items/{id}/</code>: Actualiza la informacion de un item con una id especificada de una coleccion con tambien una id especificada.</li>
+<li>DELETE - <code>/api/collections/{id}/items/{id}/</code>: Elimina un videojuego con una id especificada de una coleccion con tambien una id especificada.</li>
+<li>GET - <code>/api/collections/{id}/user/{id}/</code>: Devuelve la información de la coleccion con una id especificada de un usuario con la id tambien especificada.</li>
+</ul>
+</li>
+<li>
+<p><code>/api/wishlists/</code></p>
+<ul>
+<li>GET - <code>/api/wishlist/</code>: Devuelve la wishlist del usuario.</li>
+<li>GET - <code>/api/wishlist/{id}/</code>: Devuelve la wishlist del usuario con la id especificada.</li>
+<li>POST - <code>/api/wishlist/{id}/</code>: Añade un videojuego con la id especificada a la wishlist.</li>
+<li>PATCH - <code>/api/wishlist/{id}/</code>: Actualiza la informacion de la wishlist.</li>
+<li>GET - <code>/api/wishlist/items/{id}/</code>: Devuelve un videojuego con la id especificada de la wishlist.</li>
+<li>PATCH - <code>/api/wishlist/items/{id}/</code>: Actualiza la informacion de un videojuego con la id especificada en la wishlist.</li>
+<li>DELETE - <code>/api/wishlist/items/{id}/</code>: Elimina un videojuego con la id especificada de la wishlist.</li>
+</ul>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Interacción con la API</p>
+<p>Se puede interactuar con la API utilizando el Swagger. Para hacerlo, acceda a este <a href="https://grupo10.tail647188.ts.net/api/docs/">enlace</a>.</p>
+</div>
+<hr />
+<h2 id="diseno-de-interfaz"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-paintbrush" viewBox="0 0 24 24"><path d="m14.622 17.897-10.68-2.913M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0zM9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></svg></span> Diseño de interfaz<a class="headerlink" href="#diseno-de-interfaz" title="Permanent link">&para;</a></h2>
+<h3 id="principios-del-diseno">Principios del diseño<a class="headerlink" href="#principios-del-diseno" title="Permanent link">&para;</a></h3>
+<h3 id="paleta-de-colores">Paleta de colores<a class="headerlink" href="#paleta-de-colores" title="Permanent link">&para;</a></h3>
+<figure>
+
+<img alt="Logo" src="../assets/color-pallete.png" />
+
+<figcaption class="caption-center">
+Paleta de colores escogida en <a href="http://colormind.io/">ColorMind</a>
+</figcaption>
+.</figure>
+<h3 id="vistas">Vistas<a class="headerlink" href="#vistas" title="Permanent link">&para;</a></h3>
+<h4 id="mapa-de-navegacion">Mapa de Navegación<a class="headerlink" href="#mapa-de-navegacion" title="Permanent link">&para;</a></h4>
+<p>El mapa de navegación fue un diseño inicial sencillo para plantear las funciones de la aplicacion web.</p>
+<p><img alt="Mapa-Navegacion" src="../assets/mapa-nav.jpg" /></p>
+<h4 id="sketch">Sketch<a class="headerlink" href="#sketch" title="Permanent link">&para;</a></h4>
+<p>En cuanto al skecth, hemos hecho un boceto a mano alzada, y ha quedado de la siguiente manera:</p>
+<p><img alt="Sketch" src="../assets/sketch.png" /></p>
+<h4 id="wireframe">Wireframe<a class="headerlink" href="#wireframe" title="Permanent link">&para;</a></h4>
+<p>El Wireframe de la aplicación lo hemos realizado con <a href="../moqups.com/es">Moqups</a>.</p>
+<p>En esta etapa del diseño decidimos añadir una pantalla más que en el sketch para detallar la aplicación un poco más, así que obtenemos un total de 4 pantallas (register, login (autenticación), home y pantalla de detalles de un juego).</p>
+<p><img alt="Wireframe-Login" src="../assets/wf-1.png" /></p>
+<p><img alt="Wireframe-Register" src="../assets/wf-2.png" /></p>
+<p><img alt="Wireframe-Principal" src="../assets/wf-3.png" /></p>
+<p><img alt="Wireframe-Especifico" src="../assets/wf-4.png" /></p>
+<h4 id="mockup-y-prototipo">MockUp y Prototipo<a class="headerlink" href="#mockup-y-prototipo" title="Permanent link">&para;</a></h4>
+<p>Para llevar a cabo tanto el mockup como el prototipo hemos utilizado <a href="https://penpot.app/">Penpot</a>.</p>
+<h5 id="mockup">Mockup<a class="headerlink" href="#mockup" title="Permanent link">&para;</a></h5>
+<p><img alt="Mockup-Login" src="../assets/register.png" /></p>
+<p><img alt="Mockup-Register" src="../assets/login.png" /></p>
+<p><img alt="Mockup-Principal" src="../assets/home-web.png" /></p>
+<p><img alt="Mockup-Especifico" src="../assets/game.png" /></p>
+<h5 id="prototipo">Prototipo<a class="headerlink" href="#prototipo" title="Permanent link">&para;</a></h5>
+<p><img alt="Prototipo" src="../assets/prototipo.png" /></p>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../tecnologias/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Tecnologías">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Tecnologías
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../tareas/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Tareas">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Tareas
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Pedro Martín Escuela & Nabil León Álvarez
+
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/user/repo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.sections","navigation.top","navigation.tracking","search.highlight"],"search":"../assets/javascripts/workers/search.5df7522c.min.js","tags":null,"translations":{"clipboard.copied":"Copiado al portapapeles","clipboard.copy":"Copiar al portapapeles","search.result.more.one":"1 más en esta página","search.result.more.other":"# más en esta página","search.result.none":"No se encontraron documentos","search.result.one":"1 documento encontrado","search.result.other":"# documentos encontrados","search.result.placeholder":"Teclee para comenzar búsqueda","search.result.term.missing":"Falta","select.version":"Seleccionar versión"},"version":null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.21aa498e.min.js"></script>
+      
+    
+  </body>
+</html>
