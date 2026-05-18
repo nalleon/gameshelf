@@ -15,7 +15,7 @@ clean:
 
 # Build the static site
 build: clean
-    uv run zensical build
+    uv run python -m zensical build
 
 # Deploy the static site (group = \d+, path = '/some/path')
 deploy group server path: build

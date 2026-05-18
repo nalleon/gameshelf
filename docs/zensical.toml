@@ -49,12 +49,10 @@ Copyright &copy; 2026 Pedro Martín Escuela & Nabil León Álvarez
 # Read more: https://zensical.org/docs/setup/navigation/
 nav = [
     "index.md",
-    { "Intro" = "introduccion.md" },
+    { "Introducción" = "introduccion.md" },
     { "Origen" = "origen.md" },
-    "objetivo-general.md",
     { "Tecnologías" = "tecnologias.md"},
     "disenio.md",
-    "tareas.md",
     { "Despliegue" = "despliegue.md"},
     "planificacionempresarial.md",
 ]
