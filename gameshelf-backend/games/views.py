@@ -1009,18 +1009,6 @@ def favorites_detail_wrapper(request, pk_favorite: int):
         case 'DELETE': 
             return delete_favorite_item(request, pk_favorite)
 
-# @csrf_exempt
-# @require_json_body
-# @auth_required
-# def toggle_favorite(request, pk_favorite: int):
-    
-#     favorite_item = get_object_or_404(FavoriteItem, pk=pk_favorite)
-    
-#     if favorite_item in request.user.favorites:
-#         delete_favorite_item(request, pk=pk_favorite)
-#     else:
-        
-
 @csrf_exempt
 @require_json_body
 @auth_required
